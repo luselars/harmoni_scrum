@@ -4,15 +4,9 @@ import mysql from "mysql";
 var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-const UserDao = require("../../dao/UserDao.js");
-const OrganiserDao = require("../../dao/organiserDao.js");
-const eventDao = require("../../dao/eventDao.js");
 var app = express();
-
-const PublicDao = require("../../dao/publicDao.js");
+const publicDao = require("../../dao/publicDao.js");
 app.use(bodyParser.json()); // for å tolke JSON i body
-
-let dao = new PublicDao();
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = "shhhhhverysecret";
@@ -44,14 +38,14 @@ function loginUser(email: string, inputPassword: string) {
   password = inputPassword;
   type = "user";
   // Hashes inputed password and compares to hash in DB
-  UserDao.getUserHashAndSalt(email, loginCallback);
+  publicDao.getUserHashAndSalt(email, loginCallback);
 }
 
 function loginOrganiser(username: string, password: string) {
   password = inputPassword;
   type = "organiser";
   // Hashes inputed password and compares to hash in DB
-  OrganiserDao.getOrganiserHashAndSalt(email, loginCallback);
+  publicDao.getOrganiserHashAndSalt(email, loginCallback);
 }
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
@@ -83,13 +77,13 @@ router.get("/", (req: express$Request, res: express$Response) => {
 
 // Get all events that are public
 router.get('/event', (req: express$Request, res: express$Response) => {
-    dao.getPublicEvents((status, data) => {
+    publicDao.getPublicEvents((status, data) => {
         res.status(status);
         res.send(data);
     });
 // Example 2 - POST /public/event
 router.get("/event", (req: express$Request, res: express$Response) => {
-  eventDao.getPublicEvents((status, data) => {
+  publicDao.getPublicEvents((status, data) => {
     res.status(status);
     res.send(data);
   });
