@@ -1,8 +1,18 @@
 //@flow
-module.exports = class Dao {
+import mysql from "mysql";
+
+module.exports = class Dao
+{
+
   pool: any;
-  constructor(pool: any) {
-    this.pool = pool;
+  constructor()
+  {
+    this.pool = mysql.createPool({
+      host: 'mysql-ait.stud.idi.ntnu.no',
+      user: 'larsoos', // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
+      password: 'S6yv7wYa', // Replae "password" with your mysql-ait.stud.idi.ntnu.no password
+      database: 'larsoos' // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
+    });
   }
 
   query(
