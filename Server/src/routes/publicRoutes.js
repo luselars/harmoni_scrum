@@ -1,5 +1,8 @@
 // @flow
 import express from 'express';
+const EventDao = require("./dao/eventDao.js");
+
+let dao = new EventDao(pool);
 let router  = express.Router();
 
 // Example 1 - GET /public
@@ -9,9 +12,10 @@ router.get("/", (req, res) => {
 });
 
 // Example 2 - POST /public/event
-router.post("/event", (req, res) => {
-    console.log("Triggered at /public/event");
-    res.sendStatus(200);
+router.get('/event', (req: express$Request, res: express$Response) => {
+    dao.getPublicEvents((status, data) => {
+        res.status(status);
+        res.send(data);
+    });
 });
-
 module.exports = router;
