@@ -1,28 +1,6 @@
 //@flow
-
+import "./modelDao";
 const Dao = require("./dao.js");
-
-class Event {
-    constructor(name: string, image: string, start: string, end: string, status: string, is_public: number, location_id: number, venue: string) {
-        this.name = name;
-        this.image = image;
-        this.start = start;
-        this.end = end;
-        this.status = status;
-        this.is_public = is_public;
-        this.location_id = location_id;
-        this.venue = venue;
-    }
-
-    name: string;
-    image: string;
-    start: string;
-    end: string;
-    status: string;
-    is_public: boolean;
-    location_id: number;
-    venue: string;
-}
 
 
 module.exports = class EventDao extends Dao {
@@ -41,11 +19,24 @@ module.exports = class EventDao extends Dao {
     }
 
     editEvent(
-        event_id: number,
-        callback: (status: string, data: Object) => mixed
+        event: json,
+        callback: (status: string, data: json) => mixed
     ) {
-        var queryString = "SELECT * FROM event WHERE event_id=?";
-        super.query(queryString, [event_id], callback);
+        super.query(
+            "UPDATE event SET name=?,image=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? where event_id=?",
+            [
+                event.name,
+                event.image,
+                event.start,
+                event.status,
+                event.is_public,
+                event.location_id,
+                event.venue,
+                event.end,
+                event.event_id
+            ],
+            callback
+        );
     }
 
     deleteEvent(
@@ -114,27 +105,6 @@ module.exports = class EventDao extends Dao {
           );
       }
       */
-
-
-    editArticle(
-        article: Object,
-        callback: (status: string, data: Object) => mixed
-    ) {
-        super.query(
-            "update artikkel set overskrift=?,innhold=?,fultInnhold=?,bilde=?,bildeAlt=?,kategoriId=?,viktighet=? where artikkelId=?",
-            [
-                article.overskrift,
-                article.innhold,
-                article.fultInnhold,
-                article.bilde,
-                article.bildeAlt,
-                article.kategori,
-                article.viktighet,
-                article.artikkelId
-            ],
-            callback
-        );
-    }
 
     likeArticle(
         articleId: number,

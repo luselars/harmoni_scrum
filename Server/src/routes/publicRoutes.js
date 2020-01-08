@@ -2,7 +2,7 @@
 import express from 'express';
 import mysql from 'mysql';
 
-const EventDao = require("../../dao/eventDao.js");
+const EventDao = require("../../dao/organiserDao.js");
 
 let dao = new EventDao();
 let router = express.Router();
@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
     res.sendStatus(200);
 });
 
-// Example 2 - POST /public/event
+// Get all events that are public
 router.get('/event', (req: express$Request, res: express$Response) => {
     dao.getPublicEvents((status, data) => {
         res.status(status);
