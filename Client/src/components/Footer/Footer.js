@@ -5,23 +5,30 @@ import { Component } from 'react';
 
 function Footer(){
     return (
-        <footer class="page-footer font-small mdb-color pt-4">
+        <footer class="page-footer font-small mdb-color bg-dark pt-4 text-light">
 
-  <div class="container text-center text-md-left">
-    
-    <div class="row d-flex align-items-center">
-      <div class="col-md-7 col-lg-8">
-      <h6 class="text-uppercase mb-4 font-weight-bold">Kontakt</h6>
-        <p>
-          Telefon: +47 478 13 928</p>
-        <p>
-          E-mail: kontakt@nettside.no</p>
-        <p>
-          Adresse: Brattørgata 4, 7010 Trondheim</p>
-      </div>
-    </div>
-  </div>
-</footer>
+        <div class="container text-center text-md-left">
+          
+          <div class="row d-flex align-items-center">
+            <div class="col-md-8 col-lg-8">
+            <h6 class="text-uppercase mb-4 font-weight-bold ">Kontakt</h6>
+              <p>
+                Telefon: +47 123 45 678</p>
+              <p>
+                E-mail: kontakt@harmoni.no</p>
+            </div>
+            <div class="col-md-3 col-lg-4 ml-lg-0">
+              <div class="text-center text-md-right">
+                <ul class="list-unstyled list-inline">
+                  <li class="list-inline-item">
+                  <button class="btn btn-success bg-green">Klageknapp</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     );
 }
 
