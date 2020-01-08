@@ -10,8 +10,11 @@ const eventDao = require("../../dao/eventDao.js");
 let router = express.Router();
 var app = express();
 
+const PublicDao = require("../../dao/publicDao.js");
 app.use(bodyParser.json()); // for å tolke JSON i body
 
+let dao = new PublicDao();
+let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = "shhhhhverysecret";
 let publicKey = privateKey;
@@ -79,6 +82,12 @@ router.get("/", (req: express$Request, res: express$Response) => {
   res.sendStatus(200);
 });
 
+// Get all events that are public
+router.get('/event', (req: express$Request, res: express$Response) => {
+    dao.getPublicEvents((status, data) => {
+        res.status(status);
+        res.send(data);
+    });
 // Example 2 - POST /public/event
 router.get("/event", (req: express$Request, res: express$Response) => {
   eventDao.getPublicEvents((status, data) => {
