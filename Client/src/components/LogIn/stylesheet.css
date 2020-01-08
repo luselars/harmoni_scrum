@@ -3,8 +3,22 @@
     text-align: center;
     margin-left: 30%;
     margin-right: 30%;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .loginText {
-    font-size: 25px;
+    font-size: 60 vw;
+}
+
+h2 {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-bottom: 1%;
+    width: 60%;
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 5%;
+    
 }
