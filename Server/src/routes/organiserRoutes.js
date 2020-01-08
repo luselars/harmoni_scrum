@@ -6,9 +6,9 @@ const EventDao = require("../../dao/eventDao.js");
 
 let dao = new EventDao();
 
-let router  = express.Router();
-router.post('/organiser/event', (req: {body: JSON}, res: express$Response) => {
-    dao.postEvent(req.body,(status, data) => {
+let router = express.Router();
+router.post('/organiser/event', (req: { body: JSON }, res: express$Response) => {
+    dao.postEvent(req.body, (status, data) => {
         res.status(status);
         /* dao.postEventOrganiser(data[0],(status, data) =>
         {
@@ -34,7 +34,7 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
 });
 
 router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
-    dao.getGroup(req.params.id,(status, data) => {
+    dao.getGroup(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
     });

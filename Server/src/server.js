@@ -27,6 +27,5 @@ app.use('/organiser/', organiserRoutes);
 app.use('/user/', userRoutes);
 
 
-
 let server = app.listen(PORT);
 console.log("Server started on port: " + PORT);
