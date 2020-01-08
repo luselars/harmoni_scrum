@@ -75,20 +75,15 @@ router.get("/", (req: express$Request, res: express$Response) => {
   res.sendStatus(200);
 });
 
+// FUNKER IKKE HILSEN EMIR
+/*
 // Get all events that are public
-router.get('/event', (req: express$Request, res: express$Response) => {
-    publicDao.getPublicEvents((status, data) => {
-        res.status(status);
-        res.send(data);
-    });
-// Example 2 - POST /public/event
 router.get("/event", (req: express$Request, res: express$Response) => {
   publicDao.getPublicEvents((status, data) => {
-    res.status(status);
-    res.send(data);
+      res.status(status);
+      res.send(data);
   });
-});
-
+*/
 // login for user, returns a jwt token
 router.post("/login/user", (req: express$Request, res: express$Response) => {
   loginUser(req.body.username, req.body.password);
