@@ -7,33 +7,37 @@ const EventDao = require("../../dao/organiserDao.js");
 let dao = new EventDao();
 
 let router = express.Router();
+
+// Create new event (and connect it to the organiser)
 router.post('/event', (req: { body: JSON }, res: express$Response) => {
     dao.postEvent(req.body, (status, data) => {
         res.status(status);
-        console.log();
-        /* dao.postEventOrganiser(data[0],(status, data) =>
+        dao.postEventOrganiser(data.insertId,(status, data) =>
         {
           res.status(status);
           res.send(data);
-        }) */
+        })
     })
 });
 
+// Edit a specific event
 router.put('/event', (req: { body: JSON }, res: express$Response) => {
-    dao.editEvent((status, data) => {
+    dao.editEvent(req.body,(status, data) => {
         res.status(status);
         res.send(data);
     });
 });
 
+// Delete single event
 router.delete('/event/:id', (req: express$Request, res: express$Response) => {
-    dao.deleteEvent((status, data) => {
+    dao.deleteEvent(req.params.id ,(status, data) => {
             res.status(status);
             res.send(data);
         }
     );
 });
 
+// Get a group of volunteers from an organiser.
 router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
     dao.getGroup(req.params.id, (status, data) => {
         res.status(status);

@@ -2,9 +2,9 @@
 import express from 'express';
 import mysql from 'mysql';
 
-const EventDao = require("../../dao/organiserDao.js");
+const PublicDao = require("../../dao/publicDao.js");
 
-let dao = new EventDao();
+let dao = new PublicDao();
 let router = express.Router();
 
 // Example 1 - GET /public

@@ -3,12 +3,7 @@ import "./modelDao";
 const Dao = require("./dao.js");
 
 
-module.exports = class EventDao extends Dao {
-    getPublicEvents(callback) {
-        super.query("Select * from event WHERE is_public IS TRUE",
-            [],
-            callback);
-    }
+module.exports = class organiserDao extends Dao {
 
     getEvent(
         event_id: number,
@@ -23,7 +18,7 @@ module.exports = class EventDao extends Dao {
         callback: (status: string, data: json) => mixed
     ) {
         super.query(
-            "UPDATE event SET name=?,image=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? where event_id=?",
+            "UPDATE event SET name=?,image=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?",
             [
                 event.name,
                 event.image,
@@ -44,7 +39,7 @@ module.exports = class EventDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "delete from event where event_id=?",
+            "DELETE FROM event WHERE event_id=?",
             [event_id],
             callback
         );
@@ -79,24 +74,14 @@ module.exports = class EventDao extends Dao {
     }
 
 
-    /*
+
       postEventOrganiser(
           event_id: number,
           callback: (status: string, data: number) => mixed
       ) {
-          let email: string = "";
-
-          jwt.verify(token, publicKey, (err, decoded) => {
-              if (err) {
-                  console.log("Token IKKE ok");
-                  res.status(401);
-                  res.json({ error: "Not authorized" });
-              } else {
-                  email = decoded.username;
-              }
-          });
+          let email: string = "org@email.com";
           super.query(
-              "INSERT INTO event_organiser VALUES (?,?)",
+              "INSERT INTO event_organisers VALUES (?,?)",
               [
                   event_id,
                   email
@@ -104,7 +89,7 @@ module.exports = class EventDao extends Dao {
               callback
           );
       }
-      */
+
 
     likeArticle(
         articleId: number,
