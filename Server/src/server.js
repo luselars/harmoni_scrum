@@ -6,6 +6,7 @@ The server listens to port 4000.
 
 // Imports
 import express from 'express';
+import fs from 'fs';
 
 // Constants
 const PORT = 4000;
