@@ -15,7 +15,7 @@ function App() {
   return (
     <Router basename="/">
       <div>
-      <Link to="/">Main</Link>
+      <Link to="/"></Link>
       <Switch>
         <Route exact path="/" component={Main} />
         <Route component={NoMatch} />
