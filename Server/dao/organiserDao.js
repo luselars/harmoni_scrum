@@ -3,7 +3,7 @@ import "./modelDao";
 const Dao = require("./dao.js");
 
 
-module.exports = class organiserDao extends Dao {
+module.exports = class OrganiserDao extends Dao {
 
     getEvent(
         event_id: number,

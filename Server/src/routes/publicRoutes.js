@@ -5,9 +5,8 @@ var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const UserDao = require("../../dao/UserDao.js");
-const OrganiserDao = require("../../dao/OrganiserDao.js");
+const OrganiserDao = require("../../dao/organiserDao.js");
 const eventDao = require("../../dao/eventDao.js");
-let router = express.Router();
 var app = express();
 
 const PublicDao = require("../../dao/publicDao.js");
