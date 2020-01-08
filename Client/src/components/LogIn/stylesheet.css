@@ -1,0 +1,10 @@
+.loginBox {
+    width: 40%;
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.loginText {
+    font-size: 25px;
+}
