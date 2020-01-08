@@ -27,7 +27,7 @@ app.use(express.json()); // For parsing application/json
 // Initiate routes
 app.use('/public/', publicRoutes);
 app.use('/public/', organiserRoutes);
-app.use('/public/', userRoutes);
+app.use('/user/', userRoutes);
 
 
 

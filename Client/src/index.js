@@ -5,6 +5,7 @@ import './index.css';
 //import App from './App';
 //import * as serviceWorker from './serviceWorker';
 import Main from '../src/views/main';
+import Upload from "./components/Upload/Upload";
 
 
 // If you want your app to work offline and load faster, you can change
@@ -19,6 +20,7 @@ if (root)
     <HashRouter>
         <div>
         <Route exact path="/" component={Main} />
+        <Route exact path="/upload" component={Upload}/>
       </div>
     </HashRouter>,
     root
