@@ -16,7 +16,6 @@ let publicRoutes = require('./routes/publicRoutes');
 let organiserRoutes = require('./routes/organiserRoutes');
 let userRoutes = require('./routes/userRoutes');
 
-const EventDao = require("./dao/eventDao.js");
 let app = express();
 //Dependencies
 app.use(express.json()); // For parsing application/json

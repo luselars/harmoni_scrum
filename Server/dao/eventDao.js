@@ -28,7 +28,7 @@ class Event
 
 
 
-module.exports = class ArticleDao extends Dao {
+module.exports = class EventDao extends Dao {
     getPublicEvents(callback) {
         super.query("Select * from event WHERE is_public IS TRUE",
             [],
