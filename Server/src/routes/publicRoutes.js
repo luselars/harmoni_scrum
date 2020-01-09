@@ -78,9 +78,11 @@ router.get("/", (req: express$Request, res: express$Response) => {
 
 router.get("/event", (req: express$Request, res: express$Response) => {
   dao.getPublicEvents((status, data) => {
-      res.status(status);
-      res.send(data);
-  });
+    res.status(status);
+    res.send(data);
+  })
+});
+
 // login for user, returns a jwt token
 router.post("/login/user", (req: express$Request, res: express$Response) => {
   loginUser(req.body.username, req.body.password);
