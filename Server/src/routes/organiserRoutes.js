@@ -44,6 +44,23 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
     );
 });
 
+// Get artist
+router.get('/artist', (req: { body: string }, res: express$Response) => {
+    dao.getArtist(req.body,(status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
+
+// Add artist to owned event
+router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
+    dao.editEvent(req.body,(status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
 // Get a group of volunteers from an organiser.
 router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
     dao.getGroup(req.params.id, (status, data) => {
