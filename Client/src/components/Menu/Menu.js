@@ -3,6 +3,8 @@ import React from 'react';
 import { Component } from 'react';
 import "./Menu.css";
 
+import { Link, NavLink } from 'react-router-dom'
+
 type State = {
     status: boolean
 }
@@ -26,19 +28,19 @@ class Menu extends Component<Props> {
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
                 {this.state.status ? (
                     <form class="loginGroup">
-                    <a class="nav-link text-light text-right" id="loginButton" href="#">Logg ut<span class="sr-only"></span></a>
-                    <i class="fa fa-sign-out fa-lg" style={{ color: "white" }} aria-hidden="true"></i>
+                        <a class="nav-link text-light" id="homeButton" href="#">Hjem<span class="sr-only"></span></a>
+                        <a class="nav-link text-light" id="profileButton" href="#">Profil<span class="sr-only"></span></a>
+                        <a class="nav-link text-light" id="loginButton" href="#">Logg ut <i class="fa fa-sign-out fa-lg" style={{ color: "white" }} aria-hidden="true"></i><span class="sr-only"></span></a>
                     </form>
                 ) : (
-                    <form class="loginGroup">
-                    <a class="nav-link text-light text-right" id="loginButton" href="#">Logg inn<span class="sr-only"></span></a>
-                    <i class="material-icons" style={{ color: "white" }}>person</i>
-                    </form>
-                )}
+                        <form class="loginGroup">
+                            <a class="nav-link text-light text-right" id="loginButton" href="#">Logg inn <i class="fa fa-sign-in fa-lg" style={{ color: "white" }} aria-hidden="true"></i><span class="sr-only"></span></a>
+                        </form>
+                    )}
             </nav>
+
         )
     }
 }
-
 
 export default Menu;

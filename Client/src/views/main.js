@@ -12,6 +12,7 @@ export default class Main extends Component {
             <Menu />
             <ProfileOrganiser />
             <Footer />
+            <EventList />
             </div>
         )
     }

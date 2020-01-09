@@ -3,32 +3,20 @@ var mysql = require("mysql");
 var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const UserDao = require("./UserDao.js");
 var app = express();
+
 app.use(bodyParser.json()); // for å tolke JSON i body
 
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = (publicKey = "shhhhhverysecret");
 
+var password = "";
+
 // Checks if the password is correct
-// TODO: hash passord
-function loginUser(username, password) {
-  // Hashes inputed password and compares to hash in DB
-
-  var hash = bcrypt.hashSync(password, json.salt);
-  if (hash == json.hash) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function loginOrganiser(username, password) {
-  return password == "secret";
-}
-
-// login for user, returns a jwt token
-app.post("/public/login/user", (req, res) => {
-  if (loginUser(req.body.username, req.body.password)) {
+function loginUserCallback(status, data) {
+  var hash = bcrypt.hashSync(password, data.salt);
+  if (hash == data.hash) {
     console.log("Username and password ok");
     let token = jwt.sign(
       { username: req.body.username, type: "user" },
@@ -43,6 +31,21 @@ app.post("/public/login/user", (req, res) => {
     res.status(401);
     res.json({ error: "Not authorized, check username and password" });
   }
+}
+
+function loginUser(email, inputPassword) {
+  password = inputPassword;
+  // Hashes inputed password and compares to hash in DB
+  UserDao.getUserHashAndSalt(email, loginUserCallback);
+}
+
+function loginOrganiser(username, password) {
+  return password == "secret";
+}
+
+// login for user, returns a jwt token
+app.post("/public/login/user", (req, res) => {
+  loginUser(req.body.username, req.body.password);
 });
 
 // login for organiser, returns a jwt token
