@@ -8,6 +8,8 @@ import Menu from './components/Menu/Menu'
 import LogIn from './components/LogIn/LogIn'
 import Footer from './components/Footer/Footer'
 import ProfileNew from './components/profile/ProfileNew/ProfileNew'
+import EventNew from './components/event/EventNew/EventNew'
+
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
 
@@ -27,12 +29,12 @@ function App() {
         <div class="maindiv">
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
+          <Route exact path="/newevent" component={EventNew} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/summary" component={LoggedIn} />
-          </div>
-          <Route component={NoMatch} />
-        
+        </div>
+        <Route component={NoMatch} />
       </Switch>
       <Footer/>
       <LocationDisplay />

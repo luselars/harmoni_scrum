@@ -1,4 +1,15 @@
-import Event from "../services/EventService";
+export class Event {
+    event_id: number;
+    name: string;
+    image: string;
+    start: any;
+    status: string;
+    isPublic: boolean;
+    location_id: number;
+    venue: string;
+    end: date;
+    location: string;
+  }
 
 var e1 = new Event();
 e1.event_id=1;
