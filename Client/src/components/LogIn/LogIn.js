@@ -2,24 +2,32 @@
 
 import * as React from 'react';
 import { Component } from 'react';
+import './stylesheet.css';
 
-export default class LogIn extends Component {
+export default class LogIn extends Component<{}> {
     render() 
     {  
-       return ( <form>
+       return ( 
+        <div id="loginBox">
+        <form>
+           <p id="LoginTextH">LOGG INN</p>
             <div class="form-group">
-                <label for="exampleInputEmail1">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+                <label for="inputEmail1" id="loginText">E-mail</label>
+                <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Skriv e-mail"></input>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+                <label for="inputPassword1" id="loginText">Passord</label>
+                <input type="password" class="form-control" id="inputPassword1" placeholder="Passord"></input>
             </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1"></input>
-                <label class="form-check-label" for="exampleCheck1">Jeg godkjenner deres vilkår</label>
+            <div class="form-group">
+                <label class="form-label" for="check1"><a href="/glemtpassord">Glemt passord?</a></label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>)
+            <button type="submit" class="btn btn-success">Logg inn</button>
+            <div class="form-group p-2">
+                <label for="profileNew" class="form-label">Ikke registrert bruker? <a href="/register">Registrer deg her</a></label>
+            </div>
+        </form>
+        </div>
+        )
     }
 }

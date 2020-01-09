@@ -74,6 +74,14 @@ module.exports = class OrganiserDao extends Dao {
         super.query(queryString, [event_id], callback);
     }
 
+    getArtist(
+        email: string,
+        callback: (status: string, data: Object) => mixed
+    ) {
+        var queryString = "SELECT a.* FROM artist a LEFT JOIN user u ON a.user_id = a.user_id WHERE u.user_email = ?";
+        super.query(queryString, [email], callback);
+    }
+
 
 
       postEventOrganiser(
