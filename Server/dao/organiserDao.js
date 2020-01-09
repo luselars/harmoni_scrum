@@ -1,5 +1,5 @@
 //@flow
-import "./modelDao";
+import {Event, User, Location, Organiser}  from "./modelDao";
 const Dao = require("./dao.js");
 
 
@@ -28,7 +28,8 @@ module.exports = class OrganiserDao extends Dao {
                 event.is_public,
                 event.location_id,
                 event.venue,
-                event.end
+                event.end,
+                event.event_id
             ],
             callback
         );
