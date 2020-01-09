@@ -3,15 +3,8 @@
 // Object for sending Event
 export class Event
 {
-    constructor(name: string, image: string, start: string, end: string, status: string, is_public: number, location_id: number, venue: string) {
+    constructor(name: string) {
         this.name = name;
-        this.image = image;
-        this.start = start;
-        this.end = end;
-        this.status = status;
-        this.is_public = is_public;
-        this.location_id = location_id;
-        this.venue = venue;
     }
     //Event Information
     name: string;
@@ -50,7 +43,7 @@ export class Location
 // Object for sending User
 export class User
 {
-    constructor(email: string, name: number, tlf: string) {
+    constructor(email: string, name: number) {
         this.email = email;
         this.name = name;
     }
