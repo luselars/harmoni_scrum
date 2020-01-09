@@ -1,5 +1,6 @@
 //@flow
-import {Event, User, Location, Organiser}  from "./modelDao";
+import {Event, User, Location, Organiser} from "./modelDao";
+
 const Dao = require("./dao.js");
 
 
@@ -78,72 +79,98 @@ module.exports = class OrganiserDao extends Dao {
         email: string,
         callback: (status: string, data: Object) => mixed
     ) {
-        var queryString = "SELECT a.* FROM artist a LEFT JOIN user u ON a.user_id = a.user_id WHERE u.user_email = ?";
+        var queryString = "SELECT a.* FROM artist a LEFT JOIN user u ON u.user_id = a.user_id WHERE u.email = ?";
         super.query(queryString, [email], callback);
     }
-
-
-
-      postEventOrganiser(
-          event_id: number,
-          callback: (status: string, data: number) => mixed
-      ) {
-          let email: string = "org@email.com";
-          super.query(
-              "INSERT INTO event_organisers VALUES (?,?)",
-              [
-                  event_id,
-                  email
-              ],
-              callback
-          );
-      }
-
-
-    likeArticle(
-        articleId: number,
-        callback: (status: string, data: Object) => mixed
+    // Creates event organiser
+    postEventOrganiser(
+        event_id: number,
+        callback: (status: string, data: number) => mixed
     ) {
+        let email: string = "org@email.com";
         super.query(
-            "update artikkel set likes = likes + 1 where artikkelId=?",
-            [articleId],
+            "INSERT INTO event_organisers VALUES (?,?)",
+            [
+                event_id,
+                email
+            ],
             callback
         );
     }
-
-    getComments(callback: (status: string, data: Object) => mixed) {
-        super.query("select * from kommentar", [], callback);
-    }
-
-    getComment(
-        articleId: number,
+    // Deletes organisers for an event
+    deleteEventOrganisers(
+        event_id: number,
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "select * from kommentar join artikkel where kategoriId = ?",
-            [],
+            "DELETE FROM event_organisers WHERE event_id = ?",
+            [event_id],
             callback
         );
     }
-
-    sendComment(
-        comment: Object,
+    // Deletes volunteers for an event
+    deleteEventVolunteers(
+        event_id: number,
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "insert into kommentar (innhold, artikkelId) values (?, ?)",
-            [comment.innhold, comment.artikkelId],
+            "DELETE FROM event_volunteers WHERE event_id = ?",
+            [event_id],
             callback
         );
     }
-
-    likeComment(
-        kommentarId: number,
+    // Deletes artists for an event
+    deleteEventArtists(
+        event_id: number,
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "update kommentar SET likes = likes + 1 where kommentarId=?",
-            [kommentarId],
+            "DELETE FROM event_artists WHERE event_id = ?",
+            [event_id],
+            callback
+        );
+    }
+    // Deletes files for an event
+    deleteEventFiles(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+    ) {
+        super.query(
+            "DELETE FROM event_files WHERE event_id = ?",
+            [event_id],
+            callback
+        );
+    }
+    // Deletes tickettypes for an event
+    deleteEventTickets(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+    ) {
+        super.query(
+            "DELETE FROM event_tickets WHERE event_id = ?",
+            [event_id],
+            callback
+        );
+    }
+    // Deletes riders for an event
+    deleteEventRiders(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+    ) {
+        super.query(
+            "DELETE FROM rider WHERE event_id = ?",
+            [event_id],
+            callback
+        );
+    }
+    // Deletes schedule for an event
+    deleteEventSchedule(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+    ) {
+        super.query(
+            "DELETE FROM schedule WHERE event_id = ?",
+            [event_id],
             callback
         );
     }
