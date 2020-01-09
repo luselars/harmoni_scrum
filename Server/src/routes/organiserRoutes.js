@@ -40,31 +40,31 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
     dao.deleteEventOrganisers(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventVolunteers(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventArtists(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventFiles(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventTickets(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventRiders(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEventSchedule(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
-    }
+    });
     dao.deleteEvent(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
@@ -106,14 +106,15 @@ router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$R
 });
 
 // Send an invite email
-router.get("/sendmail" , (req, res) => {
+router.get("/sendmail", (req, res) => {
     console.log("Sender mail");
-    sendInvite("jonas4a@gmail.com", "event!!!", function(resp) {
+    sendInvite("jonas4a@gmail.com", "event!!!", function (resp) {
         console.log(resp);
-        if(resp)
+        if (resp)
             res.sendStatus(200);
         else
             res.sendStatus(400);
-    })});
+    })
+});
 
 module.exports = router;
