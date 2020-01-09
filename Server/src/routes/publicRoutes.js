@@ -35,11 +35,11 @@ function loginCallback(status: string, data: Object) {
   }
 }
 
-function loginUser(email: string, inputPassword: string) {
+function loginUser(email: string, inputPassword: string, user: boolean) {
   password = inputPassword;
   type = "user";
   // Hashes inputed password and compares to hash in DB
-  dao.getUserHashAndSalt(email, loginCallback);
+  var hashAndSalt = dao.getUserHashAndSalt(email, loginCallback);
 }
 
 function loginOrganiser(username: string, password: string) {
@@ -80,7 +80,7 @@ router.get("/event", (req: express$Request, res: express$Response) => {
   dao.getPublicEvents((status, data) => {
     res.status(status);
     res.send(data);
-  })
+  });
 });
 
 // login for user, returns a jwt token
