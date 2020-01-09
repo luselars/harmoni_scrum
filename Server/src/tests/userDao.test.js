@@ -9,3 +9,6 @@ event.venue = "Koselig plass";
 event.location_id = 1;
 event.event_id = 2;
 */
+import mysql from "mysql";
+import {Event, User, Location, Organiser} from "../../dao/modelDao.js"
+const userDao = require("../../dao/userDao.js");
