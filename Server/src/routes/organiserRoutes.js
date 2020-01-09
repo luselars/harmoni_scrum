@@ -7,6 +7,12 @@ let dao = new organiserDao();
 
 let router = express.Router();
 
+router.get('/event/:id', (req: express$Request, res: express$Response) => {
+    dao.getEvent(req.params.id, (status, data) => {
+        res.status(status);
+    })
+});
+
 // Create new event (and connect it to the organiser)
 router.post('/event', (req: { body: JSON }, res: express$Response) => {
     dao.postEvent(req.body, (status, data) => {
@@ -42,6 +48,15 @@ router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
         res.status(status);
         res.send(data);
     });
+});
+
+// Get ticket-types for a single event
+router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$Response) => {
+    dao.deleteEvent(req.params.id ,(status, data) => {
+            res.status(status);
+            res.send(data);
+        }
+    );
 });
 
 module.exports = router;

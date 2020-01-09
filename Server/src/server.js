@@ -6,7 +6,9 @@ The server listens to port 4000.
 
 // Imports
 import express from "express";
-
+let jwt = require("jsonwebtoken");
+let privateKey = "shhhhhverysecret";
+let publicKey = privateKey;
 // Constants
 const PORT = 4000;
 
@@ -43,6 +45,7 @@ app.use("/user", (req, res, next) => {
 });
 
 // Middleware for organiser activities
+/*
 app.use("/organiser", (req, res, next) => {
   var token = req.headers["x-access-token"];
   jwt.verify(token, publicKey, (err, decoded) => {
@@ -64,7 +67,7 @@ app.use("/organiser", (req, res, next) => {
     }
   });
 });
-
+*/
 // Initiate routes
 app.use("/public/", publicRoutes);
 app.use("/organiser/", organiserRoutes);
