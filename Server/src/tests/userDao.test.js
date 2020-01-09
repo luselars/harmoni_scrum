@@ -12,3 +12,11 @@ event.event_id = 2;
 import mysql from "mysql";
 import {Event, User, Location, Organiser} from "../../dao/modelDao.js"
 const userDao = require("../../dao/userDao.js");
+
+
+describe('Empty test', () => {
+    it('1 equals 1', done => {
+    expect(1).toEqual(1);
+done();
+});
+});
