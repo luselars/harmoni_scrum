@@ -31,8 +31,8 @@ export default class Menu extends Component<{}, {status : boolean}> {
                     </form>
                 ): (
                     <form class="loginGroup">
-                        <a class="nav-link text-light" id="homeButton" href="/">Hjem<span class="sr-only"></span></a>
-                        <a class="nav-link text-light" id="profileButton" href="/profile">Profil<span class="sr-only"></span></a>
+                        <a class="nav-link text-light" id="homeButton" href="/">Hjem <i class="fa fa-home fa-lg"></i><span class="sr-only"></span></a>
+                        <a class="nav-link text-light" id="profileButton" href="/profile">Profil <i class="fa fa-user fa-lg"></i><span class="sr-only"></span></a>
                         <a class="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>Logg ut <i class="fa fa-sign-out fa-lg" style={{ color: "white" }} aria-hidden="true"></i><span class="sr-only"></span></a>
                     </form>
                 )}
