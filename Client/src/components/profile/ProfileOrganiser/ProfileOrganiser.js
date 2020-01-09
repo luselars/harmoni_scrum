@@ -3,18 +3,19 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 
+
 export default class ProfileOrganiser extends Component<Props, State>{
     render(){
         return(
-            <div class="card ">
+            <div id="profileOrganiserCard" class="card ">
                 <div class="card-body bg-light">
                     <div class="container bg-light">
                         <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
                             <div class="col-4 text-center">
-                                <img src="" class="img-rounded" alt="Profilbilde"></img>  
+                                <img src="../../../../public/images/profilepic.png" class="img-rounded" alt="Profilbilde"></img>  
                             </div>
                             <div class="col text-center">
-                                <h2 class="mb-3">Arrangementnavn</h2>
+                                <h2 class="mb-3">PROFILNAVN</h2>
                                 <h5>email@hotmewfa.com</h5>
                                 <h5>https://www.sukkerhuset.no/</h5>
                             </div>

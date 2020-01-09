@@ -1,6 +1,7 @@
 // @flow
 import express from 'express';
 import mysql from 'mysql';
+import {sendInvite} from "../mailClient";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
@@ -103,5 +104,16 @@ router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$R
         }
     );
 });
+
+// Send an invite email
+router.get("/sendmail" , (req, res) => {
+    console.log("Sender mail");
+    sendInvite("jonas4a@gmail.com", "event!!!", function(resp) {
+        console.log(resp);
+        if(resp)
+            res.sendStatus(200);
+        else
+            res.sendStatus(400);
+    })});
 
 module.exports = router;

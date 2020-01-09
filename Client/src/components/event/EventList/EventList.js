@@ -12,7 +12,7 @@ export default class EventList extends Component<Props, State>{
         return(
             <div>
             {(events).map(event => (
-            <div id="grid-container" class="card">
+            <div class="card">
                 <div class="card-body bg-light">
                     <div class="container bg-light">
                         <div class="row justify-content-md-center align-items-center">

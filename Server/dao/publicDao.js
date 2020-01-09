@@ -30,7 +30,7 @@ module.exports = class PublicDao extends Dao {
     callback: (status: string, data: Object) => mixed
   ) {
     super.query(
-      "Select hash, salt from organiser WHERE email = ?",
+      "Select hash, salt from organiser WHERE organiser_email = ?",
       email,
       callback
     );

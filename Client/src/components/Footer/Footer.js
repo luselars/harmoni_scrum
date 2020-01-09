@@ -1,10 +1,11 @@
 // @flow
 
 import * as React from 'react';
+import './stylesheet.css';
 
 function Footer(){
     return (
-        <footer class="page-footer font-small mdb-color bg-dark pt-4 text-light">
+        <footer id="footer" class="page-footer font-small mdb-color bg-dark pt-4 text-light">
 
         <div class="container text-center text-md-left">
           

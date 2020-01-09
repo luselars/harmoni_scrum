@@ -1,6 +1,7 @@
 // @flow
 import express from "express";
 import mysql from "mysql";
+import {sendInvite} from "../mailClient";
 let bodyParser = require("body-parser");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
@@ -73,6 +74,7 @@ router.post("/login", (req: express$Request, res: express$Response) => {
             expiresIn: 1800
           }
         );
+        res.status(200);
         res.json({ jwt: token });
       } else {
         console.log("Username and password NOT ok");
