@@ -1,6 +1,7 @@
 // @flow
 import express from "express";
 import mysql from "mysql";
+import {sendInvite} from "../mailClient";
 let bodyParser = require("body-parser");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
@@ -55,7 +56,7 @@ router.get("/event/:id", (req: express$Request, res: express$Response) => {
 });
 
 // login for user, returns a jwt token
-router.post("/login/user", (req: express$Request, res: express$Response) => {
+router.post("/login", (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserHashAndSalt(req.body.username, (status, data) => {
     if (status == "200" && data.length != 0) {
@@ -73,6 +74,7 @@ router.post("/login/user", (req: express$Request, res: express$Response) => {
             expiresIn: 1800
           }
         );
+        res.status(200);
         res.json({ jwt: token });
       } else {
         console.log("Username and password NOT ok");
@@ -80,8 +82,32 @@ router.post("/login/user", (req: express$Request, res: express$Response) => {
         res.json({ error: "Not authorized, check username and password" });
       }
     } else {
-      res.status(404);
-      res.json({ error: "Username not found" });
+      dao.getOrganiserHashAndSalt(req.body.username, (status, data) => {
+        if (status == "200" && data.length != 0) {
+          // Callback function that hashes inputed password and compares to hash in DB
+          let salt = data[0].salt;
+          let hash = bcrypt.hashSync(req.body.password, salt);
+          if (hash == data[0].hash) {
+            // Returns a token for autherization if credentials match
+            console.log("Username and password ok");
+            let token = jwt.sign(
+              { username: req.body.username, type: "organiser" },
+              privateKey,
+              {
+                expiresIn: 1800
+              }
+            );
+            res.json({ jwt: token });
+          } else {
+            console.log("Username and password NOT ok");
+            res.status(401);
+            res.json({ error: "Not authorized, check username and password" });
+          }
+        } else {
+          res.status(404);
+          res.json({ error: "Username not found" });
+        }
+      });
     }
   });
 });

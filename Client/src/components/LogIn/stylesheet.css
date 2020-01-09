@@ -1,5 +1,5 @@
-.loginBox {
-    width: 60%;
+#loginBox {
+    width: 60vw;
     text-align: center;
     margin-left: 20%;
     margin-right: 20%;
@@ -7,11 +7,12 @@
     padding-bottom: 15px;
 }
 
-.loginText {
-    font-size: 60 vw;
+#loginText {
+    font-size: 5 vw;
 }
 
-h2 {
+#LoginTextH {
+    font-size: 5vw;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     padding-bottom: 15px;

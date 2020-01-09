@@ -1,4 +1,4 @@
-/* DELETE SOON BICH BOCH
+    /* DELETE SOON BICH BOCH
 event.name = "Mcpearsons nye organfest";
 event.image = "piano.img";
 event.start = "2008-1-29 14:57:00";
@@ -9,3 +9,6 @@ event.venue = "Koselig plass";
 event.location_id = 1;
 event.event_id = 2;
 */
+import mysql from "mysql";
+import {Event, User, Location, Organiser} from "../../dao/modelDao.js"
+const userDao = require("../../dao/userDao.js");

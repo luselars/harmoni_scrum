@@ -1,6 +1,7 @@
 // @flow
 import express from 'express';
 import mysql from 'mysql';
+import {sendInvite} from "../mailClient";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
@@ -44,6 +45,23 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
     );
 });
 
+// Get artist
+router.get('/artist', (req: { body: string }, res: express$Response) => {
+    dao.getArtist(req.body,(status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
+
+// Add artist to owned event
+router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
+    dao.editEvent(req.body,(status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
 // Get a group of volunteers from an organiser.
 router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
     dao.getGroup(req.params.id, (status, data) => {
@@ -60,5 +78,16 @@ router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$R
         }
     );
 });
+
+// Send an invite email
+router.get("/sendmail" , (req, res) => {
+    console.log("Sender mail");
+    sendInvite("jonas4a@gmail.com", "event!!!", function(resp) {
+        console.log(resp);
+        if(resp)
+            res.sendStatus(200);
+        else
+            res.sendStatus(400);
+    })});
 
 module.exports = router;

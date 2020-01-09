@@ -6,7 +6,7 @@ export class Event {
   event_id: number;
   name: string;
   image: string;
-  start: date;
+  start: any;
   status: string;
   isPublic: boolean;
   location_id: number;

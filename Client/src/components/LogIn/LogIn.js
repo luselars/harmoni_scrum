@@ -4,19 +4,19 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 
-export default class LogIn extends Component {
+export default class LogIn extends Component<{}> {
     render() 
     {  
        return ( 
-        <div class="loginBox">
+        <div id="loginBox">
         <form>
-           <h2>LOGG INN</h2>
+           <p id="LoginTextH">LOGG INN</p>
             <div class="form-group">
-                <label for="inputEmail1" class="loginText">E-mail</label>
+                <label for="inputEmail1" id="loginText">E-mail</label>
                 <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Skriv e-mail"></input>
             </div>
             <div class="form-group">
-                <label for="inputPassword1" class="loginText">Passord</label>
+                <label for="inputPassword1" id="loginText">Passord</label>
                 <input type="password" class="form-control" id="inputPassword1" placeholder="Passord"></input>
             </div>
             <div class="form-group">
