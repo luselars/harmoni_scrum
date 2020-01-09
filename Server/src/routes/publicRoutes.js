@@ -13,42 +13,6 @@ let router = express.Router();
 let privateKey = "shhhhhverysecret";
 let publicKey = privateKey;
 
-let password = "";
-let type = "";
-
-function loginCallback(status: string, data: Object) {
-  let hash = bcrypt.hashSync(password, data.salt);
-  if (hash == data.hash) {
-    console.log("Username and password ok");
-    let token = jwt.sign(
-      { username: req.body.username, type: type },
-      privateKey,
-      {
-        expiresIn: 1800
-      }
-    );
-    res.json({ jwt: token });
-  } else {
-    console.log("Username and password NOT ok");
-    res.status(401);
-    res.json({ error: "Not authorized, check username and password" });
-  }
-}
-
-function loginUser(email: string, inputPassword: string) {
-  password = inputPassword;
-  type = "user";
-  // Hashes inputed password and compares to hash in DB
-  dao.getUserHashAndSalt(email, loginCallback);
-}
-
-function loginOrganiser(username: string, password: string) {
-  password = inputPassword;
-  type = "organiser";
-  // Hashes inputed password and compares to hash in DB
-  dao.getOrganiserHashAndSalt(email, loginCallback);
-}
-
 // Checks if the token is verified, if so it returns a new token that lasts longer
 function updateToken() {
   jwt.verify(token, publicKey, (err, decoded) => {
@@ -80,29 +44,28 @@ router.get("/event", (req: express$Request, res: express$Response) => {
   dao.getPublicEvents((status, data) => {
     res.status(status);
     res.send(data);
-  })
+  });
 });
 
 router.get("/event/:id", (req: express$Request, res: express$Response) => {
   dao.getPublicEvent(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
-  })
+  });
 });
 
 // login for user, returns a jwt token
 router.post("/login/user", (req: express$Request, res: express$Response) => {
-  loginUser(req.body.username, req.body.password);
-});
-
-// login for organiser, returns a jwt token
-router.post(
-  "/login/organiser",
-  (req: express$Request, res: express$Response) => {
-    if (loginOrganiser(req.body.username, req.body.password)) {
+  // Gets the users hash and salt from the DB
+  dao.getUserHashAndSalt(req.body.username, (status, data) => {
+    // Callback function that hashes inputed password and compares to hash in DB
+    let salt = data[0].salt;
+    let hash = bcrypt.hashSync(req.body.password, salt);
+    if (hash == data[0].hash) {
+      // Returns a token for autherization if credentials match
       console.log("Username and password ok");
       let token = jwt.sign(
-        { username: req.body.username, type: "organiser" },
+        { username: req.body.username, type: "user" },
         privateKey,
         {
           expiresIn: 1800
@@ -114,7 +77,47 @@ router.post(
       res.status(401);
       res.json({ error: "Not authorized, check username and password" });
     }
+  });
+});
+
+// login for organiser, returns a jwt token
+router.post(
+  "/login/organiser",
+  (req: express$Request, res: express$Response) => {
+    // Gets the users hash and salt from the DB
+    dao.getOrganiserHashAndSalt(req.body.username, (status, data) => {
+      // Callback function that hashes inputed password and compares to hash in DB
+      let salt = data[0].salt;
+      let hash = bcrypt.hashSync(req.body.password, salt);
+      if (hash == data[0].hash) {
+        // Returns a token for autherization if credentials match
+        console.log("Username and password ok");
+        let token = jwt.sign(
+          { username: req.body.username, type: "organiser" },
+          privateKey,
+          {
+            expiresIn: 1800
+          }
+        );
+        res.json({ jwt: token });
+      } else {
+        console.log("Username and password NOT ok");
+        res.status(401);
+        res.json({ error: "Not authorized, check username and password" });
+      }
+    });
   }
 );
+
+// Register new user
+router.post("/register/user", (req: express$Request, res: express$Response) => {
+  // Genereates salt and hash
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(req.body.password, salt);
+  var email = req.body.email;
+  var name = req.body.email;
+  var tlf = req.body.tlf;
+  var description = req.body.description;
+});
 
 module.exports = router;
