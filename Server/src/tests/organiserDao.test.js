@@ -94,4 +94,14 @@ describe('', () => {
         }
         dao.deleteEvent(1, callback);
     });
+
+    // Finds an artist
+    it("Find Artist", done => {
+        function callback(status,data) {
+            console.log("Test callback: status=");
+            expect(data.length).toBe(1);
+            done();
+        }
+        dao.getArtist("test@test.cm", callback);
+    });
 });
