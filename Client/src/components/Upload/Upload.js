@@ -6,9 +6,10 @@ import UserService from "../../services/UserService.js";
 let path = require('path');
 
 
-type Props= {}
-// TODO fix this so the url is passed as a prop.
-const url = "/user/file"; // temp
+type Props = {
+    url: string;
+}
+// url should look like this: "http://localhost:4000/user/file"
 
 class Upload extends Component<Props> {
     // Useless constructor just now, will be used when props is introduced.
@@ -19,16 +20,15 @@ class Upload extends Component<Props> {
         return (
             <div>
                 <p>Upload file:</p>
-                <input accept=".jpg, .jpeg, .png" type="file" id="upload" name="sampleFile"/>
+                <input accept=".jpg, .jpeg, .png, .pdf" type="file" id="upload" name="recfile"/>
                 <button onClick={() => this.publishFile()}>Upload</button>
             </div>
         )
     }
-    // }
+
     // Method to publish the file.
     // Only .pdf, .jpg, .jpeg and .png images are accepted.
-    // TODO ALLOW ACCESS CROSS ORIGIN
-    publishFile(): void{
+    publishFile(): void {
         // Fetch the image from the form
         let data = new FormData();
         let element = document.getElementById('upload');
@@ -39,15 +39,14 @@ class Upload extends Component<Props> {
            }
        */
         let blob = element.files[0];
-        data.append("file" , blob);
+        data.append("recfile" , blob);
 
         //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
         let fullPath = element.value;
         let ext = path.extname(fullPath);
-        if(ext === '.png' || ext === '.jpg' || ext === 'jpeg' || ext === 'pdf') {
-            // post image to /images
-            // TODO move this to service-thingy
-            UserService.postFile(url, data).then(r => console.log(r));
+        if(ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf') {
+            // post file to /files
+            UserService.postFile(this.props.url, data).then(r => console.log(r));
         }
         else {
             // TODO are we using this alert. prob not

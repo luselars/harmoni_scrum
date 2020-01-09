@@ -4,13 +4,15 @@ import axios from'axios';
 const url_base = "http://localhost:4000";
 
 export default class UserService {
+    static test(url: string) {
+        return axios.post(url).then(response => response.data);
+    }
     // TODO auth
     static getFile(url: string, file_id: string) {
         url = url_base + url + "/" + file_id;
         return axios.get(url).then(response => response.data);
     }
     static postFile(url: string, data: FormData) {
-        url = url_base + url;
         console.log(url);
         console.log(data);
         return axios.post(url, data, {
