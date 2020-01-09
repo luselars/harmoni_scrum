@@ -8,9 +8,7 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-            <Menu />
             <EventList />
-            <Footer />
             </div>
         )
     }
