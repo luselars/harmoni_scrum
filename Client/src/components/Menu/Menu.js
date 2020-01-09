@@ -8,7 +8,7 @@ type State = {
     status: boolean
 }
 
-class Menu extends Component<{}, {status : boolean}> {
+export default class Menu extends Component<{}, {status : boolean}> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -33,13 +33,16 @@ class Menu extends Component<{}, {status : boolean}> {
                     <form class="loginGroup">
                         <a class="nav-link text-light" id="homeButton" href="/">Hjem<span class="sr-only"></span></a>
                         <a class="nav-link text-light" id="profileButton" href="/profile">Profil<span class="sr-only"></span></a>
-                        <a class="nav-link text-light" id="loginButton" href="/login">Logg ut <i class="fa fa-sign-out fa-lg" style={{ color: "white" }} aria-hidden="true"></i><span class="sr-only"></span></a>
+                        <a class="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>Logg ut <i class="fa fa-sign-out fa-lg" style={{ color: "white" }} aria-hidden="true"></i><span class="sr-only"></span></a>
                     </form>
                 )}
             </nav>
 
         )
     }
+    logOut() {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      }
+      
 }
-
-export default Menu;
