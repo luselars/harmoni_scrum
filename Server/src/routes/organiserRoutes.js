@@ -89,7 +89,7 @@ router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
 });
 
 // Get a group of volunteers from an organiser.
-router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
+router.get('/group/:id', (req: express$Request, res: express$Response) => {
     dao.getGroup(req.params.id, (status, data) => {
         res.status(status);
         res.send(data);
@@ -98,14 +98,14 @@ router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
 
 // Get ticket-types for a single event
 router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$Response) => {
-    dao.deleteEvent(req.params.id, (status, data) => {
+    dao.getEventTickets(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
         }
     );
 });
 
-// Send an invite email
+// Send an invite email (CHANGE TO POST WITH COMMENTING POSSIBILITY)
 router.get("/sendmail", (req, res) => {
     console.log("Sender mail");
     sendInvite("jonas4a@gmail.com", "event!!!", function (resp) {

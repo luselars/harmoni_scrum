@@ -33,7 +33,7 @@ describe('', () => {
             expect(data.length).toBe(0);
             done();
         }
-        dao.getEvent(1, callback);
+        dao.getEvent(4, callback);
     });
 
     // Creates a new event
@@ -60,7 +60,7 @@ describe('', () => {
             expect(data.length).toBe(1);
             done();
         }
-        dao.getEvent(1, callback);
+        dao.getEvent(4, callback);
     });
 
     // Updates an event
@@ -84,6 +84,16 @@ describe('', () => {
             done();
         }
         dao.deleteEvent(12, callback);
+    });
+
+    // Finds a tickettype
+    it("Find Ticket-types for an event", done => {
+        function callback(status,data) {
+            console.log("Test callback: status=");
+            expect(data.length).toBe(2);
+            done();
+        }
+        dao.getEventTickets(1, callback);
     });
 
     // Finds an artist
