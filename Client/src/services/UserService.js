@@ -3,7 +3,13 @@ import axios from'axios';
 // let testingUrl = ""; // For testing "http://localhost:8080"
 const url_base = "http://localhost:4000";
 
+
 export default class UserService {
+    static logIn(email : string, password : string) {
+        var url = "http://localhost:4000/public/login";
+        return axios.post<Object>(url, {"username": email, "password": password}).then(response => {localStorage.setItem("token", response.data.jwt)});
+    }
+
     static test(url: string) {
         return axios.post(url).then(response => response.data);
     }
@@ -33,4 +39,20 @@ export default class UserService {
             // alert('Error when uploading file.');
         });
     }
+}
+
+export class Organiser
+{
+    constructor(organiser_email: string, name: number) {
+        this.organiser_email = organiser_email;
+        this.name = name;
+    }
+    organiser_email: string;
+    name: string;
+    image: string;
+    description: string;
+    tlf: string;
+    website: string;
+    address: string;
+    password: string;
 }
