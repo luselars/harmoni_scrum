@@ -7,14 +7,16 @@ let dao = new organiserDao();
 
 let router = express.Router();
 
-router.get('/event/:id', (req: express$Request, res: express$Response) => {
+// Find a specific event by id (with your organiser email)
+router.get("/event/:id", (req: express$Request, res: express$Response) => {
     dao.getEvent(req.params.id, (status, data) => {
         res.status(status);
+        res.send(data);
     })
 });
 
 // Create new event (and connect it to the organiser)
-router.post('/event', (req: { body: JSON }, res: express$Response) => {
+router.post('/event', (req: { body: Object }, res: express$Response) => {
     dao.postEvent(req.body, (status, data) => {
         res.status(status);
         dao.postEventOrganiser(data.insertId,(status, data) =>
@@ -26,7 +28,7 @@ router.post('/event', (req: { body: JSON }, res: express$Response) => {
 });
 
 // Edit a specific event
-router.put('/event', (req: { body: JSON }, res: express$Response) => {
+router.put('/event', (req: { body: Object }, res: express$Response) => {
     dao.editEvent(req.body,(status, data) => {
         res.status(status);
         res.send(data);

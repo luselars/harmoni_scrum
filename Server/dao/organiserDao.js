@@ -15,8 +15,8 @@ module.exports = class OrganiserDao extends Dao {
     }
 
     editEvent(
-        event: json,
-        callback: (status: string, data: json) => mixed
+        event: Event,
+        callback: (status: string, data: Event) => mixed
     ) {
         super.query(
             "UPDATE event SET name=?,image=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?",
@@ -28,8 +28,7 @@ module.exports = class OrganiserDao extends Dao {
                 event.is_public,
                 event.location_id,
                 event.venue,
-                event.end,
-                event.event_id
+                event.end
             ],
             callback
         );
@@ -47,8 +46,8 @@ module.exports = class OrganiserDao extends Dao {
     }
 
     postEvent(
-        event: json,
-        callback: (status: string, data: json) => mixed
+        event: Event,
+        callback: (status: string, data: Event) => mixed
     ) {
         super.query(
             "INSERT INTO event (name, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?)",
