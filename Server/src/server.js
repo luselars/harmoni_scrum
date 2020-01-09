@@ -22,7 +22,7 @@ let app = express();
 app.use(express.json()); // For parsing application/json
 
 // Middleware for user activities
-app.use("/user", (req, res, next) => {
+/*app.use("/user", (req, res, next) => {
   var token = req.headers["x-access-token"];
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
@@ -42,7 +42,7 @@ app.use("/user", (req, res, next) => {
       }
     }
   });
-});
+}); */ 
 
 // Middleware for organiser activities
 /*
