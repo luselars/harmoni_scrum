@@ -1,4 +1,5 @@
 import EventService from "../EventService.js";
+import UserService from "../UserService.js";
 
 // Login for regular users
 function login() {
@@ -25,4 +26,12 @@ function login() {
 // Saves the token in localStorage for use
 function handleResponse(json) {
   localStorage.setItem("token", json.jwt);
+}
+
+// For registration
+// Hashes and salts a password and returns the hash and salt
+function generateHash(password) {
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(password, salt);
+  return { hash: hash, salt: salt };
 }
