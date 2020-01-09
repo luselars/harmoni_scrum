@@ -4,6 +4,7 @@ import './App.css';
 import { withRouter } from 'react-router';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import Main from '../src/views/main';
+import LogInP from './views/login.js';
 import Menu from './components/Menu/Menu'
 import LogIn from './components/LogIn/LogIn'
 import Footer from './components/Footer/Footer'
