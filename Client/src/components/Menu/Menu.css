@@ -1,8 +1,22 @@
 #loginButton {
+    margin-left: -2px;
+    margin-right: -10px;
+}
+
+#homeButton {
     margin-left: auto;
-    margin-right: 3px;
+    margin-right: -10px;
+}
+
+#profileButton {
+    margin-left: 0;
+    margin-right: -10px;
 }
 
 .loginGroup { 
     display: contents;
+}
+
+@media screen and (max-width: 800px) {
+
 }
