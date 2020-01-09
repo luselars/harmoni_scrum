@@ -26,7 +26,10 @@ export default class ProfileNew extends Component<{}> {
                 <label for="inputPasswordRepeat1" class="loginText">Gjenta passord</label>
                 <input type="password" class="form-control" id="inputPasswordRepeat1" placeholder="Gjenta password"></input>
             </div>
-
+            <div class="form-group">
+                <label for="inputURL1" class="loginText">URL til nettsted</label>
+                <input type="url" class="form-control" id="inputURL1" placeholder="Lim inn url"></input>
+            </div>
   <div class="file-field">
     <div class="btn btn-outline-success btn-rounded waves-effect btn-sm">
       <span>Velg profilbilde</span>
@@ -43,7 +46,7 @@ export default class ProfileNew extends Component<{}> {
                 <input type="checkbox" class="form-check-input" id="check1"></input>
                 <label class="form-check-label" for="check1">Jeg godkjenner deres vilkår</label>
             </div>
-            <button type="submit" class="btn btn-success">Logg inn</button>
+            <button type="submit" class="btn btn-success">Registrer</button>
         </form>
         </div>
         )
