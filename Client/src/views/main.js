@@ -9,9 +9,6 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-            <Menu />
-            <ProfileOrganiser />
-            <Footer />
             <EventList />
             </div>
         )
