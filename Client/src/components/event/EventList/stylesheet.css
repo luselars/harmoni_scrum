@@ -3,9 +3,82 @@
     border-right-color: rgb(83, 163, 81);
 }
 
+#eventinfo{
+    line-height: 90%;
+}
+
 .card{
     width: 60%;
     margin-left: 30%;
     margin-right: 10%;
     margin-bottom: 1%;
+    margin-top: 1%;
+}
+
+.eventdescription{
+    font-weight: bold;
+}
+
+h3, h5{
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 650px){
+    #grid-container{
+        font-size: 3vw;
+    }
+
+    #date{
+        -ms-flex:0 0 16.666667%;
+        flex:0 0 16.666667%;
+        max-width:40% 
+    }
+    #eventinfo{
+        -ms-flex:0 0 66.666667%;
+        flex:0 0 66.666667%;
+        max-width:66.666667%;
+        line-height: 4vw;
+    }
+    #eventbtn{
+        text-align:center!important
+    }
+    h3{
+        font-size: 3vw;
+    }
+    h5{
+        font-size: 3vw;
+    }
+    .card{
+        width: 90%!important;
+        margin-left: 5%!important;
+        margin-right: 5%!important;
+        margin-bottom: 1%;
+        margin-top: 1%;
+    }
+}
+
+@media screen and (max-width: 1010px){
+    #grid-container{
+        font-size: 3vw;
+    }
+
+    #date{
+        -ms-flex:0 0 16.666667%;
+        flex:0 0 16.666667%;
+        max-width:40% 
+    }
+    #eventinfo{
+        -ms-flex:0 0 66.666667%;
+        flex:0 0 66.666667%;
+        max-width:66.666667%;
+        line-height: 4vw;
+    }
+    
+    .card{
+        width: 90%!important;
+        margin-left: 5%!important;
+        margin-right: 5%!important;
+        margin-bottom: 1%;
+        margin-top: 1%;
+    }
 }
