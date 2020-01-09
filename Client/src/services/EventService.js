@@ -16,13 +16,13 @@ export class Event {
 }
 
 export default class EventService {
-  static async loginUser(username, password) {
+  static async loginUser(username: string, password: string) {
     return axios.post(
       "/public/login/user",
       JSON.stringify({ username: username, password: password })
     );
   }
-  static async loginOrganiser(username, password) {
+  static async loginOrganiser(username: string, password: string) {
     return axios.post(
       "/public/login/organiser",
       JSON.stringify({ username: username, password: password })
