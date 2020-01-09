@@ -21,5 +21,15 @@ module.exports = class UserDao extends Dao {
         callback
     );
 }
+deleteUser(
+  user_id: number,
+  callback: (status: string, data: Object) => mixed
+) {
+  super.query(
+      "DELETE FROM user WHERE user_id=?",
+      [user_id],
+      callback
+  );
+}
+
 };
-module.exports = class UserDao extends Dao {};

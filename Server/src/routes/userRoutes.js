@@ -16,3 +16,12 @@ router.put('', (req: { body: JSON }, res: express$Response) => {
         res.send(data);
     });
 });
+
+// Delete single user
+router.delete('/:id', (req: express$Request, res: express$Response) => {
+    dao.deleteUser(req.params.id ,(status, data) => {
+            res.status(status);
+            res.send(data);
+        }
+    );
+});
