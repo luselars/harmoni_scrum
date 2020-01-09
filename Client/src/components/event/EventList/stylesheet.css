@@ -9,10 +9,9 @@
 
 .card{
     width: 60%;
-    margin-left: 30%;
-    margin-right: 10%;
     margin-bottom: 1%;
     margin-top: 1%;
+    float: left;
 }
 
 .eventdescription{
@@ -24,8 +23,13 @@ h3, h5{
 }
 
 @media screen and (max-width: 650px){
-    #grid-container{
+    .card{
         font-size: 3vw;
+        width: 90%!important;
+        margin-left: 5%!important;
+        margin-right: 5%!important;
+        margin-bottom: 1%;
+        margin-top: 1%;
     }
 
     #date{
@@ -48,20 +52,9 @@ h3, h5{
     h5{
         font-size: 3vw;
     }
-    .card{
-        width: 90%!important;
-        margin-left: 5%!important;
-        margin-right: 5%!important;
-        margin-bottom: 1%;
-        margin-top: 1%;
-    }
 }
 
 @media screen and (max-width: 1010px){
-    #grid-container{
-        font-size: 3vw;
-    }
-
     #date{
         -ms-flex:0 0 16.666667%;
         flex:0 0 16.666667%;
@@ -80,5 +73,6 @@ h3, h5{
         margin-right: 5%!important;
         margin-bottom: 1%;
         margin-top: 1%;
+        font-size: 3vw;
     }
 }
