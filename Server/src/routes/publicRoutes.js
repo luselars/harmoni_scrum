@@ -1,6 +1,7 @@
 // @flow
 import express from "express";
 import mysql from "mysql";
+import {sendInvite} from "../mailClient";
 let bodyParser = require("body-parser");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");

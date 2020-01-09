@@ -7,10 +7,10 @@ The server listens to port 4000.
 // Imports
 import express from "express";
 let jwt = require("jsonwebtoken");
+
+const PORT = 4000;
 let privateKey = "shhhhhverysecret";
 let publicKey = privateKey;
-// Constants
-const PORT = 4000;
 
 // Routes
 let publicRoutes = require("./routes/publicRoutes");
@@ -18,8 +18,17 @@ let organiserRoutes = require("./routes/organiserRoutes");
 let userRoutes = require("./routes/userRoutes");
 
 let app = express();
-//Dependencies
+
+// Dependencies
 app.use(express.json()); // For parsing application/json
+
+// CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 
 // Middleware for user activities
 /*app.use("/user", (req, res, next) => {
@@ -68,6 +77,7 @@ app.use("/organiser", (req, res, next) => {
   });
 });
 */
+
 // Initiate routes
 app.use("/public/", publicRoutes);
 app.use("/organiser/", organiserRoutes);
