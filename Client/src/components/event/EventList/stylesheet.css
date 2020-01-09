@@ -1,0 +1,11 @@
+#date{
+    border-right-style: solid;
+    border-right-color: rgb(83, 163, 81);
+}
+
+.card{
+    width: 60%;
+    margin-left: 30%;
+    margin-right: 10%;
+    margin-bottom: 1%;
+}

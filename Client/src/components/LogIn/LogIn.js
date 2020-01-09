@@ -11,6 +11,7 @@ export default class LogIn extends Component {
        return ( 
         <div class="loginBox">
         <form>
+           <h2>LOGG INN</h2>
             <div class="form-group">
                 <label for="exampleInputEmail1" class="loginText">Email</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
@@ -21,7 +22,7 @@ export default class LogIn extends Component {
             </div>
             <div class="form-check p-2">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1"></input>
-                <label class="form-check-label" for="exampleCheck1">Jeg godkjenner deres vilkår {events[0].name}</label>
+                <label class="form-check-label" for="exampleCheck1">Jeg godkjenner deres vilkår</label>
             </div>
             <button type="submit" class="btn btn-success">Logg inn</button>
         </form>
