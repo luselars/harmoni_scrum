@@ -73,6 +73,7 @@ router.post("/login", (req: express$Request, res: express$Response) => {
             expiresIn: 1800
           }
         );
+        res.status(200);
         res.json({ jwt: token });
       } else {
         console.log("Username and password NOT ok");
