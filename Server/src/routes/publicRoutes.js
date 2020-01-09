@@ -1,22 +1,23 @@
 // @flow
 import express from "express";
 import mysql from "mysql";
-var bodyParser = require("body-parser");
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-var app = express();
+let bodyParser = require("body-parser");
+let jwt = require("jsonwebtoken");
+let bcrypt = require("bcryptjs");
+let app = express();
 const publicDao = require("../../dao/publicDao.js");
+let dao = new publicDao();
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = "shhhhhverysecret";
 let publicKey = privateKey;
 
-var password = "";
-var type = "";
+let password = "";
+let type = "";
 
 function loginCallback(status: string, data: Object) {
-  var hash = bcrypt.hashSync(password, data.salt);
+  let hash = bcrypt.hashSync(password, data.salt);
   if (hash == data.hash) {
     console.log("Username and password ok");
     let token = jwt.sign(
@@ -38,14 +39,14 @@ function loginUser(email: string, inputPassword: string) {
   password = inputPassword;
   type = "user";
   // Hashes inputed password and compares to hash in DB
-  publicDao.getUserHashAndSalt(email, loginCallback);
+  dao.getUserHashAndSalt(email, loginCallback);
 }
 
 function loginOrganiser(username: string, password: string) {
   password = inputPassword;
   type = "organiser";
   // Hashes inputed password and compares to hash in DB
-  publicDao.getOrganiserHashAndSalt(email, loginCallback);
+  dao.getOrganiserHashAndSalt(email, loginCallback);
 }
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
@@ -75,15 +76,11 @@ router.get("/", (req: express$Request, res: express$Response) => {
   res.sendStatus(200);
 });
 
-// FUNKER IKKE HILSEN EMIR
-/*
-// Get all events that are public
 router.get("/event", (req: express$Request, res: express$Response) => {
-  publicDao.getPublicEvents((status, data) => {
+  dao.getPublicEvents((status, data) => {
       res.status(status);
       res.send(data);
   });
-*/
 // login for user, returns a jwt token
 router.post("/login/user", (req: express$Request, res: express$Response) => {
   loginUser(req.body.username, req.body.password);
