@@ -7,35 +7,35 @@ export default class ProfileNew extends Component<{}> {
     render() 
     {  
        return ( 
-        <div class="registerBox">
+        <div id="registerBox">
         <form>
-           <h2>REGISTER</h2>
+           <h2 id="registerTextH">REGISTER</h2>
             <div class="form-group">
-                <label for="inputEmail1" class="registerText">E-mail</label>
+                <label for="inputEmail1" id="registerText">E-mail</label>
                 <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Skriv e-mail"></input>
             </div>
             <div class="form-group">
-                <label for="inputName1" class="registerText">Navn</label>
+                <label for="inputName1" id="registerText">Navn</label>
                 <input type="text" class="form-control" id="inputName1" placeholder="Skriv nave"></input>
             </div>
             <div class="form-group">
-                <label for="inputPassword1" class="loginText">Passord</label>
+                <label for="inputPassword1" id="loginText">Passord</label>
                 <input type="password" class="form-control" id="inputPassword1" placeholder="Passord"></input>
             </div>
             <div class="form-group">
-                <label for="inputPasswordRepeat1" class="loginText">Gjenta passord</label>
+                <label for="inputPasswordRepeat1" id="loginText">Gjenta passord</label>
                 <input type="password" class="form-control" id="inputPasswordRepeat1" placeholder="Gjenta password"></input>
             </div>
             <div class="form-group">
-                <label for="inputURL1" class="loginText">URL til nettsted</label>
+                <label for="inputURL1" id="loginText">URL til nettsted</label>
                 <input type="url" class="form-control" id="inputURL1" placeholder="Lim inn url"></input>
             </div>
-  <div class="file-field">
-    <div class="btn btn-outline-success btn-rounded waves-effect btn-sm">
-      <span>Velg profilbilde</span>
-      <input type="file" accept=".jpg, .jpeg, .png" id="upload" name="recfile"></input>
-    </div>
-  </div>
+            <div class="file-field">
+                <div class="btn btn-outline-success btn-rounded waves-effect btn-sm">
+                <span>Velg profilbilde</span>
+                <input type="file" accept=".jpg, .jpeg, .png" id="upload" name="recfile"></input>
+                </div>
+            </div>
 
 
             {/*<div class="form-check p-2">

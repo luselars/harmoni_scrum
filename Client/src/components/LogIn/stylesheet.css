@@ -1,4 +1,4 @@
-.loginBox {
+#loginBox {
     width: 60vw;
     text-align: center;
     margin-left: 20%;
@@ -7,11 +7,11 @@
     padding-bottom: 15px;
 }
 
-.loginText {
+#loginText {
     font-size: 5 vw;
 }
 
-.LoginTextH {
+#LoginTextH {
     font-size: 5vw;
     border-bottom-width: 1px;
     border-bottom-style: solid;
