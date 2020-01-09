@@ -26,12 +26,14 @@ function App() {
       <Link to="/"></Link>
       <Menu/>
       <Switch>
-        <Route exact path="/" component={Main} />
-        <Route exact path="/login" component={LogIn} />
-        <Route exact path="/newevent" component={EventNew} />
-        <Route exact path="/register" component={ProfileNew} />
-        <Route exact path="/profile" component={ProfileOrganiser} />
-        <Route exact path="/profile/summary" component={LoggedIn} />
+        <div class="maindiv">
+          <Route exact path="/" component={Main} />
+          <Route exact path="/login" component={LogIn} />
+          <Route exact path="/newevent" component={EventNew} />
+          <Route exact path="/register" component={ProfileNew} />
+          <Route exact path="/profile" component={ProfileOrganiser} />
+          <Route exact path="/profile/summary" component={LoggedIn} />
+        </div>
         <Route component={NoMatch} />
       </Switch>
       <Footer/>
