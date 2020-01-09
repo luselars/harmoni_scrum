@@ -14,7 +14,7 @@ let privateKey = "shhhhhverysecret";
 let publicKey = privateKey;
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
-function updateToken() {
+function updateToken(token) {
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
       console.log("Token NOT ok");
