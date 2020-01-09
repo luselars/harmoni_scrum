@@ -1,0 +1,32 @@
+.createEvent {
+    width: 60%;
+    margin: 0 20%;
+    margin-bottom: 5%;
+    background-color: white;
+}
+
+.form-row {
+    margin-bottom: 10px;
+}
+
+#coltitle {
+    padding-right: 20px;
+}
+
+#coldate {
+    text-align: center;
+}
+
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input, label {
+    margin: .4rem 0;
+}
+
+#nextbtn {
+    float: right;
+}
+

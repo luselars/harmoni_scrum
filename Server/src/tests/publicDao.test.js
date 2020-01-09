@@ -13,3 +13,9 @@ import mysql from "mysql";
 import {Event, User, Location, Organiser} from "../../dao/modelDao.js"
 const publicDao = require("../../dao/publicDao.js");
 
+describe('Empty test', () => {
+    it('1 equals 1', done => {
+    expect(1).toEqual(1);
+done();
+});
+});

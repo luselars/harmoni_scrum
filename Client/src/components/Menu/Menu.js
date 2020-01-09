@@ -1,16 +1,14 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import "./Menu.css";
-
-import { Link, NavLink } from 'react-router-dom'
+import "./stylesheet.css";
+import { Link } from 'react-router-dom'
 
 type State = {
     status: boolean
 }
 
 class Menu extends Component<{}, {status : boolean}> {
-
     constructor(props: any) {
         super(props);
         this.state = {

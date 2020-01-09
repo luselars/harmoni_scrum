@@ -26,16 +26,7 @@ event.is_public = 1;
 event.venue = "Koselig plass";
 event.location_id = 1;
 
-describe('Empty test', () => {
-    it('1 equals 1', done => {
-        expect(1).toEqual(1);
-        done();
-    });
-});
-
-
 describe('', () => {
-
     // Find an event by ID (needs to be administered by email)
     it("Find event that doesn't exist", done => {
         function callback(status,data) {
@@ -92,7 +83,7 @@ describe('', () => {
             expect(data.affectedRows).toBeGreaterThanOrEqual(1);
             done();
         }
-        dao.deleteEvent(1, callback);
+        dao.deleteEvent(12, callback);
     });
 
     // Finds an artist
@@ -102,6 +93,6 @@ describe('', () => {
             expect(data.length).toBe(1);
             done();
         }
-        dao.getArtist("test@test.cm", callback);
+        dao.getArtist("test@test.com", callback);
     });
 });

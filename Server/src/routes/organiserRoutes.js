@@ -20,17 +20,16 @@ router.get("/event/:id", (req: express$Request, res: express$Response) => {
 router.post('/event', (req: { body: Object }, res: express$Response) => {
     dao.postEvent(req.body, (status, data) => {
         res.status(status);
-        dao.postEventOrganiser(data.insertId,(status, data) =>
-        {
-          res.status(status);
-          res.send(data);
+        dao.postEventOrganiser(data.insertId, (status, data) => {
+            res.status(status);
+            res.send(data);
         })
     })
 });
 
 // Edit a specific event
 router.put('/event', (req: { body: Object }, res: express$Response) => {
-    dao.editEvent(req.body,(status, data) => {
+    dao.editEvent(req.body, (status, data) => {
         res.status(status);
         res.send(data);
     });
@@ -38,7 +37,35 @@ router.put('/event', (req: { body: Object }, res: express$Response) => {
 
 // Delete single event
 router.delete('/event/:id', (req: express$Request, res: express$Response) => {
-    dao.deleteEvent(req.params.id ,(status, data) => {
+    dao.deleteEventOrganisers(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventVolunteers(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventArtists(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventFiles(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventTickets(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventRiders(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEventSchedule(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+    dao.deleteEvent(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
         }
@@ -47,16 +74,15 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
 
 // Get artist
 router.get('/artist', (req: { body: string }, res: express$Response) => {
-    dao.getArtist(req.body,(status, data) => {
+    dao.getArtist(req.body, (status, data) => {
         res.status(status);
         res.send(data);
     });
 });
 
-
 // Add artist to owned event
 router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
-    dao.editEvent(req.body,(status, data) => {
+    dao.editEvent(req.body, (status, data) => {
         res.status(status);
         res.send(data);
     });
@@ -72,7 +98,7 @@ router.get('/:id/group/:gid', (req: express$Request, res: express$Response) => {
 
 // Get ticket-types for a single event
 router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$Response) => {
-    dao.deleteEvent(req.params.id ,(status, data) => {
+    dao.deleteEvent(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
         }
@@ -80,14 +106,15 @@ router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$R
 });
 
 // Send an invite email
-router.get("/sendmail" , (req, res) => {
+router.get("/sendmail", (req, res) => {
     console.log("Sender mail");
-    sendInvite("jonas4a@gmail.com", "event!!!", function(resp) {
+    sendInvite("jonas4a@gmail.com", "event!!!", function (resp) {
         console.log(resp);
-        if(resp)
+        if (resp)
             res.sendStatus(200);
         else
             res.sendStatus(400);
-    })});
+    })
+});
 
 module.exports = router;
