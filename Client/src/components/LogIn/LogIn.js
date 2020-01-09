@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import events from "../data.js";
 
 export default class LogIn extends Component {
     render() 
@@ -17,7 +16,7 @@ export default class LogIn extends Component {
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1" class="loginText">Password</label>
+                <label for="exampleInputPassword1" class="loginText">Passord</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></input>
             </div>
             <div class="form-check p-2">
