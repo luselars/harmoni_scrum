@@ -1,11 +1,11 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route } from 'react-router-dom';
+//import { Link, Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+//import { withRouter } from 'react-router';
 import './index.css';
-//import App from './App';
+import App from './App';
 //import * as serviceWorker from './serviceWorker';
-import Main from '../src/views/main';
-import Upload from "./components/Upload/Upload";
+//import Main from '../src/views/main';
 
 
 // If you want your app to work offline and load faster, you can change
@@ -14,14 +14,4 @@ import Upload from "./components/Upload/Upload";
 //serviceWorker.unregister();
 //ReactDOM.render(<App />, document.getElementById('root'));
 
-const root = document.getElementById('root');
-if (root)
-  ReactDOM.render(
-    <HashRouter>
-        <div>
-        <Route exact path="/" component={Main} />
-        <Route exact path="/upload" component={Upload}/>
-      </div>
-    </HashRouter>,
-    root
-  );
+ReactDOM.render(<App />, document.getElementById('root'));
