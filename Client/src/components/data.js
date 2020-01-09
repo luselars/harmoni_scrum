@@ -1,6 +1,6 @@
 import Event from "../services/EventService";
 
-var e1 = new Event;
+var e1 = new Event();
 e1.event_id=1;
 e1.name= "party";
 e1.image = "bilde.jpg";
@@ -12,7 +12,7 @@ e1.venue = "sukkerhuset";
 e1.end = "2020-05-19 23:30:00";
 e1.location = "Prinsesseveien 3, Trondheim";
 
-var e2 = new Event;
+var e2 = new Event();
 e2.event_id=2;
 e2.name= "konsert";
 e2.image = "bilde2.jpg";
@@ -24,7 +24,7 @@ e2.venue = "sukkerhuset";
 e2.end = "2020-03-03 07:30:00";
 e2.location = "Prinsesseveien 85, Trondheim";
 
-var e3 = new Event;
+var e3 = new Event();
 e3.event_id=3;
 e3.name= "blokkfløytekor";
 e3.image = "bilde3.jpg";
