@@ -19,5 +19,8 @@ export class Event {
     status: string;
     is_public: boolean;
     location_id: number;
+    address: string;
+    location_name: string;
+    postcode: number;
     venue: string;
 }
