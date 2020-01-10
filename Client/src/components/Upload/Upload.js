@@ -46,7 +46,8 @@ class Upload extends Component<Props> {
         let ext = path.extname(fullPath);
         if(ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf') {
             // post file to /files
-            UserService.postFile(this.props.url, data).then(r => console.log(r));
+            // UserService.postFile(this.props.url, data).then(r => console.log(r));
+            UserService.postFile("http://localhost:4000/user/file", data).then(r => console.log(r));
         }
         else {
             // TODO are we using this alert. prob not

@@ -1,13 +1,15 @@
 // @flow
 import express from 'express';
 import mysql from 'mysql';
+const path = require("path");
+const fs = require("fs");
+const crypto = require('crypto');
 
 const userDao = require("../../dao/userDao.js");
-
+const upload = require('../uploadMiddleware');
 let dao = new userDao();
 let router = express.Router();
 
-module.exports = router;
 
 // Edit a specific user
 router.put('', (req: { body: JSON }, res: express$Response) => {
@@ -25,6 +27,14 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
         }
     );
 });
+
+// Get file. The id should match a file in the folder files
+// TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
+router.get('/file/:id', function(req, res) {
+    console.log("Got a file request");
+    res.sendFile(path.join(__dirname + '/../../files/' + req.params.id));
+});
+
 
 // Upload file. If the request is valid the file is moved to the folder files with a new randomised name
 // and the new name is returned to the user.
@@ -70,4 +80,8 @@ router.post('/file', upload.single('recfile'), async function (req, res) {
             return res.sendStatus(401);
         }
     });
+
+
+
+module.exports = router;
 

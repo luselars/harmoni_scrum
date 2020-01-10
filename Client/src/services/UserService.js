@@ -1,7 +1,7 @@
 // @flow
 import axios from'axios';
 // let testingUrl = ""; // For testing "http://localhost:8080"
-const url_base = "http://localhost:4000";
+// const url_base = "http://localhost:4000";
 
 
 export default class UserService {
@@ -11,7 +11,7 @@ export default class UserService {
     }
     // TODO auth
     static getFile(url: string, file_id: string) {
-        url = url_base + url + "/" + file_id;
+        url = url + "/" + file_id;
         return axios.get(url).then(response => response.data);
     }
     static postFile(url: string, data: FormData) {

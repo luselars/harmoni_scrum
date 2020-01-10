@@ -12,6 +12,7 @@ import EventNew from './components/event/EventNew/EventNew'
 
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
+import Upload from "./components/Upload/Upload";
 
 {/*const Main = () => <h1>Home here</h1>*/}
 const NoMatch = () => <h1>404 Not Found</h1>
@@ -29,6 +30,7 @@ function App() {
         <div class="maindiv">
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
+          <Route exact path="/upload" component={Upload} />
           <Route exact path="/newevent" component={EventNew} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
