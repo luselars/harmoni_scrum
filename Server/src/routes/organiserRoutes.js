@@ -5,7 +5,11 @@ import {sendInvite} from "../mailClient";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
+const path = require("path");
+const crypto = require('crypto');
+const fs = require("fs");
 
+const upload = require('../uploadMiddleware');
 let router = express.Router();
 
 // TODO add auth to all this shit
@@ -157,7 +161,9 @@ router.post('/file', upload.single('recfile'), async function (req, res) {
             if (err) throw err;
             console.log("File moved to /files");
         });
-        return res.sendStatus(200);
+        res.status(200);
+        res.send({"name":str+ext});
+        // return res.sendStatus(200);
     }
     // Return 401 if the extension is not supported.
     else {

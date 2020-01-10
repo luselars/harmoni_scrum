@@ -6,27 +6,28 @@ const url_base = "http://localhost:4000";
 // Event-model
 export class Event
 {
-  constructor(name: string) {
-    this.name = name;
+  constructor(){
+    this.name = null;
+    this.description = null;
+    this.image = null;
+    this.start = null;
+    this.end = null;
+    this.status = null;
+    this.is_public = false;
+    this.location_id = null;
+    this.address = null;
+    this.venue = null;
   }
-  //Event Information
   name: string;
-  description: string;
+  description: string = null;
   image: string;
   start: string;
   end: string;
   status: string;
-  is_public: boolean = false;
+  is_public: boolean;
   location_id: number;
   address: string;
   venue: string;
-  event_id: number = null;
-
-  // Event Location
-  location: Location = null;
-  // Event Users
-  users: User[] = null;
-
 }
 
 
@@ -53,25 +54,26 @@ export default class EventService {
   static updateEvent(event: Event, data: FormData | void) {
     let url = url_base + "/organiser/event";
     let file_url = url_base + "/organiser/file";
+
     // If FormData is included we need to handle file-upload
     if(data !== null) {
       // Post file and retrieve filename
-      return axios.post(file_url, data, {
+      axios.post(file_url, data, {
           headers: {
             'accept': 'application/json',
             'Accept-Language': 'en-US,en;q=0.8',
             'Content-Type': 'multipart/form-data',
           }}).then((response) => {
           // then something maybe
-          console.log("Response:");
-          console.log(response);
-        }).catch((error) => {
+          let name = response.data.name;
+          console.log(name);
+          event.image = name;
+          return axios.put<Event>(event).then(response => {console.log(response)});
+        }).catch(() => {
           // TODO change this alert to component-alert
           alert('Error when uploading file.');
         });
 
-
-      // return axios.put<Event>(event).then(response => {console.log(response)});
     }
     else {
       return axios.put<Event>(event).then(response => {return response});
