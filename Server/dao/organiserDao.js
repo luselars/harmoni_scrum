@@ -82,7 +82,7 @@ module.exports = class OrganiserDao extends Dao {
         event_id: number,
         callback: (status: string, data: Object) => mixed
     ) {
-        let queryString = "SELECT et.price, tt.* FROM event_tickets et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?";
+        let queryString = "SELECT et.price, tt.* FROM event_ticket et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?";
         super.query(queryString, [event_id], callback);
     }
 
@@ -101,7 +101,7 @@ module.exports = class OrganiserDao extends Dao {
     ) {
         let email: string = "org@email.com";
         super.query(
-            "INSERT INTO event_organisers VALUES (?,?)",
+            "INSERT INTO event_organiser VALUES (?,?)",
             [
                 event_id,
                 email
@@ -115,7 +115,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "DELETE FROM event_organisers WHERE event_id = ?",
+            "DELETE FROM event_organiser WHERE event_id = ?",
             [event_id],
             callback
         );
@@ -126,7 +126,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "DELETE FROM event_volunteers WHERE event_id = ?",
+            "DELETE FROM event_volunteer WHERE event_id = ?",
             [event_id],
             callback
         );
@@ -137,7 +137,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "DELETE FROM event_artists WHERE event_id = ?",
+            "DELETE FROM event_artist WHERE event_id = ?",
             [event_id],
             callback
         );
@@ -148,7 +148,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "DELETE FROM event_files WHERE event_id = ?",
+            "DELETE FROM event_file WHERE event_id = ?",
             [event_id],
             callback
         );
@@ -159,7 +159,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Object) => mixed
     ) {
         super.query(
-            "DELETE FROM event_tickets WHERE event_id = ?",
+            "DELETE FROM event_ticket WHERE event_id = ?",
             [event_id],
             callback
         );
