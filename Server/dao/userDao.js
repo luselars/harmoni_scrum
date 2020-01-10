@@ -32,4 +32,13 @@ deleteUser(
   );
 }
 
+
+getUserByEvent(
+  user_id: number,
+  callback: (status: string, data: Object) => mixed
+) {
+  let queryString = "SELECT e.event_id FROM event e WHERE e.event_id IN(SELECT ea.event_id FROM event_artist ea WHERE ea.user_id = 1) UNION SELECT e.event_id FROM event e WHERE e.event_id IN(SELECT ev.event_id FROM event_volunteer ev WHERE ev.user_id = 1)";
+  super.query(queryString, [user_id], callback);
+}
+
 };

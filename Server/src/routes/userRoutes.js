@@ -28,6 +28,16 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
     );
 });
 
+ // Retrieve all events that the user is a part of 
+ router.get("/:id/event", (req: express$Request, res: express$Response) => {
+    dao.getUserByEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
+});
+
+
+
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
