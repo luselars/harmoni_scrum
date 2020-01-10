@@ -126,5 +126,13 @@ router.get("/event/:id/volunteer", (req: express$Request, res: express$Response)
     })
 });
 
+//Get all artists who are part of an event
+router.get("/event/:id/artist", (req: express$Request, res: express$Response) => {
+    dao.getArtistsByEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
+});
+
 
 module.exports = router;
