@@ -17,8 +17,13 @@ export default class EventService {
       JSON.stringify({ username: username, password: password })
     );
   }
+  // TODO legg til token
   static postEvent(name : string, description : string, start: string, end: string) {
     let url = url_base + "/organiser/event";
     return axios.post<Object>(url, {"name": name, "is_public":0, "description": description, "start": start, "end": end}).then(response => {return response});
+  }
+  // TODO legg til token
+  static getEvent(id: number) {
+    let url = url_base + "/organiser"
   }
 }

@@ -10,6 +10,7 @@ module.exports = class OrganiserDao extends Dao {
         event_id: number,
         callback: (status: string, data: Object) => mixed
     ) {
+        // TODO legg til token
         let email: string = "org@email.com";
         var queryString = "SELECT e.* FROM event e LEFT JOIN event_organisers eo ON e.event_id = eo.event_id WHERE eo.organiser_email = ? AND e.event_id = ?";
         super.query(queryString, [email, event_id], callback);
