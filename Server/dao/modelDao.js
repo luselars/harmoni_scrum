@@ -8,6 +8,7 @@ export class Event
     }
     //Event Information
     name: string;
+    description: string;
     image: string;
     start: string;
     end: string;
