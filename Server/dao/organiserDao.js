@@ -20,10 +20,11 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Event) => mixed
     ) {
         super.query(
-            "UPDATE event SET name=?,image=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?",
+            "UPDATE event SET name=?,image=?,description=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?",
             [
                 event.name,
                 event.image,
+                event.description,
                 event.start,
                 event.status,
                 event.is_public,
@@ -52,9 +53,10 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Event) => mixed
     ) {
         super.query(
-            "INSERT INTO event (name, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO event (name, description, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?)",
             [
                 event.name,
+                event.description,
                 event.image,
                 event.start,
                 event.status,
