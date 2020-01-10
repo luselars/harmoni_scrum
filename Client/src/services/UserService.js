@@ -8,6 +8,12 @@ export default class UserService {
         let url = url_base + "/public/login";
         return axios.post<Object>(url, {"username": email, "password": password}).then(response => {localStorage.setItem("token", response.data.jwt)});
     }
+
+    static newUser(email : string, name : string, password : string) {
+        let url = url_base + "/public/register/user";
+        return axios.post<Object>(url, {"username": email, "name": name, "password": password, "image": "", "tlf": "", "description": ""}).then(response => {localStorage.setItem("token", response.data.jwt)});
+    }
+
     // TODO auth
     static getFile(url: string, file_id: string) {
         url = url + "/" + file_id;

@@ -144,12 +144,12 @@ router.post(
 // Register new user
 router.post("/register/user", (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
-  var salt = bcrypt.genSaltSync(10);
-  var hash = bcrypt.hashSync(req.body.password, salt);
-  var email = req.body.email;
-  var name = req.body.email;
-  var tlf = req.body.tlf;
-  var description = req.body.description;
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(req.body.password, salt);
+  let email = req.body.email;
+  let name = req.body.name;
+  let tlf = req.body.tlf;
+  let description = req.body.description;
 });
 
 module.exports = router;
