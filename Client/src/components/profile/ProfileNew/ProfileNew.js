@@ -15,7 +15,8 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
                 password: string,
                 passwordConfirmation: string,
                 url: string,
-                check: Boolean
+                organiser: false,
+                check: false
             }
     }
 
@@ -24,6 +25,11 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
             <div id="registerBox">
                 <form>
                     <h2 id="registerTextH">REGISTER</h2>
+                    <div className="form-check p-2">
+                        <input type="checkbox" onChange={e => this.changeOrganiser(e)} className="form-check-input"
+                               id="check1"></input>
+                        <label className="form-check-label" htmlFor="check1">Er du en arrangør?</label>
+                    </div>
                     <div class="form-group">
                         <label for="inputEmail1" id="registerText">E-mail</label>
                         <input type="email" onChange={e => this.changeEmail(e)} class="form-control"
@@ -78,7 +84,7 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
     changeName(e: any) {
         const target = e.target;
         let name: string = target.name;
-        let value: string = target.value;
+        let value: string = target.name;
         this.setState({name: value});
         console.log(this.state.name);
     }
@@ -107,20 +113,36 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
         console.log(this.state.url);
     }
 
+    changeOrganiser(e: any) {
+        this.setState({organiser: !this.state.organiser});
+    }
+
     changeCheck(e: any) {
-        const target = e.target;
-        let name: string = target.name;
-        let value: boolean = target.value;
-        this.setState({check: value});
-        console.log(this.state.check);
+        this.setState({check: !this.state.check});
     }
 
 
     post()
     {
-        console.log("TRYING TO CREATE NEW USER");
-        UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
-            window.location = '/profile'
-        });
+        if(this.state.check)
+        {
+            console.log("TRYING TO CREATE NEW USER");
+            if(this.state.organiser)
+            {
+                UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(() => {
+                    window.location = '/profile'
+                });
+            }
+            else
+            {
+                UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
+                    window.location = '/profile'
+                });
+            }
+        }
+        else
+        {
+            console.log("Not checked agree with terms");
+        }
     }
 }

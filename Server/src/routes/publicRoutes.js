@@ -2,6 +2,7 @@
 import express from "express";
 import mysql from "mysql";
 import {sendInvite} from "../mailClient";
+import {User, Organiser} from "../../dao/modelDao";
 let bodyParser = require("body-parser");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
@@ -144,12 +145,36 @@ router.post(
 // Register new user
 router.post("/register/user", (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
+
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(req.body.password, salt);
   let email = req.body.email;
   let name = req.body.name;
   let tlf = req.body.tlf;
   let description = req.body.description;
+
+  let user: User = new User(email, name);
+  dao.postUser(user, hash, salt, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Register new organiser
+router.post("/register/organiser", (req: express$Request, res: express$Response) => {
+  // Genereates salt and hash
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(req.body.password, salt);
+  let email = req.body.email;
+  let name = req.body.name;
+  let tlf = req.body.tlf;
+  let description = req.body.description;
+
+  let organiser: Organiser = new Organiser(email, name);
+  dao.postOrganiser(organiser, hash, salt, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
 });
 
 module.exports = router;

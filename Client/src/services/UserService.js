@@ -11,7 +11,12 @@ export default class UserService {
 
     static newUser(email : string, name : string, password : string) {
         let url = url_base + "/public/register/user";
-        return axios.post<Object>(url, {"username": email, "name": name, "password": password, "image": "", "tlf": "", "description": ""}).then(response => {localStorage.setItem("token", response.data.jwt)});
+        return axios.post<Object>(url, {"email": email, "name": name, "password": password, "image": "", "tlf": "", "description": ""}).then(response => {localStorage.setItem("token", response.data.jwt)});
+    }
+
+    static newOrganiser(email : string, name : string, password : string) {
+        let url = url_base + "/public/register/organiser";
+        return axios.post<Object>(url, {"email": email, "name": name, "password": password, "image": "", "tlf": "", "description": ""}).then(response => {localStorage.setItem("token", response.data.jwt)});
     }
 
     // TODO auth
