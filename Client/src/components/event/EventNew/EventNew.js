@@ -28,7 +28,21 @@ class EventNew extends Component<Props, State> {
         }
     }
     componentDidMount(): * {
-
+        // Check if the user is currently writing an event, if so load inputs with data
+        if(localStorage.getItem("curr_event") !== null) {
+            console.log("Bruker i arr. henter data. id: " + localStorage.getItem("curr_event"));
+            // TODO add token
+            EventService.getEvent(localStorage.getItem("curr_event")).then(response => {
+               let data = response.data[0];
+               this.setState({
+                   name: data.name,
+                   description: data.description,
+                   start: data.start,
+                   end: data.end
+               });
+               console.log(this.state.start);
+            });
+        }
     }
 
     render() {
@@ -39,24 +53,32 @@ class EventNew extends Component<Props, State> {
                     <div class="form-row">
                         <div class="col" id="coltitle">
                             <label id="eventnamelabel" for="eventname">Tittel</label>
-                            <input required type="text" class="form-control" id="eventnameinput" placeholder="" onChange={e => this.changeName(e)}/>
+                            <input required type="text" class="form-control" id="eventnameinput" value={this.state.name} onChange={e => this.changeName(e)}/>
                             <label id="eventdesclabel" htmlFor="eventdesc">Beskrivelse</label>
-                            <textarea className={"form-control"} id={"eventdesc"}  rows="4" cols="50" onChange={e => this.changeDesc(e)}>
+                            <textarea className={"form-control"} id={"eventdesc"} value={this.state.description}  rows="4" cols="50" onChange={e => this.changeDesc(e)}>
                             </textarea>
+                            {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
                             <label id="eventdatestart" htmlFor="start">Starttidspunkt</label>
-                            <input type="date" id="start" name="start" max="2023-12-31" onChange={e => this.changeStart(e)}/>
+                            <input type="date" id="start" name="start" max="2023-12-31" value={this.state.start} onChange={e => this.changeStart(e)}/>
                             <label id="eventdateend" htmlFor="end">Starttidspunkt</label>
-                            <input type="date" id="end" name="end" max="2023-12-31" onChange={e => this.changeEnd(e)}/>
+                            <input type="date" id="end" name="end" max="2023-12-31" value={this.state.end} onChange={e => this.changeEnd(e)}/>
                         </div>
                     </div>
                     <div>
-                    <button onClick={()=> this.test()} class="btn btn-success" id="nextbtn">Neste</button>
+                    <button onClick={()=> this.ny()} class="btn btn-success" id="nextbtn">Oprett ny. debugknapp</button>
+                    <button onClick={()=> this.next()} class="btn btn-success" id="nextbtn">Neste</button>
                     </div>
                 {/*</form>*/}
             </div>
         )
     }
-    test() {
+    //debug-metode, slett etter hvert
+    // TODO delete
+    ny() {
+        localStorage.removeItem("curr_event");
+        window.location='/newevent';
+    }
+    next() {
         if(typeof this.state.name != "string" || this.state.name.length <= 1) {
             // TODO bytt denne alerten
             alert("Ugyldig navn");
@@ -73,7 +95,7 @@ class EventNew extends Component<Props, State> {
         }
         if(localStorage.getItem("curr_event") === null) {
             console.log(localStorage.getItem("curr_event"));
-            EventService.postEvent(this.state.name, this.state.description, this.state.start, this.state.end).then(resp => {
+            EventService.createEvent(this.state.name, this.state.description, this.state.start, this.state.end).then(resp => {
                 console.log(resp);
                 if (resp.status === 200) {
                     console.log("Arrangement oprettet");
@@ -87,7 +109,8 @@ class EventNew extends Component<Props, State> {
             });
         }
         else {
-            console.log("Arr finnes, redirect");
+            // TODO oppdater arrangement!!!
+            console.log("Arr finnes, oppdaterer og sender videre");
             window.location='/newevent2';
         }
     }

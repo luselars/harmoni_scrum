@@ -3,14 +3,12 @@ import React from 'react';
 import {Component} from 'react';
 import FormData from 'form-data'
 import UserService from "../../services/UserService.js";
+import {string} from "prop-types";
 let path = require('path');
 
-
 type Props = {
-    url: string;
+    accept: string;
 }
-// url should look like this: "http://localhost:4000/user/file"
-
 class Upload extends Component<Props> {
     // Useless constructor just now, will be used when props is introduced.
     constructor(props: any){
@@ -19,15 +17,22 @@ class Upload extends Component<Props> {
     render() {
         return (
             <div>
-                <p>Upload file:</p>
-                <input accept=".jpg, .jpeg, .png, .pdf" type="file" id="upload" name="recfile"/>
-                <button onClick={() => this.publishFile()}>Upload</button>
+                <label className="custom-file-upload" style={{cursor: 'pointer'}}>
+                    <input style={{display:'none'}} accept={this.props.accept} type="file" id="upload" name="recfile" onChange={e => this.changeFileName(e)}/>
+                    <i className="fa fa-cloud-upload"></i> Bla igjennom...
+                </label>
+                <p id={"fileName"}></p>
             </div>
         )
     }
-
+    changeFileName(e : any) {
+        let files = e.target.files;
+        let name = files[0].name;
+        document.getElementById('fileName').innerHTML = name;
+    }
     // Method to publish the file.
     // Only .pdf, .jpg, .jpeg and .png images are accepted.
+    // TODO remove this method sometimes later in the project when it is not needed as an example
     publishFile(): void {
         // Fetch the image from the form
         let data = new FormData();
