@@ -35,15 +35,15 @@ module.exports = class PublicDao extends Dao {
   }
 
   postOrganiser(
-      organiser: Organiser,
+      organiser: Organiser, hash: string, salt: string,
       callback: (status: string, data: Event) => mixed
   ) {
     super.query(
         "INSERT INTO organiser (organiser_email, hash, salt, name, image, website) VALUES(?,?,?,?,?,?)",
         [
-            organiser.email,
-            1,
-            1,//hent passord hash og salt
+            organiser.organiser_email,
+            hash,
+            salt,
             organiser.name,
             organiser.image,
             organiser.website
