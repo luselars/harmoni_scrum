@@ -100,7 +100,7 @@ router.get('/group/:id', (req: express$Request, res: express$Response) => {
 });
 
 // Get ticket-types for a single event
-router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$Response) => {
+router.get('/event/:id/tickets', (req: express$Request, res: express$Response) => {
     dao.getEventTickets(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
@@ -164,6 +164,23 @@ router.post('/file', upload.single('recfile'), async function (req, res) {
         res.statusMessage = "File extension not supported.";
         return res.sendStatus(401);
     }
+});
+
+
+//Get all volunteers who are part of an event
+router.get("/event/:id/volunteer", (req: express$Request, res: express$Response) => {
+    dao.getVolunteersByEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
+});
+
+//Get all artists who are part of an event
+router.get("/event/:id/artist", (req: express$Request, res: express$Response) => {
+    dao.getArtistsByEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
 });
 
 

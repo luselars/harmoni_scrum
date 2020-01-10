@@ -189,4 +189,22 @@ module.exports = class OrganiserDao extends Dao {
             callback
         );
     }
+
+
+    getVolunteersByEvent(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+      ) {
+        let queryString = "SELECT u.user_id, u.email, u.name, u.tlf, u.image, u.description, vt.name as volunteer_type FROM user u LEFT JOIN event_volunteer ev ON u.user_id = ev.user_id LEFT JOIN volunteer_type vt ON ev.volunteer_type_id = vt.volunteer_type_id WHERE ev.event_id = ?;";
+        super.query(queryString, [event_id], callback);
+      }
+
+      getArtistsByEvent(
+        event_id: number,
+        callback: (status: string, data: Object) => mixed
+      ) {
+        let queryString = "SELECT u.user_id, u.email, u.name, u.tlf, u.image, u.description, a.artist_name FROM user u LEFT JOIN artist a ON a.user_id = u.user_id LEFT JOIN event_artist ea ON ea.user_id = a.user_id WHERE ea.event_id = ?;";
+        super.query(queryString, [event_id], callback);
+      }
+
 };
