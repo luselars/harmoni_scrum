@@ -97,7 +97,7 @@ router.get('/group/:id', (req: express$Request, res: express$Response) => {
 });
 
 // Get ticket-types for a single event
-router.get('/organiser/event/:id/tickets', (req: express$Request, res: express$Response) => {
+router.get('/event/:id/tickets', (req: express$Request, res: express$Response) => {
     dao.getEventTickets(req.params.id, (status, data) => {
             res.status(status);
             res.send(data);
