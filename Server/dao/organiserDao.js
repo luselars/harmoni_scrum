@@ -53,7 +53,7 @@ module.exports = class OrganiserDao extends Dao {
         callback: (status: string, data: Event) => mixed
     ) {
         super.query(
-            "INSERT INTO event (name, description, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?)",
+            "INSERT INTO event (name, description, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?,?)",
             [
                 event.name,
                 event.description,
