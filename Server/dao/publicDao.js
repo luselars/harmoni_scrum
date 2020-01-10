@@ -1,5 +1,5 @@
 import "./modelDao";
-import {Event, User} from "./modelDao";
+import {Event, Organiser, User} from "./modelDao";
 const Dao = require("./dao.js");
 
 module.exports = class PublicDao extends Dao {
@@ -29,6 +29,24 @@ module.exports = class PublicDao extends Dao {
           user.email,
             1,1
             //hent passord hash og salt
+        ],
+        callback
+    );
+  }
+
+  postOrganiser(
+      organiser: Organiser,
+      callback: (status: string, data: Event) => mixed
+  ) {
+    super.query(
+        "INSERT INTO organiser (organiser_email, hash, salt, name, image, website) VALUES(?,?,?,?,?,?)",
+        [
+            organiser.email,
+            1,
+            1,//hent passord hash og salt
+            organiser.name,
+            organiser.image,
+            organiser.website
         ],
         callback
     );
