@@ -1,7 +1,7 @@
 // @flow
 
 const axios = require("axios");
-var testingUrl = ""; // For testing "http://localhost:8080"
+const url_base = "http://localhost:4000";
 
 
 export default class EventService {
@@ -16,5 +16,9 @@ export default class EventService {
       "/public/login/organiser",
       JSON.stringify({ username: username, password: password })
     );
+  }
+  static postEvent(name : string, description : string, start: string, end: string) {
+    let url = url_base + "/organiser/event";
+    return axios.post<Object>(url, {"name": name, "description": description, "start": start, "end": end}).then(response => {console.log(response)});
   }
 }

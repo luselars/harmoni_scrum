@@ -1,12 +1,11 @@
 // @flow
 import axios from'axios';
-// let testingUrl = ""; // For testing "http://localhost:8080"
-// const url_base = "http://localhost:4000";
+const url_base = "http://localhost:4000";
 
 
 export default class UserService {
     static logIn(email : string, password : string) {
-        var url = "http://localhost:4000/public/login";
+        let url = url_base + "/public/login";
         return axios.post<Object>(url, {"username": email, "password": password}).then(response => {localStorage.setItem("token", response.data.jwt)});
     }
     // TODO auth
