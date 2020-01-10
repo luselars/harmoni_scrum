@@ -9,10 +9,6 @@ export default class UserService {
         var url = "http://localhost:4000/public/login";
         return axios.post<Object>(url, {"username": email, "password": password}).then(response => {localStorage.setItem("token", response.data.jwt)});
     }
-
-    static test(url: string) {
-        return axios.post(url).then(response => response.data);
-    }
     // TODO auth
     static getFile(url: string, file_id: string) {
         url = url_base + url + "/" + file_id;
