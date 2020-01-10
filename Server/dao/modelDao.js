@@ -13,7 +13,7 @@ export class Event
     start: string;
     end: string;
     status: string;
-    is_public: boolean;
+    is_public: boolean = false;
     location_id: number;
     address: string;
     venue: string;

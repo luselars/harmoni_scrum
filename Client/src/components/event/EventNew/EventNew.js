@@ -27,6 +27,10 @@ class EventNew extends Component<Props, State> {
             end: string,
         }
     }
+    componentDidMount(): * {
+
+    }
+
     render() {
         return (
             <div class="createEvent">
@@ -56,6 +60,7 @@ class EventNew extends Component<Props, State> {
         if(typeof this.state.name != "string" || this.state.name.length <= 1) {
             // TODO bytt denne alerten
             alert("Ugyldig navn");
+            return;
         }
         if(typeof this.state.description != "string") {
             this.state.description = null;
@@ -66,13 +71,25 @@ class EventNew extends Component<Props, State> {
         if(typeof this.state.end != "string") {
             this.state.end = null;
         }
+        if(localStorage.getItem("curr_event") === null) {
+            console.log(localStorage.getItem("curr_event"));
+            EventService.postEvent(this.state.name, this.state.description, this.state.start, this.state.end).then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                    console.log("Arrangement oprettet");
+                    localStorage.setItem("curr_event", resp.data.insertId);
+                    window.location = '/newevent2';
+                } else {
+                    alert("Kunne ikke oprette arrangement.");
+                    // TODO bytt ut denne alerten med et komponent.
+                }
 
-        console.log(this.state.name);
-        console.log(this.state.description);
-        console.log(this.state.start);
-        console.log(this.state.end);
-        console.log(typeof this.state.end);
-        EventService.postEvent();
+            });
+        }
+        else {
+            console.log("Arr finnes, redirect");
+            window.location='/newevent2';
+        }
     }
     changeName(e : any) {
         const target = e.target;

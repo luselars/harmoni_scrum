@@ -20,9 +20,10 @@ router.get("/event/:id", (req: express$Request, res: express$Response) => {
 router.post('/event', (req: { body: Object }, res: express$Response) => {
     dao.postEvent(req.body, (status, data) => {
         res.status(status);
+        let d = data;
         dao.postEventOrganiser(data.insertId, (status, data) => {
             res.status(status);
-            res.send(data);
+            res.send(d);
         })
     })
 });

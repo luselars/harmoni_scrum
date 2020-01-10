@@ -1,4 +1,5 @@
 import "./modelDao";
+import {Event, Organiser, User} from "./modelDao";
 const Dao = require("./dao.js");
 
 module.exports = class PublicDao extends Dao {
@@ -15,6 +16,39 @@ module.exports = class PublicDao extends Dao {
       "SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE AND e.event_id = ?",
       [event_id],
       callback
+    );
+  }
+
+  postUser(
+      user: User,
+      callback: (status: string, data: Event) => mixed
+  ) {
+    super.query(
+        "INSERT INTO user (email, hash, salt) VALUES(?,?,?)",
+        [
+          user.email,
+            1,1
+            //hent passord hash og salt
+        ],
+        callback
+    );
+  }
+
+  postOrganiser(
+      organiser: Organiser,
+      callback: (status: string, data: Event) => mixed
+  ) {
+    super.query(
+        "INSERT INTO organiser (organiser_email, hash, salt, name, image, website) VALUES(?,?,?,?,?,?)",
+        [
+            organiser.email,
+            1,
+            1,//hent passord hash og salt
+            organiser.name,
+            organiser.image,
+            organiser.website
+        ],
+        callback
     );
   }
 
