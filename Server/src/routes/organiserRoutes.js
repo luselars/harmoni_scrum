@@ -117,4 +117,13 @@ router.get("/sendmail", (req, res) => {
     })
 });
 
+//Get all volunteers who are part of an event
+router.get("/event/:id/volunteer", (req: express$Request, res: express$Response) => {
+    dao.getVolunteersByEvent(req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
+});
+
+
 module.exports = router;
