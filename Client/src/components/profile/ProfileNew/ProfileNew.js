@@ -12,11 +12,11 @@ export default class ProfileNew extends Component<{}> {
            <h2 id="registerTextH">REGISTER</h2>
             <div class="form-group">
                 <label for="inputEmail1" id="registerText">E-mail</label>
-                <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Skriv e-mail"></input>
+                <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="Epost"></input>
             </div>
             <div class="form-group">
                 <label for="inputName1" id="registerText">Navn</label>
-                <input type="text" class="form-control" id="inputName1" placeholder="Skriv nave"></input>
+                <input type="text" class="form-control" id="inputName1" placeholder="Navn"></input>
             </div>
             <div class="form-group">
                 <label for="inputPassword1" id="loginText">Passord</label>
@@ -24,7 +24,7 @@ export default class ProfileNew extends Component<{}> {
             </div>
             <div class="form-group">
                 <label for="inputPasswordRepeat1" id="loginText">Gjenta passord</label>
-                <input type="password" class="form-control" id="inputPasswordRepeat1" placeholder="Gjenta password"></input>
+                <input type="password" class="form-control" id="inputPasswordRepeat1" placeholder="Gjenta passord"></input>
             </div>
             <div class="form-group">
                 <label for="inputURL1" id="loginText">URL til nettsted</label>
