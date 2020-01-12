@@ -2,14 +2,14 @@
 import express from 'express';
 import mysql from 'mysql';
 import {sendInvite} from "../mailClient";
+import {decodeBase64Image} from "../uploadHelper";
+import uploadFunctions from "../uploadHelper";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
-const path = require("path");
-const crypto = require('crypto');
 const fs = require("fs");
 
-const upload = require('../uploadMiddleware');
+const upload = require('../uploadHelper');
 let router = express.Router();
 
 // TODO add auth to all this shit
@@ -129,49 +129,64 @@ router.get("/sendmail", (req, res) => {
 // and the new name is returned to the user.
 // Accepts files with the extensions .pdf, .jpg, .jpeg and .png.
 // There is no validation to see if a file with an extension is actually that type of file.
-router.post('/file', upload.single('recfile'), async function (req, res) {
-    // Length of randomly generated name of file
-    const len = 16;
-    console.log("File upload request received");
-    // Check if there is a file present in the request.
-    if (!req.file) {
-        res.statusMessage = "Please provide a file.";
-        return res.sendStatus(401);
-    }
-    // Get file extension
-    let ext = path.extname(req.file.originalname);
-    // If the extension is valid
-    if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf') {
-        // Length of random generated name
-        const len = 16;
-        let p = __dirname + '/../../files/';
-        //Create a random number for the image
-        let str = crypto.randomBytes(Math.ceil(len/2))
-            .toString('hex') // convert to hexadecimal format
-            .slice(0,len);
-        // Check if image exists, if it does: generate a new number.
-        while (fs.existsSync(p + str + ext)) {
-            str = crypto.randomBytes(Math.ceil(len/2))
-                .toString('hex') // convert to hexadecimal format
-                .slice(0,len);
-        }
-        console.log(str + ext);
-        p = p + str + ext;
-        fs.writeFile(p, req.file.buffer, function (err) {
-            if (err) throw err;
-            console.log("File moved to /files");
-        });
-        res.status(200);
-        res.send({"name":str+ext});
-        // return res.sendStatus(200);
-    }
-    // Return 401 if the extension is not supported.
-    else {
-        res.statusMessage = "File extension not supported.";
-        return res.sendStatus(401);
-    }
-});
+// router.post('/file', upload.single('recfile'), async function (req, res) {
+//     // Length of randomly generated name of file
+//     const len = 16;
+//     console.log("File upload request received");
+//     // Check if there is a file present in the request.
+//     if (!req.file) {
+//         res.statusMessage = "Please provide a file.";
+//         return res.sendStatus(401);
+//     }
+//     // Get file extension
+//     let ext = path.extname(req.file.originalname);
+//     // If the extension is valid
+//     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf') {
+//         // Length of random generated name
+//         const len = 16;
+//         let p = __dirname + '/../../files/';
+//         //Create a random number for the image
+//         let str = crypto.randomBytes(Math.ceil(len/2))
+//             .toString('hex') // convert to hexadecimal format
+//             .slice(0,len);
+//         // Check if image exists, if it does: generate a new number.
+//         while (fs.existsSync(p + str + ext)) {
+//             str = crypto.randomBytes(Math.ceil(len/2))
+//                 .toString('hex') // convert to hexadecimal format
+//                 .slice(0,len);
+//         }
+//         console.log(str + ext);
+//         p = p + str + ext;
+//         fs.writeFile(p, req.file.buffer, function (err) {
+//             if (err) throw err;
+//             console.log("File moved to /files");
+//         });
+//         res.status(200);
+//         res.send({"name":str+ext});
+//         // return res.sendStatus(200);
+//     }
+//     // Return 401 if the extension is not supported.
+//     else {
+//         res.statusMessage = "File extension not supported.";
+//         return res.sendStatus(401);
+//     }
+// });
 
+// TODO delete this after incorporating
+router.post("/filetest", (req: express$Request, res: express$Response) => {
+    // TODO remember to check extension and size?
+    // console.log(req.body.file);
+    let file = uploadFunctions.base64Decoder(req.body.file);
+    let path = uploadFunctions.createFilePath(file.type);
+    fs.writeFile(path, file.data, function(err) { if(err) {
+        // TODO correct response code?
+        res.sendStatus(400);
+        throw err;
+        }
+        console.log("File moved.");
+        res.sendStatus(200);
+    });
+});
 
 //Get all volunteers who are part of an event
 router.get("/event/:id/volunteer", (req: express$Request, res: express$Response) => {

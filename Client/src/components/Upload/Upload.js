@@ -4,12 +4,14 @@ import {Component} from 'react';
 import FormData from 'form-data'
 import UserService from "../../services/UserService.js";
 import {string} from "prop-types";
+import EventService from "../../services/EventService";
 let path = require('path');
 
 type Props = {
     accept: string;
 }
 class Upload extends Component<Props> {
+    file = "";
     // Useless constructor just now, will be used when props is introduced.
     constructor(props: any){
         super(props);
@@ -20,15 +22,38 @@ class Upload extends Component<Props> {
                 <label className="custom-file-upload" style={{cursor: 'pointer'}}>
                     <input style={{display:'none'}} accept={this.props.accept} type="file" id="upload" name="recfile" onChange={e => this.changeFileName(e)}/>
                     <i className="fa fa-cloud-upload"></i> Bla igjennom...
+                    <img id="prev" src="" height="200" alt=""/>
                 </label>
-                <p id={"fileName"}></p>
+                <button onClick={this.publish2}>send</button>
             </div>
         )
     }
     changeFileName(e : any) {
-        let files = e.target.files;
-        let name = files[0].name;
-        document.getElementById('fileName').innerHTML = name;
+        const preview = document.getElementById('prev');
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    publish2() {
+        const file = document.querySelector('input[type=file]').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            // send here
+            EventService.postFileTest(reader.result);
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
     }
     // Method to publish the file.
     // Only .pdf, .jpg, .jpeg and .png images are accepted.

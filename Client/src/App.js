@@ -31,6 +31,7 @@ function App() {
         <div class="maindiv">
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
+          <Route exact path="/upload" component={Upload} />
           <Route exact path="/newevent" component={EventNew} />
           <Route exact path="/newevent2" component={EventNew2} />
           <Route exact path="/register" component={ProfileNew} />

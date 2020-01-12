@@ -73,7 +73,6 @@ export default class EventService {
           // TODO change this alert to component-alert
           alert('Error when uploading file.');
         });
-
     }
     else {
       return axios.put<Event>(event).then(response => {return response});
@@ -84,5 +83,12 @@ export default class EventService {
   static getEvent(id: number) : AxiosPromise<Event> {
     let url = url_base + "/organiser/event/" + id;
     return axios.get<Event>(url, {}).then(response => {return response});
+  }
+  // TODO delete later
+  static postFileTest(file: string) {
+    let url = url_base + "/organiser/filetest";
+    axios.post(url, {file}).then((response) => {
+      return response;
+    })
   }
 }

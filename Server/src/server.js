@@ -7,6 +7,7 @@ The server listens to port 4000.
 // Imports
 import express from "express";
 let jwt = require("jsonwebtoken");
+let bodyParser = require('body-parser')
 
 const PORT = 4000;
 let privateKey = "shhhhhverysecret";
@@ -18,6 +19,10 @@ let organiserRoutes = require("./routes/organiserRoutes");
 let userRoutes = require("./routes/userRoutes");
 
 let app = express();
+
+// TODO snakk om maks-filstørrelse, legg inn begrensning i front-end også
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // CORS
 app.use(function (req, res, next) {
