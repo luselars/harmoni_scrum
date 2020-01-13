@@ -1,5 +1,5 @@
 //@flow
-import {Event, User, Location, Organiser, TicketType} from "./modelDao";
+import { Event, User, Location, Organiser, TicketType } from './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class OrganiserDao extends Dao {
@@ -51,11 +51,10 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   // Get all groups based on an organiser id.
-  getGroup(event_id: number, callback: (status: string, data: Object) => mixed) {
-    let email = 'test@test.com'; // Change with VERIFY
+  getGroup(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString =
-      'SELECT * FROM volunteer_type WHERE organiser_email = ? AND volunteer_type_id = ?';
-    super.query(queryString, [email, event_id], callback);
+      'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_email = ?';
+    super.query(queryString, [email], callback);
   }
 
   // Get all ticket types based on an event id.
@@ -113,21 +112,13 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-      editTicketType(
-        ticketType: TicketType,
-        callback: (status: string, data: TicketType) => mixed
-    ) {
-        super.query(
-            "UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ?;",
-            [
-                ticketType.name,
-                ticketType.description,
-                ticketType.ticket_type_id,
-
-            ],
-            callback
-        );
-    }
+  editTicketType(ticketType: TicketType, callback: (status: string, data: TicketType) => mixed) {
+    super.query(
+      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ?;',
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id],
+      callback,
+    );
+  }
 
   getArtistsByEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
     let queryString =
