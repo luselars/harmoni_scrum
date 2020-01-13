@@ -233,4 +233,13 @@ router.get('/event/:id/artist', (req: express$Request, res: express$Response) =>
   });
 });
 
+// Edit a ticket type
+router.put("/tickets", (req: { body: Object }, res: express$Response) => {
+    dao.editTicketType(req.body, (status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
+
 module.exports = router;

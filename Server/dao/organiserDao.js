@@ -1,6 +1,5 @@
 //@flow
-import { Event, User, Location, Organiser } from './modelDao';
-
+import {Event, User, Location, Organiser, TicketType} from "./modelDao";
 const Dao = require('./dao.js');
 
 module.exports = class OrganiserDao extends Dao {
@@ -110,6 +109,22 @@ module.exports = class OrganiserDao extends Dao {
       'SELECT u.user_id, u.email, u.name, u.tlf, u.image, u.description, vt.name as volunteer_type FROM user u LEFT JOIN event_volunteer ev ON u.user_id = ev.user_id LEFT JOIN volunteer_type vt ON ev.volunteer_type_id = vt.volunteer_type_id WHERE ev.event_id = ?;';
     super.query(queryString, [event_id], callback);
   }
+
+      editTicketType(
+        ticketType: TicketType,
+        callback: (status: string, data: TicketType) => mixed
+    ) {
+        super.query(
+            "UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ?;",
+            [
+                ticketType.name,
+                ticketType.description,
+                ticketType.ticket_type_id,
+
+            ],
+            callback
+        );
+    }
 
   getArtistsByEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
     let queryString =

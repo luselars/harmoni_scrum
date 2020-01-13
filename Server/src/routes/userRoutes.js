@@ -39,6 +39,17 @@ router.get('/file/:id', function(req, res) {
     res.sendFile(path.join(__dirname + '/../../files/' + req.params.id));
 });
 
+ // Retrieve info from a user 
+ router.get("/myprofile", (req: express$Request, res: express$Response) => {
+    let decoded = td.decode(req.headers['x-access-token']);
+    if (decoded.status == 200) {
+
+    dao.getUserInfo(decoded.email, (status, data) => {
+        res.status(status);
+        res.send(data);
+    })
+  }
+});
 
 module.exports = router;
 

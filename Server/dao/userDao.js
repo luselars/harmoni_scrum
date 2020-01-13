@@ -41,4 +41,14 @@ getUserByEvent(
   super.query(queryString, [user_id], callback);
 }
 
-};
+
+
+getUserInfo(
+  user_email: string,
+  callback: (status: string, data: Object) => mixed
+) {
+  let queryString = "SELECT * FROM user WHERE email = ?";
+  super.query(queryString, [user_email], callback);
+}
+
+}
