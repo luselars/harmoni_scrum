@@ -1,13 +1,13 @@
 //@flow
-import * as React from "react";
-import { Component } from "react";
-import "./stylesheet.css";
-import { UserService } from "../../../services/UserService";
-import { string } from "prop-types";
+import * as React from 'react';
+import { Component } from 'react';
+import './stylesheet.css';
+import { UserService } from '../../../services/UserService';
+import { string } from 'prop-types';
 
 export default class ProfileNew extends Component<
   {},
-  { email: string, name: string, password: string }
+  { email: string, name: string, password: string },
 > {
   constructor(props: any) {
     super(props);
@@ -18,7 +18,7 @@ export default class ProfileNew extends Component<
       passwordConfirmation: string,
       url: string,
       organiser: false,
-      check: false
+      check: false,
     };
   }
 
@@ -122,11 +122,7 @@ export default class ProfileNew extends Component<
               Jeg godkjenner deres vilkår
             </label>
           </div>
-          <button
-            type="submit"
-            onClick={() => this.post()}
-            class="btn btn-success"
-          >
+          <button type="submit" onClick={() => this.post()} class="btn btn-success">
             Registrer
           </button>
         </form>
@@ -185,34 +181,30 @@ export default class ProfileNew extends Component<
         this.state.password === this.state.passwordConfirmation &&
         this.state.password.length > 8
       ) {
-        if (this.state.name !== "") {
-          if (this.state.email !== "") {
+        if (this.state.name !== '') {
+          if (this.state.email !== '') {
             // Checks if it's an organiser or normal user.
             if (this.state.organiser) {
-              UserService.newOrganiser(
-                this.state.email,
-                this.state.name,
-                this.state.password
-              ).then(() => {
-                window.location = "/profile";
-              });
+              UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(
+                () => {
+                  window.location = '/profile';
+                },
+              );
             } else {
-              UserService.newUser(
-                this.state.email,
-                this.state.name,
-                this.state.password
-              ).then(() => {
-                window.location = "/profile";
-              });
+              UserService.newUser(this.state.email, this.state.name, this.state.password).then(
+                () => {
+                  window.location = '/profile';
+                },
+              );
             }
           }
         }
       } else {
         console.log("Password does not match or you don't have a password.");
       }
-      console.log("TRYING TO CREATE NEW USER");
+      console.log('TRYING TO CREATE NEW USER');
     } else {
-      console.log("Not checked agree with terms");
+      console.log('Not checked agree with terms');
     }
   }
 }

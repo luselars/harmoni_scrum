@@ -1,21 +1,18 @@
 //@flow
 
-import * as React from "react";
-import { Component } from "react";
-import "./stylesheet.css";
-import Organiser from "../../services/UserService";
-import { UserService } from "../../services/UserService";
-import { string } from "prop-types";
+import * as React from 'react';
+import { Component } from 'react';
+import './stylesheet.css';
+import { Organiser } from '../../services/UserService';
+import { UserService } from '../../services/UserService';
+import { string } from 'prop-types';
 
-export default class LogIn extends Component<
-  {},
-  { email: string, password: string }
-> {
+export default class LogIn extends Component<{}, { email: string, password: string }> {
   constructor(props: any) {
     super(props);
     this.state = {
       email: string,
-      password: string
+      password: string,
     };
   }
 
@@ -56,11 +53,7 @@ export default class LogIn extends Component<
               <a href="/glemtpassord">Glemt passord?</a>
             </label>
           </div>
-          <button
-            type="button"
-            onClick={() => this.post()}
-            class="btn btn-success"
-          >
+          <button type="button" onClick={() => this.post()} class="btn btn-success">
             Logg inn
           </button>
           <div class="form-group p-2">
@@ -91,7 +84,7 @@ export default class LogIn extends Component<
 
   post() {
     UserService.logIn(this.state.email, this.state.password).then(() => {
-      window.location = "/profile";
+      window.location = '/profile';
     });
   }
 }
