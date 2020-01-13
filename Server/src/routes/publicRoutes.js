@@ -146,16 +146,16 @@ router.post(
 // Register new user
 router.post("/register/user", (req: express$Request, res: express$Response) => {
     let password : string = req.body.password;
-    if(password.length > 8)
+    let email : string = req.body.email;
+    let name : string = req.body.name;
+    let tlf : string = req.body.tlf;
+    let description : string = req.body.description;
+
+    if(password.length > 8 && email !== "" && name !== "")
     {
         // Genereates salt and hash
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(req.body.password, salt);
-        let email = req.body.email;
-        let name = req.body.name;
-        let tlf = req.body.tlf;
-        let description = req.body.description;
-
         let user: User = new User(email, name);
         dao.postUser(user, hash, salt, (status, data) => {
             res.status(status);
