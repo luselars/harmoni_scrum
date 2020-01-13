@@ -3,6 +3,25 @@ const crypto = require('crypto');
 const fs = require("fs");
 
 let uploadFunctions = {
+    handleFile: function(f: string, callback) : string {
+        // First check if file exists already or it is empty. If it does, do not try to save it to server
+        let p = __dirname + '/../files/';
+        let check_path =  p + f;
+        if(fs.existsSync(check_path) || f === null) {
+            console.log("File already exists.");
+            callback(f);
+            return;
+        }
+        let file = uploadFunctions.base64Decoder(f);
+        let name = uploadFunctions.createFilePath(file.type);
+        fs.writeFile(p + name, file.data, function(err) { if(err) {
+            // TODO correct response code?
+            throw err;
+        }
+            console.log("File moved.");
+            callback(name);
+        });
+    },
     base64Decoder: function(file: string) : string {
         let matches = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
             response = {};
@@ -18,7 +37,6 @@ let uploadFunctions = {
     createFilePath: function(extension: string) : string {
         extension = extension.substring(extension.indexOf('/') + 1, extension.length);
         extension = "." + extension;
-        console.log(extension);
         const len = 16;
         let p = __dirname + '/../files/';
         //Create a random number for the file
@@ -31,8 +49,7 @@ let uploadFunctions = {
                 .toString('hex') // convert to hexadecimal format
                 .slice(0,len);
         }
-        console.log(str + extension);
-        return p + str + extension;
+        return str + extension;
     }
 };
 

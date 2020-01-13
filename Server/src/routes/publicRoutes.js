@@ -1,8 +1,9 @@
 // @flow
 import express from "express";
 import mysql from "mysql";
-import {sendInvite} from "../mailClient";
-import {User, Organiser} from "../../dao/modelDao";
+import { sendInvite } from "../mailClient";
+import { User, Organiser } from "../../dao/modelDao";
+
 let bodyParser = require("body-parser");
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
@@ -42,8 +43,8 @@ router.get("/", (req: express$Request, res: express$Response) => {
   res.sendStatus(200);
 });
 
-router.get("/event", (req: express$Request, res: express$Response) => {
-  dao.getPublicEvents((status, data) => {
+router.get("/event", (req: { body: string }, res: express$Response) => {
+  dao.getPublicEvents(req.body, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -144,37 +145,45 @@ router.post(
 
 // Register new user
 router.post("/register/user", (req: express$Request, res: express$Response) => {
-  // Genereates salt and hash
+  let password: string = req.body.password;
+  let email: string = req.body.email;
+  let name: string = req.body.name;
+  let tlf: string = req.body.tlf;
+  let description: string = req.body.description;
 
-  let salt = bcrypt.genSaltSync(10);
-  let hash = bcrypt.hashSync(req.body.password, salt);
-  let email = req.body.email;
-  let name = req.body.name;
-  let tlf = req.body.tlf;
-  let description = req.body.description;
-
-  let user: User = new User(email, name);
-  dao.postUser(user, hash, salt, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+  if (password.length > 8 && email !== "" && name !== "") {
+    // Genereates salt and hash
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(req.body.password, salt);
+    let user: User = new User(email, name);
+    dao.postUser(user, hash, salt, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 // Register new organiser
-router.post("/register/organiser", (req: express$Request, res: express$Response) => {
-  // Genereates salt and hash
-  let salt = bcrypt.genSaltSync(10);
-  let hash = bcrypt.hashSync(req.body.password, salt);
-  let email = req.body.email;
-  let name = req.body.name;
-  let tlf = req.body.tlf;
-  let description = req.body.description;
+router.post(
+  "/register/organiser",
+  (req: express$Request, res: express$Response) => {
+    let password: string = req.body.password;
+    if (password.length > 8) {
+      // Genereates salt and hash
+      let salt = bcrypt.genSaltSync(10);
+      let hash = bcrypt.hashSync(req.body.password, salt);
+      let email = req.body.email;
+      let name = req.body.name;
+      let tlf = req.body.tlf;
+      let description = req.body.description;
 
-  let organiser: Organiser = new Organiser(email, name);
-  dao.postOrganiser(organiser, hash, salt, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-});
+      let organiser: Organiser = new Organiser(email, name);
+      dao.postOrganiser(organiser, hash, salt, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  }
+);
 
 module.exports = router;

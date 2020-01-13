@@ -1,12 +1,8 @@
 // @flow
 import express from 'express';
-import mysql from 'mysql';
 const path = require("path");
-const fs = require("fs");
-const crypto = require('crypto');
 
 const userDao = require("../../dao/userDao.js");
-const upload = require('../uploadHelper');
 let dao = new userDao();
 let router = express.Router();
 
@@ -35,8 +31,6 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
         res.send(data);
     })
 });
-
-
 
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db

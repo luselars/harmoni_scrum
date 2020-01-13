@@ -2,18 +2,17 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css'
-import UserService from "../../../services/UserService.js";
-import {string} from "prop-types";
-import EventService from "../../../services/EventService";
-import Event from '../../../services/EventService';
-let path = require('path');
+import {EventService} from "../../../services/EventService";
+import {Event} from '../../../services/EventService';
 
 
 type Props = {}
 class EventNew extends Component<Props> {
-    ev = new Event();
     constructor(props: any) {
         super(props);
+        this.state = {
+            event: new Event()
+        }
     }
     componentDidMount(): * {
         // Check if the user is currently writing an event, if so load inputs with data
@@ -22,8 +21,8 @@ class EventNew extends Component<Props> {
             // TODO add token
             EventService.getEvent(localStorage.getItem("curr_event")).then(response => {
                let data = response.data[0];
-               this.ev = data;
-               console.log(this.ev);
+               this.setState({event: data});
+               console.log(this.state.event);
             });
         }
     }
@@ -36,15 +35,15 @@ class EventNew extends Component<Props> {
                     <div class="form-row">
                         <div class="col" id="coltitle">
                             <label id="eventnamelabel" for="eventname">Tittel</label>
-                            <input required type="text" class="form-control" id="eventnameinput" value={this.ev.name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.ev.name = event.target.value)}/>
+                            <input required type="text" class="form-control" id="eventnameinput" value={this.state.event.name} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.state.event.name = event.target.value)}/>
                             <label id="eventdesclabel" htmlFor="eventdesc">Beskrivelse</label>
-                            <textarea className={"form-control"} id={"eventdesc"} value={this.ev.description}  rows="4" cols="50" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.ev.description = event.target.value)}>
+                            <textarea className={"form-control"} id={"eventdesc"} value={this.state.event.description}  rows="4" cols="50" onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.state.event.description = event.target.value)}>
                             </textarea>
                             {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
                             <label id="eventdatestart" htmlFor="start">Starttidspunkt</label>
-                            <input type="date" id="start" name="start" max="2023-12-31" value={this.ev.start} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.ev.start = event.target.value)}/>
+                            <input type="date" id="start" name="start" max="2023-12-31" value={this.state.event.start} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.state.event.start = event.target.value)}/>
                             <label id="eventdateend" htmlFor="end">Starttidspunkt</label>
-                            <input type="date" id="end" name="end" max="2023-12-31" value={this.ev.end} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.ev.end = event.target.value)}/>
+                            <input type="date" id="end" name="end" max="2023-12-31" value={this.state.event.end} onChange={(event: SyntheticInputEvent<HTMLInputElement>) => (this.state.event.end = event.target.value)}/>
                         </div>
                     </div>
                     <div>
@@ -62,26 +61,22 @@ class EventNew extends Component<Props> {
         window.location='/newevent';
     }
     next() {
-        console.log(this.ev);
-        console.log(typeof this.ev);
-        console.log(this.ev.address);
-        return;
-        if(typeof this.ev.name != "string" || this.ev.name.length <= 1) {
+        if(typeof this.state.event.name != "string" || this.state.event.name.length <= 1) {
             // TODO bytt denne alerten
             alert("Ugyldig navn");
             return;
         }
-        if(typeof this.ev.description != "string") {
-            this.ev.description = null;
+        if(typeof this.state.event.description != "string") {
+            this.state.event.description = null;
         }
-        if(typeof this.ev.start != "string") {
-            this.ev.start = null;
+        if(typeof this.state.event.start != "string") {
+            this.state.event.start = null;
         }
-        if(typeof this.ev.end != "string") {
-            this.ev.end = null;
+        if(typeof this.state.event.end != "string") {
+            this.state.event.end = null;
         }
         if(localStorage.getItem("curr_event") === null) {
-            EventService.createEvent(this.ev).then(resp => {
+            EventService.createEvent(this.state.event).then(resp => {
                 console.log(resp);
                 if (resp.status === 200) {
                     console.log("Arrangement oprettet");
@@ -95,9 +90,15 @@ class EventNew extends Component<Props> {
             });
         }
         else {
-            // TODO oppdater arrangement!!!
-            console.log("Arr finnes, oppdaterer og sender videre");
-            window.location='/newevent2';
+            EventService.updateEvent(this.state.event).then(resp => {
+                if (resp.status === 200) {
+                    console.log("Arrangement oppdatert");
+                    window.location = '/newevent2';
+                } else {
+                    alert("Kunne ikke oppdatere arrangement.");
+                    // TODO bytt ut denne alerten med et komponent.
+                }
+            });
         }
     }
 }
