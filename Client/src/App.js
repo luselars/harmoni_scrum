@@ -9,7 +9,7 @@ import LogIn from './components/LogIn/LogIn'
 import Footer from './components/Footer/Footer'
 import ProfileNew from './components/profile/ProfileNew/ProfileNew'
 import EventNew from './components/event/EventNew/EventNew'
-
+import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit'
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
 import Upload from "./components/Upload/Upload";
@@ -36,6 +36,7 @@ function App() {
           <Route exact path="/newevent2" component={EventNew2} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
+          <Route exact path="/editprofile" component={ProfileEdit} />
           <Route exact path="/profile/summary" component={LoggedIn} />
         </div>
         <Route component={NoMatch} />
