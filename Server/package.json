@@ -34,5 +34,15 @@
     "mysql": "^2.17.1",
     "nodemailer": "^6.4.2",
     "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "husky": "^4.0.7",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
