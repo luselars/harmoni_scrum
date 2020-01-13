@@ -7,16 +7,17 @@ import { EventService } from '../../../services/EventService';
 import "./stylesheet.css"
 
 type State = {
-    name: String,
-    email: String,
-    tlf: String,
-    image: String,
-    descrition: String,
-    address: String
+    name: string,
+    email: string,
+    tlf: string,
+    image: string,
+    descrition: string,
+    address: string,
+    password: string
 }
 
-class ProfileEdit extends Component<State> {
-    constructor(props) {
+class ProfileEdit extends Component<{}, State> {
+    constructor(props :any) {
         super(props);
         this.state = {
             name: '',
@@ -24,7 +25,8 @@ class ProfileEdit extends Component<State> {
             tlf: '',
             image: '',
             descrition: '',
-            address: ''
+            address: '',
+            password: ''
         }
     }
 
@@ -74,7 +76,7 @@ class ProfileEdit extends Component<State> {
     }
 
     componentDidMount() {
-        EventService.getEvent(this.props.match.params.id)
+        //EventService.getEvent(this.props.match.params.id)
     }
 
     onChange(e: any) {
