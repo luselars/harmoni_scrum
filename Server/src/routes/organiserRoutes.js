@@ -4,7 +4,8 @@ import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
-let td = require('./tokenDecoder');
+const tokenDecoder = require('./tokenDecoder');
+let td = new tokenDecoder();
 
 const organiserDao = require('../../dao/organiserDao.js');
 let dao = new organiserDao();
@@ -37,16 +38,17 @@ let router = express.Router();
 
 // Find a specific event by id (with your organiser email)
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
-  let decoded = td.decode(req.headers['x-access-token']);
-  if (decoded.status == 200) {
-    dao.getEvent(req.params.id, decoded.email, (status, data) => {
-      res.status(status);
-      res.send(data);
-    });
-  } else {
-    res.status(decoded.status);
-    res.send(decoded.error);
-  }
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getEvent(req.params.id, decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data[0]);
+      });
+    }
+  });
 });
 
 // Create new event (and connect it to the organiser)

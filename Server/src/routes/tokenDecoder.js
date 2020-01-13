@@ -1,16 +1,11 @@
 //@flow
+let jwt = require('jsonwebtoken');
+let privateKey = 'shhhhhverysecret';
+let publicKey = privateKey;
 module.exports = class tokenDecoder {
-  privateKey = 'shhhhhverysecret';
-  publicKey = privateKey;
-  decode(token: string) {
+  decode(token: string, callback: (err: number, decoded: Object) => mixed) {
     jwt.verify(token, publicKey, (err, decoded) => {
-      if (err) {
-        console.log('Token NOT ok');
-        return { status: 401, error: 'Not authorized, log in again' };
-      } else {
-        console.log('Token ok');
-        return { status: 200, email: decoded.username, type: decoded.type };
-      }
+      callback(err, decoded);
     });
   }
 };
