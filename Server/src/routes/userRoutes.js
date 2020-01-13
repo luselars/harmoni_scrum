@@ -1,12 +1,8 @@
 // @flow
 import express from 'express';
-import mysql from 'mysql';
 const path = require("path");
-const fs = require("fs");
-const crypto = require('crypto');
 
 const userDao = require("../../dao/userDao.js");
-const upload = require('../uploadHelper');
 let dao = new userDao();
 let router = express.Router();
 
