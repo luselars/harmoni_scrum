@@ -28,6 +28,24 @@ export class Event
   end: string;
 }
 
+export class Organiser
+{
+    constructor(organiser_email: string, name: number) {
+        this.organiser_email = organiser_email;
+        this.name = name;
+    }
+    organiser_email: string;
+    name: string;
+    image: string;
+    description: string;
+    tlf: string;
+    website: string;
+    address: string;
+    password: string;
+    eventFinished: number;
+    eventComming: number;
+}
+
 
 export class EventService {
   static async loginUser(username: string, password: string) {
@@ -42,6 +60,12 @@ export class EventService {
       JSON.stringify({ username: username, password: password })
     );
   }
+
+  static getOrganiser(email : string) {
+    let url = url_base + "/organiser/" + email;
+    return axios.get<Organiser>(url, {}).then(response => {return response});
+  }
+
   // TODO legg til token
   static createEvent(event: Event) {
     console.log(event);
