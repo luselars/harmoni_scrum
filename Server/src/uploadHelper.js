@@ -1,7 +1,6 @@
 // @flow
 const crypto = require('crypto');
 const fs = require("fs");
-const path = require("path");
 
 let uploadFunctions = {
     handleFile: function(f: string, callback) : string {

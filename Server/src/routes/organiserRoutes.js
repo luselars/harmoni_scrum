@@ -1,13 +1,10 @@
 // @flow
 import express from 'express';
-import mysql from 'mysql';
 import {sendInvite} from "../mailClient";
-import {decodeBase64Image} from "../uploadHelper";
 import uploadFunctions from "../uploadHelper";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
-const fs = require("fs");
 
 const upload = require('../uploadHelper');
 let router = express.Router();
