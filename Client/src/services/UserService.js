@@ -1,5 +1,5 @@
 // @flow
-import axios from'axios';
+import axios, {AxiosPromise} from 'axios';
 const url_base = "http://localhost:4000";
 
 export class User
@@ -19,7 +19,7 @@ export class User
 }
 
 export class UserService {
-    static getUser() {
+    static getUser() : AxiosPromise<User> {
         let url = url_base + "/user";
         let token = localStorage.getItem("token");
         return axios.get(url, {token: token}).then(response => {return response});
