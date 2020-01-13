@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 
-export default class EventDetailsLoggedIn extends Component<>{
+export default class EventDetailsLoggedIn extends Component<{}, {}>{
     render() 
     {  
        return ( 

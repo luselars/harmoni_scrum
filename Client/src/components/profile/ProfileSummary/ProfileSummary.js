@@ -4,7 +4,7 @@ import { Component } from 'react';
 import './stylesheet.css';
 
 
-export default class ProfileSummary extends Component<Props, State>{
+export default class ProfileSummary extends Component<{}, {}>{
     render(){
         return(
             <div id="summaryCard" class="card">
