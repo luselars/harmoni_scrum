@@ -43,8 +43,8 @@ router.get("/", (req: express$Request, res: express$Response) => {
     res.sendStatus(200);
 });
 
-router.get("/event", (req: { body: string }, res: express$Response) => {
-    dao.getPublicEvents(req.body, (status, data) => {
+router.get("/event", (req: express$Request, res: express$Response) => {
+    dao.getPublicEvents((status, data) => {
         res.status(status);
         res.send(data);
     });
