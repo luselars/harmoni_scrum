@@ -7,12 +7,12 @@ import ProfileOrganiser from '../components/profile/ProfileOrganiser/ProfileOrga
 import Filter from '../components/Filter/Filter';
 
 export default class Main extends Component {
-    render() {
-        return (
-            <div>
-            <Filter />
-            <EventList />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Filter />
+        <EventList />
+      </div>
+    );
+  }
 }
