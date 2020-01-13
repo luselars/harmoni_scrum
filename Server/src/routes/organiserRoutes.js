@@ -16,7 +16,7 @@ let router = express.Router();
 // TODO add auth to all this shit
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
-/*app.use("/organiser", (req, res, next) => {
+/*app.use("/", (req, res, next) => {
   var token = req.headers["x-access-token"];
   let decoded = td.decode(token);
   if (decoded.status == 200) {
@@ -53,13 +53,23 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
 
 // Create new event (and connect it to the organiser)
 router.post('/event', (req: { body: Object }, res: express$Response) => {
-  dao.postEvent(req.body, (status, data) => {
-    res.status(status);
-    let d = data;
-    dao.postEventOrganiser(data.insertId, (status, data) => {
-      res.status(status);
-      res.send(d);
-    });
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.postEvent(req.body, (status, data) => {
+        if (status == 200) {
+          dao.postEventOrganiser(data.insertId, decoded.username, (status, data) => {
+            res.status(status);
+            res.send(data);
+          });
+        } else {
+          res.status(status);
+          res.send(data);
+        }
+      });
+    }
   });
 });
 
@@ -126,11 +136,18 @@ router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
   });
 });
 
-// Get a group of volunteers from an organiser.
-router.get('/group/:id', (req: express$Request, res: express$Response) => {
-  dao.getGroup(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
+// Get all types of volunteers from an organiser.
+router.get('/group', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getGroup(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
   });
 });
 
@@ -234,12 +251,11 @@ router.get('/event/:id/artist', (req: express$Request, res: express$Response) =>
 });
 
 // Edit a ticket type
-router.put("/tickets", (req: { body: Object }, res: express$Response) => {
-    dao.editTicketType(req.body, (status, data) => {
-        res.status(status);
-        res.send(data);
-    });
+router.put('/tickets', (req: { body: Object }, res: express$Response) => {
+  dao.editTicketType(req.body, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
 });
-
 
 module.exports = router;

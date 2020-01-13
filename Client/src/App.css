@@ -3,7 +3,7 @@
 }
 
 #background {
-  background-image: url("http://localhost:4000/user/file/background.jpg");
+  background-image: url('http://localhost:4000/user/file/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -34,7 +34,7 @@
   color: #61dafb;
 }
 
-.maindiv { 
+.maindiv {
   min-height: calc(100vh - 200px);
 }
 

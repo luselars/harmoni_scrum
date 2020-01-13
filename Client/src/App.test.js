@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -6,44 +7,45 @@ import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 
 test('full app rendering/navigating', () => {
-  const history = createMemoryHistory()
+  const history = createMemoryHistory();
   const { container, getByText } = render(
     <Router history={history}>
       <App />
-    </Router>
-  )
+    </Router>,
+  );
   //verify page content for expected route
   // often you'd use a data testid or role query, but this is also possible
-  {/*expect(container.innerHTML).toMatch('You are home')*/}
+  expect(container.innerHTML).toMatch('main');
 
-  {/**
+  {
+    /**
   fireEvent.click(getByText(/about/i))
   about blir da en annen route når vi kommer dit hehe
 
   expect(container.innerHTML).toMatch('You are on the about page')
-  */}
-  
-})
+  */
+  }
+});
 
 test('landing on a bad page shows 404 page', () => {
-  const history = createMemoryHistory()
-  history.push('/some/bad/route')
+  const history = createMemoryHistory();
+  history.push('/some/bad/route');
   const { getByRole } = render(
     <Router history={history}>
       <App />
-    </Router>
-  )
-  expect(getByRole('heading')).toHavetextContent('404 Not Found')
-})
+    </Router>,
+  );
+  expect(getByRole('heading')).toHavetextContent('404 Not Found');
+});
 
 test('rendering a component that uses withRouter', () => {
-  const history = createMemoryHistory()
-  const route = '/some-route'
-  history.push(route)
+  const history = createMemoryHistory();
+  const route = '/some-route';
+  history.push(route);
   const { getByTestId } = render(
     <Router history={history}>
       <LocationDisplay />
-    </Router>
-  )
-  expect(getByTestId('location-display')).toHavetextContent(route)
-})
+    </Router>,
+  );
+  expect(getByTestId('location-display')).toHavetextContent(route);
+});
