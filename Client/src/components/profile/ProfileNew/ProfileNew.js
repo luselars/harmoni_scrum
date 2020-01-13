@@ -75,7 +75,6 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changeEmail(e:any) {
         const target = e.target;
-        let name: string = target.name;
         let value: string = target.value;
         this.setState({email: value});
         console.log(this.state.email);
@@ -83,7 +82,6 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changeName(e: any) {
         const target = e.target;
-        let name: string = target.name;
         let value: string = target.name;
         this.setState({name: value});
         console.log(this.state.name);
@@ -91,7 +89,6 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changePassword(e:any) {
         const target = e.target;
-        let name: string = target.name;
         let value: string = target.value;
         this.setState({password: value});
         console.log(this.state.password);
@@ -99,7 +96,6 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changePasswordConfirmation(e: any) {
         const target = e.target;
-        let name: string = target.name;
         let value: string = target.value;
         this.setState({passwordConfirmation: value});
         console.log(this.state.passwordConfirmation);
@@ -107,7 +103,6 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changeUrl(e: any) {
         const target = e.target;
-        let name: string = target.name;
         let value: string = target.value;
         this.setState({url: value});
         console.log(this.state.url);
@@ -124,21 +119,31 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     post()
     {
+        // Checks if agree to terms box is checked.
         if(this.state.check)
         {
-            console.log("TRYING TO CREATE NEW USER");
-            if(this.state.organiser)
+            // Checks whether password is filled in and matches password confirmation
+            if(this.state.password === this.state.passwordConfirmation && this.state.password !== "")
             {
-                UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(() => {
-                    window.location = '/profile'
-                });
+                // Checks if it's an organiser or normal user.
+                if(this.state.organiser)
+                {
+                    UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(() => {
+                        window.location = '/profile'
+                    });
+                }
+                else
+                {
+                    UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
+                        window.location = '/profile'
+                    });
+                }
             }
             else
             {
-                UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
-                    window.location = '/profile'
-                });
+                console.log("Password does not match or you don't have a password.");
             }
+            console.log("TRYING TO CREATE NEW USER");
         }
         else
         {
