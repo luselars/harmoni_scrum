@@ -90,49 +90,49 @@ router.delete('/event/:id', (req: express$Request, res: express$Response) => {
     if (err) {
       res.status(401);
       res.send(err);
-    }
-    let organiserEmail = decoded.username;
-    // check if organiser the organiser has an event with the provided id
-    dao.organiserOwnsEvent(req.params.id, organiserEmail, (status, data) => {
-      if (data.length == 0) {
-        res.status(404);
-        res.send({ error: 'Arragementet eksiterer ikke' });
-      } else {
-        var completedDeletions = 0;
-        function checkIfDone() {
-          if (completedDeletions > 6) {
-            res.status(200);
-            res.send('Event deleted');
-          } else {
-            completedDeletions++;
+    } else {
+      // check if organiser the organiser has an event with the provided id
+      dao.organiserOwnsEvent(req.params.id, decoded.username, (status, data) => {
+        if (data.length == 0) {
+          res.status(404);
+          res.send({ error: 'Arragementet eksiterer ikke' });
+        } else {
+          var completedDeletions = 0;
+          function checkIfDone() {
+            if (completedDeletions > 6) {
+              res.status(200);
+              res.send('Event deleted');
+            } else {
+              completedDeletions++;
+            }
           }
+          dao.deleteEventOrganisers(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventVolunteers(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventArtists(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventFiles(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventTickets(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventRiders(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEventSchedule(req.params.id, (status, data) => {
+            checkIfDone();
+          });
+          dao.deleteEvent(req.params.id, (status, data) => {
+            checkIfDone();
+          });
         }
-        dao.deleteEventOrganisers(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventVolunteers(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventArtists(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventFiles(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventTickets(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventRiders(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEventSchedule(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-        dao.deleteEvent(req.params.id, (status, data) => {
-          checkIfDone();
-        });
-      }
-    });
+      });
+    }
   });
 });
 
@@ -145,10 +145,31 @@ router.get('/artist', (req: { body: string }, res: express$Response) => {
 });
 
 // Add artist to owned event
-router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
-  dao.editEvent(req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
+router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      // check if organiser the organiser has an event with the provided id
+      dao.organiserOwnsEvent(req.params.event_id, decoded.username, (status, data) => {
+        if (data.length == 0) {
+          res.status(404);
+          res.send({ error: 'Arragementet eksiterer ikke' });
+        } else {
+          dao.addArtistToEvent(
+            req.body.artist_id,
+            req.params.event_id,
+            req.body.contract,
+            req.body.notes,
+            (status, data) => {
+              res.status(status);
+              res.send(data);
+            },
+          );
+        }
+      });
+    }
   });
 });
 

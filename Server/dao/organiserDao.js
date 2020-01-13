@@ -38,6 +38,20 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
+  addArtistToEvent(
+    user_id: number,
+    event_id: number,
+    contract: string,
+    notes: string,
+    callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+      'INSERT INTO `event_artist` VALUES (?, ?, ?, ?)',
+      [event_id, user_id, contract, notes],
+      callback,
+    );
+  }
+
   deleteEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('DELETE FROM event WHERE event_id=?', [event_id], callback);
   }
