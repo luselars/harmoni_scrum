@@ -24,11 +24,12 @@ export default class ProfileNew extends Component<
 
   render() {
     return (
-      <div id="registerBox">
+      <div id="profileOrganiserCard" className="card ">
+            <div className="card-body bg-light">
         <form>
           <h2 id="registerTextH">REGISTER</h2>
-          <div className="form-check p-2">
-            <input
+          <div className="form-check ml-5 mr-5">
+            <div><input
               type="checkbox"
               onChange={e => this.changeOrganiser(e)}
               className="form-check-input"
@@ -36,97 +37,97 @@ export default class ProfileNew extends Component<
             ></input>
             <label className="form-check-label" htmlFor="check1">
               Er du en arrangør?
-            </label>
+            </label></div>
           </div>
-          <div class="form-group">
+          <div className="form-group text-center ml-5 mr-5">
             <label for="inputEmail1" id="registerText">
               E-mail
             </label>
             <input
               type="email"
               onChange={e => this.changeEmail(e)}
-              class="form-control"
+              className="form-control"
               id="inputEmail1"
               aria-describedby="emailHelp"
               placeholder="Epost"
             ></input>
           </div>
-          <div class="form-group">
+          <div className="form-group text-center ml-5 mr-5">
             <label for="inputName1" id="registerText">
               Navn
             </label>
             <input
               type="text"
               onChange={e => this.changeName(e)}
-              class="form-control"
+              className="form-control"
               id="inputName1"
               placeholder="Navn"
             ></input>
           </div>
-          <div class="form-group">
+          <div className="form-group text-center ml-5 mr-5">
             <label for="inputPassword1" id="loginText">
               Passord
             </label>
             <input
               type="password"
               onChange={e => this.changePassword(e)}
-              class="form-control"
+              className="form-control"
               id="inputPassword1"
               placeholder="Passord"
             ></input>
           </div>
-          <div class="form-group">
+          <div className="form-group text-center ml-5 mr-5">
             <label for="inputPasswordRepeat1" id="loginText">
               Gjenta passord
             </label>
             <input
               type="password"
               onChange={e => this.changePasswordConfirmation(e)}
-              class="form-control"
+              className="form-control"
               id="inputPasswordRepeat1"
               placeholder="Gjenta passord"
             ></input>
           </div>
-          <div class="form-group">
+          <div class="form-group text-center ml-5 mr-5">
             <label for="inputURL1" id="loginText">
               URL til nettsted
             </label>
             <input
               type="url"
               onChange={e => this.changeUrl(e)}
-              class="form-control"
+              className="form-control"
               id="inputURL1"
               placeholder="Lim inn url"
             ></input>
           </div>
-          <div class="form-check p-2 border">
+          <div className="form-check text-center ml-5 mr-5 p-2 border">
             <input
-              class="file mr-6"
+              className="file mr-6"
               accept=".jpg, .jpeg, .png"
               type="file"
               id="upload"
               name="recfile"
             />
-            <label class="form-check-label" for="upload">
+            <label className="form-check-label" for="upload">
               Profilbilde
             </label>
           </div>
-          <div class="form-check p-2">
+          <div className="form-check text-center ml-5 mr-5">
             <input
               type="checkbox"
               onChange={e => this.changeCheck(e)}
-              class="form-check-input"
+              className="form-check-input"
               id="check1"
             ></input>
-            <label class="form-check-label" for="check1">
+            <label className="form-check-label" for="check1">
               Jeg godkjenner deres vilkår
             </label>
           </div>
-          <button type="submit" onClick={() => this.post()} class="btn btn-success">
+          <button type="button" onClick={() => this.post()} className="btn btn-success">
             Registrer
           </button>
         </form>
-      </div>
+      </div></div>
     );
   }
 

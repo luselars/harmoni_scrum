@@ -4,7 +4,8 @@ import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
-let td = require('./tokenDecoder');
+const tokenDecoder = require('./tokenDecoder');
+let td = new tokenDecoder();
 
 const organiserDao = require('../../dao/organiserDao.js');
 let dao = new organiserDao();
@@ -15,7 +16,7 @@ let router = express.Router();
 // TODO add auth to all this shit
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
-/*app.use("/organiser", (req, res, next) => {
+/*app.use("/", (req, res, next) => {
   var token = req.headers["x-access-token"];
   let decoded = td.decode(token);
   if (decoded.status == 200) {
@@ -37,27 +38,38 @@ let router = express.Router();
 
 // Find a specific event by id (with your organiser email)
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
-  let decoded = td.decode(req.headers['x-access-token']);
-  if (decoded.status == 200) {
-    dao.getEvent(req.params.id, decoded.email, (status, data) => {
-      res.status(status);
-      res.send(data);
-    });
-  } else {
-    res.status(decoded.status);
-    res.send(decoded.error);
-  }
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getEvent(req.params.id, decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data[0]);
+      });
+    }
+  });
 });
 
 // Create new event (and connect it to the organiser)
 router.post('/event', (req: { body: Object }, res: express$Response) => {
-  dao.postEvent(req.body, (status, data) => {
-    res.status(status);
-    let d = data;
-    dao.postEventOrganiser(data.insertId, (status, data) => {
-      res.status(status);
-      res.send(d);
-    });
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.postEvent(req.body, (status, data) => {
+        if (status == 200) {
+          dao.postEventOrganiser(data.insertId, decoded.username, (status, data) => {
+            res.status(status);
+            res.send(data);
+          });
+        } else {
+          res.status(status);
+          res.send(data);
+        }
+      });
+    }
   });
 });
 
@@ -226,6 +238,14 @@ router.get('/event/:id/volunteer', (req: express$Request, res: express$Response)
 //Get all artists who are part of an event
 router.get('/event/:id/artist', (req: express$Request, res: express$Response) => {
   dao.getArtistsByEvent(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Edit a ticket type
+router.put('/tickets', (req: { body: Object }, res: express$Response) => {
+  dao.editTicketType(req.body, (status, data) => {
     res.status(status);
     res.send(data);
   });
