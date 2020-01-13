@@ -26,26 +26,19 @@ export default class Filter extends Component<{},{sortOption: string}>{
                                 <h2 class="mb-3">FILTER</h2>
                                 <h6 class="mb-3 text-success">SORTER ETTER...</h6>
                                 <div class="form-check text-left mb-3">
-
-                                        <ul>
-                                            <li>
-                                                <input type="radio" id="sortRadio1" value="option1"
-                                                       checked={this.state.sortOption === "option1"} onChange={e => this.handleChangeSort(e)}></input>
-                                                <label className="form-check-label" htmlFor="sortRadio1">Tid</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="sortRadio2" value="option2"
-                                                       checked={this.state.sortOption === "option2"} onChange={e => this.handleChangeSort(e)}></input>
-                                                <label className="form-check-label" htmlFor="sortRadio2">Alfabetisk</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="sortRadio3" value="option3"
-                                                       checked={this.state.sortOption === "option3"} onChange={e => this.handleChangeSort(e)}></input>
-                                                <label className="form-check-label" htmlFor="sortRadio3">Størrelse</label>
-                                            </li>
-                                        </ul>
-
-                                </div>h..
+                                    <label className="form-check-label" htmlFor="sortRadio1">
+                                        <input type="radio" id="sortRadio1" value="option1" checked={this.state.sortOption === "option1"} onChange={e => this.handleChangeSort(e)}></input>
+                                        Tid
+                                    </label>
+                                    <label className="form-check-label" htmlFor="sortRadio2">
+                                        <input type="radio" id="sortRadio2" value="option2" checked={this.state.sortOption === "option2"} onChange={e => this.handleChangeSort(e)}></input>
+                                        Alfabetisk
+                                    </label>
+                                    <label className="form-check-label" htmlFor="sortRadio3">
+                                        <input type="radio" id="sortRadio3" value="option3" checked={this.state.sortOption === "option3"} onChange={e => this.handleChangeSort(e)}></input>
+                                        Størrelse
+                                    </label>
+                                </div>
                             </div>
                             <div class="col text-center border-bottom">
                                 <h6 class="mb-3 text-success">TYPE ARRANGEMENT</h6>
@@ -103,7 +96,7 @@ export default class Filter extends Component<{},{sortOption: string}>{
     handleSubmit(event) {
         event.preventDefault();
 
-        alert(`You chose the ${this.state.size} pizza.`);
+        alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
     }
 
 }
