@@ -4,13 +4,12 @@ import { Component } from 'react';
 import './stylesheet.css'
 import {string} from "prop-types";
 import Upload from "../../Upload/Upload";
-import EventService from "../../../services/EventService";
-import Event from "../../../services/EventService";
+import {EventService} from "../../../services/EventService";
+import {Event} from "../../../services/EventService";
 let path = require('path');
 
 
 type State = {
-    image: string;
     event: Event;
 }
 type Props = {}
@@ -19,8 +18,7 @@ class EventNew2 extends Component<Props, State> {
     constructor(props: any) {
         super(props);
         this.state = {
-            image: string,
-            event: Event
+            event: new Event()
         }
     }
     componentDidMount(): * {
@@ -31,7 +29,11 @@ class EventNew2 extends Component<Props, State> {
             window.location='/newevent';
         }
         else {
-            this.state.event = EventService.getEvent(localStorage.getItem("curr_event"));
+            EventService.getEvent(localStorage.getItem("curr_event")).then(response => {
+                let data = response.data[0];
+                this.setState({event: data});
+                console.log(this.state.event);
+            });
         }
     }
 
@@ -58,19 +60,7 @@ class EventNew2 extends Component<Props, State> {
         window.location='/newevent';
     }
     next() {
-        // Check file extension
-        // Fetch the file from the form
-        let data = new FormData();
         let element = document.getElementById('upload');
-        // Flow-hack to allow the use of .files[0] and .value on the input-element
-        /*::
-           if (!(element instanceof HTMLInputElement)) {
-             throw new Error('element is not of type HTMLInputElement');
-           }
-       */
-        let blob = element.files[0];
-        data.append("recfile" , blob);
-
         //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
         let fullPath = element.value;
         let ext = path.extname(fullPath);
@@ -79,7 +69,26 @@ class EventNew2 extends Component<Props, State> {
             alert("Ikke gyldig filtype");
             return;
         }
-        EventService.updateEvent(this.state.event, data);
+        const file = element.files[0];
+        const reader = new FileReader();
+        let temp_event = this.state.event;
+        reader.addEventListener("load", function () {
+            // send here
+            temp_event.image = reader.result;
+            EventService.updateEvent(temp_event).then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                    console.log("Arrangement oppdatert");
+                    // window.location = '/newevent3';
+                } else {
+                    alert("Kunne ikke oppdatere arrangement.");
+                    // TODO bytt ut denne alerten med et komponent.
+                }
+            });
+        }, false);
+        if (file) {
+            reader.readAsDataURL(file);
+        }
 
         // post file to /files
         // UserService.postFile("http://localhost:4000/user/file", data).then(r => console.log(r));

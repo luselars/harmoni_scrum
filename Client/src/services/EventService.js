@@ -11,27 +11,25 @@ export class Event
     this.description = null;
     this.image = null;
     this.start = null;
-    this.end = null;
     this.status = null;
-    this.is_public = false;
+    this.is_public = 0;
     this.location_id = null;
-    this.address = null;
     this.venue = null;
+    this.end = null;
   }
   name: string;
-  description: string = null;
+  description: string;
   image: string;
   start: string;
-  end: string;
   status: string;
   is_public: boolean;
   location_id: number;
-  address: string;
   venue: string;
+  end: string;
 }
 
 
-export default class EventService {
+export class EventService {
   static async loginUser(username: string, password: string) {
     return axios.post(
       "/public/login/user",
@@ -45,38 +43,17 @@ export default class EventService {
     );
   }
   // TODO legg til token
-  // TODO bytt alle disse parameterene til ett event-objekt.
-  static createEvent(name : string, description : string, start: string, end: string) {
+  static createEvent(event: Event) {
+    console.log(event);
     let url = url_base + "/organiser/event";
-    return axios.post<Object>(url, {"name": name, "is_public":0, "description": description, "start": start, "end": end}).then(response => {return response});
+    return axios.post<Object>(url, event).then(response => {return response});
   }
   // TODO legg til token
-  static updateEvent(event: Event, data: FormData | void) {
+  static updateEvent(event: Event) {
+    console.log(event);
     let url = url_base + "/organiser/event";
-    let file_url = url_base + "/organiser/file";
+    return axios.put<Object>(url, event).then(response => {return response});
 
-    // If FormData is included we need to handle file-upload
-    if(data !== null) {
-      // Post file and retrieve filename
-      axios.post(file_url, data, {
-          headers: {
-            'accept': 'application/json',
-            'Accept-Language': 'en-US,en;q=0.8',
-            'Content-Type': 'multipart/form-data',
-          }}).then((response) => {
-          // then something maybe
-          let name = response.data.name;
-          console.log(name);
-          event.image = name;
-          return axios.put<Event>(event).then(response => {console.log(response)});
-        }).catch(() => {
-          // TODO change this alert to component-alert
-          alert('Error when uploading file.');
-        });
-    }
-    else {
-      return axios.put<Event>(event).then(response => {return response});
-    }
   }
 
   // TODO legg til token

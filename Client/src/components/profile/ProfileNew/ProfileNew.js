@@ -82,7 +82,7 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
 
     changeName(e: any) {
         const target = e.target;
-        let value: string = target.name;
+        let value: string = target.value;
         this.setState({name: value});
         console.log(this.state.name);
     }
@@ -125,18 +125,24 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
             // Checks whether password is filled in and matches password confirmation
             if(this.state.password === this.state.passwordConfirmation && this.state.password.length > 8)
             {
-                // Checks if it's an organiser or normal user.
-                if(this.state.organiser)
+                if(this.state.name !== "")
                 {
-                    UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(() => {
-                        window.location = '/profile'
-                    });
-                }
-                else
-                {
-                    UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
-                        window.location = '/profile'
-                    });
+                    if(this.state.email !== "")
+                    {
+                        // Checks if it's an organiser or normal user.
+                        if(this.state.organiser)
+                        {
+                            UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(() => {
+                                window.location = '/profile'
+                            });
+                        }
+                        else
+                        {
+                            UserService.newUser(this.state.email, this.state.name, this.state.password).then(() => {
+                                window.location = '/profile'
+                            });
+                        }
+                    }
                 }
             }
             else

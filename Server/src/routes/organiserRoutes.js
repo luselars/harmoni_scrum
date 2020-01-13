@@ -7,7 +7,6 @@ import uploadFunctions from "../uploadHelper";
 
 const organiserDao = require("../../dao/organiserDao.js");
 let dao = new organiserDao();
-const fs = require("fs");
 
 const upload = require("../uploadHelper");
 let router = express.Router();
@@ -56,11 +55,15 @@ router.post("/event", (req: { body: Object }, res: express$Response) => {
 });
 
 // Edit a specific event
-router.put("/event", (req: { body: Object }, res: express$Response) => {
-  dao.editEvent(req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+router.put('/event', (req: { body: Object }, res: express$Response) => {
+    uploadFunctions.handleFile(req.body.image, function (name) {
+        req.body.image = name;
+        dao.editEvent(req.body, (status, data) => {
+            res.status(status);
+            res.send(data);
+        });
+
+    });
 });
 
 // Delete single event
