@@ -123,7 +123,7 @@ export default class ProfileNew extends Component<{}, { email: string, name: str
         if(this.state.check)
         {
             // Checks whether password is filled in and matches password confirmation
-            if(this.state.password === this.state.passwordConfirmation && this.state.password !== "")
+            if(this.state.password === this.state.passwordConfirmation && this.state.password.length > 8)
             {
                 // Checks if it's an organiser or normal user.
                 if(this.state.organiser)
