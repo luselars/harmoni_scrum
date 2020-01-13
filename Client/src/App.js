@@ -31,6 +31,13 @@ function App() {
     <Router basename="/">
       <div className="maindiv">
         <Link to="/"></Link>
+        <Link to="/login"></Link>
+        <Link to="/upload"></Link>
+        <Link to="/newevent"></Link>
+        <Link to="/register"></Link>
+        <Link to="/profile"></Link>
+        <Link to="/editprofile"></Link>
+        <Link to="/profile/summary"></Link>
         <Menu />
         <Switch>
           <Route exact path="/" component={Main} />
@@ -45,8 +52,8 @@ function App() {
           <Route component={NoMatch} />
         </Switch>
         <LocationDisplay />
-        <Footer />
       </div>
+      <Footer />
     </Router>
   );
 }
