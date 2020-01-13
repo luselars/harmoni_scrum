@@ -24,7 +24,7 @@ const LocationDisplay = withRouter(({ location }) => (
 function App() {
   return (
     <Router basename="/">
-      <div>
+      <div id="background">
       <Link to="/"></Link>
       <Menu/>
       <Switch>
