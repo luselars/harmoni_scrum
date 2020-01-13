@@ -136,11 +136,18 @@ router.post('/artist/:id', (req: { body: Object }, res: express$Response) => {
   });
 });
 
-// Get a group of volunteers from an organiser.
-router.get('/group/:id', (req: express$Request, res: express$Response) => {
-  dao.getGroup(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
+// Get all types of volunteers from an organiser.
+router.get('/group', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getGroup(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
   });
 });
 
