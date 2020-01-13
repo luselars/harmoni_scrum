@@ -16,7 +16,7 @@ let router = express.Router();
 // TODO add auth to all this shit
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
-/*app.use("/", (req, res, next) => {
+/*app.use("", (req, res, next) => {
   var token = req.headers["x-access-token"];
   let decoded = td.decode(token);
   if (decoded.status == 200) {
@@ -86,37 +86,53 @@ router.put('/event', (req: { body: Object }, res: express$Response) => {
 
 // Delete single event
 router.delete('/event/:id', (req: express$Request, res: express$Response) => {
-  dao.deleteEventOrganisers(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventVolunteers(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventArtists(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventFiles(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventTickets(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventRiders(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEventSchedule(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-  dao.deleteEvent(req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    }
+    let organiserEmail = decoded.username;
+    // check if organiser the organiser has an event with the provided id
+    dao.organiserOwnsEvent(req.params.id, organiserEmail, (status, data) => {
+      if (data.length == 0) {
+        res.status(404);
+        res.send({ error: 'Arragementet eksiterer ikke' });
+      } else {
+        var completedDeletions = 0;
+        function checkIfDone() {
+          if (completedDeletions > 6) {
+            res.status(200);
+            res.send('Event deleted');
+          } else {
+            completedDeletions++;
+          }
+        }
+        dao.deleteEventOrganisers(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventVolunteers(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventArtists(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventFiles(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventTickets(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventRiders(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEventSchedule(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+        dao.deleteEvent(req.params.id, (status, data) => {
+          checkIfDone();
+        });
+      }
+    });
   });
 });
 

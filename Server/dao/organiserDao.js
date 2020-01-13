@@ -9,6 +9,16 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [email, event_id], callback);
   }
 
+  // check if organiser owns event
+  organiserOwnsEvent(
+    event_id: number,
+    email: string,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_email = ?';
+    super.query(queryString, [event_id, email], callback);
+  }
+
   editEvent(event: Event, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE event SET name=?,image=?,description=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?',
@@ -91,7 +101,7 @@ module.exports = class OrganiserDao extends Dao {
   }
   // Deletes files for an event
   deleteEventFiles(event_id: number, callback: (status: string, data: Object) => mixed) {
-    super.query('DELETE FROM event_file WHERE event_id = ?', [event_id], callback);
+    super.query('DELETE FROM misc_file WHERE event_id = ?', [event_id], callback);
   }
   // Deletes tickettypes for an event
   deleteEventTickets(event_id: number, callback: (status: string, data: Object) => mixed) {
