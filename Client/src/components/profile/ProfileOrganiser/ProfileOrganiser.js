@@ -44,7 +44,7 @@ export default class ProfileOrganiser extends Component<{}, {
                         </div>
                         <div class="row justify-content-md-center mt-y align-items-center">
                             <div class="col-4 text-center">
-                                <button class="btn btn-success bg-green mb-4"> OPPRETT ARRANGEMENT </button>
+                                <button class="btn btn-success bg-green mb-4" onClick={() => window.location.href="/newevent"}> OPPRETT ARRANGEMENT </button>
                                 <button class="btn btn-success bg-green mb-4" onClick={() => window.location.href="/editprofile"}> REDIGER PROFIL </button>
                                 <button class="btn btn-success bg-green"> SLETT PROFIL </button>
                             </div>
