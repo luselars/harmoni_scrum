@@ -71,3 +71,16 @@ export class Organiser
     website: string;
     address: string;
 }
+
+// Object for sending ticket type
+export class TicketType
+{
+    constructor(name: string) {
+        this.name = name;
+    }
+//Ticket type Information
+name: string;
+description: string;
+ticket_type_id: number;
+
+}
