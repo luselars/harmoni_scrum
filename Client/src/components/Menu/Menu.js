@@ -19,7 +19,7 @@ export default class Menu extends Component<{}, {status : boolean}> {
     render() {
         return (
             <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand text-light" href="/">HARMONI</a>
+                <a class="navbar-brand text-light" id="title" href="/">HARMONI</a>
                 <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"></link>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
