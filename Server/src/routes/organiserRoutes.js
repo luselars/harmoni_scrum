@@ -45,7 +45,7 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
     } else {
       dao.getEvent(req.params.id, decoded.username, (status, data) => {
         res.status(status);
-        res.send(data);
+        res.send(data[0]);
       });
     }
   });
