@@ -4,7 +4,7 @@ import Footer from '../components/Footer/Footer';
 import Menu from '../components/Menu/Menu';
 import EventList from '../components/event/EventList/EventList';
 import ProfileOrganiser from '../components/profile/ProfileOrganiser/ProfileOrganiser';
-import Filter from '../components/Fliter/Fliter';
+import Filter from '../components/Filter/Filter';
 
 export default class Main extends Component {
     render() {
