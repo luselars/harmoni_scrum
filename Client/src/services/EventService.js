@@ -86,4 +86,22 @@ export class EventService {
         return response;
       });
   }
+
+  static getOrganiser(email: string) {
+    let url = url_base + '/organiser/' + email;
+    return axios
+      .get<Organiser>(url, { username: email })
+      .then(response => {
+        return response;
+      });
+  }
+
+  static searchEvent(search: string) {
+    let url = url_base + '/event/search' + search;
+    return axios
+      .get<Event>(url, { search: search })
+      .then(response => {
+        return response;
+      });
+  }
 }
