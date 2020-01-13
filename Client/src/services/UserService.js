@@ -2,8 +2,28 @@
 import axios from'axios';
 const url_base = "http://localhost:4000";
 
+export class User
+{
+    constructor(){
+        this.password = null;
+        this.email = null;
+        this.name = null;
+        this.tlf = null;
+        this.description = null;
+    }
+    password: string;
+    email: string;
+    name: string;
+    tlf: string;
+    description: string;
+}
 
-export default class UserService {
+export class UserService {
+    static getUser() {
+        let url = url_base + "/user";
+        let token = localStorage.getItem("token");
+        return axios.get(url, {token: token}).then(response => {return response});
+    }
     static logIn(email : string, password : string) {
         let url = url_base + "/public/login";
         return axios.post<Object>(url, {"username": email, "password": password}).then(response => {localStorage.setItem("token", response.data.jwt)});
@@ -19,11 +39,6 @@ export default class UserService {
         return axios.post<Object>(url, {"email": email, "name": name, "password": password, "image": "", "tlf": "", "description": ""}).then(response => {localStorage.setItem("token", response.data.jwt)});
     }
 
-    // TODO auth
-    static getFile(url: string, file_id: string) {
-        url = url + "/" + file_id;
-        return axios.get(url).then(response => response.data);
-    }
     static postFile(url: string, data: FormData) {
         console.log(url);
         console.log(data);
