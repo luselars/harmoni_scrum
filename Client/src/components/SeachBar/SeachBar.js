@@ -5,27 +5,28 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { EventService } from '../../services/EventService';
 
-export default class SearchBar extends Component<{}, { search: string}> {
+export default class SearchBar extends Component<{}, { search: string }> {
   constructor(props: any) {
     super(props);
-    this.state = {search: ""};
+    this.state = { search: '' };
   }
 
   render() {
     return (
-       
-            <div className="input-group my-3 " id="searchBox">
-                <input
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Søk her..." 
-                    onChange={e => this.onChange(e)}
-                    name="search"
-                ></input>
-                <div className="input-group-append">
-                    <button onClick={() => this.post()} className="btn btn-outline-secondary" type="button">Search</button>
-                </div>
-            </div>
+      <div className="input-group my-3 " id="searchBox">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Søk her..."
+          onChange={e => this.onChange(e)}
+          name="search"
+        ></input>
+        <div className="input-group-append">
+          <button onClick={() => this.post()} className="btn btn-outline-secondary" type="button">
+            Search
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -37,8 +38,8 @@ export default class SearchBar extends Component<{}, { search: string}> {
   }
 
   post() {
-    if ((this.state.search).length != 0) {
-        EventService.searchEvent("#"+this.state.search + "#").then();
+    if (this.state.search.length != 0) {
+      EventService.searchEvent('#' + this.state.search + '#').then();
     }
   }
 }

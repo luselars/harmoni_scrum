@@ -2,16 +2,26 @@
 
 import * as React from 'react';
 import { Component } from 'react';
+import { Event, EventService } from '../../../services/EventService';
+import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
-import events from '../../data.js';
+import { string } from 'prop-types';
 
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
+let events: Event[] = [];
 
 export default class EventList extends Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      events: [],
+      sortMethod: string,
+    };
+  }
   render() {
     return (
       <div>
-        {events.map(event => (
+        {this.state.events.map(event => (
           <div class="card">
             <div class="card-body bg-light">
               <div class="container bg-light">
@@ -32,7 +42,7 @@ export default class EventList extends Component<Props, State> {
                     </p>
                   </div>
                   <div id="eventbtn" class="col text-right">
-                    <button class="btn btn-success bg-green"> Mer info </button>
+                    <button class="btn btn-success bg-green"> Mer info</button>
                   </div>
                 </div>
               </div>
@@ -43,5 +53,16 @@ export default class EventList extends Component<Props, State> {
     );
   }
 
-  getFrontpage() {}
+  componentDidMount() {
+    let sortMethod: string = CommunicationService.getSortString();
+    EventService.getFrontpage(this.state.sortMethod)
+      .then(events => {
+        console.log(events);
+        this.setState({ events: events.data });
+      })
+      .catch((error: Error) => alert(error.message));
+  }
+  componentWillReceiveProps(props) {
+    this.setState({ sortMethod: props.sortString });
+  }
 }
