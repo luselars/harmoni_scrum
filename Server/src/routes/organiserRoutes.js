@@ -242,4 +242,26 @@ router.put("/tickets", (req: { body: Object }, res: express$Response) => {
 });
 
 
+//Get a ticket type
+router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
+    td.decode(req.headers['x-access-token'], (err, decoded) => {
+        if (err) {
+          res.status(401);
+          res.send(err);
+        } else {
+          dao.getMyId(decoded.username, (status, data) => {
+            res.status(status);
+            dao.getTicketType(req.params.id,data[0], (status, data2) => {
+                res.status(status);
+                console.log(data2);
+                res.send(data2);
+              });
+          });
+        }
+      });
+  });
+
+
+
+
 module.exports = router;
