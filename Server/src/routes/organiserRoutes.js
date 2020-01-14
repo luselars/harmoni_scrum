@@ -62,10 +62,11 @@ router.get('/event/:event_id', (req: express$Request, res: express$Response) => 
 // Create new event (and connect it to the organiser)
 router.post('/event', (req: { body: Object }, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
+    let d = data;
     if (status == 200) {
       dao.postEventOrganiser(data.insertId, req.email, (status, data) => {
         res.status(status);
-        res.send(data);
+        res.send(d);
       });
     } else {
       res.status(status);
