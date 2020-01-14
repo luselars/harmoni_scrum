@@ -249,7 +249,7 @@ router.get('/sendmail', (req, res) => {
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
   dao.getProfile(req.uid, (status, data) => {
     res.status(status);
-    res.send(data);
+    res.send(data[0]);
   });
 });
 

@@ -17,7 +17,7 @@ export default class EventList extends Component<Props, State> {
     super(props);
     this.state = {
       events: [],
-      sortMethod: string,
+      sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       id: 1,
     };
