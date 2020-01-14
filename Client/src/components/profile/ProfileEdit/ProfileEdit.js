@@ -3,6 +3,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { EventService } from '../../../services/EventService';
+import { Organiser } from '../../../services/UserService';
 
 import './stylesheet.css';
 
@@ -11,9 +12,12 @@ type State = {
   email: string,
   tlf: string,
   image: string,
-  descrition: string,
+  description: string,
   address: string,
+  postalcode: number,
+  postal: string,
   password: string,
+  website: string,
 };
 
 class ProfileEdit extends Component<{}, State> {
@@ -24,9 +28,12 @@ class ProfileEdit extends Component<{}, State> {
       email: 'test',
       tlf: '123',
       image: 'http://localhost:4000/user/file/profile.png',
-      descrition: '',
+      description: '',
       address: '',
+      postalcode: 0,
+      postal: '',
       password: '',
+      website: '',
     };
   }
 
@@ -93,17 +100,17 @@ class ProfileEdit extends Component<{}, State> {
             ></input>
           </div>
           <div className="form-group" id="password">
-            <label for="passwordInput">Nytt passord: </label>
+            <label for="passwordNewInput">Nytt passord: </label>
             <input
               type="password"
               className="form-control"
-              name="password"
+              name="passwordNew"
               onChange={e => this.onChange(e)}
               value={this.state.password}
-              id="passwordInput"
+              id="passwordNewInput"
             ></input>
           </div>
-            
+
           <div className="form-group" id="description">
             <label for="descritionInput">Beskrivelse</label>
             <textarea
@@ -111,7 +118,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="description"
               onChange={e => this.onChange(e)}
-              value={this.state.descrition}
+              value={this.state.description}
               id="descritionInput"
             ></textarea>
           </div>
@@ -131,11 +138,33 @@ class ProfileEdit extends Component<{}, State> {
             width="100%"
             height="300px"
             frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=Brattoregata+4,+7010+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
+            src="https://www.google.com/maps/embed/v1/place?q=Brattøregata+4,+7010+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
             allowfullscreen
           ></iframe>
           <div className="form-group" id="address">
             <label for="addressInput">Adresse: </label>
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              onChange={e => this.onChange(e)}
+              value={this.state.address}
+              id="addressInput"
+            ></input>
+          </div>
+          <div className="form-group" id="postalcode">
+            <label for="postalcodeInput">Postnummer: </label>
+            <input
+              type="text"
+              className="form-control"
+              name="postalcode"
+              onChange={e => this.onChange(e)}
+              value={this.state.address}
+              id="postalcodeInput"
+            ></input>
+          </div>
+          <div className="form-group" id="postal">
+            <label for="postalInput">Adresse: </label>
             <input
               type="text"
               className="form-control"
@@ -152,7 +181,25 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   componentDidMount() {
-    //EventService.getEvent(this.props.match.params.id)
+    console.log('hei');
+    EventService.getOrganiser(window.localStorage.getItem('token')).then(res => {
+      console.log(res.data);
+      let organsier: any = res.data;
+      console.log(' heiiiiiiii');
+      this.setState({
+        email: organsier[0].email,
+        name: organsier[0].name,
+        image: 'http://localhost:4000/user/file/' + organsier[0].image,
+        website: organsier[0].website,
+        description: organsier[0].description,
+        address: organsier[0].address,
+        tlf: organsier[0].tlf,
+        postalcode: 0,
+        postal: '',
+        password: '',
+      });
+      console.log(organsier[0] + 'hade');
+    });
   }
 
   onChange(e: any) {

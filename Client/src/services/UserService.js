@@ -4,11 +4,11 @@ const url_base = 'http://localhost:4000';
 
 export class User {
   constructor() {
-    this.password = "";
-    this.email = "";
-    this.name = "";
-    this.tlf = "";
-    this.description = "";
+    this.password = '';
+    this.email = '';
+    this.name = '';
+    this.tlf = '';
+    this.description = '';
   }
   password: string;
   email: string;
@@ -18,10 +18,10 @@ export class User {
 }
 export class Location {
   constructor() {
-    this.name = "";
-    this.address = "";
+    this.name = '';
+    this.address = '';
     this.postcode = 0;
-    this.venue = "";
+    this.venue = '';
   }
   name: string;
   address: string;
@@ -60,36 +60,51 @@ export class UserService {
       });
   }
 
-  static newUser(email: string, name: string, password: string) {
+  static newUser(
+    email: string,
+    name: string,
+    password: string,
+    image: string,
+    tlf: string,
+    description: string,
+  ) {
     let url = url_base + '/public/register/user';
     return axios
       .post<Object>(url, {
         email: email,
         name: name,
         password: password,
-        image: '',
-        tlf: '',
-        description: '',
+        image: image,
+        tlf: tlf,
+        description: description,
       })
       .then(response => {
         localStorage.setItem('token', response.data.jwt);
       });
   }
 
-  static newOrganiser(email: string, name: string, password: string) {
+  static newOrganiser(
+    email: string,
+    name: string,
+    password: string,
+    image: string,
+    tlf: string,
+    description: string,
+    address: string,
+    website: string,
+  ) {
     let url = url_base + '/public/register/organiser';
     return axios
       .post<Object>(url, {
         email: email,
         name: name,
         password: password,
-        image: '',
-        tlf: '',
-        description: '',
+        image: image,
+        tlf: tlf,
+        description: description,
       })
       .then(response => {
         localStorage.setItem('token', response.data.jwt);
       });
   }
 }
-

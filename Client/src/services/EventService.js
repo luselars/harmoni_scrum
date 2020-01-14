@@ -1,7 +1,7 @@
 // @flow
 
 import axios, { AxiosPromise } from 'axios';
-import {Organiser} from './UserService';
+import { Organiser } from './UserService';
 const url_base = 'http://localhost:4000';
 axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
 console.log(localStorage.getItem('token'));
@@ -9,15 +9,15 @@ console.log(localStorage.getItem('token'));
 // Event-model
 export class Event {
   constructor() {
-    this.name = "";
-    this.description = "";
-    this.image = "";
-    this.start = "";
-    this.status = "";
+    this.name = '';
+    this.description = '';
+    this.image = '';
+    this.start = '';
+    this.status = '';
     this.is_public = false;
     this.location_id = 0;
-    this.venue = "";
-    this.end = "";
+    this.venue = '';
+    this.end = '';
   }
   event_id: number;
   name: string;
@@ -88,7 +88,7 @@ export class EventService {
   }
 
   static getOrganiser(token: string) {
-    let url = url_base + '/organiser/' + token;
+    let url = url_base + '/organiser/myprofile';
     return axios
       .get<Organiser>(url, { token: token })
       .then(response => {
