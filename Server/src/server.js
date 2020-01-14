@@ -8,6 +8,7 @@ The server listens to port 4000.
 import express from 'express';
 let bodyParser = require('body-parser');
 let td = require('./routes/tokenDecoder');
+const cors = require('cors');
 
 const PORT = 4000;
 
@@ -23,7 +24,9 @@ app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // CORS
-app.use(function(req, res, next) {
+app.use(cors());
+app.options('*', cors());
+/*app.use(function(req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   // Request methods you wish to allow
@@ -32,7 +35,7 @@ app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'content-type,x-access-token');
   // Pass to next layer of middleware
   next();
-});
+});*/
 
 // Dependencies
 app.use(express.json()); // For parsing application/json
