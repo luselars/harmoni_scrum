@@ -65,7 +65,7 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
     if (status == 200) {
-      dao.postEventOrganiser(data.insertId, req.id, (status, data) => {
+      dao.postEventOrganiser(data.insertId, req.uid, (status, data) => {
         res.status(status);
         res.send(d);
       });
@@ -103,7 +103,7 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
   uploadFunctions.handleFile(req.body.image, function(name) {
     req.body.image = name;
-    dao.editEvent(req.body, req.params.event_id, req.email, (status, data) => {
+    dao.editEvent(req.body, req.params.event_id, (status, data) => {
       res.status(status);
       res.send(data);
     });
