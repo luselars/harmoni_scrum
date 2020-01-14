@@ -41,6 +41,8 @@ export class Organiser {
   website: string;
   address: string;
   password: string;
+  eventsFinished: number;
+  eventsComing: number;
 }
 
 export class UserService {

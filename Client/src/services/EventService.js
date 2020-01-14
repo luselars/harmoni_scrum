@@ -86,8 +86,8 @@ export class EventService {
         return response;
       });
   }
-  /*
-  static getOrganiser() :AxiosPromise<Organiser> {
+
+  static getOrganiser(): AxiosPromise<Organiser> {
     let url = url_base + '/organiser/myprofile';
     let config = {
       headers: {
@@ -95,12 +95,15 @@ export class EventService {
       },
     };
     console.log(config);
-    return axios
-    .get<Organiser>(url, config)
-    .then(response => {
-        return response;
-      });
-  }*/
+  }
+
+  // TODO legg til token
+  static getPublicEvent(id: number): AxiosPromise<Event> {
+    let url = url_base + '/public/event/' + id;
+    return axios.get<Event>(url, {}).then(response => {
+      return response;
+    });
+  }
 
   static getOrganiser() {
     let config = {
