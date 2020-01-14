@@ -38,7 +38,7 @@ export default class SearchBar extends Component<{}, { search: string }> {
   }
 
   post() {
-    if (this.state.search.length != 0) {
+    if (this.state.search.length !== 0) {
       EventService.searchEvent('#' + this.state.search + '#').then();
     }
   }

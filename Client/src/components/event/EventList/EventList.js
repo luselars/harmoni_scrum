@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Event, EventService } from '../../../services/EventService';
+import { Event, OrganiserService } from '../../../services/organiserService';
 import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
 import { string } from 'prop-types';
@@ -75,7 +75,7 @@ export default class EventList extends Component<Props, State> {
 
   componentDidMount() {
     let sortMethod: string = CommunicationService.getSortString();
-    EventService.getFrontpage(this.state.sortMethod)
+    OrganiserService.getFrontpage(this.state.sortMethod)
       .then(events => {
         console.log(events);
         this.setState({ events: events.data });

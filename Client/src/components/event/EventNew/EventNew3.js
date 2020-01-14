@@ -3,8 +3,8 @@ import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
-import { EventService } from '../../../services/EventService';
-import { Event } from '../../../services/EventService';
+import { OrganiserService } from '../../../services/organiserService';
+import { Event } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -36,7 +36,7 @@ class EventNew3 extends Component<Props, State> {
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
-      EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
+      OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
         console.log(this.state.event);

@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { Organiser } from '../../services/UserService';
-import { UserService } from '../../services/UserService';
+import { Organiser } from '../../services/userService';
+import { UserService } from '../../services/userService';
 import { string } from 'prop-types';
 
 export default class LogIn extends Component<{}, { email: string, password: string }> {
