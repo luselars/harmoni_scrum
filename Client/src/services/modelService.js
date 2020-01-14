@@ -67,11 +67,13 @@ export class Location {
 }
 
 // Object for sending Organiser
+
 export class Organiser {
-  constructor(organiser_email: string, name: number) {
+  constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
     this.name = name;
   }
+  organiser_id_: number;
   organiser_email: string;
   name: string;
   image: string;
@@ -80,6 +82,7 @@ export class Organiser {
   website: string;
   address: string;
   password: string;
+  passwordConfirmation: string;
   eventsFinished: number;
   eventsComing: number;
 }
