@@ -302,4 +302,16 @@ router.put('/tickets', (req: { body: Object }, res: express$Response) => {
   });
 });
 
+//Get a ticket type
+router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
+  dao.getMyId(req.email, (status, data) => {
+    res.status(status);
+    dao.getTicketType(req.params.id, data[0], (status, data2) => {
+      res.status(status);
+      console.log(data2);
+      res.send(data2);
+    });
+  });
+});
+
 module.exports = router;

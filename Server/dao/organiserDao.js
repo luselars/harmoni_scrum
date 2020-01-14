@@ -107,6 +107,10 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
+  getMyId(email: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
+    super.query(queryString, [email], callback);
+  }
   // Get all locations
   getLocation(callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT * FROM location ORDER BY name';
@@ -214,5 +218,14 @@ module.exports = class OrganiserDao extends Dao {
     let queryString =
       'SELECT u.user_id, u.email, u.name, u.tlf, u.image, u.description, a.artist_name FROM user u LEFT JOIN artist a ON a.user_id = u.user_id LEFT JOIN event_artist ea ON ea.user_id = a.user_id WHERE ea.event_id = ?;';
     super.query(queryString, [event_id], callback);
+  }
+
+  getTicketType(
+    ticket_type_id: number,
+    organiser_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ? AND organiser_id = ?;';
+    super.query(queryString, [ticket_type_id, organiser_id], callback);
   }
 };
