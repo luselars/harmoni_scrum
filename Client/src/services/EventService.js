@@ -97,7 +97,7 @@ export class EventService {
   static getPublicEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/public/event/' + id;
     return axios.get<Event>(url, {}).then(response => {
-      return response;
+      return response.data[0];
     });
   }
 
