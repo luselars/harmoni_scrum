@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { UserService } from '../../../services/userService';
+import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
 
 export default class ProfileNew extends Component<
@@ -122,7 +122,7 @@ export default class ProfileNew extends Component<
                 type="text"
                 onChange={e => this.onChange(e)}
                 className="form-control"
-                id="inputPasswordRepeat1"
+                id="description"
                 placeholder="Litt om deg"
                 name="description"
               ></textarea>
@@ -259,7 +259,7 @@ export default class ProfileNew extends Component<
             if (this.state.organiser) {
               var address: string =
                 this.state.address + '#' + this.state.postalcode + '#' + this.state.postal;
-              UserService.newOrganiser(
+              PublicService.newOrganiser(
                 this.state.email,
                 this.state.name,
                 this.state.password,
@@ -272,7 +272,7 @@ export default class ProfileNew extends Component<
                 window.location = '/profile';
               });
             } else {
-              UserService.newUser(
+              PublicService.newUser(
                 this.state.email,
                 this.state.name,
                 this.state.password,

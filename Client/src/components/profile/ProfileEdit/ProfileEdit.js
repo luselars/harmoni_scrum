@@ -2,37 +2,29 @@
 
 import React from 'react';
 import { Component } from 'react';
+import { EventService } from '../../../services/EventService';
+import { Organiser } from '../../../services/userService';
 
 import './stylesheet.css';
 import { OrganiserService } from '../../../services/organiserService';
 
 type State = {
-  name: string,
-  email: string,
-  tlf: string,
-  image: string,
-  description: string,
-  address: string,
+  organiser: Organiser,
+  newPassword: string,
+  streetAdress: string,
   postalcode: number,
   postal: string,
-  password: string,
-  website: string,
 };
 
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      name: 'test',
-      email: 'test',
-      tlf: '123',
-      image: 'http://localhost:4000/user/file/profile.png',
-      description: '',
-      address: '',
+      organiser: new Organiser('', ''),
+      newPassword: '',
+      streetAdress: '',
       postalcode: 0,
       postal: '',
-      password: '',
-      website: '',
     };
   }
 
@@ -41,7 +33,12 @@ class ProfileEdit extends Component<{}, State> {
       <div className="card" id="editProfile">
         <div className="card-body">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
-          <img className="img-rounded w-25" id="picture" src={this.state.image} alt="Profilbilde" />
+          <img
+            className="img-rounded w-25"
+            id="picture"
+            src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+            alt="Profilbilde"
+          />
           <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
               Profilbilde
@@ -61,7 +58,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="name"
               onChange={e => this.onChange(e)}
-              value={this.state.name}
+              value={this.state.organiser.name}
               id="nameInput"
             ></input>
           </div>
@@ -72,7 +69,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
-              value={this.state.tlf}
+              value={this.state.organiser.tlf}
               id="tlfInput"
             ></input>
           </div>
@@ -83,7 +80,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="email"
               onChange={e => this.onChange(e)}
-              value={this.state.email}
+              value={this.state.organiser.email}
               id="emailInput"
             ></input>
           </div>
@@ -94,7 +91,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="password"
               onChange={e => this.onChange(e)}
-              value={this.state.password}
+              value={this.state.organiser.password}
               id="passwordInput"
             ></input>
           </div>
@@ -105,7 +102,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="passwordNew"
               onChange={e => this.onChange(e)}
-              value={this.state.password}
+              value={this.state.newPassword}
               id="passwordNewInput"
             ></input>
           </div>
@@ -117,7 +114,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="description"
               onChange={e => this.onChange(e)}
-              value={this.state.description}
+              value={this.state.organiser.description}
               id="descritionInput"
             ></textarea>
           </div>
@@ -128,7 +125,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="website"
               onChange={e => this.onChange(e)}
-              value={this.state.email}
+              value={this.state.organiser.organiser_email}
               id="websiteInput"
             ></input>
           </div>
@@ -147,7 +144,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="address"
               onChange={e => this.onChange(e)}
-              value={this.state.address}
+              value={this.state.organiser.streetAdress}
               id="addressInput"
             ></input>
           </div>
@@ -158,19 +155,19 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="postalcode"
               onChange={e => this.onChange(e)}
-              value={this.state.address}
+              value={this.state.postalcode}
               id="postalcodeInput"
             ></input>
           </div>
           <div className="form-group" id="postal">
-            <label for="postalInput">Adresse: </label>
+            <label for="postalInput">Poststed: </label>
             <input
               type="text"
               className="form-control"
               name="address"
               onChange={e => this.onChange(e)}
-              value={this.state.address}
-              id="addressInput"
+              value={this.state.postal}
+              id="postalInput"
             ></input>
           </div>
           <button class="btn btn-success bg-green"> LAGRE </button>
@@ -178,26 +175,13 @@ class ProfileEdit extends Component<{}, State> {
       </div>
     );
   }
-
   componentDidMount() {
-    console.log('hei');
-    OrganiserService.getOrganiser(window.localStorage.getItem('token')).then(res => {
+    OrganiserService.getOrganiser().then(res => {
       console.log(res.data);
-      let organsier: any = res.data;
-      console.log(' heiiiiiiii');
+      let organiser: Organiser = res.data;
       this.setState({
-        email: organsier[0].email,
-        name: organsier[0].name,
-        image: 'http://localhost:4000/user/file/' + organsier[0].image,
-        website: organsier[0].website,
-        description: organsier[0].description,
-        address: organsier[0].address,
-        tlf: organsier[0].tlf,
-        postalcode: 0,
-        postal: '',
-        password: '',
+        organiser,
       });
-      console.log(organsier[0] + 'hade');
     });
   }
 
