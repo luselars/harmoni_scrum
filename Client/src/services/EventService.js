@@ -106,16 +106,12 @@ export class EventService {
   }
 
   static getOrganiser() {
-    let config = {
-      headers: {
-        'x-access-token': localStorage.getItem('token'),
-      },
-    };
-    console.log(config);
     let url = url_base + '/organiser/myprofile';
-    return axios.get<Object>(url, {}, config).then(response => {
-      return response;
-    });
+    return axios
+      .get<Organiser>(url, { headers: { 'x-access-token': localStorage.getItem('token') } })
+      .then(response => {
+        return response;
+      });
   }
 
   static searchEvent(search: string) {
