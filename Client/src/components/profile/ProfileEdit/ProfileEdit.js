@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Component } from 'react';
-import { EventService } from '../../../services/EventService';
-import { Organiser } from '../../../services/userService';
-
-import './stylesheet.css';
 import { OrganiserService } from '../../../services/organiserService';
+import { Organiser } from '../../../services/modelService';
+import './stylesheet.css';
 
 type State = {
   organiser: Organiser,
