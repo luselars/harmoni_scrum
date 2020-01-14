@@ -4,21 +4,29 @@ import { Event, User, Location, Organiser, TicketType } from './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class OrganiserDao extends Dao {
-  getEvent(event_id: number, email: string, callback: (status: string, data: Object) => mixed) {
+  getEvent(
+    event_id: number,
+    organiser_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
     var queryString =
-      'SELECT e.* FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id WHERE eo.organiser_email = ? AND e.event_id = ?';
-    super.query(queryString, [email, event_id], callback);
+      'SELECT e.* FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id WHERE eo.organiser_id = ? AND e.event_id = ?';
+    super.query(queryString, [organiser_id, event_id], callback);
   }
 
-  getProfile(email, callback: (status: string, data: Object) => mixed) {
+  getProfile(organiser_id, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_email, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_email) v ON v.organiser_email = o.organiser_email WHERE o.organiser_email = ?';
-    super.query(queryString, [email], callback);
+      'SELECT o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_email, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_id) v ON v.organiser_id = o.organiser_id WHERE o.organiser_id = ?';
+    super.query(queryString, [organiser_id], callback);
   }
 
-  editProfile(email, organiser: Organiser, callback: (status: string, data: Object) => mixed) {
+  editProfile(
+    organiser_id: number,
+    organiser: Organiser,
+    callback: (status: string, data: Object) => mixed,
+  ) {
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_email = ?';
+      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_id = ?';
     super.query(
       queryString,
       [
@@ -28,7 +36,7 @@ module.exports = class OrganiserDao extends Dao {
         organiser.tlf,
         organiser.website,
         organiser.address,
-        email,
+        organiser_id,
       ],
       callback,
     );
@@ -37,14 +45,14 @@ module.exports = class OrganiserDao extends Dao {
   // check if organiser owns event
   organiserOwnsEvent(
     event_id: number,
-    email: string,
+    organiser_id: string,
     callback: (status: string, data: Object) => mixed,
   ) {
-    var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_email = ?';
-    super.query(queryString, [event_id, email], callback);
+    var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_id = ?';
+    super.query(queryString, [event_id, organiser_id], callback);
   }
 
-  editEvent(event: Event, callback: (status: string, data: Event) => mixed) {
+  editEvent(event: Event, event_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE event SET name=?,image=?,description=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?',
       [
@@ -57,7 +65,7 @@ module.exports = class OrganiserDao extends Dao {
         event.location_id,
         event.venue,
         event.end,
-        event.event_id,
+        event_id,
       ],
       callback,
     );
@@ -103,6 +111,12 @@ module.exports = class OrganiserDao extends Dao {
   getLocation(callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT * FROM location ORDER BY name';
     super.query(queryString, [], callback);
+  }
+
+  // Get a single location
+  getSingleLocation(location_address: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT location_id FROM location WHERE address = ?';
+    super.query(queryString, [location_address], callback);
   }
 
   //create new location in database
@@ -184,10 +198,14 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-  editTicketType(ticketType: TicketType, callback: (status: string, data: TicketType) => mixed) {
+  editTicketType(
+    ticketType: TicketType,
+    email: string,
+    callback: (status: string, data: TicketType) => mixed,
+  ) {
     super.query(
-      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ?;',
-      [ticketType.name, ticketType.description, ticketType.ticket_type_id],
+      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_email = ?;',
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id, email],
       callback,
     );
   }

@@ -53,11 +53,15 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
-  getUserHashAndSalt(email: string, callback: (status: string, data: Object) => mixed) {
-    super.query('Select hash, salt from user WHERE email = ?', email, callback);
+  getUserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query('Select hash, salt, user_id from user WHERE email = ?', email, callback);
   }
 
-  getOrganiserHashAndSalt(email: string, callback: (status: string, data: Object) => mixed) {
-    super.query('Select hash, salt from organiser WHERE organiser_email = ?', email, callback);
+  getOrganiserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'Select hash, salt, organiser_id from organiser WHERE organiser_email = ?',
+      email,
+      callback,
+    );
   }
 };

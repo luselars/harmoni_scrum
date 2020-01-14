@@ -58,18 +58,22 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
 // login for user, returns a jwt token
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
-  dao.getUserHashAndSalt(req.body.username, (status, data) => {
+  dao.getUserLoginInfo(req.body.username, (status, data) => {
     if (status == '200' && data.length != 0) {
       console.log(data);
       // Callback function that hashes inputed password and compares to hash in DB
-      let salt = data[0].salt;
+      let salt = data.salt;
       let hash = bcrypt.hashSync(req.body.password, salt);
-      if (hash == data[0].hash) {
+      if (hash == data.hash) {
         // Returns a token for autherization if credentials match
         console.log('Username and password ok');
-        let token = jwt.sign({ username: req.body.username, type: 'user' }, privateKey, {
-          expiresIn: 1800,
-        });
+        let token = jwt.sign(
+          { username: req.body.username, type: 'user', id: data.user_id },
+          privateKey,
+          {
+            expiresIn: 1800,
+          },
+        );
         res.status(200);
         res.json({ jwt: token });
       } else {
@@ -78,17 +82,21 @@ router.post('/login', (req: express$Request, res: express$Response) => {
         res.json({ error: 'Not authorized, check username and password' });
       }
     } else {
-      dao.getOrganiserHashAndSalt(req.body.username, (status, data) => {
-        if (status == '200' && data.length != 0) {
+      dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
+        if (status == '200' && data[0].length != 0) {
           // Callback function that hashes inputed password and compares to hash in DB
           let salt = data[0].salt;
           let hash = bcrypt.hashSync(req.body.password, salt);
           if (hash == data[0].hash) {
             // Returns a token for autherization if credentials match
             console.log('Username and password ok');
-            let token = jwt.sign({ username: req.body.username, type: 'organiser' }, privateKey, {
-              expiresIn: 1800,
-            });
+            let token = jwt.sign(
+              { username: req.body.username, type: 'organiser', id: data[0].organiser_id },
+              privateKey,
+              {
+                expiresIn: 1800,
+              },
+            );
             res.json({ jwt: token });
           } else {
             console.log('Username and password NOT ok');

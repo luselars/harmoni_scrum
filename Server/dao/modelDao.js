@@ -16,7 +16,6 @@ export class Event {
   location_id: number;
   address: string;
   venue: string;
-  event_id: number = null;
 
   // Event Location
   location: Location = null;
