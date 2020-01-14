@@ -148,7 +148,7 @@ class EventNew2 extends Component<Props, State> {
           console.log(resp);
           if (resp.status === 200) {
             console.log('Arrangement oppdatert');
-            // window.location = '/newevent3';
+            window.location = '/newevent3';
           } else {
             alert('Kunne ikke oppdatere arrangement.');
             // TODO bytt ut denne alerten med et komponent.

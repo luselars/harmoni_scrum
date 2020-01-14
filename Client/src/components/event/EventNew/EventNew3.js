@@ -61,12 +61,14 @@ class EventNew3 extends Component<Props, State> {
             id="search_name"
             style={{ width: '800px' }}
             freeSolo
-            onChange={event => this.updateForm(0, event)}
+            onChange={(event, value) => this.updateForm(0, value)}
+            value={this.state.location_name}
             options={this.state.locations.map(option => option.name)}
             renderInput={params => (
               <TextField
                 {...params}
                 inputRef={this.name}
+                value={this.state.location_name}
                 label="Stedsnavn"
                 onChange={() => {
                   this.setState({ location_name: this.name.current.value });
@@ -81,11 +83,14 @@ class EventNew3 extends Component<Props, State> {
             id="search_address"
             style={{ width: '800px' }}
             freeSolo
+            onChange={(event, value) => this.updateForm(1, value)}
             options={this.state.locations.map(option => option.address)}
+            value={this.state.location_addr}
             renderInput={params => (
               <TextField
                 {...params}
                 inputRef={this.addr}
+                value={this.state.location_addr}
                 onChange={() => {
                   {
                     this.setState({ location_addr: this.addr.current.value });
@@ -111,12 +116,22 @@ class EventNew3 extends Component<Props, State> {
       </div>
     );
   }
-  updateForm(w: number, e) {
-    console.log(e);
-    let name = this.name.current.value;
-    console.log(name);
-    let addr = this.addr.current.value;
-    if (w === 0 && name !== null && name !== '') {
+  updateForm(w: number, val) {
+    if (w === 0 && val !== null && val !== '') {
+      for (let i = 0; i < this.state.locations.length; i++) {
+        if (this.state.locations[i].name === val) {
+          let a = this.state.locations[i].address;
+          this.setState({ location_addr: a });
+        }
+      }
+    }
+    if (w === 1 && val !== null && val !== '') {
+      for (let i = 0; i < this.state.locations.length; i++) {
+        if (this.state.locations[i].address === val) {
+          let a = this.state.locations[i].name;
+          this.setState({ location_name: a });
+        }
+      }
     }
   }
   formatTime() {
@@ -137,12 +152,11 @@ class EventNew3 extends Component<Props, State> {
   next() {
     console.log(this.name.current.value);
     console.log(this.addr.current.value);
-    return;
-    for (let i = 0; i < this.state.locations.length; i++) {
-      // Finnes i db, insert med id, ikke oprett ny
-      if (true) {
-        console.log(this.state.locations[i].location_id);
-      }
+    let name = this.name.current.value;
+    let addr = this.addr.current.value;
+    if (name.length < 1 || addr.length < 1) {
+      alert('Ugyldig addresse.');
+      return;
     }
   }
 }

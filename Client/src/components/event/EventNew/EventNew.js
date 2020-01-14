@@ -22,7 +22,8 @@ class EventNew extends Component<Props> {
       EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        console.log(this.state.event);
+        document.getElementById('eventnameinput').value = this.state.event.name;
+        document.getElementById('eventdesc').value = this.state.event.description;
         this.insertTime();
       });
     }
@@ -43,7 +44,6 @@ class EventNew extends Component<Props> {
               type="text"
               class="form-control"
               id="eventnameinput"
-              value={this.state.event.name}
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                 (this.state.event.name = event.target.value)
               }
@@ -54,7 +54,6 @@ class EventNew extends Component<Props> {
             <textarea
               className={'form-control'}
               id={'eventdesc'}
-              value={this.state.event.description}
               rows="4"
               cols="50"
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
