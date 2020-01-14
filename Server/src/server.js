@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'content-type,x-access-token');
   // Pass to next layer of middleware
   next();
 });

@@ -59,10 +59,11 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
       res.send(err);
     } else {
       dao.postEvent(req.body, (status, data) => {
+        let d = data;
         if (status == 200) {
           dao.postEventOrganiser(data.insertId, decoded.username, (status, data) => {
             res.status(status);
-            res.send(data);
+            res.send(d);
           });
         } else {
           res.status(status);
@@ -73,7 +74,7 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
   });
 });
 
-// Create new location
+// Get all locations
 router.get('/location', (req: express$Request, res: express$Response) => {
   dao.getLocation((status, data) => {
     res.status(status);
