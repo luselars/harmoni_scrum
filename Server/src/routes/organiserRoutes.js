@@ -74,6 +74,14 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
 });
 
 // Create new location
+router.get('/location', (req: express$Request, res: express$Response) => {
+  dao.getLocation((status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
   dao.postLocation(req.body, (status, data) => {
     res.status(status);
@@ -261,6 +269,36 @@ router.get('/sendmail', (req, res) => {
 //         return res.sendStatus(401);
 //     }
 // });
+
+// Lets an organiser look at his profile.
+router.get('/myprofile', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getProfile(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  });
+});
+
+// Lets an organiser change his profile.
+router.put('/myprofile', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.editProfile(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  });
+});
 
 // TODO delete this after incorporating
 router.post('/filetest', (req: express$Request, res: express$Response) => {
