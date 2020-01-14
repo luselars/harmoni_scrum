@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Event, OrganiserService } from '../../../services/organiserService';
+import { OrganiserService } from '../../../services/organiserService';
+import { Event } from '../../../services/modelService.js';
 import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
 import { string } from 'prop-types';
