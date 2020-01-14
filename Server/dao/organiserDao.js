@@ -155,10 +155,10 @@ module.exports = class OrganiserDao extends Dao {
   // Creates event organiser
   postEventOrganiser(
     event_id: number,
-    email: string,
+    organiser_id: number,
     callback: (status: string, data: number) => mixed,
   ) {
-    super.query('INSERT INTO event_organiser VALUES (?,?)', [event_id, email], callback);
+    super.query('INSERT INTO event_organiser VALUES (?, ?)', [event_id, organiser_id], callback);
   }
 
   // Deletes organisers for an event

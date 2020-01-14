@@ -45,7 +45,6 @@ export class EventService {
       JSON.stringify({ username: username, password: password }),
     );
   }
-  // TODO legg til tokens
   static createEvent(event: Event) {
     let config = {
       headers: {
@@ -60,17 +59,26 @@ export class EventService {
   }
   // TODO legg til token
   static updateEvent(event: Event) {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
     console.log(event);
-    let url = url_base + '/organiser/event';
-    return axios.put<Object>(url, event).then(response => {
+    let url = url_base + '/organiser/event/' + event.event_id;
+    return axios.put<Object>(url, event, config).then(response => {
       return response;
     });
   }
 
-  // TODO legg til token
   static getEvent(id: number): AxiosPromise<Event> {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
     let url = url_base + '/organiser/event/' + id;
-    return axios.get<Event>(url, {}).then(response => {
+    return axios.get<Event>(url, config).then(response => {
       return response;
     });
   }
@@ -109,5 +117,16 @@ export class EventService {
       .then(response => {
         return response;
       });
+  }
+  static getLocations() {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    let url = url_base + '/organiser/location';
+    return axios.get<Object>(url, {}, config).then(response => {
+      return response;
+    });
   }
 }

@@ -65,7 +65,7 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
     if (status == 200) {
-      dao.postEventOrganiser(data.insertId, req.id, (status, data) => {
+      dao.postEventOrganiser(data.insertId, req.uid, (status, data) => {
         res.status(status);
         res.send(d);
       });
