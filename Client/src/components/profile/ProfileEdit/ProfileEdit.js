@@ -20,10 +20,10 @@ class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      tlf: '',
-      image: '',
+      name: 'test',
+      email: 'test',
+      tlf: '123',
+      image: 'http://localhost:4000/user/file/profile.png',
       descrition: '',
       address: '',
       password: '',
@@ -35,6 +35,19 @@ class ProfileEdit extends Component<{}, State> {
       <div className="card" id="editProfile">
         <div className="card-body">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
+          <img className="img-rounded w-25" id="picture" src={this.state.image} alt="Profilbilde" />
+          <div className="form-check text-center my-3 p-2 border">
+            <label className="form-check-label" for="upload">
+              Profilbilde
+            </label>
+            <input
+              className="file mr-6"
+              accept=".jpg, .jpeg, .png"
+              type="file"
+              id="upload"
+              name="recfile"
+            />
+          </div>
           <div className="form-group" id="name">
             <label for="nameInput">Navn: </label>
             <input
@@ -90,7 +103,7 @@ class ProfileEdit extends Component<{}, State> {
               id="passwordInput"
             ></input>
           </div>
-          <img className="editImage" id="picture" src={this.state.image} alt="Profilbilde" />
+            
           <div className="form-group" id="description">
             <label for="descritionInput">Beskrivelse</label>
             <textarea
@@ -118,7 +131,7 @@ class ProfileEdit extends Component<{}, State> {
             width="100%"
             height="300px"
             frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=Korsgata+21A,+7030+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
+            src="https://www.google.com/maps/embed/v1/place?q=Brattoregata+4,+7010+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
             allowfullscreen
           ></iframe>
           <div className="form-group" id="address">

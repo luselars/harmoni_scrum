@@ -1,20 +1,22 @@
 // @flow
 
 import axios, { AxiosPromise } from 'axios';
+import {Organiser} from './UserService';
 const url_base = 'http://localhost:4000';
+
 
 // Event-model
 export class Event {
   constructor() {
-    this.name = null;
-    this.description = null;
-    this.image = null;
-    this.start = null;
-    this.status = null;
-    this.is_public = 0;
-    this.location_id = null;
-    this.venue = null;
-    this.end = null;
+    this.name = "";
+    this.description = "";
+    this.image = "";
+    this.start = "";
+    this.status = "";
+    this.is_public = false;
+    this.location_id = 0;
+    this.venue = "";
+    this.end = "";
   }
   event_id: number;
   name: string;
@@ -87,10 +89,10 @@ export class EventService {
       });
   }
 
-  static getOrganiser(email: string) {
-    let url = url_base + '/organiser/' + email;
+  static getOrganiser(token: string) {
+    let url = url_base + '/organiser/' + token;
     return axios
-      .get<Organiser>(url, { username: email })
+      .get<Organiser>(url, { token: token })
       .then(response => {
         return response;
       });

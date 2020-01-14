@@ -50,15 +50,24 @@ export default class ProfileOrganiser extends Component<
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <div class="col-4 text-center">
-                <button class="btn btn-success bg-green mb-4"> OPPRETT ARRANGEMENT </button>
+                <button 
+                  class="btn btn-success bg-green mb-4" 
+                  onClick={() => (window.location.href = '/editprofile')}
+                > 
+                  OPPRETT ARRANGEMENT 
+                </button>
                 <button
                   class="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
-                  {' '}
-                  REDIGER PROFIL{' '}
+                  REDIGER PROFIL
                 </button>
-                <button class="btn btn-success bg-green"> SLETT PROFIL </button>
+                <button 
+                  class="btn btn-success bg-green" 
+                  onClick={() => (window.location.href = '/deleteprofile')}
+                > 
+                  SLETT PROFIL 
+                </button>
               </div>
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
@@ -77,8 +86,7 @@ export default class ProfileOrganiser extends Component<
   }
 
   componentDidMount() {
-    var email_t = 'helenegj@stud.ntnu.no';
-    EventService.getOrganiser(email_t)
+    EventService.getOrganiser(window.localStorage.getItem("token"))
       .then(res => {
         let organsier: any = res.data;
         console.log(organsier[0]);
