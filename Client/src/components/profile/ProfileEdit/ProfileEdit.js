@@ -3,7 +3,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { EventService } from '../../../services/EventService';
-import { Organiser } from '../../../services/UserService';
+import { Organiser } from '../../../services/userService';
 
 import './stylesheet.css';
 
