@@ -74,7 +74,5 @@ export default class EventDetails extends Component<Props, State> {
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
-    console.log(this.state.event.event_id);
-    console.log(this.state.event);
   }
 }
