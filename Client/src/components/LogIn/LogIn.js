@@ -20,7 +20,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     return (
       <div id="profileOrganiserCard" class="card ">
         <div class="card-body bg-light">
-          <form onsubmit={this.post} method="POST">
+          <form onSubmit={this.post}>
             <p id="LoginTextH">LOGG INN</p>
             <div class="form-group text-center ml-5 mr-5">
               <label for="inputEmail1" id="loginText">
@@ -85,9 +85,15 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     console.log(this.state.password);
   }
 
-  post() {
-    UserService.logIn(this.state.email, this.state.password).then(response => {
-      window.location = '/profile';
-    });
+  post(e: any) {
+    UserService.logIn(this.state.email, this.state.password)
+      .then(response => {
+        console.log(response);
+        //window.location = '/profile';
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    e.preventDefault();
   }
 }
