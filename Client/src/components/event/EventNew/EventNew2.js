@@ -3,9 +3,10 @@ import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
-import Upload from '../../Upload/Upload';
-import { EventService } from '../../../services/EventService';
-import { Event } from '../../../services/EventService';
+import Upload from '../../Upload/Upload.js';
+import UploadScreen from '../../UploadScreen/UploadScreen.js';
+import { EventService } from '../../../services/EventService.js';
+import { Event } from '../../../services/EventService.js';
 let path = require('path');
 
 type State = {
@@ -48,6 +49,7 @@ class EventNew2 extends Component<Props, State> {
               url={'http://localhost:4000/organiser/eventimage'}
               accept={'.jpg, .png, .jpeg'}
             />
+            {/*<UploadScreen/>*/}
           </div>
         </div>
         <div>
