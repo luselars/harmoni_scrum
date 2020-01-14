@@ -73,6 +73,14 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
   });
 });
 
+// Create new location
+router.post('/location', (req: { body: Object }, res: express$Response) => {
+  dao.postLocation(req.body, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Edit a specific event
 router.put('/event', (req: { body: Object }, res: express$Response) => {
   uploadFunctions.handleFile(req.body.image, function(name) {
