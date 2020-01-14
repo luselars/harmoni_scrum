@@ -74,6 +74,11 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
+    //create new location in database
+    postLocation(location: Location, callback: (status: string, data: number) => mixed) {
+        super.query('INSERT INTO location (address, name, postcode) VALUES (?,?,?)', [location.address, location.name, location.postcode], callback);
+    }
+
   // Get all groups based on an organiser id.
   getGroup(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString =
