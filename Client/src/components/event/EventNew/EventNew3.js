@@ -11,26 +11,24 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // TODO bytt ut disse greiene med lokasjoner
 // bruk map:
 // someArrayOfStrings.map(opt => ({ label: opt, value: opt }));
-const locations = [
-  { name: 'Alligators', value: 1 },
-  { name: 'Crocodiles', value: 2 },
-  { name: 'Sharks', value: 3 },
-  { name: 'Small crocodiles', value: 4 },
-  { name: 'Smallest crocodiles', value: 5 },
-  { name: 'Snakes', value: 6 },
-];
 type State = {
   event: Event,
-  location: Location,
+  locations: [],
+  location_name: string,
+  location_addr: string,
 };
 type Props = {};
 
 class EventNew3 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
+    this.name = React.createRef();
+    this.addr = React.createRef();
     this.state = {
       event: new Event(),
-      location: '',
+      locations: [],
+      location_name: string,
+      location_addr: string,
     };
   }
   componentDidMount(): * {
@@ -44,6 +42,11 @@ class EventNew3 extends Component<Props, State> {
         console.log(this.state.event);
         this.formatTime();
       });
+      EventService.getLocations().then(response => {
+        console.log(response.data);
+        this.setState({ locations: response.data });
+        console.log(this.state.locations);
+      });
     }
   }
 
@@ -55,14 +58,40 @@ class EventNew3 extends Component<Props, State> {
         <div class="form-row">
           <p>Velg sted:</p>
           <Autocomplete
-            id="search_locations"
+            id="search_name"
             style={{ width: '800px' }}
             freeSolo
-            options={locations.map(option => option.name)}
+            onChange={event => this.updateForm(0, event)}
+            options={this.state.locations.map(option => option.name)}
             renderInput={params => (
               <TextField
                 {...params}
-                label="location"
+                inputRef={this.name}
+                label="Stedsnavn"
+                onChange={() => {
+                  this.setState({ location_name: this.name.current.value });
+                }}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
+          <Autocomplete
+            id="search_address"
+            style={{ width: '800px' }}
+            freeSolo
+            options={this.state.locations.map(option => option.address)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                inputRef={this.addr}
+                onChange={() => {
+                  {
+                    this.setState({ location_addr: this.addr.current.value });
+                  }
+                }}
+                label="Stedsaddresse"
                 margin="normal"
                 variant="outlined"
                 fullWidth
@@ -82,8 +111,13 @@ class EventNew3 extends Component<Props, State> {
       </div>
     );
   }
-  test() {
-    console.log(this.state.location);
+  updateForm(w: number, e) {
+    console.log(e);
+    let name = this.name.current.value;
+    console.log(name);
+    let addr = this.addr.current.value;
+    if (w === 0 && name !== null && name !== '') {
+    }
   }
   formatTime() {
     if (this.state.event.start !== null) {
@@ -101,8 +135,15 @@ class EventNew3 extends Component<Props, State> {
     window.location = '/newevent2';
   }
   next() {
-    let s_bar = document.getElementById('search_locations');
-    console.log(s_bar.value);
+    console.log(this.name.current.value);
+    console.log(this.addr.current.value);
+    return;
+    for (let i = 0; i < this.state.locations.length; i++) {
+      // Finnes i db, insert med id, ikke oprett ny
+      if (true) {
+        console.log(this.state.locations[i].location_id);
+      }
+    }
   }
 }
 export default EventNew3;

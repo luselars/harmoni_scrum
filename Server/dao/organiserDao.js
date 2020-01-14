@@ -16,7 +16,7 @@ module.exports = class OrganiserDao extends Dao {
 
   getProfile(organiser_id, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_id, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_id) v ON v.organiser_id = o.organiser_id WHERE o.organiser_id = ?';
+      'SELECT o.organiser_id, o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_id, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_id) v ON v.organiser_id = o.organiser_id WHERE o.organiser_id = ?';
     super.query(queryString, [organiser_id], callback);
   }
 
@@ -155,10 +155,10 @@ module.exports = class OrganiserDao extends Dao {
   // Creates event organiser
   postEventOrganiser(
     event_id: number,
-    email: string,
+    organiser_id: number,
     callback: (status: string, data: number) => mixed,
   ) {
-    super.query('INSERT INTO event_organiser VALUES (?,?)', [event_id, email], callback);
+    super.query('INSERT INTO event_organiser VALUES (?, ?)', [event_id, organiser_id], callback);
   }
 
   // Deletes organisers for an event

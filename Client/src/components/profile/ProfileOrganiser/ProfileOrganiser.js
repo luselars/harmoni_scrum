@@ -51,15 +51,24 @@ export default class ProfileOrganiser extends Component<
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <div class="col-4 text-center">
-                <button class="btn btn-success bg-green mb-4"> OPPRETT ARRANGEMENT </button>
                 <button
                   class="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
-                  {' '}
-                  REDIGER PROFIL{' '}
+                  OPPRETT ARRANGEMENT
                 </button>
-                <button class="btn btn-success bg-green"> SLETT PROFIL </button>
+                <button
+                  class="btn btn-success bg-green mb-4"
+                  onClick={() => (window.location.href = '/editprofile')}
+                >
+                  REDIGER PROFIL
+                </button>
+                <button
+                  class="btn btn-success bg-green"
+                  onClick={() => (window.location.href = '/deleteprofile')}
+                >
+                  SLETT PROFIL
+                </button>
               </div>
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
@@ -72,8 +81,7 @@ export default class ProfileOrganiser extends Component<
                   class="btn btn-success bg-green"
                   onClick={() => (window.location.href = '/events/' + this.state.id)}
                 >
-                  {' '}
-                  SE ARRANGEMENTER{' '}
+                  SE ARRANGEMENTER
                 </button>
               </div>
             </div>
@@ -86,6 +94,7 @@ export default class ProfileOrganiser extends Component<
   componentDidMount() {
     OrganiserService.getOrganiser()
       .then(res => {
+        console.log("i'm in!");
         let organsier: any = res.data;
         console.log(organsier);
         this.setState({
