@@ -20,7 +20,7 @@ export default class ProfileNew extends Component<
     postal: string,
     image: string,
     tlf: string,
-    description: string
+    description: string,
   },
 > {
   constructor(props: any) {
@@ -38,7 +38,7 @@ export default class ProfileNew extends Component<
       postal: string,
       image: string,
       tlf: string,
-      description: string
+      description: string,
     };
   }
 
@@ -122,7 +122,7 @@ export default class ProfileNew extends Component<
                 type="text"
                 onChange={e => this.onChange(e)}
                 className="form-control"
-                id="inputPasswordRepeat1"
+                id="description"
                 placeholder="Litt om deg"
                 name="description"
               ></textarea>
@@ -142,61 +142,62 @@ export default class ProfileNew extends Component<
             </div>
             {this.state.organiser ? (
               <div id="addressForm">
-              <div className="form-group text-center ml-5 mr-5">
-                <label for="inputAddress" id="loginText">
-                  Adresse
-                </label>
-                <input
-                  type="text"
-                  onChange={e => this.onChange(e)}
-                  className="form-control"
-                  id="inputAddress"
-                  placeholder="Adresse"
-                  name="address"
-                ></input>
+                <div className="form-group text-center ml-5 mr-5">
+                  <label for="inputAddress" id="loginText">
+                    Adresse
+                  </label>
+                  <input
+                    type="text"
+                    onChange={e => this.onChange(e)}
+                    className="form-control"
+                    id="inputAddress"
+                    placeholder="Adresse"
+                    name="address"
+                  ></input>
+                </div>
+                <div className="form-group text-center ml-5 mr-5">
+                  <label for="inputPostalcode" id="loginText">
+                    Postnummer
+                  </label>
+                  <input
+                    type="number"
+                    onChange={e => this.onChange(e)}
+                    className="form-control"
+                    id="inputPostalcode"
+                    placeholder="Postnummer"
+                    name="postalcode"
+                  ></input>
+                </div>
+                <div className="form-group text-center ml-5 mr-5">
+                  <label for="inputPostal" id="loginText">
+                    Poststed
+                  </label>
+                  <input
+                    type="text"
+                    onChange={e => this.onChange(e)}
+                    className="form-control"
+                    id="inputPostal"
+                    placeholder="Poststed"
+                    name="postal"
+                  ></input>
+                </div>
+                <div class="form-group text-center ml-5 mr-5">
+                  <label for="inputURL1" id="loginText">
+                    URL til nettsted
+                  </label>
+                  <input
+                    type="url"
+                    onChange={e => this.onChange(e)}
+                    className="form-control"
+                    id="inputURL1"
+                    placeholder="Lim inn url"
+                    name="website"
+                  ></input>
+                </div>
               </div>
-              <div className="form-group text-center ml-5 mr-5">
-                <label for="inputPostalcode" id="loginText">
-                  Postnummer
-                </label>
-                <input
-                  type="number"
-                  onChange={e => this.onChange(e)}
-                  className="form-control"
-                  id="inputPostalcode"
-                  placeholder="Postnummer"
-                  name="postalcode"
-                ></input>
-              </div>
-              <div className="form-group text-center ml-5 mr-5">
-                <label for="inputPostal" id="loginText">
-                  Poststed
-                </label>
-                <input
-                  type="text"
-                  onChange={e => this.onChange(e)}
-                  className="form-control"
-                  id="inputPostal"
-                  placeholder="Poststed"
-                  name="postal"
-                ></input>
-              </div>
-              <div class="form-group text-center ml-5 mr-5">
-              <label for="inputURL1" id="loginText">
-                URL til nettsted
-              </label>
-              <input
-                type="url"
-                onChange={e => this.onChange(e)}
-                className="form-control"
-                id="inputURL1"
-                placeholder="Lim inn url"
-                name="website"
-              ></input>
-            </div>
-            </div>
-            
-            ) : (<p></p>)}
+            ) : (
+              <p></p>
+            )}
             <div className="form-check text-center ml-5 mr-5 p-2 border">
               <input
                 className="file mr-6"
@@ -233,7 +234,7 @@ export default class ProfileNew extends Component<
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(name + ": "+ value);
+    console.log(name + ': ' + value);
   }
 
   changeOrganiser(e: any) {
@@ -256,34 +257,31 @@ export default class ProfileNew extends Component<
           if (this.state.email !== '') {
             // Checks if it's an organiser or normal user.
             if (this.state.organiser) {
-              var address : string = this.state.address + "#" + this.state.postalcode +  "#" +this.state.postal;
+              var address: string =
+                this.state.address + '#' + this.state.postalcode + '#' + this.state.postal;
               UserService.newOrganiser(
-                this.state.email, 
-                this.state.name, 
-                this.state.password, 
-                this.state.image, 
-                this.state.tlf, 
-                this.state.description, 
-                address, 
-                this.state.url
-                ).then(
-                () => {
-                  window.location = '/profile';
-                },
-              );
-            } else {
-              UserService.newUser(
-                this.state.email, 
-                this.state.name, 
+                this.state.email,
+                this.state.name,
                 this.state.password,
                 this.state.image,
                 this.state.tlf,
-                this.state.description
-                ).then(
-                () => {
-                  window.location = '/profile';
-                },
-              );
+                this.state.description,
+                address,
+                this.state.url,
+              ).then(() => {
+                window.location = '/profile';
+              });
+            } else {
+              UserService.newUser(
+                this.state.email,
+                this.state.name,
+                this.state.password,
+                this.state.image,
+                this.state.tlf,
+                this.state.description,
+              ).then(() => {
+                window.location = '/profile';
+              });
             }
           }
         }

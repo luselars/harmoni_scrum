@@ -8,32 +8,14 @@ import { Organiser } from '../../../services/UserService';
 import './stylesheet.css';
 
 type State = {
-  name: string,
-  email: string,
-  tlf: string,
-  image: string,
-  description: string,
-  address: string,
-  postalcode: number,
-  postal: string,
-  password: string,
-  website: string,
+  organiser: Organiser,
 };
 
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      name: 'test',
-      email: 'test',
-      tlf: '123',
-      image: 'http://localhost:4000/user/file/profile.png',
-      description: '',
-      address: '',
-      postalcode: 0,
-      postal: '',
-      password: '',
-      website: '',
+      organiser: new Organiser('', ''),
     };
   }
 
@@ -42,7 +24,12 @@ class ProfileEdit extends Component<{}, State> {
       <div className="card" id="editProfile">
         <div className="card-body">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
-          <img className="img-rounded w-25" id="picture" src={this.state.image} alt="Profilbilde" />
+          <img
+            className="img-rounded w-25"
+            id="picture"
+            src={'http://localhost:4000/user/file/' + this.state.image}
+            alt="Profilbilde"
+          />
           <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
               Profilbilde
@@ -179,26 +166,13 @@ class ProfileEdit extends Component<{}, State> {
       </div>
     );
   }
-
   componentDidMount() {
-    console.log('hei');
-    EventService.getOrganiser(window.localStorage.getItem('token')).then(res => {
+    EventService.getOrganiser().then(res => {
       console.log(res.data);
-      let organsier: any = res.data;
-      console.log(' heiiiiiiii');
+      let organiser: Organiser = res.data;
       this.setState({
-        email: organsier[0].email,
-        name: organsier[0].name,
-        image: 'http://localhost:4000/user/file/' + organsier[0].image,
-        website: organsier[0].website,
-        description: organsier[0].description,
-        address: organsier[0].address,
-        tlf: organsier[0].tlf,
-        postalcode: 0,
-        postal: '',
-        password: '',
+        organiser,
       });
-      console.log(organsier[0] + 'hade');
     });
   }
 
