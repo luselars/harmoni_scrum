@@ -28,16 +28,9 @@ export class PublicService {
   }
 
   // Get the frontpage.
-  static getFrontpage(sortString: string) {
+  static getFrontpage(sortString: string): AxiosPromise<Event[]> {
     let url = url_base + '/event';
-    return (
-      axios.get <
-      Event >
-      (url, { params: { sortString: sortString } }).then(response => {
-        console.log(response);
-        return response;
-      })
-    );
+    return axios.get(url, { params: { sortString: sortString } });
   }
 
   // TODO legg til token
@@ -52,42 +45,28 @@ export class PublicService {
     );
   }
 
-  static newUser(email: string, name: string, password: string) {
+  static newUser(email: string, name: string, password: string): AxiosPromise<Object> {
     let url = url_base + '/register/user';
-    return (
-      axios.post <
-      Object >
-      (url,
-      {
-        email: email,
-        name: name,
-        password: password,
-        image: '',
-        tlf: '',
-        description: '',
-      }).then(response => {
-        localStorage.setItem('token', response.data.jwt);
-      })
-    );
+    return axios.post(url, {
+      email: email,
+      name: name,
+      password: password,
+      image: '',
+      tlf: '',
+      description: '',
+    });
   }
 
-  static newOrganiser(email: string, name: string, password: string) {
+  static newOrganiser(email: string, name: string, password: string): AxiosPromise<Object> {
     let url = url_base + '/register/organiser';
-    return (
-      axios.post <
-      Object >
-      (url,
-      {
-        email: email,
-        name: name,
-        password: password,
-        image: '',
-        tlf: '',
-        description: '',
-      }).then(response => {
-        localStorage.setItem('token', response.data.jwt);
-      })
-    );
+    return axios.post(url, {
+      email: email,
+      name: name,
+      password: password,
+      image: '',
+      tlf: '',
+      description: '',
+    });
   }
 
   static searchEvent(search: string) {

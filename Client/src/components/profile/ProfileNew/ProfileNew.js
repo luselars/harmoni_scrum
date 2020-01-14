@@ -268,7 +268,8 @@ export default class ProfileNew extends Component<
                 this.state.description,
                 address,
                 this.state.url,
-              ).then(() => {
+              ).then(response => {
+                localStorage.setItem('token', response.data.jwt);
                 window.location = '/profile';
               });
             } else {
@@ -279,7 +280,8 @@ export default class ProfileNew extends Component<
                 this.state.image,
                 this.state.tlf,
                 this.state.description,
-              ).then(() => {
+              ).then(response => {
+                localStorage.setItem('token', response.data.jwt);
                 window.location = '/profile';
               });
             }
