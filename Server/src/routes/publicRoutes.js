@@ -83,29 +83,35 @@ router.post('/login', (req: express$Request, res: express$Response) => {
       }
     } else {
       dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
-        if (status == '200' && data[0].length != 0) {
-          // Callback function that hashes inputed password and compares to hash in DB
-          let salt = data[0].salt;
-          let hash = bcrypt.hashSync(req.body.password, salt);
-          if (hash == data[0].hash) {
-            // Returns a token for autherization if credentials match
-            console.log('Username and password ok');
-            let token = jwt.sign(
-              { username: req.body.username, type: 'organiser', id: data[0].organiser_id },
-              privateKey,
-              {
-                expiresIn: 1800,
-              },
-            );
-            res.json({ jwt: token });
+        if (status == '200') {
+          console.log('data ' + data);
+          if (data[0] != null) {
+            // Callback function that hashes inputed password and compares to hash in DB
+            let salt = data[0].salt;
+            let hash = bcrypt.hashSync(req.body.password, salt);
+            if (hash == data[0].hash) {
+              // Returns a token for autherization if credentials match
+              console.log('Username and password ok');
+              let token = jwt.sign(
+                { username: req.body.username, type: 'organiser', id: data[0].organiser_id },
+                privateKey,
+                {
+                  expiresIn: 1800,
+                },
+              );
+              res.json({ jwt: token });
+            } else {
+              console.log('Username and password NOT ok');
+              res.status(401);
+              res.json({ error: 'Not authorized, check username and password' });
+            }
           } else {
-            console.log('Username and password NOT ok');
-            res.status(401);
-            res.json({ error: 'Not authorized, check username and password' });
+            res.status(404);
+            res.json({ error: 'Username not found' });
           }
         } else {
-          res.status(404);
-          res.json({ error: 'Username not found' });
+          res.status(status);
+          res.json({ error: data });
         }
       });
     }

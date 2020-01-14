@@ -3,8 +3,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { Organiser } from '../../services/userService';
-import { UserService } from '../../services/userService';
+import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
 
 export default class LogIn extends Component<{}, { email: string, password: string }> {
@@ -20,7 +19,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     return (
       <div id="profileOrganiserCard" class="card ">
         <div class="card-body bg-light">
-          <form onSubmit={this.post}>
+          <form onSubmit={e => this.post(e)}>
             <p id="LoginTextH">LOGG INN</p>
             <div class="form-group text-center ml-5 mr-5">
               <label for="inputEmail1" id="loginText">
@@ -74,7 +73,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     let name: string = target.name;
     let value: string = target.value;
     this.setState({ email: value });
-    console.log(this.state.email);
   }
 
   changePassword(e: any) {
@@ -82,18 +80,19 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     let name: string = target.name;
     let value: string = target.value;
     this.setState({ password: value });
-    console.log(this.state.password);
   }
 
   post(e: any) {
-    UserService.logIn(this.state.email, this.state.password)
+    e.preventDefault();
+    PublicService.logIn(this.state.email, this.state.password)
       .then(response => {
-        console.log(response);
-        //window.location = '/profile';
+        console.log('Response: ' + response.data.jwt);
+        localStorage.setItem('token', response.data.jwt);
+        window.location = '/profile';
       })
       .catch(error => {
-        console.log(error);
+        console.log('error: ' + error);
+        alert('Bruker ikke funnet, sjekk passord og email og prøv på nytt');
       });
-    e.preventDefault();
   }
 }
