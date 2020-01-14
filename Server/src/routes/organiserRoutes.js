@@ -74,6 +74,14 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
 });
 
 // Create new location
+router.get('/location', (req: express$Request, res: express$Response) => {
+  dao.getLocation((status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
   dao.postLocation(req.body, (status, data) => {
     res.status(status);
