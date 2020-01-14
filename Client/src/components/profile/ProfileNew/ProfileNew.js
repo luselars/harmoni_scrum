@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { UserService } from '../../../services/UserService';
+import { UserService } from '../../../services/userService';
 import { string, number } from 'prop-types';
 
 export default class ProfileNew extends Component<

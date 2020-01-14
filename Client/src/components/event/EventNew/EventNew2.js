@@ -5,8 +5,8 @@ import './stylesheet.css';
 import { string } from 'prop-types';
 import Upload from '../../Upload/Upload.js';
 import UploadScreen from '../../UploadScreen/UploadScreen.js';
-import { EventService } from '../../../services/EventService.js';
-import { Event } from '../../../services/EventService.js';
+import { OrganiserService } from '../../../services/organiserService.js';
+import { Event } from '../../../services/modelService.js';
 let path = require('path');
 
 type State = {
@@ -26,7 +26,7 @@ class EventNew2 extends Component<Props, State> {
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
-      EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
+      OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         console.log(data);
         this.setState({ event: data });
@@ -102,7 +102,7 @@ class EventNew2 extends Component<Props, State> {
         function() {
           // send here
           temp_event.image = reader.result;
-          EventService.updateEvent(temp_event).then(resp => {
+          OrganiserService.updateEvent(temp_event).then(resp => {
             console.log(resp);
             if (resp.status === 200) {
               console.log('Arrangement oppdatert');
@@ -144,7 +144,7 @@ class EventNew2 extends Component<Props, State> {
       function() {
         // send here
         temp_event.image = reader.result;
-        EventService.updateEvent(temp_event).then(resp => {
+        OrganiserService.updateEvent(temp_event).then(resp => {
           console.log(resp);
           if (resp.status === 200) {
             console.log('Arrangement oppdatert');

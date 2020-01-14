@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 
-import { EventService } from '../../../services/EventService';
+import { OrganiserService } from '../../../services/organiserService';
 
 export default class ProfileOrganiser extends Component<
   {},
@@ -92,7 +92,7 @@ export default class ProfileOrganiser extends Component<
   }
 
   componentDidMount() {
-    EventService.getOrganiser()
+    OrganiserService.getOrganiser()
       .then(res => {
         console.log("i'm in!");
         let organsier: any = res.data;
