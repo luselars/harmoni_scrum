@@ -254,6 +254,36 @@ router.get('/sendmail', (req, res) => {
 //     }
 // });
 
+// Lets an organiser look at his profile.
+router.get('/myprofile', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.getProfile(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  });
+});
+
+// Lets an organiser change his profile.
+router.put('/myprofile', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.editProfile(decoded.username, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  });
+});
+
 // TODO delete this after incorporating
 router.post('/filetest', (req: express$Request, res: express$Response) => {
   // TODO remember to check extension and size?
