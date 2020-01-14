@@ -10,6 +10,13 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
+  linkArtist(email: string, event_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'INSERT INTO event_artist (event_id, user_id) VALUES(?, (SELECT user_id FROM user WHERE email = ?))',
+      [event_id, email],
+      callback,
+    );
+  }
   deleteUser(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('DELETE FROM user WHERE user_id=?', [user_id], callback);
   }

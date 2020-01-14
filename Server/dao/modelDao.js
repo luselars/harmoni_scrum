@@ -65,6 +65,8 @@ export class Organiser {
   tlf: string;
   website: string;
   address: string;
+  eventsFinished: number;
+  eventsComing: number;
 }
 
 // Object for sending ticket type
