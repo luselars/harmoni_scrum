@@ -42,8 +42,8 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                       <input
                         type="radio"
                         id="sortRadio1"
-                        value="option1"
-                        checked={this.state.sortOption === 'option1'}
+                        value="e.start"
+                        checked={this.state.sortOption === 'e.start'}
                         onChange={e => this.handleChangeSort(e)}
                       ></input>
                       Tid
