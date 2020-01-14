@@ -113,6 +113,12 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [], callback);
   }
 
+  // Get a single location
+  getSingleLocation(location_address: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT location_id FROM location WHERE address = ?';
+    super.query(queryString, [location_address], callback);
+  }
+
   //create new location in database
   postLocation(location: Location, callback: (status: string, data: number) => mixed) {
     super.query(

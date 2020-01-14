@@ -1,8 +1,38 @@
-#filterCard{
-    width: 18%;
-    margin-left: 10%;
-    margin-right: 2%;
-    float: left;
-    margin-bottom: 1%;
-    margin-top: 1%;
+#filterCard {
+  width: 18%;
+  margin-left: 10%;
+  margin-right: 2%;
+  float: left;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.arrow {
+  border: solid green;
+  border-width: 0 6px 6px 0;
+  display: inline-block;
+  padding: 6px;
+  margin: 0 20px;
+  margin-top: -20px;
+}
+
+.dropdown {
+  border: none;
+  background-color: transparent;
+  visibility: hidden;
+  float: right;
+}
+
+@media screen and (max-width: 700px) {
+  .dropdown {
+    visibility: visible;
+  }
 }
