@@ -15,11 +15,12 @@ module.exports = class OrganiserDao extends Dao {
     email: string,
     callback: (status: string, data: Object) => mixed,
   ) {
+    console.log(event_id + email);
     var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_email = ?';
     super.query(queryString, [event_id, email], callback);
   }
 
-  editEvent(event: Event, callback: (status: string, data: Event) => mixed) {
+  editEvent(event: Event, event_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE event SET name=?,image=?,description=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?',
       [
@@ -32,7 +33,7 @@ module.exports = class OrganiserDao extends Dao {
         event.location_id,
         event.venue,
         event.end,
-        event.event_id,
+        event_id,
       ],
       callback,
     );
@@ -136,10 +137,14 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-  editTicketType(ticketType: TicketType, callback: (status: string, data: TicketType) => mixed) {
+  editTicketType(
+    ticketType: TicketType,
+    email: string,
+    callback: (status: string, data: TicketType) => mixed,
+  ) {
     super.query(
-      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ?;',
-      [ticketType.name, ticketType.description, ticketType.ticket_type_id],
+      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_email = ?;',
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id, email],
       callback,
     );
   }
