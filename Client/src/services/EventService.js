@@ -85,10 +85,10 @@ export class EventService {
       });
   }
 
-  static getOrganiser(email: string) {
-    let url = url_base + '/organiser/' + email;
+  static getOrganiser() {
+    let url = url_base + '/organiser/myprofile';
     return axios
-      .get<Organiser>(url, { username: email })
+      .get<Organiser>(url, { headers: { 'x-access-token': localStorage.getItem('token') } })
       .then(response => {
         return response;
       });

@@ -13,7 +13,7 @@ export default class ProfileOrganiser extends Component<
     image: string,
     website: string,
     eventsFinished: number,
-    eventsComming: number,
+    eventsComing: number,
     address: string,
   },
 > {
@@ -25,7 +25,7 @@ export default class ProfileOrganiser extends Component<
       image: '',
       website: 'www.test.no',
       eventsFinished: 0,
-      eventsComming: 0,
+      eventsComing: 0,
       address: '',
       id: 0,
     };
@@ -64,9 +64,9 @@ export default class ProfileOrganiser extends Component<
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
                 {
-                  //if ((this.state.eventsComming + this.state.eventsFinished) > 0)
+                  //if ((this.state.eventsComing + this.state.eventsFinished) > 0)
                 }
-                <p>Du har {this.state.eventsComming} kommende arrangementer.</p>
+                <p>Du har {this.state.eventsComing} kommende arrangementer.</p>
                 <p>Du har gjennomført {this.state.eventsFinished} arrangementer.</p>
                 <button
                   class="btn btn-success bg-green"
@@ -84,19 +84,18 @@ export default class ProfileOrganiser extends Component<
   }
 
   componentDidMount() {
-    var email_t = 'helenegj@stud.ntnu.no';
-    EventService.getOrganiser(email_t)
+    EventService.getOrganiser()
       .then(res => {
         let organsier: any = res.data;
-        console.log(organsier[0]);
+        console.log(organsier);
         this.setState({
-          organiser_email: organsier[0].organiser_email,
-          name: organsier[0].name,
-          image: 'http://localhost:4000/user/file/' + organsier[0].image,
-          website: organsier[0].website,
-          eventsFinished: organsier[0].eventsFinished,
-          eventsComming: organsier[0].eventsComming,
-          address: organsier[0].address,
+          organiser_email: organsier.organiser_email,
+          name: organsier.name,
+          image: 'http://localhost:4000/user/file/' + organsier.image,
+          website: organsier.website,
+          eventsFinished: organsier.eventsFinished,
+          eventsComing: organsier.eventsComing,
+          address: organsier.address,
         });
       })
 
