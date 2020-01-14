@@ -7,6 +7,7 @@ import { Event } from '../../../services/modelService.js';
 import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
 import { string } from 'prop-types';
+import { PublicService } from '../../../services/publicService';
 
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 let events: Event[] = [];
@@ -76,7 +77,7 @@ export default class EventList extends Component<Props, State> {
 
   componentDidMount() {
     let sortMethod: string = CommunicationService.getSortString();
-    OrganiserService.getFrontpage(this.state.sortMethod)
+    PublicService.getFrontpage(this.state.sortMethod)
       .then(events => {
         console.log(events);
         this.setState({ events: events.data });

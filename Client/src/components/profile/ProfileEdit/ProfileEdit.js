@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { Component } from 'react';
-import { EventService } from '../../../services/EventService';
-import { Organiser } from '../../../services/userService';
 
 import './stylesheet.css';
+import { OrganiserService } from '../../../services/organiserService';
 
 type State = {
   name: string,
@@ -182,7 +181,7 @@ class ProfileEdit extends Component<{}, State> {
 
   componentDidMount() {
     console.log('hei');
-    EventService.getOrganiser(window.localStorage.getItem('token')).then(res => {
+    OrganiserService.getOrganiser(window.localStorage.getItem('token')).then(res => {
       console.log(res.data);
       let organsier: any = res.data;
       console.log(' heiiiiiiii');
