@@ -3,10 +3,10 @@ import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
-import { OrganiserService } from '../../../services/organiserService';
 import { Event } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { OrganiserService } from '../../../services/organiserService';
 
 // TODO bytt ut disse greiene med lokasjoner
 // bruk map:
@@ -42,11 +42,11 @@ class EventNew3 extends Component<Props, State> {
         console.log(this.state.event);
         this.formatTime();
       });
-      EventService.getLocations().then(response => {
-        console.log(response.data);
-        this.setState({ locations: response.data });
-        console.log(this.state.locations);
-      });
+      // EventService.getLocations().then(response => {
+      //   console.log(response.data);
+      //   this.setState({ locations: response.data });
+      //   console.log(this.state.locations);
+      // });
     }
   }
 

@@ -2,9 +2,9 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { EventService } from '../../../services/EventService';
-import { Event } from '../../../services/EventService';
+import { Event } from '../../../services/modelService';
 import TimeField from 'react-simple-timefield';
+import { OrganiserService } from '../../../services/organiserService';
 
 type Props = {};
 class EventNew extends Component<Props> {
@@ -19,7 +19,7 @@ class EventNew extends Component<Props> {
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
-      EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
+      OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
@@ -160,7 +160,7 @@ class EventNew extends Component<Props> {
       this.state.event.end = null;
     }
     if (localStorage.getItem('curr_event') === null) {
-      EventService.createEvent(this.state.event).then(resp => {
+      OrganiserService.createEvent(this.state.event).then(resp => {
         console.log(resp);
         if (resp.status === 200) {
           console.log('Arrangement oprettet');
@@ -172,7 +172,7 @@ class EventNew extends Component<Props> {
         }
       });
     } else {
-      EventService.updateEvent(this.state.event).then(resp => {
+      OrganiserService.updateEvent(this.state.event).then(resp => {
         console.log(resp);
         if (resp.status === 200) {
           console.log('Arrangement oppdatert');
