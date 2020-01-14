@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
+import { Organiser } from '../../../services/modelService';
 
 import { OrganiserService } from '../../../services/organiserService';
 
