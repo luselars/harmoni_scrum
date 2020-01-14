@@ -37,12 +37,11 @@ module.exports = class OrganiserDao extends Dao {
   // check if organiser owns event
   organiserOwnsEvent(
     event_id: number,
-    email: string,
+    organiser_id: string,
     callback: (status: string, data: Object) => mixed,
   ) {
-    console.log(event_id + email);
-    var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_email = ?';
-    super.query(queryString, [event_id, email], callback);
+    var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_id = ?';
+    super.query(queryString, [event_id, organiser_id], callback);
   }
 
   editEvent(event: Event, event_id: number, callback: (status: string, data: Event) => mixed) {

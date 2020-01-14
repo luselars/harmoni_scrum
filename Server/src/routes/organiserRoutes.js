@@ -26,6 +26,7 @@ router.use('', (req, res, next) => {
       if (decoded.type == 'organiser') {
         console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
+        req.uid = decoded.id;
         next();
       } else {
         console.log('Token NOT ok');
@@ -39,7 +40,7 @@ router.use('', (req, res, next) => {
 });
 
 router.param('event_id', function(req, res, next, event_id) {
-  dao.organiserOwnsEvent(req.params.event_id, req.email, (status, data) => {
+  dao.organiserOwnsEvent(req.params.event_id, req.uid, (status, data) => {
     console.log(status);
     console.log(data);
     if (data.length == 0) {
@@ -64,7 +65,7 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
     if (status == 200) {
-      dao.postEventOrganiser(data.insertId, req.email, (status, data) => {
+      dao.postEventOrganiser(data.insertId, req.id, (status, data) => {
         res.status(status);
         res.send(d);
       });
