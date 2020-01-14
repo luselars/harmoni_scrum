@@ -46,7 +46,7 @@ function App() {
           <Route exact path="/editprofile" component={ProfileEdit} />
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/events" component={LoggedIn} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
           <Route component={NoMatch} />
         </Switch>

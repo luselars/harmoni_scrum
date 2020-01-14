@@ -15,17 +15,23 @@ export default class SearchBar extends Component<{}, { search: string }> {
   render() {
     return (
       <div className="input-group my-3 " id="searchBox">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Søk her..."
-          onChange={e => this.onChange(e)}
-          name="search"
-        ></input>
-        <div className="input-group-append">
-          <button onClick={() => this.post()} className="btn btn-outline-secondary" type="button">
-            Search
-          </button>
+        <div class="input-group md-form form-sm form-1 pl-0">
+          <div class="input-group-prepend">
+            <span
+              onClick={() => this.post()}
+              class="input-group-text purple lighten-3"
+              id="basic-text1"
+            >
+              <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"></link>
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input
+            class="form-control my-0 py-1"
+            type="text"
+            placeholder="Search"
+            aria-label="Search"
+          />
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ export default class EventList extends Component<Props, State> {
       events: [],
       sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
-      id: 1,
+      organiser_id: 0,
     };
   }
   render() {
