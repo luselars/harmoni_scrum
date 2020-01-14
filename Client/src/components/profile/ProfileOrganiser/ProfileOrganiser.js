@@ -27,6 +27,7 @@ export default class ProfileOrganiser extends Component<
       eventsFinished: 0,
       eventsComming: 0,
       address: '',
+      id: 0,
     };
   }
   render() {
@@ -67,7 +68,13 @@ export default class ProfileOrganiser extends Component<
                 }
                 <p>Du har {this.state.eventsComming} kommende arrangementer.</p>
                 <p>Du har gjennomført {this.state.eventsFinished} arrangementer.</p>
-                <button class="btn btn-success bg-green"> SE ARRANGEMENTER </button>
+                <button
+                  class="btn btn-success bg-green"
+                  onClick={() => (window.location.href = '/events/' + this.state.id)}
+                >
+                  {' '}
+                  SE ARRANGEMENTER{' '}
+                </button>
               </div>
             </div>
           </div>
