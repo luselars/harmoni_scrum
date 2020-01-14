@@ -3,9 +3,10 @@ import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
-import Upload from '../../Upload/Upload';
-import { EventService } from '../../../services/EventService';
-import { Event } from '../../../services/EventService';
+import Upload from '../../Upload/Upload.js';
+import UploadScreen from '../../UploadScreen/UploadScreen.js';
+import { EventService } from '../../../services/EventService.js';
+import { Event } from '../../../services/EventService.js';
 let path = require('path');
 
 type State = {
@@ -21,16 +22,17 @@ class EventNew2 extends Component<Props, State> {
     };
   }
   componentDidMount(): * {
-    // See if the user is actually in the process of creating an event, if not send to /newevent
-    if (localStorage.getItem('curr_event') === null) {
-      // TODO bytt alert
-      alert('Du må oprette et event for å være her eller noe');
-      window.location = '/newevent';
-    } else {
+    // Check if the user is currently writing an event, if so load inputs with data
+    if (localStorage.getItem('curr_event') !== null) {
+      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
+      // TODO add token
       EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
-        let data = response.data[0];
+        let data = response.data;
+        console.log(data);
         this.setState({ event: data });
         console.log(this.state.event);
+        this.formatTime();
+        this.loadImage();
       });
     }
   }
@@ -47,6 +49,7 @@ class EventNew2 extends Component<Props, State> {
               url={'http://localhost:4000/organiser/eventimage'}
               accept={'.jpg, .png, .jpeg'}
             />
+            {/*<UploadScreen/>*/}
           </div>
         </div>
         <div>
@@ -61,11 +64,70 @@ class EventNew2 extends Component<Props, State> {
       </div>
     );
   }
+  loadImage() {
+    if (this.state.event.image !== null) {
+      console.log(this.state.event.image);
+      document.getElementById('prev').src =
+        'http://localhost:4000/user/file/' + this.state.event.image;
+    }
+  }
+  formatTime() {
+    if (this.state.event.start !== null) {
+      let d = this.state.event.start.substring(0, 10);
+      let h = this.state.event.start.substring(11, 16);
+      this.state.event.start = d + ' ' + h + ':00';
+    }
+    if (this.state.event.end !== null) {
+      let d = this.state.event.end.substring(0, 10);
+      let h = this.state.event.end.substring(11, 16);
+      this.state.event.end = d + ' ' + h + ':00';
+    }
+  }
   back() {
+    // If the user has uploaded anything new, publish it.
+    let element = document.getElementById('upload');
+    if (element.value !== '') {
+      //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
+      let fullPath = element.value;
+      let ext = path.extname(fullPath);
+      if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+        window.location = '/newevent';
+        return;
+      }
+      const file = element.files[0];
+      const reader = new FileReader();
+      let temp_event = this.state.event;
+      reader.addEventListener(
+        'load',
+        function() {
+          // send here
+          temp_event.image = reader.result;
+          EventService.updateEvent(temp_event).then(resp => {
+            console.log(resp);
+            if (resp.status === 200) {
+              console.log('Arrangement oppdatert');
+              window.location = '/newevent';
+            } else {
+              console.log('Kunne ikke oppdatere arrangement');
+              window.location = '/newevent';
+            }
+          });
+        },
+        false,
+      );
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
     window.location = '/newevent';
   }
   next() {
     let element = document.getElementById('upload');
+    if (element.value === '') {
+      // No new image set.
+      // Redirect
+      window.location = '/newevent3';
+    }
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let fullPath = element.value;
     let ext = path.extname(fullPath);
