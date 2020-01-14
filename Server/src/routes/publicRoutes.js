@@ -49,7 +49,7 @@ router.get('/event', (req, res: express$Response) => {
 });
 
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
-  dao.getPublicEvent(req.query.id, (status, data) => {
+  dao.getPublicEvent(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });

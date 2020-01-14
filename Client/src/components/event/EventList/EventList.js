@@ -10,13 +10,14 @@ import { string } from 'prop-types';
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 let events: Event[] = [];
 let status: boolean;
+let event_id: number;
 
 export default class EventList extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
       events: [],
-      sortMethod: string,
+      sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       id: 1,
     };
@@ -48,7 +49,7 @@ export default class EventList extends Component<Props, State> {
                     {this.state.status ? (
                       <button
                         class="btn btn-success bg-green"
-                        onClick={() => (window.location.href = '/event/' + this.state.id)}
+                        onClick={() => (window.location.href = '/event/' + event.event_id)}
                       >
                         {' '}
                         Mer info

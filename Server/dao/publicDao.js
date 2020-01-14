@@ -7,7 +7,8 @@ module.exports = class PublicDao extends Dao {
     console.log(typeof sortMethod + ' wtf is sortmethod?');
     let sort: string = sortMethod;
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE ORDER BY ?',
+      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE start > CURRENT_TIMESTAMP AND e.is_public IS TRUE ORDER BY ' +
+        sort,
       sort,
       callback,
     );

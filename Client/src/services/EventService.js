@@ -85,6 +85,14 @@ export class EventService {
       });
   }
 
+  // TODO legg til token
+  static getPublicEvent(id: number): AxiosPromise<Event> {
+    let url = url_base + '/public/event/' + id;
+    return axios.get<Event>(url, {}).then(response => {
+      return response;
+    });
+  }
+
   static getOrganiser() {
     let url = url_base + '/organiser/myprofile';
     return axios
