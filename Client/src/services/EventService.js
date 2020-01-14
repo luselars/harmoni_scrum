@@ -86,14 +86,33 @@ export class EventService {
         return response;
       });
   }
-
-  static getOrganiser(token: string) {
+  /*
+  static getOrganiser() :AxiosPromise<Organiser> {
     let url = url_base + '/organiser/myprofile';
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    console.log(config);
     return axios
-      .get<Organiser>(url, { token: token })
-      .then(response => {
+    .get<Organiser>(url, config)
+    .then(response => {
         return response;
       });
+  }*/
+
+  static getOrganiser() {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
+    console.log(config);
+    let url = url_base + '/organiser/myprofile';
+    return axios.get<Object>(url, {}, config).then(response => {
+      return response;
+    });
   }
 
   static searchEvent(search: string) {

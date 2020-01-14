@@ -51,11 +51,11 @@ export default class ProfileOrganiser extends Component<
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <div class="col-4 text-center">
-                <button 
-                  class="btn btn-success bg-green mb-4" 
+                <button
+                  class="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
-                > 
-                  OPPRETT ARRANGEMENT 
+                >
+                  OPPRETT ARRANGEMENT
                 </button>
                 <button
                   class="btn btn-success bg-green mb-4"
@@ -63,11 +63,11 @@ export default class ProfileOrganiser extends Component<
                 >
                   REDIGER PROFIL
                 </button>
-                <button 
-                  class="btn btn-success bg-green" 
+                <button
+                  class="btn btn-success bg-green"
                   onClick={() => (window.location.href = '/deleteprofile')}
-                > 
-                  SLETT PROFIL 
+                >
+                  SLETT PROFIL
                 </button>
               </div>
               <div class="col text-center">
@@ -81,8 +81,7 @@ export default class ProfileOrganiser extends Component<
                   class="btn btn-success bg-green"
                   onClick={() => (window.location.href = '/events/' + this.state.id)}
                 >
-                  {' '}
-                  SE ARRANGEMENTER{' '}
+                  SE ARRANGEMENTER
                 </button>
               </div>
             </div>
@@ -93,8 +92,10 @@ export default class ProfileOrganiser extends Component<
   }
 
   componentDidMount() {
-    EventService.getOrganiser(window.localStorage.getItem("token"))
+    console.log('hei');
+    EventService.getOrganiser()
       .then(res => {
+        console.log("i'm in!");
         let organsier: any = res.data;
         console.log(organsier[0]);
         this.setState({
