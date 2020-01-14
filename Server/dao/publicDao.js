@@ -14,6 +14,14 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
+  getArtistEvent(event_id: number, callback) {
+    super.query(
+      'SELECT user_id, artist_name from artist WHERE user_id IN(SELECT user_id FROM event_artist WHERE event_id = ?)',
+      [event_id],
+      callback,
+    );
+  }
+
   getPublicEvent(event_id: number, callback) {
     super.query(
       'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE AND e.event_id = ?',

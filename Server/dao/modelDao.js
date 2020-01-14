@@ -52,6 +52,18 @@ export class User {
   description: string;
 }
 
+// Object for sending Artist
+export class Artist {
+  constructor(user_id: number, artist_name: number) {
+    this.user_id = user_id;
+    this.artist_name = artist_name;
+  }
+  user_id: number;
+  artist_name: string;
+  image: string;
+  description: string;
+}
+
 // Object for sending Organiser
 export class Organiser {
   constructor(organiser_email: string, name: number) {

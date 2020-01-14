@@ -15,9 +15,9 @@
   margin: 0 20%;
 }
 
-.editImage {
-  max-width: 100%;
-  height: auto;
+#picture {
+  margin-left: 37.5%;
+  margin-right: 37.5%;
 }
 
 @media screen and (max-width: 1000px) {

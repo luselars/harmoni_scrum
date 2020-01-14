@@ -174,6 +174,7 @@ class EventNew extends Component<Props> {
       });
     } else {
       EventService.updateEvent(this.state.event).then(resp => {
+        console.log(resp);
         if (resp.status === 200) {
           console.log('Arrangement oppdatert');
           window.location = '/newevent2';

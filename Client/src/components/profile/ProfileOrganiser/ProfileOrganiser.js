@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { EventService } from '../../../services/EventService';
+
+import { OrganiserService } from '../../../services/organiserService';
 
 type State = {
   organiser: Organiser,
@@ -44,15 +45,24 @@ export default class ProfileOrganiser extends Component<{}, State> {
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <div class="col-4 text-center">
-                <button class="btn btn-success bg-green mb-4"> OPPRETT ARRANGEMENT </button>
                 <button
                   class="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
-                  {' '}
-                  REDIGER PROFIL{' '}
+                  OPPRETT ARRANGEMENT
                 </button>
-                <button class="btn btn-success bg-green"> SLETT PROFIL </button>
+                <button
+                  class="btn btn-success bg-green mb-4"
+                  onClick={() => (window.location.href = '/editprofile')}
+                >
+                  REDIGER PROFIL
+                </button>
+                <button
+                  class="btn btn-success bg-green"
+                  onClick={() => (window.location.href = '/deleteprofile')}
+                >
+                  SLETT PROFIL
+                </button>
               </div>
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
@@ -80,7 +90,7 @@ export default class ProfileOrganiser extends Component<{}, State> {
   }
 
   componentDidMount() {
-    EventService.getOrganiser()
+    OrganiserService.getOrganiser()
       .then(res => {
         let organiser: any = res.data;
         console.log(organiser);
