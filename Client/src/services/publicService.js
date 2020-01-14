@@ -9,14 +9,7 @@ console.log(localStorage.getItem('token'));
 export class PublicService {
   // Login as normal user.
   static logIn(email: string, password: string) {
-    let url = url_base + '/login';
-    return (
-      axios.post <
-      Object >
-      (url, { username: email, password: password }).then(response => {
-        localStorage.setItem('token', response.data.jwt);
-      })
-    );
+    return axios.post(url_base + '/login', { username: email, password: password });
   }
 
   // Login as organiser.
