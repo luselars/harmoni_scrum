@@ -2,7 +2,8 @@
 
 import axios, { AxiosPromise } from 'axios';
 const url_base = 'http://localhost:4000';
-
+axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
+console.log(localStorage.getItem('token'));
 // Event-model
 export class Event {
   constructor() {
@@ -44,11 +45,16 @@ export class EventService {
       JSON.stringify({ username: username, password: password }),
     );
   }
-  // TODO legg til token
+  // TODO legg til tokens
   static createEvent(event: Event) {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
     console.log(event);
     let url = url_base + '/organiser/event';
-    return axios.post<Object>(url, event).then(response => {
+    return axios.post<Object>(url, event, config).then(response => {
       return response;
     });
   }
@@ -68,14 +74,6 @@ export class EventService {
       return response;
     });
   }
-  // TODO delete later
-  static postFileTest(file: string) {
-    let url = url_base + '/organiser/filetest';
-    axios.post(url, { file }).then(response => {
-      return response;
-    });
-  }
-
   // Get the frontpage events (sorted by sortstring)
   static getFrontpage(sortString: string) {
     let url = url_base + '/public/event';
