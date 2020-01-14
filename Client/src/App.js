@@ -9,6 +9,8 @@ import LogIn from './components/LogIn/LogIn';
 import Footer from './components/Footer/Footer';
 import ProfileNew from './components/profile/ProfileNew/ProfileNew';
 import EventNew from './components/event/EventNew/EventNew';
+import EventDetails from './components/event/EventDetails/EventDetails';
+import EventDetailsLoggedIn from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
 import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
@@ -31,14 +33,7 @@ function App() {
   return (
     <Router basename="/">
       <div className="maindiv">
-        <Link to="/"></Link>
-        <Link to="/login"></Link>
-        <Link to="/upload"></Link>
-        <Link to="/newevent"></Link>
-        <Link to="/register"></Link>
-        <Link to="/profile"></Link>
-        <Link to="/editprofile"></Link>
-        <Link to="/profile/summary"></Link>
+        {/*<Link to="/"></Link>*/}
         <Menu />
         <Switch>
           <Route exact path="/" component={Main} />
@@ -50,6 +45,9 @@ function App() {
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/editprofile" component={ProfileEdit} />
           <Route exact path="/profile/summary" component={LoggedIn} />
+          <Route exact path="/event/:id" component={EventDetails} />
+          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
           <Route component={NoMatch} />
         </Switch>
         <LocationDisplay />
