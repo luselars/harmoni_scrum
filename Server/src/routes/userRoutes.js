@@ -48,4 +48,19 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
   }
 });
 
+// Lets an organiser change his profile.
+router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
+  td.decode(req.headers['x-access-token'], (err, decoded) => {
+    if (err) {
+      res.status(401);
+      res.send(err);
+    } else {
+      dao.linkArtist(decoded.email, req.params.id, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    }
+  });
+});
+
 module.exports = router;

@@ -2,7 +2,8 @@
 
 import axios, { AxiosPromise } from 'axios';
 const url_base = 'http://localhost:4000';
-
+axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
+console.log(localStorage.getItem('token'));
 // Event-model
 export class Event {
   constructor() {
@@ -16,6 +17,7 @@ export class Event {
     this.venue = null;
     this.end = null;
   }
+  event_id: number;
   name: string;
   description: string;
   image: string;
@@ -25,23 +27,9 @@ export class Event {
   location_id: number;
   venue: string;
   end: string;
-}
-
-export class Organiser {
-  constructor(organiser_email: string, name: number) {
-    this.organiser_email = organiser_email;
-    this.name = name;
-  }
-  organiser_email: string;
-  name: string;
-  image: string;
-  description: string;
-  tlf: string;
-  website: string;
   address: string;
-  password: string;
-  eventFinished: number;
-  eventComming: number;
+  location_name: string;
+  postcode: number;
 }
 
 export class EventService {
@@ -57,22 +45,16 @@ export class EventService {
       JSON.stringify({ username: username, password: password }),
     );
   }
-
-  static getOrganiser(email : string) {
-    let url = url_base + "/organiser/" + email;
-    return axios.get<Organiser>(url, {username : email}).then(response => {return response});
-  }
-
-  static searchEvent(search : string) {
-    let url = url_base + "/event/search" + search;
-    return axios.get<Event>(url, {search : search}).then(response => {return response});
-  }
-
-  // TODO legg til token
+  // TODO legg til tokens
   static createEvent(event: Event) {
+    let config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    };
     console.log(event);
     let url = url_base + '/organiser/event';
-    return axios.post<Object>(url, event).then(response => {
+    return axios.post<Object>(url, event, config).then(response => {
       return response;
     });
   }
@@ -92,11 +74,32 @@ export class EventService {
       return response;
     });
   }
-  // TODO delete later
-  static postFileTest(file: string) {
-    let url = url_base + '/organiser/filetest';
-    axios.post(url, { file }).then(response => {
-      return response;
-    });
+  // Get the frontpage events (sorted by sortstring)
+  static getFrontpage(sortString: string) {
+    let url = url_base + '/public/event';
+    return axios
+      .get<Event[]>(url, { params: { sortString: sortString } })
+      .then(response => {
+        console.log(response);
+        return response;
+      });
+  }
+
+  static getOrganiser(email: string) {
+    let url = url_base + '/organiser/' + email;
+    return axios
+      .get<Organiser>(url, { username: email })
+      .then(response => {
+        return response;
+      });
+  }
+
+  static searchEvent(search: string) {
+    let url = url_base + '/event/search' + search;
+    return axios
+      .get<Event>(url, { search: search })
+      .then(response => {
+        return response;
+      });
   }
 }

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-export default class ProfileDeleted extends Component<> {
+export default class ProfileDeleted extends Component<{}, {}> {
   render() {
     return (
       <div id="profileOrganiserCard" class="card ">

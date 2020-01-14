@@ -5,16 +5,16 @@ import { Component } from 'react';
 import EventList from '../components/event/EventList/EventList';
 //import ProfileOrganiser from '../components/profile/ProfileOrganiser/ProfileOrganiser';
 import Filter from '../components/Filter/Filter';
-import SearchBar from '../components/SeachBar/SeachBar'
+import SearchBar from '../components/SeachBar/SeachBar';
 
 export default class Main extends Component {
-    render() {
-        return (
-            <div className="main">
-            <SearchBar/>
-            <Filter />
-            <EventList />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="main">
+        <SearchBar />
+        <Filter />
+        <EventList />
+      </div>
+    );
+  }
 }

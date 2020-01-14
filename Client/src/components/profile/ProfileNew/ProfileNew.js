@@ -6,14 +6,15 @@ import { UserService } from '../../../services/UserService';
 import { string } from 'prop-types';
 
 export default class ProfileNew extends Component<
-  {},{ 
-    email: string, 
-    name: string, 
-    password: string, 
-    passwordConfirmation: string, 
-    url: string, 
+  {},
+  {
+    email: string,
+    name: string,
+    password: string,
+    passwordConfirmation: string,
+    url: string,
     organiser: boolean,
-    check: boolean
+    check: boolean,
   },
 > {
   constructor(props: any) {

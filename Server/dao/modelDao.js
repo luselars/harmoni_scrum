@@ -16,7 +16,6 @@ export class Event {
   location_id: number;
   address: string;
   venue: string;
-  event_id: number = null;
 
   // Event Location
   location: Location = null;
@@ -65,6 +64,8 @@ export class Organiser {
   tlf: string;
   website: string;
   address: string;
+  eventsFinished: number;
+  eventsComing: number;
 }
 
 // Object for sending ticket type
