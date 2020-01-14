@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { UserService } from '../../../services/UserService';
+import { PublicService } from '../../../services/publicService';
 import { string } from 'prop-types';
 
 export default class ProfileNew extends Component<
@@ -197,13 +197,15 @@ export default class ProfileNew extends Component<
           if (this.state.email !== '') {
             // Checks if it's an organiser or normal user.
             if (this.state.organiser) {
-              UserService.newOrganiser(this.state.email, this.state.name, this.state.password).then(
-                () => {
-                  window.location = '/profile';
-                },
-              );
+              PublicService.newOrganiser(
+                this.state.email,
+                this.state.name,
+                this.state.password,
+              ).then(() => {
+                window.location = '/profile';
+              });
             } else {
-              UserService.newUser(this.state.email, this.state.name, this.state.password).then(
+              PublicService.newUser(this.state.email, this.state.name, this.state.password).then(
                 () => {
                   window.location = '/profile';
                 },

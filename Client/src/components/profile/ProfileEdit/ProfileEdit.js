@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Component } from 'react';
-import { EventService } from '../../../services/EventService';
+import { OrganiserService } from '../../../services/organiserService';
 
 import './stylesheet.css';
 
@@ -139,7 +139,7 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   componentDidMount() {
-    //EventService.getEvent(this.props.match.params.id)
+    //OrganiserService.getEvent(this.props.match.params.id)
   }
 
   onChange(e: any) {

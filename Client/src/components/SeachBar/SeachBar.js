@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { EventService } from '../../services/EventService';
+import { OrganiserService } from '../../services/organiserService';
 
 export default class SearchBar extends Component<{}, { search: string }> {
   constructor(props: any) {
@@ -39,7 +39,7 @@ export default class SearchBar extends Component<{}, { search: string }> {
 
   post() {
     if (this.state.search.length != 0) {
-      EventService.searchEvent('#' + this.state.search + '#').then();
+      OrganiserService.searchEvent('#' + this.state.search + '#').then();
     }
   }
 }
