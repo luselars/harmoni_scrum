@@ -9,6 +9,33 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [email, event_id], callback);
   }
 
+  getProfile(
+      email,
+      callback: (status: string, data: Object) => mixed
+  ){
+      var queryString = 'SELECT o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_email, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_email) v ON v.organiser_email = o.organiser_email WHERE o.organiser_email = ?';
+      super.query(queryString, [email], callback);
+  }
+
+  editProfile(
+      email,
+      organiser: Organiser,
+      callback: (status: string, data: Object) => mixed,
+  ){
+      var queryString = 'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_email = ?';
+      super.query(queryString,
+          [
+              organiser.name,
+              organiser.image,
+              organiser.description,
+              organiser.tlf,
+              organiser.website,
+              organiser.address,
+              email
+          ],
+          callback);
+  }
+
   // check if organiser owns event
   organiserOwnsEvent(
     event_id: number,
