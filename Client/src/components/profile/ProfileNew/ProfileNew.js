@@ -49,7 +49,7 @@ export default class ProfileNew extends Component<
       <div id="profileOrganiserCard" className="card ">
         <div className="card-body bg-light">
           <form>
-            <h2 id="registerTextH">REGISTER</h2>
+            <h2 id="registerTextH">REGISTRER</h2>
             <div className="form-check ml-5 mr-5">
               <div>
                 <input
