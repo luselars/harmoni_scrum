@@ -91,7 +91,7 @@ export default class ProfileOrganiser extends Component<{}, State> {
                       Du har
                       {this.state.organiser.eventsFinished == 0
                         ? ' ingen fullførte arrangement'
-                        : +' ' +
+                        : ' ' +
                           this.state.organiser.eventsFinished +
                           (this.state.organiser.eventsFinished > 1
                             ? ' fullførte arrangementer'
