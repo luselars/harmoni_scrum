@@ -3,8 +3,7 @@ import axios, { AxiosPromise } from 'axios';
 import { Event } from './modelService';
 
 const url_base = 'http://localhost:4000/public';
-axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
-console.log(localStorage.getItem('token'));
+// axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
 
 export class PublicService {
   // Login as normal user.

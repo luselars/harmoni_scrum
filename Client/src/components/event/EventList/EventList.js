@@ -77,12 +77,12 @@ export default class EventList extends Component<Props, State> {
 
   componentDidMount() {
     let sortMethod: string = CommunicationService.getSortString();
-    PublicService.getFrontpage(this.state.sortMethod)
-      .then(events => {
-        console.log(events);
-        this.setState({ events: events.data });
-      })
-      .catch((error: Error) => alert(error.message));
+    // PublicService.getFrontpage(this.state.sortMethod)
+    //   .then(events => {
+    //     console.log(events);
+    //     this.setState({ events: events.data });
+    //   })
+    //   .catch((error: Error) => alert(error.message));
   }
   componentWillReceiveProps(props) {
     this.setState({ sortMethod: props.sortString });
