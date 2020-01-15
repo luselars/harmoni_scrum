@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
+import { PublicService } from "../../../services/publicService";
 import './stylesheet.css';
 
 type Props = {
@@ -67,7 +68,7 @@ export default class EventDetails extends Component<Props, State> {
 
   componentDidMount() {
     console.log(this.props.match.params.id);
-    OrganiserService.getPublicEvent(this.props.match.params.id)
+    PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: Event = res;
         console.log(res);
