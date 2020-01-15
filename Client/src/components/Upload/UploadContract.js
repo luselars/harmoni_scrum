@@ -55,20 +55,22 @@ class UploadContract extends Component<Props> {
     const file = element.files[0];
     const reader = new FileReader();
     let temp_artist = this.props.artist;
+    let ev_id = this.props.event_id;
     reader.addEventListener(
       'load',
       function() {
         // send here
         temp_artist.contract = reader.result;
-        OrganiserService.updateArtist(temp_artist).then(resp => {
-          console.log(resp);
-          if (resp.status === 200) {
-            console.log('Kontrakt lastet opp.');
-            window.location = window.location;
-          } else {
-            alert('Kunne ikke oppdatere artistens kontrakt.');
-          }
-        });
+        OrganiserService.updateArtistEvent(temp_artist, ev_id)
+          .then(resp => {
+            console.log(resp);
+            if (resp.status === 200) {
+              console.log('Kontrakt lastet opp.');
+            } else {
+              alert('Kunne ikke oppdatere artistens kontrakt.');
+            }
+          })
+          .catch(error => console.log(error));
       },
       false,
     );

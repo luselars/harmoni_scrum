@@ -55,4 +55,14 @@ export class OrganiserService {
     let url = url_base + '/artist/' + event_id;
     return axios.get(url, config);
   }
+  static updateArtistEvent(artist: Artist, event_id: number) {
+    let data = {
+      event_id: event_id,
+      contract: artist.contract,
+      notes: artist.notes,
+      accepted: artist.accepted,
+    };
+    let url = url_base + '/artist/' + artist.user_id;
+    return axios.put(url, data);
+  }
 }
