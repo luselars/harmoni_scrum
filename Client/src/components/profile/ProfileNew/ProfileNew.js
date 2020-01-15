@@ -201,7 +201,7 @@ export default class ProfileNew extends Component<
                     URL til nettsted
                   </label>
                   <input
-                    type="url"
+                    type="text"
                     onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputURL1"
