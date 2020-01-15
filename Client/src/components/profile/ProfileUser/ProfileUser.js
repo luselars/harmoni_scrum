@@ -37,16 +37,16 @@ export default class ProfileUser extends Component<{}, State> {
                     alt="Profilbilde"
                   />
                 )}
-                <p className="text-center m-3 display-4.5">{this.state.user.name}Navn</p>
+                <p className="text-uppercase m-3 display-4">{this.state.user.name}</p>
               </div>
             </div>
             <div className="row justify-content-md-center mt-y align-items-center">
               <div className="col-4 text-center">
                 <button
-                  class="btn btn-success bg-green mb-4 w-100"
+                  class="btn btn-success bg-green mb-4 w-100 text-uppercase"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
-                  REDIGER PROFIL
+                  rediger profil
                 </button>
                 <button
                   className="btn btn-success bg-green w-100"
