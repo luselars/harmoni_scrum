@@ -159,9 +159,12 @@ router.post('/register/organiser', (req: express$Request, res: express$Response)
     organiser.address = req.body.address;
     organiser.website = req.body.website;
 
-    dao.postOrganiser(organiser, hash, salt, (status, data) => {
-      res.status(status);
-      res.send(data);
+    uploadFunctions.handleFile(req.body.image, function(name) {
+      organiser.image = name;
+      dao.postOrganiser(organiser, hash, salt, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
     });
   }
 });
