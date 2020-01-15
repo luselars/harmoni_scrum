@@ -24,7 +24,7 @@ export default class ProfileOrganiser extends Component<{}, State> {
           <div class="container bg-light">
             <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
               <div class="col-4 text-center">
-                {this.state.organiser.image === null ? (
+                {this.state.organiser.image === undefined || this.state.organiser.image === null ? (
                   <img
                     src="http://localhost:4000/user/file/profile.png"
                     class="img-rounded w-100"
@@ -67,13 +67,33 @@ export default class ProfileOrganiser extends Component<{}, State> {
               </div>
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
+                {console.log(this.state.organiser.eventsComing)}
                 {this.state.organiser.eventsComing === null &&
                 this.state.organiser.eventsFinished == null ? (
                   <p>Du har ikke noen arrangementer</p>
                 ) : (
                   <div>
-                    <p>Du har {this.state.organiser.eventsComing} kommende arrangementer.</p>
-                    <p>Du har gjennomført {this.state.organiser.eventsFinished} arrangementer.</p>
+                    <p>
+                      Du har
+                      {this.state.organiser.eventsComing == 0
+                        ? ' ingen kommende arrangement'
+                        : ' ' +
+                          this.state.organiser.eventsComing +
+                          ' kommende ' +
+                          (this.state.organiser.eventsComing > 1
+                            ? ' arrangementer'
+                            : ' arrangement')}
+                    </p>
+                    <p>
+                      Du har
+                      {this.state.organiser.eventsFinished == 0
+                        ? ' ingen fullførte arrangement'
+                        : +' ' +
+                          this.state.organiser.eventsFinished +
+                          (this.state.organiser.eventsFinished > 1
+                            ? ' fullførte arrangementer'
+                            : ' fullførte arrangement')}
+                    </p>
                     <button
                       class="btn btn-success bg-green"
                       onClick={() => (window.location.href = '/events')}

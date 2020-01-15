@@ -31,4 +31,9 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.get<Organiser>(url, config);
   }
+
+  static editOrganiser(organiser: Organiser): AxiosPromise<Organiser> {
+    let url = url_base + '/myprofile';
+    return axios.put<Object>(url, organiser, config);
+  }
 }
