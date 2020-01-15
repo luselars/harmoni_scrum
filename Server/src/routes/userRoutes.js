@@ -39,7 +39,7 @@ router.get('/file/:id', function(req, res) {
 
 // Retrieve info from a user
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
-  dao.getUserInfo(req.email, (status, data) => {
+  dao.getUserInfo(req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
