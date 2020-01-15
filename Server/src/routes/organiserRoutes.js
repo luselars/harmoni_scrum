@@ -245,13 +245,18 @@ router.get('/group', (req: express$Request, res: express$Response) => {
 
 // Get all events your organiser account is connected to
 router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyEvents(req.uid, (status, data2) => {
+    res.status(status);
+    res.send(data2);
+  });
+  /*
   dao.getMyId(req.email, (status, data) => {
     res.status(status);
     dao.getMyEvents(data, (status, data2) => {
       res.status(status);
       res.send(data2);
     });
-  });
+  });*/
 });
 
 // TODO: Flytt til public?

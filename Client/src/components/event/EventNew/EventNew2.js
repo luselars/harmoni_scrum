@@ -70,7 +70,7 @@ class EventNew2 extends Component<Props, State> {
     if (this.state.event.image !== null) {
       console.log(this.state.event.image);
       document.getElementById('prev').src =
-        'http://localhost:4000/user/file/' + this.state.event.image;
+        'http://localhost:4000/public/file/' + this.state.event.image;
     }
   }
   formatTime() {

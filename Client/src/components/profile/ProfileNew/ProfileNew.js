@@ -259,15 +259,47 @@ export default class ProfileNew extends Component<
   post(event: any) {
     event.preventDefault();
     if (this.state.password == this.state.passwordConfirmation) {
-      console.log('registering');
-      PublicService.registerNewUser(this.state)
-        .then(response => {
-          localStorage.setItem('token', response.data.jwt);
-          window.location = '/profile';
-        })
-        .catch(error => {
-          alert('Eposten er allerede i bruk');
-        });
+      // Image
+      let element = document.getElementById('upload');
+      if (element.value !== '') {
+        let fullPath = element.value;
+        let ext = path.extname(fullPath);
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+          //TODO change alert
+          alert('Ikke gyldig filtype');
+          return;
+        }
+        const file = element.files[0];
+        const reader = new FileReader();
+        const state2 = this.state;
+        reader.addEventListener(
+          'load',
+          function() {
+            state2.image = reader.result;
+            PublicService.registerNewUser(state2)
+              .then(response => {
+                localStorage.setItem('token', response.data.jwt);
+                window.location = '/profile';
+              })
+              .catch(error => {
+                alert('Eposten er allerede i bruk');
+              });
+          },
+          false,
+        );
+        if (file) {
+          reader.readAsDataURL(file);
+        } else {
+          PublicService.registerNewUser(this.state)
+            .then(response => {
+              localStorage.setItem('token', response.data.jwt);
+              window.location = '/profile';
+            })
+            .catch(error => {
+              alert('Eposten er allerede i bruk');
+            });
+        }
+      }
     } else {
       alert('Passord matcher ikke');
     }

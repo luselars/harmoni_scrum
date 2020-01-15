@@ -28,7 +28,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           <div id="EventDetailsLITable">
             <img
               id="EventPicLI"
-              src={'http://localhost:4000/user/file/' + this.state.event.image}
+              src={'http://localhost:4000/public/file/' + this.state.event.image}
               class="img-fluid"
               alt="Eventbilde"
             ></img>

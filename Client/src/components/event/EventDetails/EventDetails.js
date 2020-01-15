@@ -27,7 +27,7 @@ export default class EventDetails extends Component<Props, State> {
       <div class="card" id="carddetailsevent">
         <div class="imgdiv">
           <img
-            src={'http://localhost:4000/user/file/' + this.state.event.image}
+            src={'http://localhost:4000/public/file/' + this.state.event.image}
             class="img-fluid"
             alt="Eventbilde"
           ></img>
