@@ -18,6 +18,11 @@ export class Event {
   address: string;
   venue: string;
 
+  location_name: string;
+  postcode: number;
+
+
+
   // Event Location
   location: Location = null;
   // Event Users
