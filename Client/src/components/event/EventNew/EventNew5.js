@@ -8,13 +8,7 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
-type State = {
-  event: Event,
-  artists: Artist[],
-};
-type Props = {};
-
-class EventNew4 extends Component<Props, State> {
+class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -37,52 +31,32 @@ class EventNew4 extends Component<Props, State> {
       });
     }
   }
-
+  updateNotes(artist: Artist) {
+    let notes = document.getElementById(artist.user_id).value;
+    console.log(notes);
+    let temp_art = artist;
+    temp_art.notes = notes;
+    OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
+      console.log(r);
+      window.location.reload();
+    });
+  }
   render() {
     return (
       <div class="createEvent">
         <h2>Opprett arrangement</h2>
         {/*<form>*/}
         <div class="form-row">
-          <p>Legg til artister på arrangementet:</p>
+          <p>Legg til ridere for artist:</p>
+          <p>Dette kommer, foreløpig er det bare notes.</p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
-          <label htmlFor="inputEmail1" id="loginText">
-            Artistens epost-addresse:
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            id="email"
-            placeholder="Skriv e-mail"
-          />
-          <button onClick={() => this.invite()}>Inviter artist</button>
           {this.state.artists.map(artist => (
             <div>
-              <p>Artist: {artist.email}</p>
+              <p>Notes for {artist.email}</p>
               <div>
-                <p>
-                  Kontrakt: <br />
-                  {artist.contract === null ? (
-                    <UploadContract
-                      artist={artist}
-                      accept={'.pdf'}
-                      message={'Last opp kontrakt'}
-                      event_id={this.state.event.event_id}
-                    />
-                  ) : (
-                    <p>
-                      <DownloadFile fileName={artist.contract} />
-                      <UploadContract
-                        artist={artist}
-                        accept={'.pdf'}
-                        message={'Last opp annen kontrakt'}
-                        event_id={this.state.event.event_id}
-                      />
-                    </p>
-                  )}
-                </p>
+                <textarea id={artist.user_id}>{artist.notes}</textarea>
+                <button onClick={() => this.updateNotes(artist)}>Lagre</button>
               </div>
               <br />
             </div>
@@ -93,22 +67,12 @@ class EventNew4 extends Component<Props, State> {
             Tilbake
           </button>
           <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
+            Fullfør
           </button>
         </div>
         {/*</form>*/}
       </div>
     );
-  }
-  invite() {
-    let email = document.getElementById('email').value;
-    // TODO validate email
-    OrganiserService.inviteArtist(email, this.state.event.event_id)
-      .then(resp => {
-        console.log(resp);
-        window.location.reload();
-      })
-      .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
   }
   formatTime() {
     if (this.state.event.start !== null) {
@@ -123,10 +87,10 @@ class EventNew4 extends Component<Props, State> {
     }
   }
   back() {
-    window.location = '/newevent3';
+    window.location = '/newevent4';
   }
   next() {
-    window.location = '/newevent5';
+    window.location = '/profile';
   }
 }
-export default EventNew4;
+export default EventNew5;
