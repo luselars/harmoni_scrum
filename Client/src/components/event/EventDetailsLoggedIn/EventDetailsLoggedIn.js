@@ -87,10 +87,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                 </tr>
               </tbody>
             </table>
-          </div>
-          <button class="btn btn-success bg-green" onClick={() => this.edit()}>
-            {' '}
-            ENDRE ARRANGEMENT <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
+            <button class="btn btn-success bg-green" onClick={() => this.edit()}>
+              {' '}
+              ENDRE ARRANGEMENT{' '}
+            </button>
             <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
               {' '}
               SLETT ARRANGEMENT{' '}
