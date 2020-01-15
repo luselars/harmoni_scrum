@@ -63,7 +63,7 @@ export class OrganiserService {
       accepted: artist.accepted,
     };
     let url = url_base + '/artist/' + artist.user_id;
-    return axios.put(url, data);
+    return axios.put(url, data, config);
   }
 
   static getRiders(artist_id: number, event_id: number) {

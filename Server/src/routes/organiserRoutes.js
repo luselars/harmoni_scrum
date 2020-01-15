@@ -360,23 +360,6 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
   });
 });
 
-// TODO delete this after incorporating
-router.post('/filetest', (req: express$Request, res: express$Response) => {
-  // TODO remember to check extension and size?
-  // console.log(req.body.file);
-  let file = uploadFunctions.base64Decoder(req.body.file);
-  let path = uploadFunctions.createFilePath(file.type);
-  fs.writeFile(path, file.data, function(err) {
-    if (err) {
-      // TODO correct response code?
-      res.sendStatus(400);
-      throw err;
-    }
-    console.log('File moved.');
-    res.sendStatus(200);
-  });
-});
-
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
   dao.getVolunteersByEvent(req.params.id, (status, data) => {

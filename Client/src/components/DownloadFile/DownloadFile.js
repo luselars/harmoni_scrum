@@ -9,7 +9,7 @@ class DownloadFile extends React.Component<Props> {
   }
   downloadEmployeeData() {
     let link = document.createElement('a');
-    link.href = 'http://localhost:4000/user/file/' + this.props.fileName;
+    link.href = 'http://localhost:4000/public/file/' + this.props.fileName;
     link.download = 'file.pdf';
     link.target = '_blank';
     link.click();

@@ -72,14 +72,18 @@ class EventNew4 extends Component<Props, State> {
                       event_id={this.state.event.event_id}
                     />
                   ) : (
-                    <DownloadFile fileName={artist.contract} />
+                    <p>
+                      <DownloadFile fileName={artist.contract} />
+                      <UploadContract
+                        artist={artist}
+                        accept={'.pdf'}
+                        message={'Last opp annen kontrakt'}
+                        event_id={this.state.event.event_id}
+                      />
+                    </p>
                   )}
                 </p>
               </div>
-              <br />
-              <br />
-              <br />
-              <br />
               <br />
             </div>
           ))}
@@ -91,8 +95,6 @@ class EventNew4 extends Component<Props, State> {
           <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
             Neste
           </button>
-          <DownloadFile fileName={'profile.png'} />
-          <DownloadFile fileName={'15c26e29827aded4.pdf'} />
         </div>
         {/*</form>*/}
       </div>
@@ -101,10 +103,10 @@ class EventNew4 extends Component<Props, State> {
   invite() {
     let email = document.getElementById('email').value;
     // TODO validate email
-    console.log(email);
     OrganiserService.inviteArtist(email, this.state.event.event_id)
       .then(resp => {
         console.log(resp);
+        window.location.reload();
       })
       .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
   }

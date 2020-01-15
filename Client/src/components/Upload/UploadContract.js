@@ -1,11 +1,8 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
-import FormData from 'form-data';
-import { UserService } from '../../services/userService.js';
-import { string } from 'prop-types';
+import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
 import { Artist } from '../../services/modelService';
+
 let path = require('path');
 
 type Props = {
@@ -14,10 +11,16 @@ type Props = {
   artist: Artist,
   event_id: number,
 };
-class UploadContract extends Component<Props> {
+type State = {
+  value: any,
+};
+class UploadContract extends Component<Props, State> {
   file = '';
   constructor(props: any) {
     super(props);
+    this.state = {
+      value: '',
+    };
   }
   render() {
     return (
@@ -28,9 +31,10 @@ class UploadContract extends Component<Props> {
             accept={this.props.accept}
             type="file"
             id="upload"
+            value={this.state.value}
             name="recfile"
-            onChange={() => {
-              this.upload();
+            onChange={e => {
+              this.upload(e.target);
             }}
           />
           <i className="fa fa-cloud-upload"></i> {this.props.message}
@@ -38,16 +42,16 @@ class UploadContract extends Component<Props> {
       </div>
     );
   }
-  upload() {
-    let element = document.getElementById('upload');
-    if (element.value === '') {
-      // No new file set.
-      alert('No file set');
-      return;
-    }
+  upload(element) {
+    let value = element.value;
+    console.log(element.value);
+    // if (element.value === '') {
+    //   // No new file set.
+    //   alert('No file set');
+    //   return;
+    // }
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
-    let fullPath = element.value;
-    let ext = path.extname(fullPath);
+    let ext = path.extname(value);
     if (ext !== '.pdf') {
       alert('Ikke gyldig filtype (.pdf)');
       return;
@@ -66,6 +70,8 @@ class UploadContract extends Component<Props> {
             console.log(resp);
             if (resp.status === 200) {
               console.log('Kontrakt lastet opp.');
+              element.files = null;
+              window.location.reload();
             } else {
               alert('Kunne ikke oppdatere artistens kontrakt.');
             }
