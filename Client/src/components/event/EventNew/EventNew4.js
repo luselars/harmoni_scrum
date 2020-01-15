@@ -5,6 +5,7 @@ import './stylesheet.css';
 import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
+import DownloadFile from '../../DownloadFile/DownloadFile';
 
 type State = {
   event: Event,
@@ -26,8 +27,10 @@ class EventNew4 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        console.log(this.state.event);
         this.formatTime();
+        OrganiserService.getArtists(data.event_id).then(resp => {
+          console.log(resp);
+        });
       });
     }
   }
@@ -52,6 +55,11 @@ class EventNew4 extends Component<Props, State> {
             placeholder="Skriv e-mail"
           />
           <button onClick={() => this.invite()}>Inviter artist</button>
+          {/*{*/}
+          {/*  this.artists.map((artist) => {*/}
+          {/*    <p>{artist.name}</p>*/}
+          {/*  })*/}
+          {/*}*/}
         </div>
         <div>
           <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
@@ -60,6 +68,7 @@ class EventNew4 extends Component<Props, State> {
           <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
             Neste
           </button>
+          <DownloadFile fileName={'profile.png'} />
         </div>
         {/*</form>*/}
       </div>

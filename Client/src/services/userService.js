@@ -19,4 +19,8 @@ export class UserService {
       return response;
     });
   }
+  static getFile(name: string) {
+    let url = url_base + '/file/' + name;
+    return axios.get(url);
+  }
 }

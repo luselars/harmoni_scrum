@@ -186,7 +186,7 @@ class EventNew3 extends Component<Props, State> {
     let postcode = document.getElementById('postcode').value;
     let venue = document.getElementById('venue').value;
     if (name.length < 1 || addr.length < 1) {
-      alert('Ugyldig addresse.');
+      window.location = 'newevent4';
       return;
     }
     //post location
