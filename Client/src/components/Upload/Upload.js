@@ -12,7 +12,6 @@ type Props = {
 };
 class Upload extends Component<Props> {
   file = '';
-  // Useless constructor just now, will be used when props is introduced.
   constructor(props: any) {
     super(props);
   }
