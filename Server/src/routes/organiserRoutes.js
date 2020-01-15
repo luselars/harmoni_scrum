@@ -54,9 +54,9 @@ router.param('event_id', function(req, res, next, event_id) {
 
 //get event artists with contract and stuff
 router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
-  dao.getEventArtist(req.params.event_id, req.uid, (status, data) => {
+  dao.getEventArtist(req.params.event_id, (status, data) => {
     res.status(status);
-    res.send(data[0]);
+    res.send(data);
   });
 });
 
