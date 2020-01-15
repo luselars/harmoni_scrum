@@ -39,7 +39,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
                 type="password"
                 onChange={e => this.changePassword(e)}
                 name="password"
-                minlength="9"
+                minlength="8"
                 class="form-control"
                 id="inputPassword1"
                 placeholder="Passord"

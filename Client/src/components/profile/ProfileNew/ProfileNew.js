@@ -60,7 +60,7 @@ export default class ProfileNew extends Component<
               <div>
                 <input
                   type="checkbox"
-                  onChange={e => this.changeOrganiser(e)}
+                  onChange={e => this.handleChange(e)}
                   className="form-check-input"
                   id="check1"
                 ></input>
@@ -75,7 +75,7 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="email"
-                onChange={e => this.onChange(e)}
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="inputEmail1"
                 aria-describedby="emailHelp"
@@ -89,7 +89,7 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="text"
-                onChange={e => this.onChange(e)}
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="inputName1"
                 placeholder="Navn"
@@ -102,7 +102,8 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="password"
-                onChange={e => this.onChange(e)}
+                minlength="8"
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="inputPassword1"
                 placeholder="Passord"
@@ -115,7 +116,8 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="password"
-                onChange={e => this.onChange(e)}
+                minlength="8"
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="inputPasswordRepeat1"
                 placeholder="Gjenta passord"
@@ -128,7 +130,7 @@ export default class ProfileNew extends Component<
               </label>
               <textarea
                 type="text"
-                onChange={e => this.onChange(e)}
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="description"
                 placeholder="Litt om deg"
@@ -141,7 +143,7 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="text"
-                onChange={e => this.onChange(e)}
+                onChange={e => this.handleChange(e)}
                 className="form-control"
                 id="inputTlf"
                 placeholder="Telefon"
@@ -156,7 +158,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="text"
-                    onChange={e => this.onChange(e)}
+                    onChange={e => this.handleChange(e)}
                     className="form-control"
                     id="inputAddress"
                     placeholder="Adresse"
@@ -169,7 +171,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="number"
-                    onChange={e => this.onChange(e)}
+                    onChange={e => this.handleChange(e)}
                     className="form-control"
                     id="inputPostalcode"
                     placeholder="Postnummer"
@@ -182,7 +184,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="text"
-                    onChange={e => this.onChange(e)}
+                    onChange={e => this.handleChange(e)}
                     className="form-control"
                     id="inputPostal"
                     placeholder="Poststed"
@@ -195,7 +197,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="url"
-                    onChange={e => this.onChange(e)}
+                    onChange={e => this.handleChange(e)}
                     className="form-control"
                     id="inputURL1"
                     placeholder="Lim inn url"
@@ -221,9 +223,10 @@ export default class ProfileNew extends Component<
             <div class="form-check form-check-inline">
               <input
                 type="checkbox"
-                onChange={e => this.changeCheck(e)}
+                onChange={e => this.handleChange(e)}
                 className="form-check-input"
                 id="check1"
+                required
               ></input>
               <label class="form-check-label" for="check1">
                 Jeg godkjenner deres vilkår
@@ -238,128 +241,15 @@ export default class ProfileNew extends Component<
     );
   }
 
-  onChange(e: any) {
+  handleChange(e: any) {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
     console.log(name + ': ' + value);
   }
 
-  changeOrganiser(e: any) {
-    this.setState({ organiser: !this.state.organiser });
-  }
-
-  changeCheck(e: any) {
-    this.setState({ check: !this.state.check });
-  }
-
   post(e: any) {
     e.preventDefault();
-    var errorMessage = document.getElementById('error-message');
-    // Checks if agree to terms box is checked.
-    if (this.state.check) {
-      // Checks whether password is filled in and matches password confirmation
-      if (
-        this.state.password === this.state.passwordConfirmation &&
-        this.state.password.length > 8
-      ) {
-        if (this.state.name !== '') {
-          if (this.state.email !== '') {
-            let element = document.getElementById('upload');
-            if (element.value !== '') {
-              let fullPath = element.value;
-              let ext = path.extname(fullPath);
-              if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-                //TODO change alert
-                alert('Ikke gyldig filtype');
-                return;
-              }
-              const file = element.files[0];
-              const reader = new FileReader();
-              let state2 = this.state;
-              reader.addEventListener(
-                'load',
-                function() {
-                  let image = reader.result;
-                  // Checks if it's an organiser or normal user.
-                  if (state2.organiser) {
-                    var address: string =
-                      state2.address + '#' + state2.postalcode + '#' + state2.postal;
-                    PublicService.newOrganiser(
-                      state2.email,
-                      state2.name,
-                      state2.password,
-                      image,
-                      state2.tlf,
-                      state2.description,
-                      address,
-                      state2.website,
-                    ).then(response => {
-                      localStorage.setItem('token', response.data.jwt);
-                      window.location = '/profile';
-                    });
-                  } else {
-                    PublicService.newUser(
-                      state2.email,
-                      state2.name,
-                      state2.password,
-                      image,
-                      state2.tlf,
-                      state2.description,
-                    ).then(response => {
-                      localStorage.setItem('token', response.data.jwt);
-                      window.location = '/profile';
-                    });
-                  }
-                },
-                false,
-              );
-              if (file) {
-                reader.readAsDataURL(file);
-              }
-            } else {
-              if (this.state.organiser) {
-                var address: string =
-                  this.state.address + '#' + this.state.postalcode + '#' + this.state.postal;
-                PublicService.newOrganiser(
-                  this.state.email,
-                  this.state.name,
-                  this.state.password,
-                  '',
-                  this.state.tlf,
-                  this.state.description,
-                  this.state,
-                  this.state.website,
-                ).then(response => {
-                  localStorage.setItem('token', response.data.jwt);
-                  window.location = '/profile';
-                });
-              } else {
-                PublicService.newUser(
-                  this.state.email,
-                  this.state.name,
-                  this.state.password,
-                  '',
-                  this.state.tlf,
-                  this.state.description,
-                ).then(response => {
-                  localStorage.setItem('token', response.data.jwt);
-                  window.location = '/profile';
-                });
-              }
-            }
-          }
-        }
-      } else {
-        errorMessage.innerHTML = "Password does not match or you don't have a password.";
-        errorMessage.style.visibility = 'visible';
-      }
-      console.log('TRYING TO CREATE NEW USER');
-      errorMessage.innerHTML = '';
-      errorMessage.style.visibility = 'hidden';
-    } else {
-      errorMessage.innerHTML = 'Du har ikke godtatt våre vilkår';
-      errorMessage.style.visibility = 'visible';
-    }
+    console.log('registering');
   }
 }
