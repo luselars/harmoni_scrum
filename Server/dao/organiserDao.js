@@ -84,17 +84,17 @@ module.exports = class OrganiserDao extends Dao {
   }
   //edit event artist to add contract and stuff
   putEventArtist(
-      user_id: number,
-      event_id: number,
-      contract: string,
-      notes: string,
-      accepted: boolean,
-      callback: (status: string, data: Event) => mixed,
+    user_id: number,
+    event_id: number,
+    contract: string,
+    notes: string,
+    accepted: boolean,
+    callback: (status: string, data: Event) => mixed,
   ) {
     super.query(
-        'UPDATE event_artist SET contract = ?, notes = ?, accepted = ? WHERE user_id = ? AND event_id = ?',
-        [contract, notes, accepted, user_id, event_id],
-        callback,
+      'UPDATE event_artist SET contract = ?, notes = ?, accepted = ? WHERE user_id = ? AND event_id = ?',
+      [contract, notes, accepted, user_id, event_id],
+      callback,
     );
   }
 
