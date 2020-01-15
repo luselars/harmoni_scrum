@@ -30,7 +30,7 @@ export class OrganiserService {
 
   static getEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + id;
-    return axios.get<Event>(url, config);
+    return axios.get(url, config);
   }
 
   static getOrganiser(): AxiosPromise<Organiser> {
@@ -56,9 +56,6 @@ export class OrganiserService {
 
   static getMyEvents(): AxiosPromise<Event[]> {
     let url = url_base + '/myevents';
-    let token = localStorage.getItem('token');
-    return axios.get(url, {}, { headers: { 'x-access-token': token } }).then(response => {
-      return response;
-    });
+    return axios.get(url, config);
   }
 }

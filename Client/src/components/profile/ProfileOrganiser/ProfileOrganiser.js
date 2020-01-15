@@ -26,13 +26,13 @@ export default class ProfileOrganiser extends Component<{}, State> {
               <div class="col-4 text-center">
                 {this.state.organiser.image === undefined || this.state.organiser.image === null ? (
                   <img
-                    src="http://localhost:4000/user/file/profile.png"
+                    src="http://localhost:4000/public/file/profile.png"
                     class="img-rounded w-100"
                     alt="Profilbilde"
                   />
                 ) : (
                   <img
-                    src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+                    src={'http://localhost:4000/public/file/' + this.state.organiser.image}
                     class="img-rounded w-100"
                     alt="Profilbilde"
                   />

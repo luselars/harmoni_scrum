@@ -5,6 +5,7 @@ import { sendInvite } from '../mailClient';
 import { User, Organiser } from '../../dao/modelDao';
 import uploadFunctions from '../uploadHelper';
 
+var path = require('path');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
@@ -35,6 +36,14 @@ function updateToken(token) {
     }
   });
 }
+
+// Get file. The id should match a file in the folder files
+// TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
+router.get('/file/:id', function(req, res) {
+  console.log('Got a file request');
+  console.log(path.join(__dirname, '../../files/' + req.params.id));
+  res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
+});
 
 // Example 1 - GET /public
 router.get('/', (req: express$Request, res: express$Response) => {

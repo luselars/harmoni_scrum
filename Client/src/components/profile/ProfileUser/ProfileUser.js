@@ -26,13 +26,13 @@ export default class ProfileUser extends Component<{}, State> {
               <div className="col-4 text-center ">
                 {this.state.user.image === undefined || this.state.user.image === null ? (
                   <img
-                    src="http://localhost:4000/user/file/profile.png"
+                    src="http://localhost:4000/public/file/profile.png"
                     className="img-rounded w-75"
                     alt="Profilbilde"
                   />
                 ) : (
                   <img
-                    src={'http://localhost:4000/user/file/' + this.state.user.image}
+                    src={'http://localhost:4000/public/file/' + this.state.user.image}
                     className="img-rounded w-100"
                     alt="Profilbilde"
                   />

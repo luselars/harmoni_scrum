@@ -82,6 +82,21 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+  //edit event artist to add contract and stuff
+  putEventArtist(
+      user_id: number,
+      event_id: number,
+      contract: string,
+      notes: string,
+      accepted: boolean,
+      callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+        'UPDATE event_artist SET contract = ?, notes = ?, accepted = ? WHERE user_id = ? AND event_id = ?',
+        [contract, notes, accepted, user_id, event_id],
+        callback,
+    );
+  }
 
   deleteEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
     console.log('Dao delete startet');
@@ -269,8 +284,8 @@ module.exports = class OrganiserDao extends Dao {
 
   getMyEvents(organiser_id: number, callback) {
     super.query(
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE CURRENT_TIMESTAMP < end AND event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)' +
-        organiser_id,
+      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE CURRENT_TIMESTAMP < end AND event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
+      organiser_id,
       callback,
     );
   }

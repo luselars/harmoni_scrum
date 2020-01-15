@@ -127,6 +127,14 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
   }
 });
 
+//edit an event artist to add contracts and stuff
+router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
+  dao.putEventArtist(req.body.user_id, req.body.event_id, req.body.contract, req.body.notes, req.body.accepted,(status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Delete single event
 router.delete('/event/:event_id', (req: express$Request, res: express$Response) => {
   // check if organiser the organiser has an event with the provided id
@@ -245,13 +253,18 @@ router.get('/group', (req: express$Request, res: express$Response) => {
 
 // Get all events your organiser account is connected to
 router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyEvents(req.uid, (status, data2) => {
+    res.status(status);
+    res.send(data2);
+  });
+  /*
   dao.getMyId(req.email, (status, data) => {
     res.status(status);
     dao.getMyEvents(data, (status, data2) => {
       res.status(status);
       res.send(data2);
     });
-  });
+  });*/
 });
 
 // TODO: Flytt til public?
