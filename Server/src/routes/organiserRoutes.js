@@ -87,7 +87,7 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 
 // Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
-  dao.getSingleLocation(req.body, (status, data) => {
+  dao.getSingleLocation(req.body.address, (status, data) => {
     res.status(status);
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
