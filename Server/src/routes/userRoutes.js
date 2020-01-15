@@ -39,13 +39,10 @@ router.get('/file/:id', function(req, res) {
 
 // Retrieve info from a user
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
-  let decoded = td.decode(req.headers['x-access-token']);
-  if (decoded.status == 200) {
-    dao.getUserInfo(decoded.email, (status, data) => {
-      res.status(status);
-      res.send(data);
-    });
-  }
+  dao.getUserInfo(req.email, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
 });
 
 // Get all the events your user account is connected to.
@@ -61,16 +58,9 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
-  td.decode(req.headers['x-access-token'], (err, decoded) => {
-    if (err) {
-      res.status(401);
-      res.send(err);
-    } else {
-      dao.linkArtist(decoded.email, req.params.id, (status, data) => {
-        res.status(status);
-        res.send(data);
-      });
-    }
+  dao.linkArtist(req.email, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
   });
 });
 
