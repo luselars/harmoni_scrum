@@ -246,4 +246,12 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ? AND organiser_id = ?;';
     super.query(queryString, [ticket_type_id, organiser_id], callback);
   }
+
+  getMyEvents(organiser_id: number, callback) {
+    super.query(
+      'SELECT e.*, l.* FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE CURRENT_TIMESTAMP < end AND event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)' +
+        organiser_id,
+      callback,
+    );
+  }
 };

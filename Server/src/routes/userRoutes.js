@@ -48,6 +48,17 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
   }
 });
 
+// Get all the events your user account is connected to.
+router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyId(req.email, (status, data) => {
+    res.status(status);
+    dao.getMyEvents(data, (status, data2) => {
+      res.status(status);
+      res.send(data2);
+    });
+  });
+});
+
 // Lets an organiser change his profile.
 router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
   td.decode(req.headers['x-access-token'], (err, decoded) => {

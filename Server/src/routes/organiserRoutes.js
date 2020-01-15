@@ -185,15 +185,14 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
         });
       });
     } else {
-        let start_id = data[0].user_id;
+      let start_id = data[0].user_id;
       //sjekk om artist eksisterer
-        console.log(start_id)
+      console.log(start_id);
       dao.getArtistId(start_id, (status, data) => {
         res.status(status);
         d = data;
-          console.log('uuuuuuuuuuuuuuuuu ' + data.length);
+        console.log('uuuuuuuuuuuuuuuuu ' + data.length);
         if (data.length === 0) {
-
           dao.postArtist(start_id, (status, data) => {
             res.status(status);
             dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
@@ -204,15 +203,14 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
         } else {
           //bare legg til artisten
           dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
-              console.log(status + " - status");
-              if(status == 500){
-                  res.status(400);
-                  res.send("Artist already in event")
-              }
-              else{
-                  res.status(status);
-                  res.send(data);
-              }
+            console.log(status + ' - status');
+            if (status == 500) {
+              res.status(400);
+              res.send('Artist already in event');
+            } else {
+              res.status(status);
+              res.send(data);
+            }
           });
         }
       });
@@ -225,6 +223,17 @@ router.get('/group', (req: express$Request, res: express$Response) => {
   dao.getGroup(req.email, (status, data) => {
     res.status(status);
     res.send(data);
+  });
+});
+
+// Get all events your organiser account is connected to
+router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyId(req.email, (status, data) => {
+    res.status(status);
+    dao.getMyEvents(data, (status, data2) => {
+      res.status(status);
+      res.send(data2);
+    });
   });
 });
 
