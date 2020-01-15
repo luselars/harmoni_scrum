@@ -70,6 +70,7 @@ router.post('/event', (req: { body: Object }, res: express$Response) => {
         res.send(d);
       });
     } else {
+      console.log(data);
       res.status(status);
       res.send(data);
     }
