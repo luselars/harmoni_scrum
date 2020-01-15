@@ -5,8 +5,8 @@ import './stylesheet.css';
 import { string } from 'prop-types';
 import Upload from '../../Upload/Upload.js';
 import FileDropzone from '../../FileDropzone/FileDropzone.js';
-import { EventService } from '../../../services/EventService.js';
-import { Event } from '../../../services/EventService.js';
+import { OrganiserService } from '../../../services/organiserService.js';
+import { Event } from '../../../services/modelService.js';
 let path = require('path');
 
 type State = {
