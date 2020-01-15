@@ -63,7 +63,7 @@ export default class EventList extends Component<Props, State> {
                       <button
                         className="btn btn-success bg-green"
                         id="moreinfo"
-                        onClick={() => (window.location.href = '/orgevent/' + this.state.id)}
+                        onClick={() => (window.location.href = '/orgevent/' + event.event_id)}
                       >
                         {' '}
                         Mer info
@@ -87,6 +87,7 @@ export default class EventList extends Component<Props, State> {
       if (this.props.organiser) {
         OrganiserService.getMyEvents()
           .then(events => {
+            console.log("events: \n\n");
             console.log(events);
             this.setState({ events: events.data });
           })
@@ -102,6 +103,7 @@ export default class EventList extends Component<Props, State> {
     } else {
       PublicService.getFrontpage(this.state.sortMethod)
         .then(events => {
+          console.log("welcome to the frontpage")
           console.log(events);
           this.setState({ events: events.data });
         })
