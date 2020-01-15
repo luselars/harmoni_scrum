@@ -1,8 +1,6 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
 import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
 
@@ -18,13 +16,11 @@ export default class LogIn extends Component<{}, { email: string, password: stri
   render() {
     return (
       <div id="profileOrganiserCard" class="card ">
-        <div class="card-body bg-light">
+        <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
-            <p id="LoginTextH">LOGG INN</p>
+            <p className="display-3 text-center mb-5">LOGG INN</p>
             <div class="form-group text-center ml-5 mr-5">
-              <label for="inputEmail1" id="loginText">
-                E-mail
-              </label>
+              <label for="inputEmail1">E-mail</label>
               <input
                 type="email"
                 onChange={e => this.changeEmail(e)}
@@ -36,7 +32,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
               ></input>
             </div>
             <div class="form-group text-center ml-5 mr-5">
-              <label for="inputPassword1" id="loginText">
+              <label for="inputPassword1" className="">
                 Passord
               </label>
               <input
