@@ -7,6 +7,7 @@ import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
 import { string } from 'prop-types';
 import { PublicService } from '../../../services/publicService';
+import { UserService } from '../../../services/userService';
 
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 let events: Event[] = [];
@@ -14,13 +15,15 @@ let status: boolean;
 let event_id: number;
 
 export default class EventList extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
     this.state = {
       events: [],
       sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       organiser_id: 0,
+      profile_list: profile_list,
+      organiser: organiser,
     };
   }
   render() {
@@ -78,12 +81,30 @@ export default class EventList extends Component<Props, State> {
 
   componentDidMount() {
     let sortMethod: string = CommunicationService.getSortString();
-    PublicService.getFrontpage(this.state.sortMethod)
-      .then(events => {
-        console.log(events);
-        this.setState({ events: events.data });
-      })
-      .catch((error: Error) => alert(error.message));
+    if (this.state.profile_list) {
+      if (this.state.organiser) {
+        OrganiserService.getMyEvents()
+          .then(events => {
+            console.log(events);
+            this.setState({ events: events.data });
+          })
+          .catch((error: Error) => alert(error.message));
+      } else {
+        UserService.getMyEvents()
+          .then(events => {
+            console.log(events);
+            this.setState({ events: events.data });
+          })
+          .catch((error: Error) => alert(error.message));
+      }
+    } else {
+      PublicService.getFrontpage(this.state.sortMethod)
+        .then(events => {
+          console.log(events);
+          this.setState({ events: events.data });
+        })
+        .catch((error: Error) => alert(error.message));
+    }
   }
   componentWillReceiveProps(props) {
     this.setState({ sortMethod: props.sortString });

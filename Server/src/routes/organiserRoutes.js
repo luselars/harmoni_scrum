@@ -52,6 +52,14 @@ router.param('event_id', function(req, res, next, event_id) {
   });
 });
 
+//get event artists with contract and stuff
+router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
+    dao.getEventArtist(req.params.event_id, req.uid, (status, data) => {
+        res.status(status);
+        res.send(data[0]);
+    });
+});
+
 // Find a specific event by id (with your organiser id)
 router.get('/event/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEvent(req.params.event_id, req.uid, (status, data) => {
@@ -224,6 +232,17 @@ router.get('/group', (req: express$Request, res: express$Response) => {
   dao.getGroup(req.email, (status, data) => {
     res.status(status);
     res.send(data);
+  });
+});
+
+// Get all events your organiser account is connected to
+router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyId(req.email, (status, data) => {
+    res.status(status);
+    dao.getMyEvents(data, (status, data2) => {
+      res.status(status);
+      res.send(data2);
+    });
   });
 });
 

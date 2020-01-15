@@ -23,82 +23,73 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   }
   render() {
     return (
-      <div id="loginBox">
-        <div id="EventDetailsLITable">
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <th class="text-right" scope="row">
-                  Arrangementnavn:
-                </th>
-                <td class="text-left">{this.state.event.name}</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Dato:
-                </th>
-                <td class="text-left">{this.state.event.start}</td>
-                <td class="text-left">{this.state.event.end}</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Sted:
-                </th>
-                <td class="text-left">{this.state.event.venue}</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Adresse:
-                </th>
-                <td class="text-left">{this.state.event.address}</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Lineup:
-                </th>
-                <td class="text-left">Justin BIIIIBER</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Kontrakt(er):
-                </th>
-                <td class="text-left">Kontrakt.pdf</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Riders:
-                </th>
-                <td class="text-left">Rider.pdf</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Synlig for utenforstående:
-                </th>
-                <td class="text-left">Ja</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Status:
-                </th>
-                <td class="text-left">Klar til å gjennomføre</td>
-              </tr>
-              <tr>
-                <th class="text-right" scope="row">
-                  Bilde:
-                </th>
-                <td class="text-left">
-                  <img
-                    id="EventPicLI"
-                    src={'http://localhost:4000/user/file/' + this.state.event.image}
-                    class="img-fluid"
-                    alt="Eventbilde"
-                  ></img>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="card" id="carddetailsevent">
+        <div id="loginBox">
+          <div id="EventDetailsLITable">
+            <img
+              id="EventPicLI"
+              src={'http://localhost:4000/user/file/' + this.state.event.image}
+              class="img-fluid"
+              alt="Eventbilde"
+            ></img>
+            <p class="text display-4">Hei{this.state.event.name}</p>
+
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Dato:
+                  </th>
+                  <td class="text-left">{this.state.event.start}</td>
+                  <td class="text-left">{this.state.event.end}</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Sted:
+                  </th>
+                  <td class="text-left">{this.state.event.venue}</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Adresse:
+                  </th>
+                  <td class="text-left">{this.state.event.address}</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Lineup:
+                  </th>
+                  <td class="text-left">Justin BIIIIBER</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Kontrakt(er):
+                  </th>
+                  <td class="text-left">Kontrakt.pdf</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Riders:
+                  </th>
+                  <td class="text-left">Rider.pdf</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Synlig for utenforstående:
+                  </th>
+                  <td class="text-left">Ja</td>
+                </tr>
+                <tr>
+                  <th class="text-right" scope="row">
+                    Status:
+                  </th>
+                  <td class="text-left">Klar til å gjennomføre</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
         </div>
-        <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
       </div>
     );
   }
