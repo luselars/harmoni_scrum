@@ -40,13 +40,31 @@ class EventNew3 extends Component<Props, State> {
         this.setState({ event: data });
         console.log(this.state.event);
         this.formatTime();
-        if (data.location_id !== null) {
-        }
-      });
-      OrganiserService.getLocations().then(response => {
-        console.log(response.data);
-        this.setState({ locations: response.data });
-        console.log(this.state.locations);
+        OrganiserService.getLocations().then(response => {
+          console.log(response.data);
+          this.setState({ locations: response.data });
+          console.log(this.state.locations);
+          if (data.location_id !== null) {
+            let locData = new Location();
+            for (let i = 0; i < response.data.length; i++) {
+              if (response.data[i].location_id === data.location_id) {
+                locData = response.data[i];
+              }
+            }
+            if (locData.name) {
+              this.setState({ location_name: locData.name });
+            }
+            if (locData.address) {
+              this.setState({ location_addr: locData.address });
+            }
+            if (locData.postcode) {
+              document.getElementById('postcode').value = locData.postcode;
+            }
+            if (data.venue) {
+              document.getElementById('venue').value = data.venue;
+            }
+          }
+        });
       });
     }
   }
@@ -106,6 +124,10 @@ class EventNew3 extends Component<Props, State> {
               )}
             />
           </div>
+          <label htmlFor="postcode">Postkode:</label>
+          <input id="postcode" type="text" />
+          <label htmlFor="postcode">Scene:</label>
+          <input id="venue" type="text" />
           <div>
             <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
               Tilbake
@@ -125,6 +147,7 @@ class EventNew3 extends Component<Props, State> {
         if (this.state.locations[i].name === val) {
           let a = this.state.locations[i].address;
           this.setState({ location_addr: a });
+          document.getElementById('postcode').value = this.state.locations[i].postcode;
         }
       }
     }
@@ -133,6 +156,7 @@ class EventNew3 extends Component<Props, State> {
         if (this.state.locations[i].address === val) {
           let a = this.state.locations[i].name;
           this.setState({ location_name: a });
+          document.getElementById('postcode').value = this.state.locations[i].postcode;
         }
       }
     }
@@ -159,6 +183,8 @@ class EventNew3 extends Component<Props, State> {
     console.log(this.addr.current.value);
     let name = this.name.current.value;
     let addr = this.addr.current.value;
+    let postcode = document.getElementById('postcode').value;
+    let venue = document.getElementById('venue').value;
     if (name.length < 1 || addr.length < 1) {
       alert('Ugyldig addresse.');
       return;
@@ -167,9 +193,12 @@ class EventNew3 extends Component<Props, State> {
     let l = new Location();
     l.name = name;
     l.address = addr;
+    l.postcode = postcode;
     OrganiserService.postLocation(l).then(resp => {
+      console.log(resp);
       if (resp.status === 200) {
         this.state.event.location_id = resp.data[0].location_id;
+        this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);
           window.location = '/newevent4';
