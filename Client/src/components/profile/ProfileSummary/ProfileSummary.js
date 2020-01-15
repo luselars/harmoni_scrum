@@ -2,11 +2,11 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { Organiser } from '../../../services/modelService';
-import { OrganiserService } from '../../../services/organiserService';
+import { User } from '../../../services/modelService';
+import { UserService } from '../../../services/userService';
 
 type State = {
-  organiser: Organiser,
+  user: User,
 };
 
 type Props = {
@@ -17,7 +17,7 @@ export default class ProfileSummary extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      organiser: new Organiser('', ''),
+      user: new User('', ''),
     };
   }
   render() {
@@ -25,7 +25,7 @@ export default class ProfileSummary extends Component<Props, State> {
       <div id="summaryCard" class="card">
         <div class="card-body bg-light">
           <div class="container bg-light">
-            {this.state.organiser.image === null ? (
+            {this.state.user.image === null ? (
               <img
                 src="http://localhost:4000/user/file/profile.png"
                 class="img-rounded w-100"
@@ -33,14 +33,14 @@ export default class ProfileSummary extends Component<Props, State> {
               />
             ) : (
               <img
-                src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+                src={'http://localhost:4000/user/file/' + this.state.user.image}
                 class="img-rounded w-100"
                 alt="Profilbilde"
               />
             )}
           </div>
           <div class="col text-center border-bottom">
-            <h5 class="mb-3">{this.state.organiser.name}</h5>
+            <h5 class="mb-3">{this.state.user.name}</h5>
             <div class="col text-center border-bottom"></div>
             <h6 className="mb-3 text-success">SORTER ETTER...</h6>
             <div className="form-check text-left mb-3">
@@ -150,11 +150,11 @@ export default class ProfileSummary extends Component<Props, State> {
   }
 
   componentDidMount() {
-    OrganiserService.getOrganiser()
+    UserService.getMyProfile()
       .then(res => {
-        let organiser: any = res.data;
-        console.log(organiser);
-        this.setState({ organiser: organiser });
+        let user: any = res.data;
+        console.log(user);
+        this.setState({ user: user });
       })
       .catch(error => console.error(error));
   }

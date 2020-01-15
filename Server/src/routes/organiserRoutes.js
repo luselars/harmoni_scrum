@@ -170,37 +170,48 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
     let d = data;
-    if (d.length === 0) {
+
+    if (data.length === 0) {
       //lag en dummy user og artist:
       dao.postUser(req.body.email, (status, data) => {
         res.status(status);
         let ud = data;
-        dao.postArtist(ud.insertId, (status, data) => {
+        let id = ud.insertId;
+        dao.postArtist(id, (status, data) => {
           res.status(status);
-          dao.addArtistToEvent(ud.insert_id, req.params.event_id, (status, data) => {
+          dao.addArtistToEvent(id, req.params.event_id, (status, data) => {
             res.status(status);
             res.send(data);
           });
         });
       });
     } else {
+      let start_id = data[0].user_id;
       //sjekk om artist eksisterer
-      dao.getArtistId(d.user_id, (status, data) => {
+      console.log(start_id);
+      dao.getArtistId(start_id, (status, data) => {
         res.status(status);
         d = data;
+        console.log('uuuuuuuuuuuuuuuuu ' + data.length);
         if (data.length === 0) {
-          dao.postArtist(d.user_id, (status, data) => {
+          dao.postArtist(start_id, (status, data) => {
             res.status(status);
-            dao.addArtistToEvent(d.user_id, req.params.event_id, (status, data) => {
+            dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
               res.status(status);
               res.send(data);
             });
           });
         } else {
           //bare legg til artisten
-          dao.addArtistToEvent(d.user_id, req.params.event_id, (status, data) => {
-            res.status(status);
-            res.send(data);
+          dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
+            console.log(status + ' - status');
+            if (status == 500) {
+              res.status(400);
+              res.send('Artist already in event');
+            } else {
+              res.status(status);
+              res.send(data);
+            }
           });
         }
       });
