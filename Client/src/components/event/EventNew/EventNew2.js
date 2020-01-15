@@ -26,7 +26,7 @@ class EventNew2 extends Component<Props, State> {
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
-      EventService.getEvent(localStorage.getItem('curr_event')).then(response => {
+      OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         console.log(data);
         this.setState({ event: data });
@@ -101,7 +101,7 @@ class EventNew2 extends Component<Props, State> {
         function() {
           // send here
           temp_event.image = reader.result;
-          EventService.updateEvent(temp_event).then(resp => {
+          OrganiserService.updateEvent(temp_event).then(resp => {
             console.log(resp);
             if (resp.status === 200) {
               console.log('Arrangement oppdatert');
@@ -143,11 +143,11 @@ class EventNew2 extends Component<Props, State> {
       function() {
         // send here
         temp_event.image = reader.result;
-        EventService.updateEvent(temp_event).then(resp => {
+        OrganiserService.updateEvent(temp_event).then(resp => {
           console.log(resp);
           if (resp.status === 200) {
             console.log('Arrangement oppdatert');
-            // window.location = '/newevent3';
+            window.location = '/newevent3';
           } else {
             alert('Kunne ikke oppdatere arrangement.');
             // TODO bytt ut denne alerten med et komponent.

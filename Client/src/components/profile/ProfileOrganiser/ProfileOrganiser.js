@@ -2,31 +2,19 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
+import { Organiser } from '../../../services/modelService';
 
-import { EventService } from '../../../services/EventService';
+import { OrganiserService } from '../../../services/organiserService';
 
-export default class ProfileOrganiser extends Component<
-  {},
-  {
-    organiser_email: string,
-    name: string,
-    image: string,
-    website: string,
-    eventsFinished: number,
-    eventsComming: number,
-    address: string,
-  },
-> {
+type State = {
+  organiser: Organiser,
+};
+
+export default class ProfileOrganiser extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      organiser_email: 'Mail',
-      name: 'Navn',
-      image: '',
-      website: 'www.test.no',
-      eventsFinished: 0,
-      eventsComming: 0,
-      address: '',
+      organiser: new Organiser('', ''),
     };
   }
   render() {
@@ -36,38 +24,64 @@ export default class ProfileOrganiser extends Component<
           <div class="container bg-light">
             <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
               <div class="col-4 text-center">
-                <img
-                  src="http://localhost:4000/user/file/profile.png"
-                  class="img-rounded w-100"
-                  alt="Profilbilde"
-                ></img>
+                {this.state.organiser.image === null ? (
+                  <img
+                    src="http://localhost:4000/user/file/profile.png"
+                    class="img-rounded w-100"
+                    alt="Profilbilde"
+                  />
+                ) : (
+                  <img
+                    src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+                    class="img-rounded w-100"
+                    alt="Profilbilde"
+                  />
+                )}
               </div>
               <div class="col text-center">
-                <h2 class="mb-3">{this.state.name}</h2>
-                <h5>{this.state.organiser_email}</h5>
-                <h5>{this.state.website}</h5>
+                <h2 class="mb-3">{this.state.organiser.name}</h2>
+                <h5>{this.state.organiser.organiser_email}</h5>
+                <h5>{this.state.organiser.website}</h5>
               </div>
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <div class="col-4 text-center">
-                <button class="btn btn-success bg-green mb-4"> OPPRETT ARRANGEMENT </button>
+                <button
+                  class="btn btn-success bg-green mb-4"
+                  onClick={() => (window.location.href = '/newevent')}
+                >
+                  OPPRETT ARRANGEMENT
+                </button>
                 <button
                   class="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
-                  {' '}
-                  REDIGER PROFIL{' '}
+                  REDIGER PROFIL
                 </button>
-                <button class="btn btn-success bg-green"> SLETT PROFIL </button>
+                <button
+                  class="btn btn-success bg-green"
+                  onClick={() => (window.location.href = '/deleteprofile')}
+                >
+                  SLETT PROFIL
+                </button>
               </div>
               <div class="col text-center">
                 <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
-                {
-                  //if ((this.state.eventsComming + this.state.eventsFinished) > 0)
-                }
-                <p>Du har {this.state.eventsComming} kommende arrangementer.</p>
-                <p>Du har gjennomført {this.state.eventsFinished} arrangementer.</p>
-                <button class="btn btn-success bg-green"> SE ARRANGEMENTER </button>
+                {this.state.organiser.eventsComing === null &&
+                this.state.organiser.eventsFinished == null ? (
+                  <p>Du har ikke noen arrangementer</p>
+                ) : (
+                  <div>
+                    <p>Du har {this.state.organiser.eventsComing} kommende arrangementer.</p>
+                    <p>Du har gjennomført {this.state.organiser.eventsFinished} arrangementer.</p>
+                    <button
+                      class="btn btn-success bg-green"
+                      onClick={() => (window.location.href = '/events')}
+                    >
+                      SE ARRANGEMENTER
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -77,22 +91,12 @@ export default class ProfileOrganiser extends Component<
   }
 
   componentDidMount() {
-    var email_t = 'helenegj@stud.ntnu.no';
-    EventService.getOrganiser(email_t)
+    OrganiserService.getOrganiser()
       .then(res => {
-        let organsier: any = res.data;
-        console.log(organsier[0]);
-        this.setState({
-          organiser_email: organsier[0].organiser_email,
-          name: organsier[0].name,
-          image: 'http://localhost:4000/user/file/' + organsier[0].image,
-          website: organsier[0].website,
-          eventsFinished: organsier[0].eventsFinished,
-          eventsComming: organsier[0].eventsComming,
-          address: organsier[0].address,
-        });
+        let organiser: any = res.data;
+        console.log(organiser);
+        this.setState({ organiser: organiser });
       })
-
       .catch(error => console.error(error));
   }
 }

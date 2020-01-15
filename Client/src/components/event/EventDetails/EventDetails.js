@@ -2,9 +2,26 @@
 
 import * as React from 'react';
 import { Component } from 'react';
+import { Event } from '../../../services/modelService';
+import { OrganiserService } from '../../../services/organiserService';
+import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
-export default class EventDetails extends Component<{}, {}> {
+type Props = {
+  match: { params: { id: number } },
+};
+
+type State = {
+  event: Event,
+};
+
+export default class EventDetails extends Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      event: new Event(),
+    };
+  }
   render() {
     return (
       <div id="loginBox">
@@ -13,7 +30,7 @@ export default class EventDetails extends Component<{}, {}> {
           class="img-fluid"
           alt="Eventbilde"
         ></img>
-        <p id="EventDetailsText">EVENTNAVN</p>
+        <p id="EventDetailsText">{this.state.event.name}</p>
         <div id="EventDetailsTable">
           <table class="table table-borderless">
             <tbody>
@@ -21,25 +38,25 @@ export default class EventDetails extends Component<{}, {}> {
                 <th class="text-right" scope="row">
                   Dato:
                 </th>
-                <td class="text-left">kl 19:00, 15.01.1998</td>
+                <td class="text-left">{this.state.event.start}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Sted:
                 </th>
-                <td class="text-left">Trondheim Spektrum</td>
+                <td class="text-left">{this.state.event.venue}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Lineup:
                 </th>
-                <td class="text-left">Justin Bieber</td>
+                <td class="text-left">JB</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Pris:
                 </th>
-                <td class="text-left">fra 899 NOK</td>
+                <td class="text-left">KOMMER SENERE</td>
               </tr>
             </tbody>
           </table>
@@ -47,5 +64,16 @@ export default class EventDetails extends Component<{}, {}> {
         <button class="btn btn-success bg-green"> KJØP BILLETT </button>
       </div>
     );
+  }
+
+  componentDidMount() {
+    console.log(this.props.match.params.id);
+    PublicService.getPublicEvent(this.props.match.params.id)
+      .then(res => {
+        let event: Event = res;
+        console.log(res);
+        this.setState({ event: event });
+      })
+      .catch(error => console.error(error));
   }
 }

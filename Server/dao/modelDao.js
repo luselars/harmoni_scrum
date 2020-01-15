@@ -6,6 +6,7 @@ export class Event {
     this.name = name;
   }
   //Event Information
+  event_id: number;
   name: string;
   description: string;
   image: string;
@@ -16,7 +17,6 @@ export class Event {
   location_id: number;
   address: string;
   venue: string;
-  event_id: number = null;
 
   // Event Location
   location: Location = null;
@@ -48,6 +48,18 @@ export class User {
   email: string;
   name: string;
   tlf: string;
+  image: string;
+  description: string;
+}
+
+// Object for sending Artist
+export class Artist {
+  constructor(user_id: number, artist_name: number) {
+    this.user_id = user_id;
+    this.artist_name = artist_name;
+  }
+  user_id: number;
+  artist_name: string;
   image: string;
   description: string;
 }

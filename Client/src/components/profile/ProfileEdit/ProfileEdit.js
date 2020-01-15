@@ -2,31 +2,27 @@
 
 import React from 'react';
 import { Component } from 'react';
-import { EventService } from '../../../services/EventService';
-
+import { OrganiserService } from '../../../services/organiserService';
+import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
 
 type State = {
-  name: string,
-  email: string,
-  tlf: string,
-  image: string,
-  descrition: string,
-  address: string,
-  password: string,
+  organiser: Organiser,
+  newPassword: string,
+  streetAdress: string,
+  postalcode: number,
+  postal: string,
 };
 
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      tlf: '',
-      image: '',
-      descrition: '',
-      address: '',
-      password: '',
+      organiser: new Organiser('', ''),
+      newPassword: '',
+      streetAdress: '',
+      postalcode: 0,
+      postal: '',
     };
   }
 
@@ -35,6 +31,24 @@ class ProfileEdit extends Component<{}, State> {
       <div className="card" id="editProfile">
         <div className="card-body">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
+          <img
+            className="img-rounded w-25"
+            id="picture"
+            src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+            alt="Profilbilde"
+          />
+          <div className="form-check text-center my-3 p-2 border">
+            <label className="form-check-label" for="upload">
+              Profilbilde
+            </label>
+            <input
+              className="file mr-6"
+              accept=".jpg, .jpeg, .png"
+              type="file"
+              id="upload"
+              name="recfile"
+            />
+          </div>
           <div className="form-group" id="name">
             <label for="nameInput">Navn: </label>
             <input
@@ -42,7 +56,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="name"
               onChange={e => this.onChange(e)}
-              value={this.state.name}
+              value={this.state.organiser.name}
               id="nameInput"
             ></input>
           </div>
@@ -53,7 +67,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
-              value={this.state.tlf}
+              value={this.state.organiser.tlf}
               id="tlfInput"
             ></input>
           </div>
@@ -64,7 +78,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="email"
               onChange={e => this.onChange(e)}
-              value={this.state.email}
+              value={this.state.organiser.email}
               id="emailInput"
             ></input>
           </div>
@@ -75,22 +89,22 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="password"
               onChange={e => this.onChange(e)}
-              value={this.state.password}
+              value={this.state.organiser.password}
               id="passwordInput"
             ></input>
           </div>
           <div className="form-group" id="password">
-            <label for="passwordInput">Nytt passord: </label>
+            <label for="passwordNewInput">Nytt passord: </label>
             <input
               type="password"
               className="form-control"
-              name="password"
+              name="passwordNew"
               onChange={e => this.onChange(e)}
-              value={this.state.password}
-              id="passwordInput"
+              value={this.state.newPassword}
+              id="passwordNewInput"
             ></input>
           </div>
-          <img className="editImage" id="picture" src={this.state.image} alt="Profilbilde" />
+
           <div className="form-group" id="description">
             <label for="descritionInput">Beskrivelse</label>
             <textarea
@@ -98,7 +112,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="description"
               onChange={e => this.onChange(e)}
-              value={this.state.descrition}
+              value={this.state.organiser.description}
               id="descritionInput"
             ></textarea>
           </div>
@@ -109,7 +123,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="website"
               onChange={e => this.onChange(e)}
-              value={this.state.email}
+              value={this.state.organiser.organiser_email}
               id="websiteInput"
             ></input>
           </div>
@@ -118,7 +132,7 @@ class ProfileEdit extends Component<{}, State> {
             width="100%"
             height="300px"
             frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=Korsgata+21A,+7030+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
+            src="https://www.google.com/maps/embed/v1/place?q=Brattøregata+4,+7010+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
             allowfullscreen
           ></iframe>
           <div className="form-group" id="address">
@@ -128,8 +142,30 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="address"
               onChange={e => this.onChange(e)}
-              value={this.state.address}
+              value={this.state.organiser.streetAdress}
               id="addressInput"
+            ></input>
+          </div>
+          <div className="form-group" id="postalcode">
+            <label for="postalcodeInput">Postnummer: </label>
+            <input
+              type="text"
+              className="form-control"
+              name="postalcode"
+              onChange={e => this.onChange(e)}
+              value={this.state.postalcode}
+              id="postalcodeInput"
+            ></input>
+          </div>
+          <div className="form-group" id="postal">
+            <label for="postalInput">Poststed: </label>
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              onChange={e => this.onChange(e)}
+              value={this.state.postal}
+              id="postalInput"
             ></input>
           </div>
           <button class="btn btn-success bg-green"> LAGRE </button>
@@ -137,9 +173,14 @@ class ProfileEdit extends Component<{}, State> {
       </div>
     );
   }
-
   componentDidMount() {
-    //EventService.getEvent(this.props.match.params.id)
+    OrganiserService.getOrganiser().then(res => {
+      console.log(res.data);
+      let organiser: Organiser = res.data;
+      this.setState({
+        organiser,
+      });
+    });
   }
 
   onChange(e: any) {

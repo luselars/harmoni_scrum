@@ -2,9 +2,9 @@
 import React from 'react';
 import { Component } from 'react';
 import FormData from 'form-data';
-import { UserService } from '../../services/UserService.js';
+import { UserService } from '../../services/userService.js';
 import { string } from 'prop-types';
-import { EventService } from '../../services/EventService';
+import { OrganiserService } from '../../services/organiserService';
 let path = require('path');
 
 type Props = {
@@ -31,7 +31,6 @@ class Upload extends Component<Props> {
           <i className="fa fa-cloud-upload"></i> Bla igjennom...
           <img id="prev" src="" height="200" alt="" />
         </label>
-        {/*<button onClick={this.publish2}>send</button>*/}
       </div>
     );
   }

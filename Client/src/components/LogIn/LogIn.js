@@ -3,8 +3,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { Organiser } from '../../services/UserService';
-import { UserService } from '../../services/UserService';
+import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
 
 export default class LogIn extends Component<{}, { email: string, password: string }> {
@@ -20,7 +19,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     return (
       <div id="profileOrganiserCard" class="card ">
         <div class="card-body bg-light">
-          <form>
+          <form onSubmit={e => this.post(e)}>
             <p id="LoginTextH">LOGG INN</p>
             <div class="form-group text-center ml-5 mr-5">
               <label for="inputEmail1" id="loginText">
@@ -44,6 +43,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
                 type="password"
                 onChange={e => this.changePassword(e)}
                 name="password"
+                minlength="9"
                 class="form-control"
                 id="inputPassword1"
                 placeholder="Passord"
@@ -53,7 +53,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
               <label class="form-label" for="check1">
                 <a href="/glemtpassord">Glemt passord?</a>
               </label>
-              <button type="button" onClick={() => this.post()} class="btn btn-success mr-3 ml-3">
+              <button type="submit" class="btn btn-success mr-3 ml-3">
                 Logg inn
               </button>
             </div>
@@ -73,7 +73,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     let name: string = target.name;
     let value: string = target.value;
     this.setState({ email: value });
-    console.log(this.state.email);
   }
 
   changePassword(e: any) {
@@ -81,12 +80,19 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     let name: string = target.name;
     let value: string = target.value;
     this.setState({ password: value });
-    console.log(this.state.password);
   }
 
-  post() {
-    UserService.logIn(this.state.email, this.state.password).then(() => {
-      window.location = '/profile';
-    });
+  post(e: any) {
+    e.preventDefault();
+    PublicService.logIn(this.state.email, this.state.password)
+      .then(response => {
+        console.log('Response: ' + response.data.jwt);
+        localStorage.setItem('token', response.data.jwt);
+        window.location = '/profile';
+      })
+      .catch(error => {
+        console.log('error: ' + error);
+        alert('Bruker ikke funnet, sjekk passord og email og prøv på nytt');
+      });
   }
 }

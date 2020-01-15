@@ -7,8 +7,17 @@ module.exports = class PublicDao extends Dao {
     console.log(typeof sortMethod + ' wtf is sortmethod?');
     let sort: string = sortMethod;
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE ORDER BY ?',
+      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE start > CURRENT_TIMESTAMP AND e.is_public IS TRUE ORDER BY ' +
+        sort,
       sort,
+      callback,
+    );
+  }
+
+  getArtistEvent(event_id: number, callback) {
+    super.query(
+      'SELECT user_id, artist_name from artist WHERE user_id IN(SELECT user_id FROM event_artist WHERE event_id = ?)',
+      [event_id],
       callback,
     );
   }
@@ -53,11 +62,15 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
-  getUserHashAndSalt(email: string, callback: (status: string, data: Object) => mixed) {
-    super.query('Select hash, salt from user WHERE email = ?', email, callback);
+  getUserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query('Select hash, salt, user_id from user WHERE email = ?', email, callback);
   }
 
-  getOrganiserHashAndSalt(email: string, callback: (status: string, data: Object) => mixed) {
-    super.query('Select hash, salt from organiser WHERE organiser_email = ?', email, callback);
+  getOrganiserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'Select hash, salt, organiser_id from organiser WHERE organiser_email = ?',
+      email,
+      callback,
+    );
   }
 };
