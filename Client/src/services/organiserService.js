@@ -47,9 +47,32 @@ export class OrganiserService {
     let url = url_base + '/artist/' + event_id;
     return axios.post(url, { email: email }, config);
   }
-
   static getMyEvents(): AxiosPromise<Event[]> {
     let url = url_base + '/myevents';
     return axios.get(url, config);
+  }
+  static getArtists(event_id: number): AxiosPromise<Artist[]> {
+    let url = url_base + '/artist/' + event_id;
+    return axios.get(url, config);
+  }
+  static updateArtistEvent(artist: Artist, event_id: number) {
+    let data = {
+      event_id: event_id,
+      contract: artist.contract,
+      notes: artist.notes,
+      accepted: artist.accepted,
+    };
+    let url = url_base + '/artist/' + artist.user_id;
+    return axios.put(url, data);
+  }
+
+  static getRiders(artist_id: number, event_id: number) {
+    let url = url_base + '/' + event_id + '/artist/' + artist_id + '/riders';
+    return axios.get(url, config);
+  }
+
+  static postRider(event_id: number) {
+    let url = url_base + '/' + event_id + '/artist';
+    return axios.post(url, event_id, config);
   }
 }

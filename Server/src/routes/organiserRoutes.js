@@ -128,18 +128,21 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
 });
 
 //edit an event artist to add contracts and stuff
-router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
-  dao.putEventArtist(
-    req.body.user_id,
-    req.body.event_id,
-    req.body.contract,
-    req.body.notes,
-    req.body.accepted,
-    (status, data) => {
-      res.status(status);
-      res.send(data);
-    },
-  );
+router.put('/artist/:artist_id', (req: { body: Object }, res: express$Response) => {
+  uploadFunctions.handleFile(req.body.contract, function(name) {
+    req.body.contract = name;
+    dao.putEventArtist(
+      req.params.artist_id,
+      req.body.event_id,
+      req.body.contract,
+      req.body.notes,
+      req.body.accepted,
+      (status, data) => {
+        res.status(status);
+        res.send(data);
+      },
+    );
+  });
 });
 
 // Delete single event
@@ -377,6 +380,13 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
       console.log(data2);
       res.send(data2);
     });
+  });
+});
+
+router.get('/:eid/artist/:aid/riders', (req: express$Request, res: express$Response) => {
+  dao.getArtistRiders(req.params.eid, req.params.aid, (status, data) => {
+    res.status(status);
+    res.send(data2);
   });
 });
 
