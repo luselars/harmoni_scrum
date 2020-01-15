@@ -49,7 +49,7 @@ export default class EventDetails extends Component<Props, State> {
                   Sted:
                 </th>
                 <td class="text-left" id="textleft">
-                  {this.state.event.venue}
+                  {this.state.event.location_name}, {this.state.event.venue}
                 </td>
               </tr>
               <tr>

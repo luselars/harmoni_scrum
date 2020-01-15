@@ -88,7 +88,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               </tbody>
             </table>
           </div>
-          <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
+          <button class="btn btn-success bg-green" onClick={() => this.edit()}>
+            {' '}
+            ENDRE ARRANGEMENT{' '}
+          </button>
         </div>
       </div>
     );
@@ -103,5 +106,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
+  }
+
+  edit() {
+    localStorage.setItem('curr_event', this.state.event.event_id);
+    window.location = '/newevent';
   }
 }
