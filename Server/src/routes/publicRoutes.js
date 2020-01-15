@@ -62,16 +62,15 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
-    if (status == '200' && data.length != 0) {
-      console.log(data);
+    if (status == '200' && data[0].length != 0) {
       // Callback function that hashes inputed password and compares to hash in DB
-      let salt = data.salt;
+      let salt = data[0].salt;
       let hash = bcrypt.hashSync(req.body.password, salt);
-      if (hash == data.hash) {
+      if (hash == data[0].hash) {
         // Returns a token for autherization if credentials match
         console.log('Username and password ok');
         let token = jwt.sign(
-          { username: req.body.username, type: 'user', id: data.user_id },
+          { username: req.body.username, type: 'user', id: data[0].user_id },
           privateKey,
           {
             expiresIn: tokenDuration,
@@ -121,28 +120,6 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// login for organiser, returns a jwt token
-router.post('/login/organiser', (req: express$Request, res: express$Response) => {
-  // Gets the users hash and salt from the DB
-  dao.getOrganiserHashAndSalt(req.body.username, (status, data) => {
-    // Callback function that hashes inputed password and compares to hash in DB
-    let salt = data[0].salt;
-    let hash = bcrypt.hashSync(req.body.password, salt);
-    if (hash == data[0].hash) {
-      // Returns a token for autherization if credentials match
-      console.log('Username and password ok');
-      let token = jwt.sign({ username: req.body.username, type: 'organiser' }, privateKey, {
-        expiresIn: tokenDuration,
-      });
-      res.json({ jwt: token });
-    } else {
-      console.log('Username and password NOT ok');
-      res.status(401);
-      res.json({ error: 'Not authorized, check username and password' });
-    }
-  });
-});
-
 // Register new user
 router.post('/register/user', (req: express$Request, res: express$Response) => {
   let password: string = req.body.password;
@@ -182,9 +159,12 @@ router.post('/register/organiser', (req: express$Request, res: express$Response)
     organiser.address = req.body.address;
     organiser.website = req.body.website;
 
-    dao.postOrganiser(organiser, hash, salt, (status, data) => {
-      res.status(status);
-      res.send(data);
+    uploadFunctions.handleFile(req.body.image, function(name) {
+      organiser.image = name;
+      dao.postOrganiser(organiser, hash, salt, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
     });
   }
 });

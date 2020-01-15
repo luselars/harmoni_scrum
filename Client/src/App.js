@@ -1,6 +1,5 @@
 import React from 'react';
 //import logo from './logo.svg';
-import './App.css';
 import { withRouter } from 'react-router';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import Main from '../src/views/main';
@@ -53,8 +52,8 @@ function App() {
           <Route component={NoMatch} />
         </Switch>
         <LocationDisplay />
+        <Footer />
       </div>
-      <Footer />
     </Router>
   );
 }

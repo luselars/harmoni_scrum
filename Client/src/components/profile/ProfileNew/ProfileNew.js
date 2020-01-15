@@ -48,8 +48,14 @@ export default class ProfileNew extends Component<
     return (
       <div id="profileOrganiserCard" className="card ">
         <div className="card-body bg-light">
-          <form>
-            <h2 id="registerTextH">REGISTRER</h2>
+          <form onSubmit={e => this.post(e)}>
+            <h2 className="display-4 text-center">REGISTRER</h2>
+            <div
+              id="error-message"
+              style={{ visibility: 'hidden' }}
+              className="alert alert-danger"
+              role="alert"
+            ></div>
             <div className="form-check ml-5 mr-5">
               <div>
                 <input
@@ -212,18 +218,18 @@ export default class ProfileNew extends Component<
                 Profilbilde
               </label>
             </div>
-            <div className="form-check text-center ml-5 mr-5">
+            <div class="form-check form-check-inline">
               <input
                 type="checkbox"
                 onChange={e => this.changeCheck(e)}
                 className="form-check-input"
                 id="check1"
               ></input>
-              <label className="form-check-label" for="check1">
+              <label class="form-check-label" for="check1">
                 Jeg godkjenner deres vilkår
               </label>
             </div>
-            <button type="button" onClick={() => this.post()} className="btn btn-success">
+            <button type="submit" className="btn btn-success">
               Registrer
             </button>
           </form>
@@ -247,7 +253,9 @@ export default class ProfileNew extends Component<
     this.setState({ check: !this.state.check });
   }
 
-  post() {
+  post(e: any) {
+    e.preventDefault();
+    var errorMessage = document.getElementById('error-message');
     // Checks if agree to terms box is checked.
     if (this.state.check) {
       // Checks whether password is filled in and matches password confirmation
@@ -343,11 +351,15 @@ export default class ProfileNew extends Component<
           }
         }
       } else {
-        console.log("Password does not match or you don't have a password.");
+        errorMessage.innerHTML = "Password does not match or you don't have a password.";
+        errorMessage.style.visibility = 'visible';
       }
       console.log('TRYING TO CREATE NEW USER');
+      errorMessage.innerHTML = '';
+      errorMessage.style.visibility = 'hidden';
     } else {
-      console.log('Not checked agree with terms');
+      errorMessage.innerHTML = 'Du har ikke godtatt våre vilkår';
+      errorMessage.style.visibility = 'visible';
     }
   }
 }
