@@ -62,26 +62,31 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
-    if (status == '200' && data[0].length != 0) {
-      // Callback function that hashes inputed password and compares to hash in DB
-      let salt = data[0].salt;
-      let hash = bcrypt.hashSync(req.body.password, salt);
-      if (hash == data[0].hash) {
-        // Returns a token for autherization if credentials match
-        console.log('Username and password ok');
-        let token = jwt.sign(
-          { username: req.body.username, type: 'user', id: data[0].user_id },
-          privateKey,
-          {
-            expiresIn: tokenDuration,
-          },
-        );
-        res.status(200);
-        res.json({ jwt: token });
+    if (status == '200') {
+      if (data[0] != null) {
+        // Callback function that hashes inputed password and compares to hash in DB
+        let salt = data[0].salt;
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        if (hash == data[0].hash) {
+          // Returns a token for autherization if credentials match
+          console.log('Username and password ok');
+          let token = jwt.sign(
+            { username: req.body.username, type: 'user', id: data[0].user_id },
+            privateKey,
+            {
+              expiresIn: tokenDuration,
+            },
+          );
+          res.status(200);
+          res.json({ jwt: token });
+        } else {
+          console.log('Username and password NOT ok');
+          res.status(401);
+          res.json({ error: 'Not authorized, check username and password' });
+        }
       } else {
-        console.log('Username and password NOT ok');
-        res.status(401);
-        res.json({ error: 'Not authorized, check username and password' });
+        res.status(404);
+        res.json({ error: 'Username not found' });
       }
     } else {
       dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
@@ -125,7 +130,7 @@ router.post('/register/user', (req: express$Request, res: express$Response) => {
   let password: string = req.body.password;
   let email: string = req.body.email;
   let name: string = req.body.name;
-  if (password.length > 8 && email !== '' && name !== '') {
+  if (password.length >= 8 && email !== '' && name !== '') {
     // Genereates salt and hash
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
@@ -140,13 +145,16 @@ router.post('/register/user', (req: express$Request, res: express$Response) => {
         res.send(data);
       });
     });
+  } else {
+    res.status(400);
+    res.send('Ugyldig passord');
   }
 });
 
 // Register new organiser
 router.post('/register/organiser', (req: express$Request, res: express$Response) => {
   let password: string = req.body.password;
-  if (password.length > 8) {
+  if (password.length >= 8) {
     // Genereates salt and hash
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
