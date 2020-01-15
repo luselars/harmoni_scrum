@@ -39,7 +39,7 @@ module.exports = class PublicDao extends Dao {
           state.hash,
           state.salt,
           state.name,
-          state.image,
+          state.imageUrl,
           state.tlf,
           state.description,
           state.address,
@@ -55,7 +55,7 @@ module.exports = class PublicDao extends Dao {
           state.name,
           state.hash,
           state.salt,
-          state.image,
+          state.imageUrl,
           state.description,
           state.tlf,
           //hent passord hash og salt
