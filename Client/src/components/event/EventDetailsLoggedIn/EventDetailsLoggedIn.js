@@ -88,11 +88,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               </tbody>
             </table>
           </div>
-          <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
-          <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
+          <button class="btn btn-success bg-green" onClick={() => this.edit()}>
             {' '}
-            SLETT ARRANGEMENT{' '}
-          </button>
+            ENDRE ARRANGEMENT <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
+            <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
+              {' '}
+              SLETT ARRANGEMENT{' '}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -103,12 +106,16 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       .then(res => {
         let event: any = res.data;
         console.log(res);
-        console.log('Navn: ' + this.state.event.name);
+        console.log('Bilde: ' + this.state.event.image);
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
   }
 
+  edit() {
+    localStorage.setItem('curr_event', this.state.event.event_id);
+    window.location = '/newevent';
+  }
   delete() {
     OrganiserService.deleteEvent(this.props.match.params.id)
       .then(response => {

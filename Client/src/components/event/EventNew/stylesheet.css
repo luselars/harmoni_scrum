@@ -6,6 +6,10 @@
   padding: 30px 30px;
 }
 
+.date {
+  margin-right: 3px;
+}
+
 .upload {
   display: inline;
 }
