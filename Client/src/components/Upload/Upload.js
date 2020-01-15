@@ -31,7 +31,6 @@ class Upload extends Component<Props> {
           <i className="fa fa-cloud-upload"></i> Bla igjennom...
           <img id="prev" src="" height="200" alt="" />
         </label>
-        {/*<button onClick={this.publish2}>send</button>*/}
       </div>
     );
   }

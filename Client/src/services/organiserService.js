@@ -27,7 +27,7 @@ export class OrganiserService {
     return axios.get<Event>(url, config);
   }
 
-  static getOrganiser() {
+  static getOrganiser(): AxiosPromise<Organiser> {
     let url = url_base + '/myprofile';
     return axios.get<Organiser>(url, config);
   }
