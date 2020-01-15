@@ -147,14 +147,14 @@ router.post('/register/user', (req: express$Request, res: express$Response) => {
   let password: string = req.body.password;
   let email: string = req.body.email;
   let name: string = req.body.name;
-  let tlf: string = req.body.tlf;
-  let description: string = req.body.description;
-
   if (password.length > 8 && email !== '' && name !== '') {
     // Genereates salt and hash
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
     let user: User = new User(email, name);
+    user.image = req.body.image;
+    user.tlf = req.body.tlf;
+    user.description = req.body.description;
     dao.postUser(user, hash, salt, (status, data) => {
       res.status(status);
       res.send(data);
@@ -171,10 +171,13 @@ router.post('/register/organiser', (req: express$Request, res: express$Response)
     let hash = bcrypt.hashSync(req.body.password, salt);
     let email = req.body.email;
     let name = req.body.name;
-    let tlf = req.body.tlf;
-    let description = req.body.description;
-
     let organiser: Organiser = new Organiser(email, name);
+    organiser.tlf = req.body.tlf;
+    organiser.image = req.body.image;
+    organiser.description = req.body.description;
+    organiser.address = req.body.address;
+    organiser.website = req.body.website;
+
     dao.postOrganiser(organiser, hash, salt, (status, data) => {
       res.status(status);
       res.send(data);

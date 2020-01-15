@@ -267,7 +267,7 @@ export default class ProfileNew extends Component<
                 this.state.tlf,
                 this.state.description,
                 address,
-                this.state.url,
+                this.state.website,
               ).then(response => {
                 localStorage.setItem('token', response.data.jwt);
                 window.location = '/profile';
