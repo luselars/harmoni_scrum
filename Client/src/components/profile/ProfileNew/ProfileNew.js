@@ -147,7 +147,7 @@ export default class ProfileNew extends Component<
                 Telefon
               </label>
               <input
-                type="text"
+                type="tel"
                 onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputTlf"
@@ -201,7 +201,7 @@ export default class ProfileNew extends Component<
                     URL til nettsted
                   </label>
                   <input
-                    type="url"
+                    type="text"
                     onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputURL1"
@@ -258,16 +258,18 @@ export default class ProfileNew extends Component<
 
   post(event: any) {
     event.preventDefault();
-    console.log('registering');
-    PublicService.registerNewUser(this.state)
-      .then(response => {
-        console.log('Response: ' + response.data.jwt);
-        localStorage.setItem('token', response.data.jwt);
-        window.location = '/profile';
-      })
-      .catch(error => {
-        console.log('error: ' + error);
-        alert('Bruker ikke funnet, sjekk passord og email og prøv på nytt');
-      });
+    if (this.state.password == this.state.passwordConfirmation) {
+      console.log('registering');
+      PublicService.registerNewUser(this.state)
+        .then(response => {
+          localStorage.setItem('token', response.data.jwt);
+          window.location = '/profile';
+        })
+        .catch(error => {
+          alert('Eposten er allerede i bruk');
+        });
+    } else {
+      alert('Passord matcher ikke');
+    }
   }
 }

@@ -14,6 +14,7 @@ let events: Event[] = [];
 let status: boolean;
 let event_id: number;
 
+
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
@@ -22,7 +23,6 @@ export default class EventList extends Component<Props, State> {
       sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       organiser_id: 0,
-      profile_list: profile_list,
       organiser: organiser,
     };
   }
@@ -80,9 +80,11 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+
     let sortMethod: string = CommunicationService.getSortString();
-    if (this.state.profile_list) {
-      if (this.state.organiser) {
+    console.log("profile list: " + this.props.profile_list)
+    if (this.props.profile_list) {
+      if (this.props.organiser) {
         OrganiserService.getMyEvents()
           .then(events => {
             console.log(events);

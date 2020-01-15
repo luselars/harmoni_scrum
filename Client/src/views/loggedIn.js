@@ -10,7 +10,7 @@ export default class LoggedIn extends Component {
       <div>
         <SearchBar />
         <ProfileSummary />
-        <EventList />
+        <EventList profile_list={true} organiser={true}/>
       </div>
     );
   }
