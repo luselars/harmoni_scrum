@@ -6,6 +6,7 @@ import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
+import UploadContract from '../../Upload/UploadContract';
 
 type State = {
   event: Event,
@@ -18,6 +19,7 @@ class EventNew4 extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
+      artists: [],
     };
   }
   componentDidMount(): * {
@@ -29,7 +31,8 @@ class EventNew4 extends Component<Props, State> {
         this.setState({ event: data });
         this.formatTime();
         OrganiserService.getArtists(data.event_id).then(resp => {
-          console.log(resp);
+          this.setState({ artists: resp.data });
+          console.log(this.state.artists);
         });
       });
     }
@@ -55,11 +58,31 @@ class EventNew4 extends Component<Props, State> {
             placeholder="Skriv e-mail"
           />
           <button onClick={() => this.invite()}>Inviter artist</button>
-          {/*{*/}
-          {/*  this.artists.map((artist) => {*/}
-          {/*    <p>{artist.name}</p>*/}
-          {/*  })*/}
-          {/*}*/}
+          {this.state.artists.map(artist => (
+            <div>
+              <p>Artist: {artist.email}</p>
+              <div>
+                <p>
+                  Kontrakt: <br />
+                  {artist.contract === null ? (
+                    <UploadContract
+                      artist={artist}
+                      accept={'.pdf'}
+                      message={'Last opp kontrakt'}
+                      event_id={this.state.event.event_id}
+                    />
+                  ) : (
+                    <DownloadFile fileName={artist.contract} />
+                  )}
+                </p>
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+            </div>
+          ))}
         </div>
         <div>
           <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
@@ -69,6 +92,7 @@ class EventNew4 extends Component<Props, State> {
             Neste
           </button>
           <DownloadFile fileName={'profile.png'} />
+          <DownloadFile fileName={'15c26e29827aded4.pdf'} />
         </div>
         {/*</form>*/}
       </div>
