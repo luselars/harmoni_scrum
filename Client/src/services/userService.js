@@ -15,4 +15,8 @@ export class UserService {
     let token = localStorage.getItem('token');
     return axios.get(url, { headers: { 'x-access-token': token } });
   }
+  static getFile(name: string) {
+    let url = url_base + '/file/' + name;
+    return axios.get(url);
+  }
 }
