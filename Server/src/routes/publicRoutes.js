@@ -16,6 +16,8 @@ let router = express.Router();
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
 
+var tokenDuration: 18000000;
+
 // Checks if the token is verified, if so it returns a new token that lasts longer
 function updateToken(token) {
   jwt.verify(token, publicKey, (err, decoded) => {
@@ -26,7 +28,7 @@ function updateToken(token) {
     } else {
       console.log('Token ok: ' + decoded.username + ', Assigning new token');
       let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
-        expiresIn: 1800,
+        expiresIn: tokenDuration,
       });
       return token;
     }
@@ -71,7 +73,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
           { username: req.body.username, type: 'user', id: data.user_id },
           privateKey,
           {
-            expiresIn: 1800,
+            expiresIn: tokenDuration,
           },
         );
         res.status(200);
@@ -96,7 +98,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
                 { username: req.body.username, type: 'organiser', id: data[0].organiser_id },
                 privateKey,
                 {
-                  expiresIn: 1800,
+                  expiresIn: tokenDuration,
                 },
               );
               res.json({ jwt: token });
@@ -129,7 +131,7 @@ router.post('/login/organiser', (req: express$Request, res: express$Response) =>
       // Returns a token for autherization if credentials match
       console.log('Username and password ok');
       let token = jwt.sign({ username: req.body.username, type: 'organiser' }, privateKey, {
-        expiresIn: 1800,
+        expiresIn: tokenDuration,
       });
       res.json({ jwt: token });
     } else {
