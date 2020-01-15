@@ -7,9 +7,17 @@ import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
 
 type State = {
-  organiser: Organiser,
+  organiser_id: number,
+  name: string,
+  organiser_email: string,
+  image: string,
+  password: string,
+  description: string,
+  website: string,
+  address: string,
+  tlf: string,
   newPassword: string,
-  streetAdress: string,
+  streetAddress: string,
   postalcode: number,
   postal: string,
 };
@@ -18,9 +26,17 @@ class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      organiser: new Organiser('', ''),
+      organiser_id: 0,
+      name: '',
+      organiser_email: '',
+      image: '',
+      password: '',
+      description: '',
+      website: '',
+      address: '',
+      tlf: '',
       newPassword: '',
-      streetAdress: '',
+      streetAddress: '',
       postalcode: 0,
       postal: '',
     };
@@ -34,7 +50,7 @@ class ProfileEdit extends Component<{}, State> {
           <img
             className="img-rounded w-25"
             id="picture"
-            src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+            src={'http://localhost:4000/user/file/' + this.state.image}
             alt="Profilbilde"
           />
           <div className="form-check text-center my-3 p-2 border">
@@ -45,8 +61,8 @@ class ProfileEdit extends Component<{}, State> {
               className="file mr-6"
               accept=".jpg, .jpeg, .png"
               type="file"
-              id="upload"
-              name="recfile"
+              id="imageInput"
+              name="image"
             />
           </div>
           <div className="form-group" id="name">
@@ -56,7 +72,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="name"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.name}
+              defaultValue={this.state.name}
               id="nameInput"
             ></input>
           </div>
@@ -67,7 +83,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.tlf}
+              defaultValue={this.state.tlf}
               id="tlfInput"
             ></input>
           </div>
@@ -78,7 +94,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="email"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.email}
+              defaultValue={this.state.organiser_email}
               id="emailInput"
             ></input>
           </div>
@@ -89,7 +105,6 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="password"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.password}
               id="passwordInput"
             ></input>
           </div>
@@ -100,7 +115,6 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="passwordNew"
               onChange={e => this.onChange(e)}
-              value={this.state.newPassword}
               id="passwordNewInput"
             ></input>
           </div>
@@ -112,7 +126,7 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="description"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.description}
+              defaultValue={this.state.description}
               id="descritionInput"
             ></textarea>
           </div>
@@ -123,36 +137,45 @@ class ProfileEdit extends Component<{}, State> {
               className="form-control"
               name="website"
               onChange={e => this.onChange(e)}
-              value={this.state.organiser.organiser_email}
+              defaultValue={this.state.website}
               id="websiteInput"
             ></input>
           </div>
+
           <iframe
             id="map"
             width="100%"
             height="300px"
             frameborder="0"
-            src="https://www.google.com/maps/embed/v1/place?q=Brattøregata+4,+7010+Trondheim&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk"
+            src={
+              'https://www.google.com/maps/embed/v1/place?q=' +
+              this.state.streetAddress +
+              ',+' +
+              this.state.postalcode +
+              '+' +
+              this.state.postal +
+              '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+            }
             allowfullscreen
           ></iframe>
           <div className="form-group" id="address">
-            <label for="addressInput">Adresse: </label>
+            <label for="streetAddressInput">Adresse: </label>
             <input
               type="text"
               className="form-control"
-              name="address"
-              onChange={e => this.onChange(e)}
-              value={this.state.organiser.streetAdress}
-              id="addressInput"
+              name="streetAddress"
+              onChange={e => this.onChangeAddress(e)}
+              defaultValue={this.state.streetAddress}
+              id="streetAddressInput"
             ></input>
           </div>
           <div className="form-group" id="postalcode">
             <label for="postalcodeInput">Postnummer: </label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               name="postalcode"
-              onChange={e => this.onChange(e)}
+              onChange={e => this.onChangeAddress(e)}
               value={this.state.postalcode}
               id="postalcodeInput"
             ></input>
@@ -162,13 +185,16 @@ class ProfileEdit extends Component<{}, State> {
             <input
               type="text"
               className="form-control"
-              name="address"
-              onChange={e => this.onChange(e)}
-              value={this.state.postal}
+              name="postal"
+              onChange={e => this.onChangeAddress(e)}
+              defaultValue={this.state.postal}
               id="postalInput"
             ></input>
           </div>
-          <button class="btn btn-success bg-green"> LAGRE </button>
+          <button class="btn btn-success bg-green" onClick={() => this.post()}>
+            {' '}
+            LAGRE{' '}
+          </button>
         </div>
       </div>
     );
@@ -178,8 +204,27 @@ class ProfileEdit extends Component<{}, State> {
       console.log(res.data);
       let organiser: Organiser = res.data;
       this.setState({
-        organiser,
+        organiser_id: organiser.organiser_id_,
+        name: organiser.name,
+        organiser_email: organiser.organiser_email,
+        image: organiser.image,
+        description: organiser.description,
+        website: organiser.website,
+        address: organiser.address,
+        tlf: organiser.tlf,
       });
+      var a = this.state.address + ' ';
+      var res = a.split('#');
+      var nr = parseInt(res[1], 10);
+      console.log('postnr: ' + nr);
+      this.setState({
+        streetAddress: res[0],
+        postalcode: nr,
+        postal: res[2],
+      });
+      console.log(
+        this.state.streetAddress + ', ' + this.state.postalcode + ', ' + this.state.postal,
+      );
     });
   }
 
@@ -187,6 +232,33 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
+    console.log(this.state.image);
+  }
+  onChangeAddress(e: any) {
+    let name: string = e.target.name;
+    let value: string = e.target.value;
+    this.setState({ [name]: value });
+    this.setState({
+      address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
+    });
+    console.log(this.state.address);
+    console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
+  }
+
+  post() {
+    console.log('reg');
+    let editedOrangiser: Organiser = new Organiser(this.state.organiser_email, this.state.name);
+    editedOrangiser.tlf = this.state.tlf;
+    editedOrangiser.website = this.state.website;
+    editedOrangiser.address =
+      this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal;
+    editedOrangiser.organiser_id_ = this.state.organiser_id;
+    editedOrangiser.image = this.state.image;
+    editedOrangiser.description = this.state.description;
+    editedOrangiser.password = this.state.password;
+    OrganiserService.editOrganiser(editedOrangiser).then(response => {
+      window.location = '/profile';
+    });
   }
 }
 

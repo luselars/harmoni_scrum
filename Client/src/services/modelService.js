@@ -44,12 +44,14 @@ export class User {
     this.email = null;
     this.name = null;
     this.tlf = null;
+    this.image = null;
     this.description = null;
   }
   password: string;
   email: string;
   name: string;
   tlf: string;
+  image: string;
   description: string;
 }
 

@@ -31,6 +31,10 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.get<Organiser>(url, config);
   }
+  static editOrganiser(organiser: Organiser): AxiosPromise<Organiser> {
+    let url = url_base + '/myprofile';
+    return axios.put<Object>(url, organiser, config);
+  }
   static getLocations(): AxiosPromise<Location[]> {
     let url = url_base + '/location';
     return axios.get(url, config);
@@ -46,7 +50,7 @@ export class OrganiserService {
   static getMyEvents(): AxiosPromise<Event[]> {
     let url = url_base + '/myevents';
     let token = localStorage.getItem('token');
-    return axios.get(url, {}, { headers: { 'x-access-token': token } }).then(response => {
+    return axios.get(url, config).then(response => {
       return response;
     });
   }

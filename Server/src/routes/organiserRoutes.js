@@ -173,6 +173,14 @@ router.get('/artist', (req: { body: string }, res: express$Response) => {
   });
 });
 
+//get riders for artist for event
+router.get('/event/:event_id/artist/:user_id', (req: { body: string }, res: express$Response) => {
+    dao.getArtist(req.params.event_id, req.params.user_id,(status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
