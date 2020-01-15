@@ -1,5 +1,5 @@
 #summaryCard {
-  width: 15%;
+  width: 18%;
   margin-left: 10%;
   margin-right: 2%;
   float: left;
@@ -8,5 +8,6 @@
 }
 
 .img-rounded {
+  margin-top: 7px;
   margin-bottom: 10px;
 }

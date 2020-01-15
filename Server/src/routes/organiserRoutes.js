@@ -55,6 +55,7 @@ router.param('event_id', function(req, res, next, event_id) {
 // Find a specific event by id (with your organiser id)
 router.get('/event/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEvent(req.params.event_id, req.uid, (status, data) => {
+    console.log(data[0]);
     res.status(status);
     res.send(data[0]);
   });

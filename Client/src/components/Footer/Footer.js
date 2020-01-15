@@ -1,41 +1,28 @@
 // @flow
+
 import * as React from 'react';
+import './stylesheet.css';
 
 function Footer() {
   return (
-    <footer className="page-footer font-small special-color-dark pt-4">
-      <div className="container">
-        <ul className="list-unstyled list-inline text-center">
-          <li className="list-inline-item">
-            <a className="btn-floating btn-fb mx-1">
-              <i className="fab fa-facebook-f"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-tw mx-1">
-              <i className="fab fa-twitter"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-gplus mx-1">
-              <i className="fab fa-google-plus-g"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-li mx-1">
-              <i className="fab fa-linkedin-in"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-dribbble mx-1">
-              <i className="fab fa-dribbble"> </i>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div className="footer-copyright text-center py-3">
-        © 2020 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+    <footer id="footer" class="page-footer font-small mdb-color bg-dark pt-4 text-light">
+      <div class="container text-center text-md-left">
+        <div class="row d-flex align-items-center">
+          <div class="col-md-8 col-lg-8">
+            <h6 class="text-uppercase mb-4 font-weight-bold ">Kontakt</h6>
+            <p>Telefon: +47 123 45 678</p>
+            <p>E-mail: kontakt@harmoni.no</p>
+          </div>
+          <div class="col-md-3 col-lg-4 ml-lg-0">
+            <div class="text-center text-md-right">
+              <ul class="list-unstyled list-inline">
+                <li class="list-inline-item">
+                  <button class="btn btn-success bg-green">Klageknapp</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );
