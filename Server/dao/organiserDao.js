@@ -99,6 +99,7 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   deleteEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
+    console.log('Dao delete startet');
     super.query('DELETE FROM event WHERE event_id=?', [event_id], callback);
   }
 

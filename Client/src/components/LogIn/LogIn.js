@@ -18,7 +18,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
       <div id="profileOrganiserCard" class="card ">
         <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
-            <p className="display-3 text-center mb-5">LOGG INN</p>
+            <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
             <div class="form-group text-center ml-5 mr-5">
               <label for="inputEmail1">E-mail</label>
               <input

@@ -5,6 +5,8 @@ import './stylesheet.css';
 import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
+import DownloadFile from '../../DownloadFile/DownloadFile';
+import UploadContract from '../../Upload/UploadContract';
 
 type State = {
   event: Event,
@@ -17,6 +19,7 @@ class EventNew4 extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
+      artists: [],
     };
   }
   componentDidMount(): * {
@@ -26,8 +29,11 @@ class EventNew4 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        console.log(this.state.event);
         this.formatTime();
+        OrganiserService.getArtists(data.event_id).then(resp => {
+          this.setState({ artists: resp.data });
+          console.log(this.state.artists);
+        });
       });
     }
   }
@@ -72,10 +78,10 @@ class EventNew4 extends Component<Props, State> {
   invite() {
     let email = document.getElementById('email').value;
     // TODO validate email
-    console.log(email);
     OrganiserService.inviteArtist(email, this.state.event.event_id)
       .then(resp => {
         console.log(resp);
+        window.location.reload();
       })
       .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
   }

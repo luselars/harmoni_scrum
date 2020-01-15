@@ -90,8 +90,12 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           </div>
           <button class="btn btn-success bg-green" onClick={() => this.edit()}>
             {' '}
-            ENDRE ARRANGEMENT{' '}
-          </button>
+            ENDRE ARRANGEMENT <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
+            <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
+              {' '}
+              SLETT ARRANGEMENT{' '}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -111,5 +115,12 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
     window.location = '/newevent';
+  }
+  delete() {
+    OrganiserService.deleteEvent(this.props.match.params.id)
+      .then(response => {
+        window.location = '/eventdeleted';
+      })
+      .catch(error => console.error(error));
   }
 }

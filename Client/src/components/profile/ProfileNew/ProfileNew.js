@@ -49,7 +49,7 @@ export default class ProfileNew extends Component<
       <div id="profileOrganiserCard" className="card ">
         <div className="card-body bg-light">
           <form onSubmit={e => this.post(e)}>
-            <h2 className="display-4 text-center">REGISTRER</h2>
+            <h2 className="display-4 text-uppercase text-center m-4 border-bottom">REGISTRER</h2>
             <div
               id="error-message"
               style={{ visibility: 'hidden' }}
@@ -225,7 +225,7 @@ export default class ProfileNew extends Component<
                 Profilbilde
               </label>
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check ml-5 mr-5">
               <input
                 type="checkbox"
                 onChange={event => this.handleChange(event)}
@@ -237,7 +237,7 @@ export default class ProfileNew extends Component<
                 Jeg godkjenner deres vilkår
               </label>
             </div>
-            <button type="submit" className="btn btn-success">
+            <button type="submit" className="btn btn-success m-3 w-25 text-">
               Registrer
             </button>
           </form>
@@ -262,7 +262,7 @@ export default class ProfileNew extends Component<
       // Image
       let element = document.getElementById('upload');
       if (element.value !== '') {
-        let fullPath = element.value;
+        let fullPath: any = element.value;
         let ext = path.extname(fullPath);
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
           //TODO change alert
