@@ -54,10 +54,10 @@ router.param('event_id', function(req, res, next, event_id) {
 
 //get event artists with contract and stuff
 router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
-    dao.getEventArtist(req.params.event_id, req.uid, (status, data) => {
-        res.status(status);
-        res.send(data[0]);
-    });
+  dao.getEventArtist(req.params.event_id, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data[0]);
+  });
 });
 
 // Find a specific event by id (with your organiser id)
@@ -129,47 +129,24 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
 
 //edit an event artist to add contracts and stuff
 router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
-  dao.putEventArtist(req.body.user_id, req.body.event_id, req.body.contract, req.body.notes, req.body.accepted,(status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+  dao.putEventArtist(
+    req.body.user_id,
+    req.body.event_id,
+    req.body.contract,
+    req.body.notes,
+    req.body.accepted,
+    (status, data) => {
+      res.status(status);
+      res.send(data);
+    },
+  );
 });
 
 // Delete single event
 router.delete('/event/:event_id', (req: express$Request, res: express$Response) => {
-  // check if organiser the organiser has an event with the provided id
-  var completedDeletions = 0;
-  function checkIfDone() {
-    if (completedDeletions > 6) {
-      res.status(200);
-      res.send('Event deleted');
-    } else {
-      completedDeletions++;
-    }
-  }
-  dao.deleteEventOrganisers(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventVolunteers(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventArtists(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventFiles(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventTickets(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventRiders(req.params.id, (status, data) => {
-    checkIfDone();
-  });
-  dao.deleteEventSchedule(req.params.id, (status, data) => {
-    checkIfDone();
-  });
   dao.deleteEvent(req.params.id, (status, data) => {
-    checkIfDone();
+    res.status(status);
+    res.send(data);
   });
 });
 
@@ -183,10 +160,10 @@ router.get('/artist', (req: { body: string }, res: express$Response) => {
 
 //get riders for artist for event
 router.get('/event/:event_id/artist/:user_id', (req: { body: string }, res: express$Response) => {
-    dao.getArtist(req.params.event_id, req.params.user_id,(status, data) => {
-        res.status(status);
-        res.send(data);
-    });
+  dao.getArtist(req.params.event_id, req.params.user_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
 });
 
 // Add artist to owned event
