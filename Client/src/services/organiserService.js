@@ -52,4 +52,9 @@ export class OrganiserService {
     let url = url_base + '/myevents';
     return axios.get(url, config);
   }
+
+  static getRiders(artist_id: number, event_id: number) {
+    let url = url_base + '/' + event_id + '/artist/' + artist_id + '/riders';
+    return axios.get(url, config);
+  }
 }
