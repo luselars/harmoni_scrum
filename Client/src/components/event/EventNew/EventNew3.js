@@ -40,6 +40,8 @@ class EventNew3 extends Component<Props, State> {
         this.setState({ event: data });
         console.log(this.state.event);
         this.formatTime();
+        if (data.location_id !== null) {
+        }
       });
       OrganiserService.getLocations().then(response => {
         console.log(response.data);
@@ -149,6 +151,7 @@ class EventNew3 extends Component<Props, State> {
   }
   // todo ADD postcode
   back() {
+    // I won't save the address here, it would create a lot of unfinished locations
     window.location = '/newevent2';
   }
   next() {
@@ -165,7 +168,15 @@ class EventNew3 extends Component<Props, State> {
     l.name = name;
     l.address = addr;
     OrganiserService.postLocation(l).then(resp => {
-      console.log(resp);
+      if (resp.status === 200) {
+        this.state.event.location_id = resp.data[0].location_id;
+        OrganiserService.updateEvent(this.state.event).then(resp => {
+          console.log(resp);
+          window.location = '/newevent4';
+        });
+      } else {
+        alert('Kunne ikke legge til addresse');
+      }
     });
   }
 }

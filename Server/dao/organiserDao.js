@@ -77,7 +77,7 @@ module.exports = class OrganiserDao extends Dao {
     callback: (status: string, data: Event) => mixed,
   ) {
     super.query(
-      'INSERT INTO `event_artist` VALUES (?, ?)',
+      'INSERT INTO `event_artist` (event_id, user_id) VALUES (?, ?)',
       [event_id, user_id],
       callback,
     );
@@ -150,28 +150,23 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [email], callback);
   }
 
-
   //gets user id to an email to see if user exists
-  getUserId(email: string, callback: (status: string, data: Object) => mixed){
-    var queryString =
-        'SELECT user_id FROM user WHERE email = ?';
+  getUserId(email: string, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT user_id FROM user WHERE email = ?';
     super.query(queryString, [email], callback);
   }
   //gets (artist) user id to an email to see if user exists
-  getArtistId(user_id: number, callback: (status: string, data: Object) => mixed){
-    var queryString =
-        'SELECT user_id FROM artist WHERE user_id = ?';
+  getArtistId(user_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT user_id FROM artist WHERE user_id = ?';
     super.query(queryString, [user_id], callback);
   }
   //create dummy user and artist, to add an artist on event.
-  postUser(email: string, callback: (status: string, data: Object) => mixed){
-    var queryString =
-        'INSERT INTO user (email) VALUES(?,?)';
+  postUser(email: string, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO user (email) VALUES(?)';
     super.query(queryString, [email], callback);
   }
-  postArtist(user_id: number, callback: (status: string, data: Object) => mixed){
-    var queryString =
-        'INSERT INTO artist(user_id) VALUES(?)';
+  postArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO artist(user_id) VALUES(?)';
     super.query(queryString, [user_id], callback);
   }
 
