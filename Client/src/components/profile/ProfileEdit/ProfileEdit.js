@@ -53,7 +53,7 @@ class ProfileEdit extends Component<{}, State> {
             src={'http://localhost:4000/public/file/' + this.state.image}
             alt="Profilbilde"
           />
-          <div className="form-check text-center my-3 p-2 border">
+          {/*<div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
               Profilbilde
             </label>
@@ -64,7 +64,7 @@ class ProfileEdit extends Component<{}, State> {
               id="imageInput"
               name="image"
             />
-          </div>
+    </div>*/}
           <div className="form-group" id="name">
             <label for="nameInput">Navn: </label>
             <input

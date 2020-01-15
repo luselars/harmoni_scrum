@@ -53,7 +53,7 @@ function App() {
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
           <Route component={NoMatch} />
         </Switch>
-        <LocationDisplay />
+        {/* <LocationDisplay />*/}
         <Footer />
       </div>
     </Router>
