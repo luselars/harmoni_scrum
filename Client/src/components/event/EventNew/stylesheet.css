@@ -11,7 +11,7 @@
 }
 
 .neweventtitle {
-  font-size: 4vw;
+  font-size: 3vw;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   padding-bottom: 15px;
@@ -52,4 +52,10 @@ label {
 
 #nextbtn {
   float: right;
+}
+
+@media screen and (max-width: 750px) {
+  .neweventtitle {
+    font-size: 5vw;
+  }
 }
