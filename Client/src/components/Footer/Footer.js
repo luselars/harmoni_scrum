@@ -3,32 +3,22 @@ import * as React from 'react';
 
 function Footer() {
   return (
-    <footer className="page-footer font-small special-color-dark pt-4">
+    <footer className="page-footer bg-dark pt-4">
       <div className="container">
         <ul className="list-unstyled list-inline text-center">
           <li className="list-inline-item">
             <a className="btn-floating btn-fb mx-1">
-              <i className="fab fa-facebook-f"> </i>
+              <i className="fa fa-facebook"> </i>
             </a>
           </li>
           <li className="list-inline-item">
             <a className="btn-floating btn-tw mx-1">
-              <i className="fab fa-twitter"> </i>
+              <i className="fa fa-twitter"> </i>
             </a>
           </li>
           <li className="list-inline-item">
             <a className="btn-floating btn-gplus mx-1">
-              <i className="fab fa-google-plus-g"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-li mx-1">
-              <i className="fab fa-linkedin-in"> </i>
-            </a>
-          </li>
-          <li className="list-inline-item">
-            <a className="btn-floating btn-dribbble mx-1">
-              <i className="fab fa-dribbble"> </i>
+              <i className="fa fa-envelope-o"> </i>
             </a>
           </li>
         </ul>
