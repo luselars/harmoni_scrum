@@ -123,22 +123,29 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Register new organiser
-router.post('/register/organiser', (req: express$Request, res: express$Response) => {
-  console.log(req.body);
-  /*let password: string = req.body.password;
-    // Genereates salt and hash
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(req.body.password, salt);
+// Register new user/organiser
+router.post('/register', (req: express$Request, res: express$Response) => {
+  let password: string = req.body.password;
+  // Genereates salt and hash
+  req.body.salt = bcrypt.genSaltSync(10);
+  req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
 
-    uploadFunctions.handleFile(req.body.image, function(name) {
-      organiser.image = name;
-      dao.postOrganiser(organiser, hash, salt, (status, data) => {
+  //test
+  console.log(req.body);
+  if (req.body.image != null) {
+    uploadFunctions.handleFile(req.body.image, function(imageUrl) {
+      req.body.imageUrl = imageUrl;
+      dao.insertNewUser(req.body, (status, data) => {
         res.status(status);
         res.send(data);
       });
     });
-  }*/
+  } else {
+    dao.insertNewUser(req.body, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 module.exports = router;

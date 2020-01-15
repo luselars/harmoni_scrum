@@ -30,49 +30,39 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
-  postUser(
-    user: User,
-    hash: string,
-    salt: string,
-    callback: (status: string, data: Event) => mixed,
-  ) {
-    super.query(
-      'INSERT INTO user (email, name, hash, salt, image, description, tlf) VALUES(?,?,?,?,?,?,?)',
-      [
-        user.email,
-        user.name,
-        hash,
-        salt,
-        user.image,
-        user.description,
-        user.tlf,
-        //hent passord hash og salt
-      ],
-      callback,
-    );
-  }
-
-  postOrganiser(
-    organiser: Organiser,
-    hash: string,
-    salt: string,
-    callback: (status: string, data: Event) => mixed,
-  ) {
-    super.query(
-      'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?)',
-      [
-        organiser.organiser_email,
-        hash,
-        salt,
-        organiser.name,
-        organiser.image,
-        organiser.tlf,
-        organiser.description,
-        organiser.address,
-        organiser.website,
-      ],
-      callback,
-    );
+  insertNewUser(state: Object, callback: (status: string, data: Event) => mixed) {
+    if (state.organiser) {
+      super.query(
+        'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?)',
+        [
+          state.email,
+          state.hash,
+          state.salt,
+          state.name,
+          state.image,
+          state.tlf,
+          state.description,
+          state.address,
+          state.website,
+        ],
+        callback,
+      );
+    } else {
+      super.query(
+        'INSERT INTO user (email, name, hash, salt, image, description, tlf) VALUES(?,?,?,?,?,?,?)',
+        [
+          state.email,
+          state.name,
+          state.hash,
+          state.salt,
+          state.image,
+          state.description,
+          state.tlf,
+          //hent passord hash og salt
+        ],
+        callback,
+      );
+    }
   }
 
   getUserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
