@@ -18,6 +18,7 @@ import EventNew2 from './components/event/EventNew/EventNew2';
 import EventNew3 from './components/event/EventNew/EventNew3';
 import EventNew4 from './components/event/EventNew/EventNew4';
 import ProfileUser from './components/profile/ProfileUser/ProfileUser';
+import EventDeleted from './components/event/EventDeleted/EventDeleted';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -48,6 +49,7 @@ function App() {
           <Route exact path="/profile/user" component={ProfileUser} />
           <Route exact path="/editprofile" component={ProfileEdit} />
           <Route exact path="/profile/summary" component={LoggedIn} />
+          <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
           <Route exact path="/events/:id" component={LoggedIn} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />

@@ -22,6 +22,12 @@ export class OrganiserService {
     return axios.put<Object>(url, event, config);
   }
 
+  static deleteEvent(id: number) {
+    console.log('Service delete startet');
+    let url = url_base + '/event/' + id;
+    return axios.delete<Object>(url, id, config);
+  }
+
   static getEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + id;
     return axios.get<Event>(url, config);
