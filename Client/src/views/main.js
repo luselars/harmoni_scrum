@@ -13,7 +13,7 @@ export default class Main extends Component {
       <div className="main">
         <SearchBar />
         <Filter />
-        <EventList />
+        <EventList profile_list={false} />
       </div>
     );
   }
