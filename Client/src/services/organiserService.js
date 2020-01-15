@@ -22,6 +22,12 @@ export class OrganiserService {
     return axios.put<Object>(url, event, config);
   }
 
+  static deleteEvent(id: number): AxiosPromise<Event> {
+    console.log('Service delete startet');
+    let url = url_base + '/event/' + id;
+    return axios.delete<Object>(url, config);
+  }
+
   static getEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + id;
     return axios.get(url, config);
@@ -69,5 +75,10 @@ export class OrganiserService {
   static getRiders(artist_id: number, event_id: number) {
     let url = url_base + '/' + event_id + '/artist/' + artist_id + '/riders';
     return axios.get(url, config);
+  }
+
+  static postRider(event_id: number) {
+    let url = url_base + '/' + event_id + '/artist';
+    return axios.post(url, event_id, config);
   }
 }

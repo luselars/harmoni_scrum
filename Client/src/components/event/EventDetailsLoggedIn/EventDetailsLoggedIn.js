@@ -89,6 +89,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
             </table>
           </div>
           <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
+          <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
+            {' '}
+            SLETT ARRANGEMENT{' '}
+          </button>
         </div>
       </div>
     );
@@ -101,6 +105,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         console.log(res);
         console.log('Navn: ' + this.state.event.name);
         this.setState({ event: event });
+      })
+      .catch(error => console.error(error));
+  }
+
+  delete() {
+    OrganiserService.deleteEvent(this.props.match.params.id)
+      .then(response => {
+        window.location = '/eventdeleted';
       })
       .catch(error => console.error(error));
   }
