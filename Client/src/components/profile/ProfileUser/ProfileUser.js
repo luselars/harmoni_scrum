@@ -84,7 +84,7 @@ export default class ProfileUser extends Component<{}, State> {
                     <button
                       className="btn btn-success bg-green"
                       onClick={() =>
-                        (window.location.href = '/events/' + this.state.organiser.organiser_id)
+                        (window.location.href = '/events/' + this.state.user.organiser_id)
                       }
                     >
                       SE ARRANGEMENTER
@@ -102,7 +102,7 @@ export default class ProfileUser extends Component<{}, State> {
   componentDidMount() {
     UserService.getMyProfile()
       .then(res => {
-        let user: User = res.data;
+        let user: User = res.data[0];
         console.log(user);
         this.setState({ user: user });
       })
