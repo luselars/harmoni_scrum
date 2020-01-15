@@ -2,34 +2,160 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
+import { Organiser } from '../../../services/modelService';
+import { OrganiserService } from '../../../services/organiserService';
 
-export default class ProfileSummary extends Component<{}, {}> {
+type State = {
+  organiser: Organiser,
+};
+
+type Props = {
+  match: { params: { id: number } },
+};
+
+export default class ProfileSummary extends Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      organiser: new Organiser('', ''),
+    };
+  }
   render() {
     return (
       <div id="summaryCard" class="card">
         <div class="card-body bg-light">
           <div class="container bg-light">
-            <div class="col text-center border-bottom">
-              <h2 class="mb-3">MIN PROFIL</h2>
+            {this.state.organiser.image === null ? (
               <img
-                src="../../../../public/images/profilepic.png"
-                class="img-rounded"
+                src="http://localhost:4000/user/file/profile.png"
+                class="img-rounded w-100"
                 alt="Profilbilde"
-              ></img>
+              />
+            ) : (
+              <img
+                src={'http://localhost:4000/user/file/' + this.state.organiser.image}
+                class="img-rounded w-100"
+                alt="Profilbilde"
+              />
+            )}
+          </div>
+          <div class="col text-center border-bottom">
+            <h5 class="mb-3">{this.state.organiser.name}</h5>
+            <div class="col text-center border-bottom"></div>
+            <h6 className="mb-3 text-success">SORTER ETTER...</h6>
+            <div className="form-check text-left mb-3">
+              <label className="form-check-label" htmlFor="sortRadio1">
+                <input
+                  type="radio"
+                  id="sortRadio1"
+                  value="e.start"
+                  checked={this.state.sortOption === 'e.start'}
+                  onChange={e => this.handleChangeSort(e)}
+                ></input>
+                Tid
+              </label>
+              <label className="form-check-label" htmlFor="sortRadio2">
+                <input
+                  type="radio"
+                  id="sortRadio2"
+                  value="option2"
+                  checked={this.state.sortOption === 'option2'}
+                  onChange={e => this.handleChangeSort(e)}
+                ></input>
+                Alfabetisk
+              </label>
+              <label className="form-check-label" htmlFor="sortRadio3">
+                <input
+                  type="radio"
+                  id="sortRadio3"
+                  value="option3"
+                  checked={this.state.sortOption === 'option3'}
+                  onChange={e => this.handleChangeSort(e)}
+                ></input>
+                Størrelse
+              </label>
             </div>
-            <div class="col text-center border-bottom">
-              <h5 class="mb-3">PROFILNAVN</h5>
-              <h6>email@hotmewfa.com</h6>
-              <h6>https://www.sukkerhuset.no/</h6>
+          </div>
+          <div className="col text-center border-bottom">
+            <h6 className="mb-3 text-success">TYPE ARRANGEMENT</h6>
+            <div className="form-check text-left mb-3">
+              <input type="checkbox" class="form-check-input" id="typeCheck1"></input>
+              <label className="form-check-label" for="typeCheck1">
+                Rock
+              </label>
+              <input type="checkbox" class="form-check-input" id="typeCheck2"></input>
+              <label className="form-check-label" for="typeCheck2">
+                Pop
+              </label>
+              <input type="checkbox" class="form-check-input" id="typeCheck3"></input>
+              <label className="form-check-label" for="typeCheck3">
+                Klassisk
+              </label>
             </div>
-            <div class="col text-center">
-              <h5 class="mb-3 text-success">MINE ARRANGEMENTER</h5>
-              <h6>Du har 3 kommende arrangementer.</h6>
-              <h6>Du har gjennomført 4 arrangementer.</h6>
+          </div>
+          <div className="col text-center border-bottom">
+            <h6 className="mb-3 text-success">STED</h6>
+            <div className="form-check text-left mb-3">
+              <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
+              <label className="form-check-label" for="placeCheck1">
+                Trondheim Spektrum
+              </label>
+              <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
+              <label className="form-check-label" for="placeCheck2">
+                Sukkerhuset
+              </label>
+              <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
+              <label className="form-check-label" for="placeCheck3">
+                Olavshallen
+              </label>
             </div>
+          </div>
+          <div className="col text-center border-bottom">
+            <h6 className="mb-3 text-success">PRIS</h6>
+            <div className="input-group input-group-sm mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroup-sizing-sm">
+                  Fra
+                </span>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Fra"
+                aria-describedby="inputGroup-sizing-sm"
+              ></input>
+            </div>
+            <div className="input-group input-group-sm mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="inputGroup-sizing-sm">
+                  Til
+                </span>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Til"
+                aria-describedby="inputGroup-sizing-sm"
+              ></input>
+            </div>
+          </div>
+          <div className="col text-center mt-3">
+            <button type="submit" className="btn btn-success">
+              Velg
+            </button>
           </div>
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    OrganiserService.getOrganiser()
+      .then(res => {
+        let organiser: any = res.data;
+        console.log(organiser);
+        this.setState({ organiser: organiser });
+      })
+      .catch(error => console.error(error));
   }
 }

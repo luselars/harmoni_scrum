@@ -76,7 +76,9 @@ export default class ProfileOrganiser extends Component<{}, State> {
                     <p>Du har gjennomført {this.state.organiser.eventsFinished} arrangementer.</p>
                     <button
                       class="btn btn-success bg-green"
-                      onClick={() => (window.location.href = '/events')}
+                      onClick={() =>
+                        (window.location.href = '/events/' + this.state.organiser.organiser_id)
+                      }
                     >
                       SE ARRANGEMENTER
                     </button>
