@@ -87,7 +87,7 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 
 // Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
-  dao.getSingleLocation(req.body, (status, data) => {
+  dao.getSingleLocation(req.body.address, (status, data) => {
     res.status(status);
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
@@ -102,13 +102,20 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 
 // Edit a specific event
 router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
-  uploadFunctions.handleFile(req.body.image, function(name) {
-    req.body.image = name;
+  if (req.body.image !== '') {
+    uploadFunctions.handleFile(req.body.image, function(name) {
+      req.body.image = name;
+      dao.editEvent(req.body, req.params.event_id, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
     dao.editEvent(req.body, req.params.event_id, (status, data) => {
       res.status(status);
       res.send(data);
     });
-  });
+  }
 });
 
 // Delete single event
@@ -159,16 +166,56 @@ router.get('/artist', (req: { body: string }, res: express$Response) => {
 
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
-  dao.addArtistToEvent(
-    req.body.artist_id,
-    req.params.event_id,
-    req.body.contract,
-    req.body.notes,
-    (status, data) => {
-      res.status(status);
-      res.send(data);
-    },
-  );
+  dao.getUserId(req.body.email, (status, data) => {
+    res.status(status);
+    let d = data;
+
+    if (data.length === 0) {
+      //lag en dummy user og artist:
+      dao.postUser(req.body.email, (status, data) => {
+        res.status(status);
+        let ud = data;
+        let id = ud.insertId;
+        dao.postArtist(id, (status, data) => {
+          res.status(status);
+          dao.addArtistToEvent(id, req.params.event_id, (status, data) => {
+            res.status(status);
+            res.send(data);
+          });
+        });
+      });
+    } else {
+      let start_id = data[0].user_id;
+      //sjekk om artist eksisterer
+      console.log(start_id);
+      dao.getArtistId(start_id, (status, data) => {
+        res.status(status);
+        d = data;
+        console.log('uuuuuuuuuuuuuuuuu ' + data.length);
+        if (data.length === 0) {
+          dao.postArtist(start_id, (status, data) => {
+            res.status(status);
+            dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
+              res.status(status);
+              res.send(data);
+            });
+          });
+        } else {
+          //bare legg til artisten
+          dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
+            console.log(status + ' - status');
+            if (status == 500) {
+              res.status(400);
+              res.send('Artist already in event');
+            } else {
+              res.status(status);
+              res.send(data);
+            }
+          });
+        }
+      });
+    }
+  });
 });
 
 // Get all types of volunteers from an organiser.

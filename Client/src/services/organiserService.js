@@ -31,9 +31,19 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.get<Organiser>(url, config);
   }
-
   static editOrganiser(organiser: Organiser): AxiosPromise<Organiser> {
     let url = url_base + '/myprofile';
     return axios.put<Object>(url, organiser, config);
+  static getLocations(): AxiosPromise<Location[]> {
+    let url = url_base + '/location';
+    return axios.get(url, config);
+  }
+  static postLocation(location: Location) {
+    let url = url_base + '/location';
+    return axios.post(url, location, config);
+  }
+  static inviteArtist(email: string, event_id) {
+    let url = url_base + '/artist/' + event_id;
+    return axios.post(url, { email: email }, config);
   }
 }

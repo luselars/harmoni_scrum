@@ -1,8 +1,12 @@
-#summaryCard{
-    width: 18%;
-    margin-left: 10%;
-    margin-right: 2%;
-    float: left;
-    margin-bottom: 1%;
-    margin-top: 1%;
+#summaryCard {
+  width: 15%;
+  margin-left: 10%;
+  margin-right: 2%;
+  float: left;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+.img-rounded {
+  margin-bottom: 10px;
 }

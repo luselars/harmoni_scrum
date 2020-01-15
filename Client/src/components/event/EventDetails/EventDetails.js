@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
-import { PublicService } from "../../../services/publicService";
+import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
 type Props = {
@@ -24,44 +24,56 @@ export default class EventDetails extends Component<Props, State> {
   }
   render() {
     return (
-      <div id="loginBox">
-        <img
-          src="https://i.ytimg.com/vi/5Cy_KvI2nME/maxresdefault.jpg"
-          class="img-fluid"
-          alt="Eventbilde"
-        ></img>
+      <div class="card" id="carddetailsevent">
+        <div class="imgdiv">
+          <img
+            src={'http://localhost:4000/user/file/' + this.state.event.image}
+            class="img-fluid"
+            alt="Eventbilde"
+          ></img>
+        </div>
         <p id="EventDetailsText">{this.state.event.name}</p>
         <div id="EventDetailsTable">
           <table class="table table-borderless">
             <tbody>
               <tr>
-                <th class="text-right" scope="row">
+                <th class="text-right" id="textright" scope="row">
                   Dato:
                 </th>
-                <td class="text-left">{this.state.event.start}</td>
+                <td class="text-left" id="textleft">
+                  {this.state.event.start}
+                </td>
               </tr>
               <tr>
-                <th class="text-right" scope="row">
+                <th class="text-right" id="textright" scope="row">
                   Sted:
                 </th>
-                <td class="text-left">{this.state.event.venue}</td>
+                <td class="text-left" id="textleft">
+                  {this.state.event.venue}
+                </td>
               </tr>
               <tr>
-                <th class="text-right" scope="row">
+                <th class="text-right" id="textright" scope="row">
                   Lineup:
                 </th>
-                <td class="text-left">JB</td>
+                <td class="text-left" id="textleft">
+                  JB
+                </td>
               </tr>
               <tr>
-                <th class="text-right" scope="row">
+                <th class="text-right" id="textright" scope="row">
                   Pris:
                 </th>
-                <td class="text-left">KOMMER SENERE</td>
+                <td class="text-left" id="textleft">
+                  KOMMER SENERE
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <button class="btn btn-success bg-green"> KJØP BILLETT </button>
+        <div class="btndivevent">
+          <button class="btn btn-success bg-green"> KJØP BILLETT </button>
+        </div>
       </div>
     );
   }
@@ -70,10 +82,11 @@ export default class EventDetails extends Component<Props, State> {
     console.log(this.props.match.params.id);
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
-        let event: Event = res;
+        let event: any = res.data[0];
         console.log(res);
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
+    console.log(this.state.event);
   }
 }

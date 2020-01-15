@@ -10,7 +10,7 @@ module.exports = class OrganiserDao extends Dao {
     callback: (status: string, data: Object) => mixed,
   ) {
     var queryString =
-      'SELECT e.* FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id WHERE eo.organiser_id = ? AND e.event_id = ?';
+      'SELECT e.*, l.* FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE eo.organiser_id = ? AND e.event_id = ?';
     super.query(queryString, [organiser_id, event_id], callback);
   }
 
@@ -74,13 +74,11 @@ module.exports = class OrganiserDao extends Dao {
   addArtistToEvent(
     user_id: number,
     event_id: number,
-    contract: string,
-    notes: string,
     callback: (status: string, data: Event) => mixed,
   ) {
     super.query(
-      'INSERT INTO `event_artist` VALUES (?, ?, ?, ?)',
-      [event_id, user_id, contract, notes],
+      'INSERT INTO `event_artist` (event_id, user_id) VALUES (?, ?)',
+      [event_id, user_id],
       callback,
     );
   }
@@ -150,6 +148,26 @@ module.exports = class OrganiserDao extends Dao {
     var queryString =
       'SELECT a.* FROM artist a LEFT JOIN user u ON u.user_id = a.user_id WHERE u.email = ?';
     super.query(queryString, [email], callback);
+  }
+
+  //gets user id to an email to see if user exists
+  getUserId(email: string, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT user_id FROM user WHERE email = ?';
+    super.query(queryString, [email], callback);
+  }
+  //gets (artist) user id to an email to see if user exists
+  getArtistId(user_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT user_id FROM artist WHERE user_id = ?';
+    super.query(queryString, [user_id], callback);
+  }
+  //create dummy user and artist, to add an artist on event.
+  postUser(email: string, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO user (email) VALUES(?)';
+    super.query(queryString, [email], callback);
+  }
+  postArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO artist(user_id) VALUES(?)';
+    super.query(queryString, [user_id], callback);
   }
 
   // Creates event organiser
