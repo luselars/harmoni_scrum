@@ -111,6 +111,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
 
   delete() {
     OrganiserService.deleteEvent(this.props.match.params.id)
-    .catch(error => console.error(error));
+      .then(response => {
+        window.location = '/eventdeleted';
+      })
+      .catch(error => console.error(error));
   }
 }

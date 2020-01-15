@@ -147,7 +147,7 @@ router.put('/artist/:artist_id', (req: { body: Object }, res: express$Response) 
 
 // Delete single event
 router.delete('/event/:event_id', (req: express$Request, res: express$Response) => {
-  dao.deleteEvent(req.params.id, (status, data) => {
+  dao.deleteEvent(req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
