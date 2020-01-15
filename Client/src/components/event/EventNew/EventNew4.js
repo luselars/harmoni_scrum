@@ -100,6 +100,8 @@ class EventNew4 extends Component<Props, State> {
   back() {
     window.location = '/newevent3';
   }
-  next() {}
+  next() {
+    window.location = '/newevent5';
+  }
 }
 export default EventNew4;
