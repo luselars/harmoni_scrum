@@ -28,29 +28,30 @@ export default class EventList extends Component<Props, State> {
     return (
       <div>
         {this.state.events.map(event => (
-          <div class="card">
-            <div class="card-body bg-light">
-              <div class="container bg-light">
-                <div class="row justify-content-md-center align-items-center">
-                  <div id="date" class="col-2 text-center">
-                    <h3>{event.start.slice(8, 10)}</h3>
-                    <h3>{dates[event.start.slice(5, 7) - 1]}</h3>
+          <div className="card">
+            <div className="card-body bg-light">
+              <div className="container bg-light">
+                <div className="row justify-content-md-center align-items-center">
+                  <div id="date" className="col-2 text-center">
+                    <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
+                    <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
                   </div>
-                  <div id="eventinfo" class="col-8">
-                    <h5>{event.name}</h5>
-                    <p>
-                      <a class="eventdescription">Sted: </a>
+                  <div id="eventinfo" className="col-8">
+                    <h5 class="eventtitle">{event.name}</h5>
+                    <p className="eventlistp">
+                      <a className="eventdescription">Sted: </a>
                       {event.venue}
                     </p>
-                    <p>
-                      <a class="eventdescription">Tid: </a>kl {event.start.slice(11, 16)} den{' '}
+                    <p className="eventlistp">
+                      <a className="eventdescription">Tid: </a>kl {event.start.slice(11, 16)} den{' '}
                       {event.start.slice(8, 10)}/{event.start.slice(5, 7)}/{event.start.slice(0, 4)}
                     </p>
                   </div>
-                  <div id="eventbtn" class="col text-right">
+                  <div id="eventbtn" className="col text-right">
                     {this.state.status ? (
                       <button
-                        class="btn btn-success bg-green"
+                        className="btn btn-success bg-green"
+                        id="moreinfo"
                         onClick={() => (window.location.href = '/event/' + event.event_id)}
                       >
                         {' '}
@@ -58,7 +59,8 @@ export default class EventList extends Component<Props, State> {
                       </button>
                     ) : (
                       <button
-                        class="btn btn-success bg-green"
+                        className="btn btn-success bg-green"
+                        id="moreinfo"
                         onClick={() => (window.location.href = '/orgevent/' + this.state.id)}
                       >
                         {' '}

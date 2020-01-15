@@ -48,7 +48,7 @@ export default class ProfileOrganiser extends Component<{}, State> {
               <div class="col-4 text-center">
                 <button
                   class="btn btn-success bg-green mb-4"
-                  onClick={() => (window.location.href = '/editprofile')}
+                  onClick={() => (window.location.href = '/newevent')}
                 >
                   OPPRETT ARRANGEMENT
                 </button>
