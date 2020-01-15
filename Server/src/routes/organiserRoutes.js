@@ -413,4 +413,11 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
   });
 });
 
+router.get('/:eid/artist/:aid/riders', (req: express$Request, res: express$Response) => {
+  dao.getArtistRiders(req.params.eid, req.params.aid, (status, data) => {
+    res.status(status);
+    res.send(data2);
+  });
+});
+
 module.exports = router;
