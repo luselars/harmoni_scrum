@@ -34,34 +34,38 @@ class EventNew4 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
-        {/*<form>*/}
-        <div class="form-row">
-          <p>Legg til artister på arrangementet:</p>
+      <div class="card" id="cardnewevent">
+        <div class="createEvent">
+          <h2 class="neweventtitle">Opprett arrangement</h2>
+          {/*<form>*/}
+          <div class="form-row">
+            <p>Legg til artister på arrangementet:</p>
+          </div>
+          <div className="form-group text-center ml-5 mr-5">
+            <label htmlFor="inputEmail1" id="loginText">
+              Artistens epost-addresse:
+            </label>
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              id="email"
+              placeholder="Skriv e-mail"
+            />
+            <button type="button" class="btn btn-outline-secondary" onClick={() => this.invite()}>
+              Inviter artist
+            </button>
+          </div>
+          <div>
+            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
+          {/*</form>*/}
         </div>
-        <div className="form-group text-center ml-5 mr-5">
-          <label htmlFor="inputEmail1" id="loginText">
-            Artistens epost-addresse:
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            id="email"
-            placeholder="Skriv e-mail"
-          />
-          <button onClick={() => this.invite()}>Inviter artist</button>
-        </div>
-        <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }

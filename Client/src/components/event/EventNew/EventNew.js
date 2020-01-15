@@ -67,32 +67,38 @@ class EventNew extends Component<Props> {
                 Starttidspunkt
               </label>
               <input
+                class="date"
                 type="date"
                 id="start"
                 name="start"
+                value={this.today()}
+                min={this.today()}
                 max="2023-12-31"
                 onChange={() => this.updateTime()}
               />
               <TimeField
                 id="start_time"
                 style={{ width: '100px' }}
-                value="00:00"
+                value={this.currentTime()}
                 onChange={() => this.updateTime()}
               />
               <label id="eventdateend" htmlFor="end">
                 Sluttidspunkt
               </label>
               <input
+                class="date"
                 type="date"
                 id="end"
                 name="end"
+                value={this.today()}
+                min={this.today()}
                 max="2023-12-31"
                 onChange={() => this.updateTime()}
               />
               <TimeField
                 id="end_time"
                 style={{ width: '100px' }}
-                value="00:00"
+                value={this.currentTime()}
                 onChange={() => this.updateTime()}
               />
             </div>
@@ -110,6 +116,22 @@ class EventNew extends Component<Props> {
       </div>
     );
   }
+
+  today() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    return yyyy + '-' + mm + '-' + dd;
+  }
+
+  currentTime() {
+    var now = new Date();
+    var hour = now.getHours();
+    var min = now.getMinutes();
+    return hour + ':' + min;
+  }
+
   insertTime() {
     let start_date = document.getElementById('start');
     let end_date = document.getElementById('end');

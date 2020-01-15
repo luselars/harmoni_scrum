@@ -124,6 +124,7 @@ class EventNew3 extends Component<Props, State> {
               )}
             />
           </div>
+
           <label htmlFor="postcode">Postkode:</label>
           <input id="postcode" type="text" />
           <label htmlFor="postcode">Scene:</label>

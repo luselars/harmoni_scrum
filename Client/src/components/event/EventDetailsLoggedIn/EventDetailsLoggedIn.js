@@ -32,7 +32,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               class="img-fluid"
               alt="Eventbilde"
             ></img>
-            <p class="text display-4">Hei{this.state.event.name}</p>
+            <p class="text display-4">{this.state.event.name}</p>
 
             <table class="table table-borderless">
               <tbody>
@@ -99,7 +99,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       .then(res => {
         let event: any = res.data;
         console.log(res);
-        console.log('Navn: ' + this.state.event.name);
+        console.log('Bilde: ' + this.state.event.image);
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
