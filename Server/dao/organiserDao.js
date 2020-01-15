@@ -210,6 +210,11 @@ module.exports = class OrganiserDao extends Dao {
     super.query('DELETE FROM event_ticket WHERE event_id = ?', [event_id], callback);
   }
 
+  //gets all riders in event for one user_id
+  getArtistRiders(event_id: number, user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query('SELECT * FROM rider WHERE event_id = ? AND user_id = ?', [event_id, user_id], callback);
+  }
+
   // Deletes riders for an event
   deleteEventRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('DELETE FROM rider WHERE event_id = ?', [event_id], callback);
