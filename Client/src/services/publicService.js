@@ -37,27 +37,45 @@ export class PublicService {
     );
   }
 
-  static newUser(email: string, name: string, password: string): AxiosPromise<Object> {
+  static newUser(
+    email: string,
+    name: string,
+    password: string,
+    image: string,
+    tlf: string,
+    description: string,
+  ): AxiosPromise<Object> {
     let url = url_base + '/register/user';
     return axios.post(url, {
       email: email,
       name: name,
       password: password,
-      image: '',
-      tlf: '',
-      description: '',
+      image: image,
+      tlf: tlf,
+      description: description,
     });
   }
 
-  static newOrganiser(email: string, name: string, password: string): AxiosPromise<Object> {
+  static newOrganiser(
+    email: string,
+    name: string,
+    password: string,
+    image: string,
+    tlf: string,
+    description: string,
+    address: string,
+    website: string,
+  ): AxiosPromise<Object> {
     let url = url_base + '/register/organiser';
     return axios.post(url, {
       email: email,
       name: name,
       password: password,
-      image: '',
-      tlf: '',
-      description: '',
+      image: image,
+      tlf: tlf,
+      description: description,
+      address: address,
+      website: website,
     });
   }
 
