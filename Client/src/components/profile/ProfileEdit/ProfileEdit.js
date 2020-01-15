@@ -50,7 +50,7 @@ class ProfileEdit extends Component<{}, State> {
           <img
             className="img-rounded w-25"
             id="picture"
-            src={'http://localhost:4000/user/file/' + this.state.image}
+            src={'http://localhost:4000/public/file/' + this.state.image}
             alt="Profilbilde"
           />
           <div className="form-check text-center my-3 p-2 border">
