@@ -11,4 +11,12 @@ export class UserService {
       return response;
     });
   }
+
+  static getMyEvents(): AxiosPromise<Event[]> {
+    let url = url_base + '/myevents';
+    let token = localStorage.getItem('token');
+    return axios.get(url, {}, { headers: { 'x-access-token': token } }).then(response => {
+      return response;
+    });
+  }
 }

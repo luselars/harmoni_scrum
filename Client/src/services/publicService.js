@@ -31,46 +31,9 @@ export class PublicService {
     return axios.get(url, {});
   }
 
-  static newUser(
-    email: string,
-    name: string,
-    password: string,
-    image: string,
-    tlf: string,
-    description: string,
-  ): AxiosPromise<Object> {
-    let url = url_base + '/register/user';
-    return axios.post(url, {
-      email: email,
-      name: name,
-      password: password,
-      image: image,
-      tlf: tlf,
-      description: description,
-    });
-  }
-
-  static newOrganiser(
-    email: string,
-    name: string,
-    password: string,
-    image: string,
-    tlf: string,
-    description: string,
-    address: string,
-    website: string,
-  ): AxiosPromise<Object> {
-    let url = url_base + '/register/organiser';
-    return axios.post(url, {
-      email: email,
-      name: name,
-      password: password,
-      image: image,
-      tlf: tlf,
-      description: description,
-      address: address,
-      website: website,
-    });
+  static registerNewUser(state: Object): AxiosPromise<Object> {
+    let url = url_base + '/register';
+    return axios.post(url, state);
   }
 
   static searchEvent(search: string) {
