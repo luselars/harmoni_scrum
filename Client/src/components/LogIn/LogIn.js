@@ -29,6 +29,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
                 id="inputEmail1"
                 aria-describedby="emailHelp"
                 placeholder="Skriv e-mail"
+                required
               ></input>
             </div>
             <div class="form-group text-center ml-5 mr-5">
@@ -43,6 +44,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
                 class="form-control"
                 id="inputPassword1"
                 placeholder="Passord"
+                required
               ></input>
             </div>
             <div class="form-group text-center ml-5 mr-5">

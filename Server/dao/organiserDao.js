@@ -7,10 +7,10 @@ module.exports = class OrganiserDao extends Dao {
   getEvent(
     event_id: number,
     organiser_id: number,
-    callback: (status: string, data: Object) => mixed,
+    callback: (status: string, data: Event) => mixed,
   ) {
     var queryString =
-      'SELECT e.*, l.* FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE eo.organiser_id = ? AND e.event_id = ?';
+      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE eo.organiser_id = ? AND e.event_id = ?';
     super.query(queryString, [organiser_id, event_id], callback);
   }
 
@@ -245,5 +245,13 @@ module.exports = class OrganiserDao extends Dao {
   ) {
     var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ? AND organiser_id = ?;';
     super.query(queryString, [ticket_type_id, organiser_id], callback);
+  }
+
+  getMyEvents(organiser_id: number, callback) {
+    super.query(
+      'SELECT e.*, l.* FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE CURRENT_TIMESTAMP < end AND event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)' +
+        organiser_id,
+      callback,
+    );
   }
 };

@@ -227,6 +227,17 @@ router.get('/group', (req: express$Request, res: express$Response) => {
   });
 });
 
+// Get all events your organiser account is connected to
+router.get('/myevents', (req: express$Request, res: express$Response) => {
+  dao.getMyId(req.email, (status, data) => {
+    res.status(status);
+    dao.getMyEvents(data, (status, data2) => {
+      res.status(status);
+      res.send(data2);
+    });
+  });
+});
+
 // TODO: Flytt til public?
 // Get ticket-types for a single event
 router.get('/event/:event_id/tickets', (req: express$Request, res: express$Response) => {

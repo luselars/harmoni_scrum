@@ -31,4 +31,14 @@ module.exports = class UserDao extends Dao {
     let queryString = 'SELECT * FROM user WHERE email = ?';
     super.query(queryString, [user_email], callback);
   }
+
+  getMyId(email: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT user_id FROM user WHERE email = ?';
+    super.query(queryString, [email], callback);
+  }
+
+  getMyEvents(sortMethod: string, callback) {
+    let sort: string = sortMethod;
+    super.query('' + sort, sort, callback);
+  }
 };
