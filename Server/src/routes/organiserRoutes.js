@@ -207,7 +207,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
               console.log(status + " - status");
               if(status == 500){
                   res.status(400);
-                  res.send("Artist already in event")
+                  res.send('Artist already in event')
               }
               else{
                   res.status(status);

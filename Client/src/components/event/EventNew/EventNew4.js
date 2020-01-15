@@ -71,7 +71,7 @@ class EventNew4 extends Component<Props, State> {
     console.log(email);
     OrganiserService.inviteArtist(email, this.state.event.event_id).then(resp => {
       console.log(resp);
-    });
+    }).catch((error: Error) => alert("Artist allerede lagt til i arrangement"));
   }
   formatTime() {
     if (this.state.event.start !== null) {
