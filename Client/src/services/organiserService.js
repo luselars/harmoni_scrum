@@ -31,4 +31,12 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.get<Organiser>(url, config);
   }
+  static getLocations(): AxiosPromise<Location[]> {
+    let url = url_base + '/location';
+    return axios.get(url, config);
+  }
+  static postLocation(location: Location) {
+    let url = url_base + '/location';
+    return axios.post(url, location, config);
+  }
 }
