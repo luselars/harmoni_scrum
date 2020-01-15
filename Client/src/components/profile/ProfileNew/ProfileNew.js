@@ -60,7 +60,8 @@ export default class ProfileNew extends Component<
               <div>
                 <input
                   type="checkbox"
-                  onChange={e => this.handleChange(e)}
+                  name="organiser"
+                  onChange={event => this.handleChange(event)}
                   className="form-check-input"
                   id="check1"
                 ></input>
@@ -75,12 +76,13 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="email"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputEmail1"
                 aria-describedby="emailHelp"
                 placeholder="Epost"
                 name="email"
+                required
               ></input>
             </div>
             <div className="form-group text-center ml-5 mr-5">
@@ -89,11 +91,12 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="text"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputName1"
                 placeholder="Navn"
                 name="name"
+                required
               ></input>
             </div>
             <div className="form-group text-center ml-5 mr-5">
@@ -103,11 +106,12 @@ export default class ProfileNew extends Component<
               <input
                 type="password"
                 minlength="8"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputPassword1"
                 placeholder="Passord"
                 name="password"
+                required
               ></input>
             </div>
             <div className="form-group text-center ml-5 mr-5">
@@ -117,11 +121,12 @@ export default class ProfileNew extends Component<
               <input
                 type="password"
                 minlength="8"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputPasswordRepeat1"
                 placeholder="Gjenta passord"
                 name="passwordConfirmation"
+                required
               ></input>
             </div>
             <div className="form-group text-center ml-5 mr-5">
@@ -130,7 +135,7 @@ export default class ProfileNew extends Component<
               </label>
               <textarea
                 type="text"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="description"
                 placeholder="Litt om deg"
@@ -143,7 +148,7 @@ export default class ProfileNew extends Component<
               </label>
               <input
                 type="text"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-control"
                 id="inputTlf"
                 placeholder="Telefon"
@@ -158,7 +163,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="text"
-                    onChange={e => this.handleChange(e)}
+                    onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputAddress"
                     placeholder="Adresse"
@@ -171,7 +176,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="number"
-                    onChange={e => this.handleChange(e)}
+                    onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputPostalcode"
                     placeholder="Postnummer"
@@ -184,7 +189,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="text"
-                    onChange={e => this.handleChange(e)}
+                    onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputPostal"
                     placeholder="Poststed"
@@ -197,7 +202,7 @@ export default class ProfileNew extends Component<
                   </label>
                   <input
                     type="url"
-                    onChange={e => this.handleChange(e)}
+                    onChange={event => this.handleChange(event)}
                     className="form-control"
                     id="inputURL1"
                     placeholder="Lim inn url"
@@ -223,7 +228,7 @@ export default class ProfileNew extends Component<
             <div class="form-check form-check-inline">
               <input
                 type="checkbox"
-                onChange={e => this.handleChange(e)}
+                onChange={event => this.handleChange(event)}
                 className="form-check-input"
                 id="check1"
                 required
@@ -241,15 +246,28 @@ export default class ProfileNew extends Component<
     );
   }
 
-  handleChange(e: any) {
-    let name: string = e.target.name;
-    let value: string = e.target.value;
-    this.setState({ [name]: value });
-    console.log(name + ': ' + value);
+  handleChange(event: any) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value,
+    });
   }
 
-  post(e: any) {
-    e.preventDefault();
+  post(event: any) {
+    event.preventDefault();
     console.log('registering');
+    PublicService.registerNewUser(this.state)
+      .then(response => {
+        console.log('Response: ' + response.data.jwt);
+        localStorage.setItem('token', response.data.jwt);
+        window.location = '/profile';
+      })
+      .catch(error => {
+        console.log('error: ' + error);
+        alert('Bruker ikke funnet, sjekk passord og email og prøv på nytt');
+      });
   }
 }

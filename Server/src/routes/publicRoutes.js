@@ -123,47 +123,13 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Register new user
-router.post('/register/user', (req: express$Request, res: express$Response) => {
-  let password: string = req.body.password;
-  let email: string = req.body.email;
-  let name: string = req.body.name;
-  if (password.length >= 8 && email !== '' && name !== '') {
-    // Genereates salt and hash
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(req.body.password, salt);
-    let user: User = new User(email, name);
-    user.tlf = req.body.tlf;
-    user.description = req.body.description;
-
-    uploadFunctions.handleFile(req.body.image, function(name) {
-      user.image = name;
-      dao.postUser(user, hash, salt, (status, data) => {
-        res.status(status);
-        res.send(data);
-      });
-    });
-  } else {
-    res.status(400);
-    res.send('Ugyldig passord');
-  }
-});
-
 // Register new organiser
 router.post('/register/organiser', (req: express$Request, res: express$Response) => {
-  let password: string = req.body.password;
-  if (password.length >= 8) {
+  console.log(req.body);
+  /*let password: string = req.body.password;
     // Genereates salt and hash
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
-    let email = req.body.email;
-    let name = req.body.name;
-    let organiser: Organiser = new Organiser(email, name);
-    organiser.tlf = req.body.tlf;
-    organiser.image = req.body.image;
-    organiser.description = req.body.description;
-    organiser.address = req.body.address;
-    organiser.website = req.body.website;
 
     uploadFunctions.handleFile(req.body.image, function(name) {
       organiser.image = name;
@@ -172,7 +138,7 @@ router.post('/register/organiser', (req: express$Request, res: express$Response)
         res.send(data);
       });
     });
-  }
+  }*/
 });
 
 module.exports = router;
