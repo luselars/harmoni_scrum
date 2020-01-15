@@ -20,42 +20,43 @@ export default class ProfileUser extends Component<{}, State> {
   render() {
     return (
       <div id="profileOrganiserCard" class="card ">
-        <div class="card-body bg-light">
-          <div class="container bg-light">
-            <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
-              <div class="col-4 text-center">
+        <div className="card-body bg-light">
+          <div className="container bg-light">
+            <div className="row justify-content-md-center mt-3 mb-5 align-items-center border-bottom pb-1">
+              <div className="col-4 text-center ">
                 {this.state.user.image === undefined || this.state.user.image === null ? (
                   <img
                     src="http://localhost:4000/user/file/profile.png"
-                    class="img-rounded w-100"
+                    className="img-rounded w-75"
                     alt="Profilbilde"
                   />
                 ) : (
                   <img
                     src={'http://localhost:4000/user/file/' + this.state.user.image}
-                    class="img-rounded w-100"
+                    className="img-rounded w-100"
                     alt="Profilbilde"
                   />
                 )}
+                <p className="text-center m-3 display-4.5">{this.state.user.name}Navn</p>
               </div>
             </div>
-            <div class="row justify-content-md-center mt-y align-items-center">
-              <div class="col-4 text-center">
+            <div className="row justify-content-md-center mt-y align-items-center">
+              <div className="col-4 text-center">
                 <button
-                  class="btn btn-success bg-green mb-4"
+                  class="btn btn-success bg-green mb-4 w-100"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
                   REDIGER PROFIL
                 </button>
                 <button
-                  class="btn btn-success bg-green"
+                  className="btn btn-success bg-green w-100"
                   onClick={() => (window.location.href = '/deleteprofile')}
                 >
                   SLETT PROFIL
                 </button>
               </div>
-              <div class="col text-center">
-                <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
+              <div className="col text-center">
+                <h5 className="mb-3 text-success">ARRANGEMENTER</h5>
                 {console.log(this.state.user.eventsComing)}
                 {this.state.user.eventsComing === null && this.state.user.eventsFinished == null ? (
                   <p>Du har ikke noen arrangementer</p>
@@ -81,9 +82,9 @@ export default class ProfileUser extends Component<{}, State> {
                             : ' fullførte arrangement')}
                     </p>
                     <button
-                      class="btn btn-success bg-green"
+                      className="btn btn-success bg-green"
                       onClick={() =>
-                        (window.location.href = '/events/' + this.state.user.organiser_id)
+                        (window.location.href = '/events/' + this.state.organiser.organiser_id)
                       }
                     >
                       SE ARRANGEMENTER
