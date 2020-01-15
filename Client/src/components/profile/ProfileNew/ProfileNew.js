@@ -4,6 +4,8 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
+import { OrganiserService } from '../../../services/organiserService';
+let path = require('path');
 
 export default class ProfileNew extends Component<
   {},
@@ -47,7 +49,7 @@ export default class ProfileNew extends Component<
       <div id="profileOrganiserCard" className="card ">
         <div className="card-body bg-light">
           <form>
-            <h2 id="registerTextH">REGISTER</h2>
+            <h2 id="registerTextH">REGISTRER</h2>
             <div className="form-check ml-5 mr-5">
               <div>
                 <input
@@ -255,35 +257,88 @@ export default class ProfileNew extends Component<
       ) {
         if (this.state.name !== '') {
           if (this.state.email !== '') {
-            // Checks if it's an organiser or normal user.
-            if (this.state.organiser) {
-              var address: string =
-                this.state.address + '#' + this.state.postalcode + '#' + this.state.postal;
-              PublicService.newOrganiser(
-                this.state.email,
-                this.state.name,
-                this.state.password,
-                this.state.image,
-                this.state.tlf,
-                this.state.description,
-                address,
-                this.state.website,
-              ).then(response => {
-                localStorage.setItem('token', response.data.jwt);
-                window.location = '/profile';
-              });
+            let element = document.getElementById('upload');
+            if (element.value !== '') {
+              let fullPath = element.value;
+              let ext = path.extname(fullPath);
+              if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+                //TODO change alert
+                alert('Ikke gyldig filtype');
+                return;
+              }
+              const file = element.files[0];
+              const reader = new FileReader();
+              let state2 = this.state;
+              reader.addEventListener(
+                'load',
+                function() {
+                  let image = reader.result;
+                  // Checks if it's an organiser or normal user.
+                  if (state2.organiser) {
+                    var address: string =
+                      state2.address + '#' + state2.postalcode + '#' + state2.postal;
+                    PublicService.newOrganiser(
+                      state2.email,
+                      state2.name,
+                      state2.password,
+                      image,
+                      state2.tlf,
+                      state2.description,
+                      address,
+                      state2.website,
+                    ).then(response => {
+                      localStorage.setItem('token', response.data.jwt);
+                      window.location = '/profile';
+                    });
+                  } else {
+                    PublicService.newUser(
+                      state2.email,
+                      state2.name,
+                      state2.password,
+                      image,
+                      state2.tlf,
+                      state2.description,
+                    ).then(response => {
+                      localStorage.setItem('token', response.data.jwt);
+                      window.location = '/profile';
+                    });
+                  }
+                },
+                false,
+              );
+              if (file) {
+                reader.readAsDataURL(file);
+              }
             } else {
-              PublicService.newUser(
-                this.state.email,
-                this.state.name,
-                this.state.password,
-                this.state.image,
-                this.state.tlf,
-                this.state.description,
-              ).then(response => {
-                localStorage.setItem('token', response.data.jwt);
-                window.location = '/profile';
-              });
+              if (this.state.organiser) {
+                var address: string =
+                  this.state.address + '#' + this.state.postalcode + '#' + this.state.postal;
+                PublicService.newOrganiser(
+                  this.state.email,
+                  this.state.name,
+                  this.state.password,
+                  '',
+                  this.state.tlf,
+                  this.state.description,
+                  this.state,
+                  this.state.website,
+                ).then(response => {
+                  localStorage.setItem('token', response.data.jwt);
+                  window.location = '/profile';
+                });
+              } else {
+                PublicService.newUser(
+                  this.state.email,
+                  this.state.name,
+                  this.state.password,
+                  '',
+                  this.state.tlf,
+                  this.state.description,
+                ).then(response => {
+                  localStorage.setItem('token', response.data.jwt);
+                  window.location = '/profile';
+                });
+              }
             }
           }
         }
