@@ -4,7 +4,7 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService';
 import TimeField from 'react-simple-timefield';
-import { OrganiserService } from '../../../services/organiserService';
+import { OrganiserService } from '../../../services/organiserService.js';
 
 type Props = {};
 class EventNew extends Component<Props> {
