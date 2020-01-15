@@ -16,7 +16,7 @@ let router = express.Router();
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
 
-var tokenDuration: 18000000;
+var tokenDuration = 18000000;
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
 function updateToken(token) {
