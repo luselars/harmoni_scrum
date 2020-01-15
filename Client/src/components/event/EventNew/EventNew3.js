@@ -7,10 +7,8 @@ import { Event } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { OrganiserService } from '../../../services/organiserService';
+import { Location } from '../../../services/modelService';
 
-// TODO bytt ut disse greiene med lokasjoner
-// bruk map:
-// someArrayOfStrings.map(opt => ({ label: opt, value: opt }));
 type State = {
   event: Event,
   locations: [],
@@ -19,6 +17,7 @@ type State = {
 };
 type Props = {};
 
+// TODO add postcode
 class EventNew3 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -42,77 +41,79 @@ class EventNew3 extends Component<Props, State> {
         console.log(this.state.event);
         this.formatTime();
       });
-      // EventService.getLocations().then(response => {
-      //   console.log(response.data);
-      //   this.setState({ locations: response.data });
-      //   console.log(this.state.locations);
-      // });
+      OrganiserService.getLocations().then(response => {
+        console.log(response.data);
+        this.setState({ locations: response.data });
+        console.log(this.state.locations);
+      });
     }
   }
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
-        {/*<form>*/}
-        <div class="form-row">
-          <p>Velg sted:</p>
-          <Autocomplete
-            id="search_name"
-            style={{ width: '800px' }}
-            freeSolo
-            onChange={(event, value) => this.updateForm(0, value)}
-            value={this.state.location_name}
-            options={this.state.locations.map(option => option.name)}
-            renderInput={params => (
-              <TextField
-                {...params}
-                inputRef={this.name}
-                value={this.state.location_name}
-                label="Stedsnavn"
-                onChange={() => {
-                  this.setState({ location_name: this.name.current.value });
-                }}
-                margin="normal"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          <Autocomplete
-            id="search_address"
-            style={{ width: '800px' }}
-            freeSolo
-            onChange={(event, value) => this.updateForm(1, value)}
-            options={this.state.locations.map(option => option.address)}
-            value={this.state.location_addr}
-            renderInput={params => (
-              <TextField
-                {...params}
-                inputRef={this.addr}
-                value={this.state.location_addr}
-                onChange={() => {
-                  {
-                    this.setState({ location_addr: this.addr.current.value });
-                  }
-                }}
-                label="Stedsaddresse"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
+      <div class="card" id="cardnewevent">
+        <div class="createEvent">
+          <h2 class="neweventtitle">Opprett arrangement</h2>
+          {/*<form>*/}
+          <div class="form-row">
+            <p id="locationtitle">Velg sted</p>
+            <Autocomplete
+              id="search_name"
+              style={{ width: '800px' }}
+              freeSolo
+              onChange={(event, value) => this.updateForm(0, value)}
+              value={this.state.location_name}
+              options={this.state.locations.map(option => option.name)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  inputRef={this.name}
+                  value={this.state.location_name}
+                  label="Stedsnavn"
+                  onChange={() => {
+                    this.setState({ location_name: this.name.current.value });
+                  }}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+            <Autocomplete
+              id="search_address"
+              style={{ width: '800px' }}
+              freeSolo
+              onChange={(event, value) => this.updateForm(1, value)}
+              options={this.state.locations.map(option => option.address)}
+              value={this.state.location_addr}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  inputRef={this.addr}
+                  value={this.state.location_addr}
+                  onChange={() => {
+                    {
+                      this.setState({ location_addr: this.addr.current.value });
+                    }
+                  }}
+                  label="Stedsaddresse"
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+          </div>
+          <div>
+            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
+          {/*</form>*/}
         </div>
-        <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }
@@ -146,6 +147,7 @@ class EventNew3 extends Component<Props, State> {
       this.state.event.end = d + ' ' + h + ':00';
     }
   }
+  // todo ADD postcode
   back() {
     window.location = '/newevent2';
   }
@@ -158,6 +160,13 @@ class EventNew3 extends Component<Props, State> {
       alert('Ugyldig addresse.');
       return;
     }
+    //post location
+    let l = new Location();
+    l.name = name;
+    l.address = addr;
+    OrganiserService.postLocation(l).then(resp => {
+      console.log(resp);
+    });
   }
 }
 export default EventNew3;

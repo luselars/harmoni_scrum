@@ -32,79 +32,81 @@ class EventNew extends Component<Props> {
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
-        {/*<form>*/}
-        <div class="form-row">
-          <div class="col" id="coltitle">
-            <label id="eventnamelabel" for="eventname">
-              Tittel
-            </label>
-            <input
-              required
-              type="text"
-              class="form-control"
-              id="eventnameinput"
-              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                (this.state.event.name = event.target.value)
-              }
-            />
-            <label id="eventdesclabel" htmlFor="eventdesc">
-              Beskrivelse
-            </label>
-            <textarea
-              className={'form-control'}
-              id={'eventdesc'}
-              rows="4"
-              cols="50"
-              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                (this.state.event.description = event.target.value)
-              }
-            ></textarea>
-            {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
-            <label id="eventdatestart" htmlFor="start">
-              Starttidspunkt
-            </label>
-            <input
-              type="date"
-              id="start"
-              name="start"
-              max="2023-12-31"
-              onChange={() => this.updateTime()}
-            />
-            <TimeField
-              id="start_time"
-              style={{ width: '100px' }}
-              value="00:00"
-              onChange={() => this.updateTime()}
-            />
-            <label id="eventdateend" htmlFor="end">
-              Sluttidspunkt
-            </label>
-            <input
-              type="date"
-              id="end"
-              name="end"
-              max="2023-12-31"
-              onChange={() => this.updateTime()}
-            />
-            <TimeField
-              id="end_time"
-              style={{ width: '100px' }}
-              value="00:00"
-              onChange={() => this.updateTime()}
-            />
+      <div class="card" id="cardnewevent">
+        <div class="createEvent">
+          <h2 class="neweventtitle">Opprett arrangement</h2>
+          {/*<form>*/}
+          <div class="form-row">
+            <div class="col" id="">
+              <label id="eventnamelabel" for="eventname">
+                Tittel
+              </label>
+              <input
+                required
+                type="text"
+                class="form-control"
+                id="eventnameinput"
+                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                  (this.state.event.name = event.target.value)
+                }
+              />
+              <label id="eventdesclabel" htmlFor="eventdesc">
+                Beskrivelse
+              </label>
+              <textarea
+                className={'form-control'}
+                id={'eventdesc'}
+                rows="4"
+                cols="50"
+                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                  (this.state.event.description = event.target.value)
+                }
+              ></textarea>
+              {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
+              <label id="eventdatestart" htmlFor="start">
+                Starttidspunkt
+              </label>
+              <input
+                type="date"
+                id="start"
+                name="start"
+                max="2023-12-31"
+                onChange={() => this.updateTime()}
+              />
+              <TimeField
+                id="start_time"
+                style={{ width: '100px' }}
+                value="00:00"
+                onChange={() => this.updateTime()}
+              />
+              <label id="eventdateend" htmlFor="end">
+                Sluttidspunkt
+              </label>
+              <input
+                type="date"
+                id="end"
+                name="end"
+                max="2023-12-31"
+                onChange={() => this.updateTime()}
+              />
+              <TimeField
+                id="end_time"
+                style={{ width: '100px' }}
+                value="00:00"
+                onChange={() => this.updateTime()}
+              />
+            </div>
           </div>
+          <div>
+            <button onClick={() => this.ny()} class="btn btn-success" id="nextbtn">
+              Oprett ny. debugknapp
+            </button>
+            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
+          {/*</form>*/}
         </div>
-        <div>
-          <button onClick={() => this.ny()} class="btn btn-success" id="nextbtn">
-            Oprett ny. debugknapp
-          </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }

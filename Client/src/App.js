@@ -17,6 +17,7 @@ import LoggedIn from './views/loggedIn';
 import Upload from './components/Upload/Upload';
 import EventNew2 from './components/event/EventNew/EventNew2';
 import EventNew3 from './components/event/EventNew/EventNew3';
+import EventNew4 from './components/event/EventNew/EventNew4';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -41,12 +42,13 @@ function App() {
           <Route exact path="/newevent" component={EventNew} />
           <Route exact path="/newevent2" component={EventNew2} />
           <Route exact path="/newevent3" component={EventNew3} />
+          <Route exact path="/newevent4" component={EventNew4} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/editprofile" component={ProfileEdit} />
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events" component={LoggedIn} />
+          <Route exact path="/events/:id" component={LoggedIn} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
           <Route component={NoMatch} />
         </Switch>

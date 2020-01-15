@@ -82,6 +82,7 @@ export class Organiser {
   website: string;
   address: string;
   password: string;
+  postcode: string;
   passwordConfirmation: string;
   eventsFinished: number;
   eventsComing: number;
