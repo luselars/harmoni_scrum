@@ -3,8 +3,24 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
+import { Event } from '../../../services/modelService.js';
+import { OrganiserService } from '../../../services/organiserService';
 
-export default class EventDetailsLoggedIn extends Component<{}, {}> {
+type State = {
+  event: Event,
+};
+
+type Props = {
+  match: { params: { id: number } },
+};
+
+export default class EventDetailsLoggedIn extends Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      event: new Event(),
+    };
+  }
   render() {
     return (
       <div id="loginBox">
@@ -15,31 +31,32 @@ export default class EventDetailsLoggedIn extends Component<{}, {}> {
                 <th class="text-right" scope="row">
                   Arrangementnavn:
                 </th>
-                <td class="text-left">Navn</td>
+                <td class="text-left">{this.state.event.name}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Dato:
                 </th>
-                <td class="text-left">kl 19:00, 15.01.1998</td>
+                <td class="text-left">{this.state.event.start}</td>
+                <td class="text-left">{this.state.event.end}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Sted:
                 </th>
-                <td class="text-left">Trondheim Spektrum</td>
+                <td class="text-left">{this.state.event.venue}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Adresse:
                 </th>
-                <td class="text-left">Klostergata 90, 7030 Trondheim</td>
+                <td class="text-left">{this.state.event.address}</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
                   Lineup:
                 </th>
-                <td class="text-left">Justin Bieber</td>
+                <td class="text-left">Justin BIIIIBER</td>
               </tr>
               <tr>
                 <th class="text-right" scope="row">
@@ -72,7 +89,7 @@ export default class EventDetailsLoggedIn extends Component<{}, {}> {
                 <td class="text-left">
                   <img
                     id="EventPicLI"
-                    src="https://i.ytimg.com/vi/5Cy_KvI2nME/maxresdefault.jpg"
+                    src={'http://localhost:4000/user/file/' + this.state.event.image}
                     class="img-fluid"
                     alt="Eventbilde"
                   ></img>
@@ -84,5 +101,16 @@ export default class EventDetailsLoggedIn extends Component<{}, {}> {
         <button class="btn btn-success bg-green"> ENDRE ARRANGEMENT </button>
       </div>
     );
+  }
+
+  componentDidMount() {
+    OrganiserService.getEvent(this.props.match.params.id)
+      .then(res => {
+        let event: any = res.data;
+        console.log(res);
+        console.log('Navn: ' + this.state.event.name);
+        this.setState({ event: event });
+      })
+      .catch(error => console.error(error));
   }
 }

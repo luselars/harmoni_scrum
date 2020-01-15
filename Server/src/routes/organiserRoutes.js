@@ -55,6 +55,7 @@ router.param('event_id', function(req, res, next, event_id) {
 // Find a specific event by id (with your organiser id)
 router.get('/event/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEvent(req.params.event_id, req.uid, (status, data) => {
+    console.log(data[0]);
     res.status(status);
     res.send(data[0]);
   });
@@ -166,64 +167,45 @@ router.get('/artist', (req: { body: string }, res: express$Response) => {
 
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
-    dao.getUserId(
-        req.body.email,
-        (status, data) => {
+  dao.getUserId(req.body.email, (status, data) => {
+    res.status(status);
+    let d = data;
+    if (d.length === 0) {
+      //lag en dummy user og artist:
+      dao.postUser(req.body.email, (status, data) => {
+        res.status(status);
+        let ud = data;
+        dao.postArtist(ud.insertId, (status, data) => {
+          res.status(status);
+          dao.addArtistToEvent(ud.insert_id, req.params.event_id, (status, data) => {
             res.status(status);
-            let d = data;
-            if (d.length === 0) {
-                //lag en dummy user og artist:
-                dao.postUser(
-                    req.body.email,
-                    (status, data) => {
-                        res.status(status);
-                        let ud = data;
-                        dao.postArtist(
-                            ud.insertId,
-                            (status, data) => {
-                                res.status(status);
-                                dao.addArtistToEvent(
-                                    ud.insert_id,
-                                    req.params.event_id,
-                                    (status, data) => {
-                                        res.status(status);
-                                        res.send(data);
-                                    });
-                            });
-                    });
-            } else {
-                //sjekk om artist eksisterer
-                dao.getArtistId(
-                    d.user_id,
-                    (status, data) => {
-                        res.status(status);
-                        d = data;
-                        if (data.length === 0) {
-                            dao.postArtist(
-                                d.user_id,
-                                (status, data) => {
-                                    res.status(status);
-                                    dao.addArtistToEvent(
-                                        d.user_id,
-                                        req.params.event_id,
-                                        (status, data) => {
-                                            res.status(status);
-                                            res.send(data);
-                                        });
-                                });
-                        } else {
-                            //bare legg til artisten
-                            dao.addArtistToEvent(
-                                d.user_id,
-                                req.params.event_id,
-                                (status, data) => {
-                                    res.status(status);
-                                    res.send(data);
-                                });
-                        }
-                    });
-            }
+            res.send(data);
+          });
         });
+      });
+    } else {
+      //sjekk om artist eksisterer
+      dao.getArtistId(d.user_id, (status, data) => {
+        res.status(status);
+        d = data;
+        if (data.length === 0) {
+          dao.postArtist(d.user_id, (status, data) => {
+            res.status(status);
+            dao.addArtistToEvent(d.user_id, req.params.event_id, (status, data) => {
+              res.status(status);
+              res.send(data);
+            });
+          });
+        } else {
+          //bare legg til artisten
+          dao.addArtistToEvent(d.user_id, req.params.event_id, (status, data) => {
+            res.status(status);
+            res.send(data);
+          });
+        }
+      });
+    }
+  });
 });
 
 // Get all types of volunteers from an organiser.
