@@ -84,6 +84,7 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   deleteEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
+    console.log('Dao delete startet');
     super.query('DELETE FROM event WHERE event_id=?', [event_id], callback);
   }
 
@@ -150,9 +151,9 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [email], callback);
   }
 
-  getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed){
+  getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
-        'SELECT u.email, a.user_id, a.artist_name, ea.contract, ea.notes FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
+      'SELECT u.email, a.user_id, a.artist_name, ea.contract, ea.notes FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
 
@@ -211,8 +212,16 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   //gets all riders in event for one user_id
-  getArtistRiders(event_id: number, user_id: number, callback: (status: string, data: Object) => mixed) {
-    super.query('SELECT * FROM rider WHERE event_id = ? AND user_id = ?', [event_id, user_id], callback);
+  getArtistRiders(
+    event_id: number,
+    user_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'SELECT * FROM rider WHERE event_id = ? AND user_id = ?',
+      [event_id, user_id],
+      callback,
+    );
   }
 
   // Deletes riders for an event
