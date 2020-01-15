@@ -46,11 +46,7 @@ class EventNew2 extends Component<Props, State> {
           <div class="form-row">
             <div class="col" id="coltitle">
               <p>Last opp bilde</p>
-              <Upload
-                class="upload"
-                url={'http://localhost:4000/organiser/eventimage'}
-                accept={'.jpg, .png, .jpeg'}
-              />
+              <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
             </div>
           </div>
           <div>

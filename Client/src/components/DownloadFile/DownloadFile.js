@@ -18,7 +18,7 @@ class DownloadFile extends React.Component<Props> {
     return (
       <div id="container">
         <p
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', color: 'blue' }}
           onClick={() => {
             this.downloadEmployeeData();
           }}

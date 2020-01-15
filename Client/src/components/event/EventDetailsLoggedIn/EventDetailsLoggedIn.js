@@ -5,9 +5,11 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService.js';
 import { OrganiserService } from '../../../services/organiserService';
+import DownloadFile from '../../DownloadFile/DownloadFile';
 
 type State = {
   event: Event,
+  artists: [],
 };
 
 type Props = {
@@ -19,7 +21,20 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
+      artists: [],
     };
+  }
+  componentDidMount() {
+    OrganiserService.getArtists(this.props.match.params.id).then(resp => {
+      this.setState({ artists: resp.data });
+      console.log(this.state.artists);
+    });
+    OrganiserService.getEvent(this.props.match.params.id)
+      .then(res => {
+        let event: any = res.data;
+        this.setState({ event: event });
+      })
+      .catch(error => console.log(error));
   }
   render() {
     return (
@@ -59,13 +74,38 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   <th class="text-right" scope="row">
                     Lineup:
                   </th>
-                  <td class="text-left">Justin BIIIIBER</td>
+                  {this.state.artists.length === null ? (
+                    <td className="text-left">Ingen artister lagt til</td>
+                  ) : (
+                    this.state.artists.map(artist => (
+                      <div>
+                        {artist.artist_name === null ? (
+                          <td className="text-left">Ukjent artist</td>
+                        ) : (
+                          <td className="text-left">{artist.artist_name}</td>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </tr>
                 <tr>
                   <th class="text-right" scope="row">
                     Kontrakt(er):
                   </th>
-                  <td class="text-left">Kontrakt.pdf</td>
+                  {this.state.artists.map(artist => (
+                    <div>
+                      {artist.contract === null ? null : (
+                        <td>
+                          {artist.artist_name === null ? (
+                            <td className="text-left">Ukjent artist</td>
+                          ) : (
+                            <td className="text-left">{artist.artist_name}</td>
+                          )}
+                          <DownloadFile fileName={artist.contract} />
+                        </td>
+                      )}
+                    </div>
+                  ))}
                 </tr>
                 <tr>
                   <th class="text-right" scope="row">
@@ -100,18 +140,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       </div>
     );
   }
-
-  componentDidMount() {
-    OrganiserService.getEvent(this.props.match.params.id)
-      .then(res => {
-        let event: any = res.data;
-        console.log(res);
-        console.log('Bilde: ' + this.state.event.image);
-        this.setState({ event: event });
-      })
-      .catch(error => console.error(error));
-  }
-
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
     window.location = '/newevent';
