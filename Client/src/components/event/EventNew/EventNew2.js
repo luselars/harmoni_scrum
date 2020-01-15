@@ -39,27 +39,30 @@ class EventNew2 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
-        {/*<form>*/}
-        <div class="form-row">
-          <div class="col" id="coltitle">
-            <p>Last opp bilde</p>
-            <Upload
-              url={'http://localhost:4000/organiser/eventimage'}
-              accept={'.jpg, .png, .jpeg'}
-            />
+      <div class="card" id="cardnewevent">
+        <div class="createEvent">
+          <h2 class="neweventtitle">Opprett arrangement</h2>
+          {/*<form>*/}
+          <div class="form-row">
+            <div class="col" id="coltitle">
+              <p>Last opp bilde</p>
+              <Upload
+                class="upload"
+                url={'http://localhost:4000/organiser/eventimage'}
+                accept={'.jpg, .png, .jpeg'}
+              />
+            </div>
           </div>
+          <div>
+            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
+          {/*</form>*/}
         </div>
-        <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }

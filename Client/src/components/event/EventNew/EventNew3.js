@@ -52,67 +52,69 @@ class EventNew3 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
-        {/*<form>*/}
-        <div class="form-row">
-          <p>Velg sted:</p>
-          <Autocomplete
-            id="search_name"
-            style={{ width: '800px' }}
-            freeSolo
-            onChange={(event, value) => this.updateForm(0, value)}
-            value={this.state.location_name}
-            options={this.state.locations.map(option => option.name)}
-            renderInput={params => (
-              <TextField
-                {...params}
-                inputRef={this.name}
-                value={this.state.location_name}
-                label="Stedsnavn"
-                onChange={() => {
-                  this.setState({ location_name: this.name.current.value });
-                }}
-                margin="normal"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          <Autocomplete
-            id="search_address"
-            style={{ width: '800px' }}
-            freeSolo
-            onChange={(event, value) => this.updateForm(1, value)}
-            options={this.state.locations.map(option => option.address)}
-            value={this.state.location_addr}
-            renderInput={params => (
-              <TextField
-                {...params}
-                inputRef={this.addr}
-                value={this.state.location_addr}
-                onChange={() => {
-                  {
-                    this.setState({ location_addr: this.addr.current.value });
-                  }
-                }}
-                label="Stedsaddresse"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
+      <div class="card" id="cardnewevent">
+        <div class="createEvent">
+          <h2 class="neweventtitle">Opprett arrangement</h2>
+          {/*<form>*/}
+          <div class="form-row">
+            <p id="locationtitle">Velg sted</p>
+            <Autocomplete
+              id="search_name"
+              style={{ width: '800px' }}
+              freeSolo
+              onChange={(event, value) => this.updateForm(0, value)}
+              value={this.state.location_name}
+              options={this.state.locations.map(option => option.name)}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  inputRef={this.name}
+                  value={this.state.location_name}
+                  label="Stedsnavn"
+                  onChange={() => {
+                    this.setState({ location_name: this.name.current.value });
+                  }}
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+            <Autocomplete
+              id="search_address"
+              style={{ width: '800px' }}
+              freeSolo
+              onChange={(event, value) => this.updateForm(1, value)}
+              options={this.state.locations.map(option => option.address)}
+              value={this.state.location_addr}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  inputRef={this.addr}
+                  value={this.state.location_addr}
+                  onChange={() => {
+                    {
+                      this.setState({ location_addr: this.addr.current.value });
+                    }
+                  }}
+                  label="Stedsaddresse"
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+          </div>
+          <div>
+            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
+          {/*</form>*/}
         </div>
-        <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }

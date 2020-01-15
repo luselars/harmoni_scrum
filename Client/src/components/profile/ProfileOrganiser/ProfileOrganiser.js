@@ -48,7 +48,10 @@ export default class ProfileOrganiser extends Component<{}, State> {
               <div class="col-4 text-center">
                 <button
                   class="btn btn-success bg-green mb-4"
-                  onClick={() => (window.location.href = '/newevent')}
+                  onClick={() => {
+                    localStorage.removeItem('curr_event');
+                    window.location.href = '/newevent';
+                  }}
                 >
                   OPPRETT ARRANGEMENT
                 </button>
