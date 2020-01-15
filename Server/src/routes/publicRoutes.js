@@ -3,6 +3,7 @@ import express from 'express';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { User, Organiser } from '../../dao/modelDao';
+import uploadFunctions from '../uploadHelper';
 
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
@@ -152,12 +153,15 @@ router.post('/register/user', (req: express$Request, res: express$Response) => {
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
     let user: User = new User(email, name);
-    user.image = req.body.image;
     user.tlf = req.body.tlf;
     user.description = req.body.description;
-    dao.postUser(user, hash, salt, (status, data) => {
-      res.status(status);
-      res.send(data);
+
+    uploadFunctions.handleFile(req.body.image, function(name) {
+      user.image = name;
+      dao.postUser(user, hash, salt, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
     });
   }
 });

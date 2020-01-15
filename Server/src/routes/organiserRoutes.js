@@ -102,13 +102,20 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 
 // Edit a specific event
 router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
-  uploadFunctions.handleFile(req.body.image, function(name) {
-    req.body.image = name;
+  if (req.body.image !== '') {
+    uploadFunctions.handleFile(req.body.image, function(name) {
+      req.body.image = name;
+      dao.editEvent(req.body, req.params.event_id, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
     dao.editEvent(req.body, req.params.event_id, (status, data) => {
       res.status(status);
       res.send(data);
     });
-  });
+  }
 });
 
 // Delete single event
