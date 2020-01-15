@@ -28,13 +28,7 @@ export class PublicService {
   // TODO legg til token
   static getPublicEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + id;
-    return (
-      axios.get <
-      Event >
-      (url, {}).then(response => {
-        return response.data[0];
-      })
-    );
+    return axios.get(url, {});
   }
 
   static newUser(

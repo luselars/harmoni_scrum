@@ -7,10 +7,8 @@ import { Event } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { OrganiserService } from '../../../services/organiserService';
+import { Location } from '../../../services/modelService';
 
-// TODO bytt ut disse greiene med lokasjoner
-// bruk map:
-// someArrayOfStrings.map(opt => ({ label: opt, value: opt }));
 type State = {
   event: Event,
   locations: [],
@@ -19,6 +17,7 @@ type State = {
 };
 type Props = {};
 
+// TODO add postcode
 class EventNew3 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -42,11 +41,11 @@ class EventNew3 extends Component<Props, State> {
         console.log(this.state.event);
         this.formatTime();
       });
-      // EventService.getLocations().then(response => {
-      //   console.log(response.data);
-      //   this.setState({ locations: response.data });
-      //   console.log(this.state.locations);
-      // });
+      OrganiserService.getLocations().then(response => {
+        console.log(response.data);
+        this.setState({ locations: response.data });
+        console.log(this.state.locations);
+      });
     }
   }
 
@@ -146,6 +145,7 @@ class EventNew3 extends Component<Props, State> {
       this.state.event.end = d + ' ' + h + ':00';
     }
   }
+  // todo ADD postcode
   back() {
     window.location = '/newevent2';
   }
@@ -158,6 +158,13 @@ class EventNew3 extends Component<Props, State> {
       alert('Ugyldig addresse.');
       return;
     }
+    //post location
+    let l = new Location();
+    l.name = name;
+    l.address = addr;
+    OrganiserService.postLocation(l).then(resp => {
+      console.log(resp);
+    });
   }
 }
 export default EventNew3;
