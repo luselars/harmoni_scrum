@@ -79,7 +79,6 @@ class EventNew extends Component<Props> {
               <TimeField
                 id="start_time"
                 style={{ width: '100px' }}
-                value={this.currentTime()}
                 onChange={() => this.updateTime()}
               />
               <label id="eventdateend" htmlFor="end">
@@ -98,7 +97,6 @@ class EventNew extends Component<Props> {
               <TimeField
                 id="end_time"
                 style={{ width: '100px' }}
-                value={this.currentTime()}
                 onChange={() => this.updateTime()}
               />
             </div>
@@ -141,6 +139,9 @@ class EventNew extends Component<Props> {
       start_date.value = d;
       document.getElementById('start_time').value = h;
       this.state.event.start = d + ' ' + h + ':00';
+    } else {
+      document.getElementById('start_time').value = this.currentTime();
+      this.state.event.start = this.currentTime();
     }
     if (this.state.event.end !== null) {
       let d = this.state.event.end.substring(0, 10);
@@ -148,6 +149,9 @@ class EventNew extends Component<Props> {
       end_date.value = d;
       document.getElementById('end_time').value = h;
       this.state.event.end = d + ' ' + h + ':00';
+    } else {
+      document.getElementById('end_time').value = this.currentTime();
+      this.state.event.end = this.currentTime();
     }
   }
   updateTime() {
