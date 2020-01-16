@@ -25,9 +25,77 @@ export default class EventList extends Component<Props, State> {
       organiser: organiser,
     };
   }
-  render() {
+  eventCard(event) {
     return (
-      <div className="p-3">
+      <div class="row">
+        <div class="col s12 m6">
+          <a
+            style={{ cursor: 'pointer' }}
+            href={this.state.status ? '/event/' : '/orgevent/' + event.event_id}
+          >
+            <div class="card accent-4 teal hoverable">
+              <div class="row valign-wrapper mb-0">
+                <div className="col-2 teal text-white center-align custom-border-right">
+                  <h1 className="dateNumber">{event.start.slice(8, 10)}</h1>
+                  <h1 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h1>
+                </div>
+                <div class="card-content white-text">
+                  <span class="card-title">{event.name}</span>
+                  <p>
+                    Tid: kl {event.start.slice(11, 16)} den {event.start.slice(8, 10)}/
+                    {event.start.slice(5, 7)}/{event.start.slice(0, 4)}
+                  </p>
+                  <p>Sted: {event.venue}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return <div>{this.state.events.map(event => this.eventCard(event))}</div>;
+  }
+
+  componentDidMount() {
+    let sortMethod: string = CommunicationService.getSortString();
+    console.log('profile list: ' + this.props.profile_list);
+    if (this.props.profile_list) {
+      if (this.props.organiser) {
+        OrganiserService.getMyEvents()
+          .then(events => {
+            console.log('events: \n\n');
+            console.log(events);
+            this.setState({ events: events.data });
+          })
+          .catch((error: Error) => alert(error.message));
+      } else {
+        UserService.getMyEvents()
+          .then(events => {
+            console.log(events);
+            this.setState({ events: events.data });
+          })
+          .catch((error: Error) => alert(error.message));
+      }
+    } else {
+      PublicService.getFrontpage(this.state.sortMethod)
+        .then(events => {
+          console.log('welcome to the frontpage');
+          console.log(events);
+          this.setState({ events: events.data });
+        })
+        .catch((error: Error) => alert(error.message));
+    }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({ sortMethod: props.sortString });
+  }
+}
+
+/*
+<div className="p-3">
         {this.state.events.map(event => (
           <div className="card m-3">
             <div className="card-body m-0 p-0">
@@ -75,40 +143,4 @@ export default class EventList extends Component<Props, State> {
           </div>
         ))}
       </div>
-    );
-  }
-
-  componentDidMount() {
-    let sortMethod: string = CommunicationService.getSortString();
-    console.log('profile list: ' + this.props.profile_list);
-    if (this.props.profile_list) {
-      if (this.props.organiser) {
-        OrganiserService.getMyEvents()
-          .then(events => {
-            console.log('events: \n\n');
-            console.log(events);
-            this.setState({ events: events.data });
-          })
-          .catch((error: Error) => alert(error.message));
-      } else {
-        UserService.getMyEvents()
-          .then(events => {
-            console.log(events);
-            this.setState({ events: events.data });
-          })
-          .catch((error: Error) => alert(error.message));
-      }
-    } else {
-      PublicService.getFrontpage(this.state.sortMethod)
-        .then(events => {
-          console.log('welcome to the frontpage');
-          console.log(events);
-          this.setState({ events: events.data });
-        })
-        .catch((error: Error) => alert(error.message));
-    }
-  }
-  componentWillReceiveProps(props) {
-    this.setState({ sortMethod: props.sortString });
-  }
-}
+      */

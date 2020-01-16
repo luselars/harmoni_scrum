@@ -1,6 +1,6 @@
 .custom-border-right {
-  border-right: 7px solid rgb(83, 163, 81);
-  min-width: 100px;
+  border-right: 8px solid white;
+  min-width: 150px;
 }
 
 .dateNumber {

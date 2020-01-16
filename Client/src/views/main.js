@@ -12,7 +12,6 @@ export default class Main extends Component {
     return (
       <div className="main">
         <div>
-          <SearchBar />
           <div className="d-flex flex-row flex-wrap mb-2">
             <div className="">
               <Filter />
