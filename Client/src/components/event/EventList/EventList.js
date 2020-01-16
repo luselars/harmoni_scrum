@@ -38,7 +38,7 @@ export default class EventList extends Component<Props, State> {
                     <h1 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h1>
                   </div>
                   <div id="eventinfo" className="col-8">
-                    <h5 className="eventtitle">{event.name}</h5>
+                    <h5 className="eventtitle text-uppercase">{event.name}</h5>
                     <p className="eventlistp">
                       <a className="eventdescription">Sted: </a>
                       {event.venue}

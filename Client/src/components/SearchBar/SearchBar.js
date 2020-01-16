@@ -14,8 +14,8 @@ export default class SearchBar extends Component<{}, { search: string }> {
 
   render() {
     return (
-      <div className="input-group my-3 " id="searchBox">
-        <div className="input-group md-form form-sm form-1 pl-0">
+      <div className="input-group my-3 justify-content-center" id="searchBox">
+        <div className="input-group md-form form-sm form-1 pl-0 w-75">
           <div className="input-group-prepend">
             <span
               onClick={() => this.post()}
