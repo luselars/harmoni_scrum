@@ -71,7 +71,6 @@ class EventNew extends Component<Props> {
                 type="date"
                 id="start"
                 name="start"
-                value={this.today()}
                 min={this.today()}
                 max="2023-12-31"
                 onChange={() => this.updateTime()}
@@ -89,7 +88,6 @@ class EventNew extends Component<Props> {
                 type="date"
                 id="end"
                 name="end"
-                value={this.today()}
                 min={this.today()}
                 max="2023-12-31"
                 onChange={() => this.updateTime()}
@@ -140,8 +138,8 @@ class EventNew extends Component<Props> {
       document.getElementById('start_time').value = h;
       this.state.event.start = d + ' ' + h + ':00';
     } else {
-      document.getElementById('start_time').value = this.currentTime();
-      this.state.event.start = this.currentTime();
+      document.getElementById('start_time').value = this.today();
+      this.state.event.start = this.today();
     }
     if (this.state.event.end !== null) {
       let d = this.state.event.end.substring(0, 10);
@@ -150,8 +148,8 @@ class EventNew extends Component<Props> {
       document.getElementById('end_time').value = h;
       this.state.event.end = d + ' ' + h + ':00';
     } else {
-      document.getElementById('end_time').value = this.currentTime();
-      this.state.event.end = this.currentTime();
+      document.getElementById('end_time').value = this.today();
+      this.state.event.end = this.today();
     }
   }
   updateTime() {
