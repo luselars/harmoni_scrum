@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
@@ -40,10 +40,10 @@ class EventNew4 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="createEvent">
+      <div className="createEvent">
         <h2>Opprett arrangement</h2>
         {/*<form>*/}
-        <div class="form-row">
+        <div className="form-row">
           <p>Legg til artister på arrangementet:</p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
@@ -89,10 +89,10 @@ class EventNew4 extends Component<Props, State> {
           ))}
         </div>
         <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
           </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
             Neste
           </button>
         </div>

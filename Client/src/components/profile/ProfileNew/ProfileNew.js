@@ -1,7 +1,7 @@
 //@flow
 import * as React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
 import { OrganiserService } from '../../../services/organiserService';
@@ -196,7 +196,7 @@ export default class ProfileNew extends Component<
                     name="postal"
                   ></input>
                 </div>
-                <div class="form-group text-center ml-5 mr-5">
+                <div className="form-group text-center ml-5 mr-5">
                   <label for="inputURL1" id="loginText">
                     URL til nettsted
                   </label>
@@ -225,7 +225,7 @@ export default class ProfileNew extends Component<
                 Profilbilde
               </label>
             </div>
-            <div class="form-check ml-5 mr-5">
+            <div className="form-check ml-5 mr-5">
               <input
                 type="checkbox"
                 onChange={event => this.handleChange(event)}
@@ -233,7 +233,7 @@ export default class ProfileNew extends Component<
                 id="check1"
                 required
               ></input>
-              <label class="form-check-label" for="check1">
+              <label className="form-check-label" for="check1">
                 Jeg godkjenner deres vilkår
               </label>
             </div>

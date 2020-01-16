@@ -14,7 +14,6 @@ let events: Event[] = [];
 let status: boolean;
 let event_id: number;
 
-
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
@@ -28,18 +27,18 @@ export default class EventList extends Component<Props, State> {
   }
   render() {
     return (
-      <div>
+      <div className="p-3">
         {this.state.events.map(event => (
-          <div className="card">
-            <div className="card-body bg-light">
-              <div className="container bg-light">
+          <div className="card m-3">
+            <div className="card-body m-0 p-0">
+              <div className="container m-0 p-0 pt-2 pb-2 pl-4">
                 <div className="row justify-content-md-center align-items-center">
-                  <div id="date" className="col-2 text-center">
-                    <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                    <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                  <div id="date" className="col-2 pl-0 text-center custom-border-right">
+                    <h1 className="dateNumber">{event.start.slice(8, 10)}</h1>
+                    <h1 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h1>
                   </div>
                   <div id="eventinfo" className="col-8">
-                    <h5 class="eventtitle">{event.name}</h5>
+                    <h5 className="eventtitle">{event.name}</h5>
                     <p className="eventlistp">
                       <a className="eventdescription">Sted: </a>
                       {event.venue}
@@ -80,14 +79,13 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
-
     let sortMethod: string = CommunicationService.getSortString();
-    console.log("profile list: " + this.props.profile_list)
+    console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {
         OrganiserService.getMyEvents()
           .then(events => {
-            console.log("events: \n\n");
+            console.log('events: \n\n');
             console.log(events);
             this.setState({ events: events.data });
           })
@@ -103,7 +101,7 @@ export default class EventList extends Component<Props, State> {
     } else {
       PublicService.getFrontpage(this.state.sortMethod)
         .then(events => {
-          console.log("welcome to the frontpage")
+          console.log('welcome to the frontpage');
           console.log(events);
           this.setState({ events: events.data });
         })

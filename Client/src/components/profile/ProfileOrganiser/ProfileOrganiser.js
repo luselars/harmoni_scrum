@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { Organiser } from '../../../services/modelService';
 
 import { OrganiserService } from '../../../services/organiserService';
@@ -19,35 +19,35 @@ export default class ProfileOrganiser extends Component<{}, State> {
   }
   render() {
     return (
-      <div id="profileOrganiserCard" class="card ">
-        <div class="card-body bg-light">
-          <div class="container bg-light">
-            <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
-              <div class="col-4 text-center">
+      <div id="profileOrganiserCard" className="card mainBody">
+        <div className="card-body bg-light">
+          <div className="container bg-light">
+            <div className="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
+              <div className="col-4 text-center">
                 {this.state.organiser.image === undefined || this.state.organiser.image === null ? (
                   <img
                     src="http://localhost:4000/public/file/profile.png"
-                    class="img-rounded w-100"
+                    className="img-rounded w-100"
                     alt="Profilbilde"
                   />
                 ) : (
                   <img
                     src={'http://localhost:4000/public/file/' + this.state.organiser.image}
-                    class="img-rounded w-100"
+                    className="img-rounded w-100"
                     alt="Profilbilde"
                   />
                 )}
               </div>
-              <div class="col text-center">
-                <h2 class="mb-3">{this.state.organiser.name}</h2>
+              <div className="col text-center">
+                <h2 className="mb-3">{this.state.organiser.name}</h2>
                 <h5>{this.state.organiser.organiser_email}</h5>
                 <h5>{this.state.organiser.website}</h5>
               </div>
             </div>
-            <div class="row justify-content-md-center mt-y align-items-center">
-              <div class="col-4 text-center">
+            <div className="row justify-content-md-center mt-y align-items-center">
+              <div className="col-4 text-center">
                 <button
-                  class="btn btn-success bg-green mb-4"
+                  className="btn btn-success bg-green mb-4"
                   onClick={() => {
                     localStorage.removeItem('curr_event');
                     window.location.href = '/newevent';
@@ -56,20 +56,20 @@ export default class ProfileOrganiser extends Component<{}, State> {
                   OPPRETT ARRANGEMENT
                 </button>
                 <button
-                  class="btn btn-success bg-green mb-4"
+                  className="btn btn-success bg-green mb-4"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
                   REDIGER PROFIL
                 </button>
                 <button
-                  class="btn btn-success bg-green"
+                  className="btn btn-success bg-green"
                   onClick={() => (window.location.href = '/deleteprofile')}
                 >
                   SLETT PROFIL
                 </button>
               </div>
-              <div class="col text-center">
-                <h5 class="mb-3 text-success">ARRANGEMENTER</h5>
+              <div className="col text-center">
+                <h5 className="mb-3 text-success">ARRANGEMENTER</h5>
                 {console.log(this.state.organiser.eventsComing)}
                 {this.state.organiser.eventsComing === null &&
                 this.state.organiser.eventsFinished == null ? (
@@ -98,7 +98,7 @@ export default class ProfileOrganiser extends Component<{}, State> {
                             : ' fullførte arrangement')}
                     </p>
                     <button
-                      class="btn btn-success bg-green"
+                      className="btn btn-success bg-green"
                       onClick={() =>
                         (window.location.href = '/events/' + this.state.organiser.organiser_id)
                       }

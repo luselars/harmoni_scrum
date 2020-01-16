@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { Link } from 'react-router-dom';
 
 type State = {
@@ -32,7 +32,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
         {this.state.status ? (
-          <form className="loginGroup">
+          <form className="d-flex flex-row flex-wrap">
             <a className="nav-link text-light" id="homeButton" href="/">
               Hjem <i className="fa fa-home fa-lg"></i>
               <span className="sr-only"></span>
@@ -44,7 +44,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
             </a>
           </form>
         ) : (
-          <form className="loginGroup">
+          <form className="d-flex flex-row flex-wrap">
             <a className="nav-link text-light" id="homeButton" href="/">
               Hjem <i className="fa fa-home fa-lg"></i>
               <span className="sr-only"></span>

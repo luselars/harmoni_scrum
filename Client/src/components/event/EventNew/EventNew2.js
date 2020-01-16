@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { string } from 'prop-types';
 import Upload from '../../Upload/Upload.js';
 import FileDropzone from '../../FileDropzone/FileDropzone.js';
@@ -39,21 +39,21 @@ class EventNew2 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="card" id="cardnewevent">
-        <div class="createEvent">
-          <h2 class="neweventtitle">Opprett arrangement</h2>
+      <div className="card" id="cardnewevent">
+        <div className="createEvent">
+          <h2 className="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
-          <div class="form-row">
-            <div class="col" id="coltitle">
+          <div className="form-row">
+            <div className="col" id="coltitle">
               <p>Last opp bilde</p>
-              <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
+              <Upload className="upload" accept={'.jpg, .png, .jpeg'} />
             </div>
           </div>
           <div>
-            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
               Tilbake
             </button>
-            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
               Neste
             </button>
           </div>

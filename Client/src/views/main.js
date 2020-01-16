@@ -11,9 +11,17 @@ export default class Main extends Component {
   render() {
     return (
       <div className="main">
-        <SearchBar />
-        <Filter />
-        <EventList profile_list={false} />
+        <div>
+          <SearchBar />
+          <div className="d-flex flex-row flex-wrap mb-2">
+            <div className="">
+              <Filter />
+            </div>
+            <div className="flex-grow-1">
+              <EventList profile_list={false} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

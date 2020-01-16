@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { string } from 'prop-types';
 import { Event } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
@@ -71,11 +71,11 @@ class EventNew3 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="card" id="cardnewevent">
-        <div class="createEvent">
-          <h2 class="neweventtitle">Opprett arrangement</h2>
+      <div className="card" id="cardnewevent">
+        <div className="createEvent">
+          <h2 className="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
-          <div class="form-row">
+          <div className="form-row">
             <p id="locationtitle">Velg sted</p>
             <Autocomplete
               id="search_name"
@@ -130,10 +130,10 @@ class EventNew3 extends Component<Props, State> {
           <label htmlFor="postcode">Scene:</label>
           <input id="venue" type="text" />
           <div>
-            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
               Tilbake
             </button>
-            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
               Neste
             </button>
           </div>

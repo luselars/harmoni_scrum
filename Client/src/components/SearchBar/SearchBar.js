@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { OrganiserService } from '../../services/organiserService';
 import { PublicService } from '../../services/publicService';
 
@@ -15,19 +15,19 @@ export default class SearchBar extends Component<{}, { search: string }> {
   render() {
     return (
       <div className="input-group my-3 " id="searchBox">
-        <div class="input-group md-form form-sm form-1 pl-0">
-          <div class="input-group-prepend">
+        <div className="input-group md-form form-sm form-1 pl-0">
+          <div className="input-group-prepend">
             <span
               onClick={() => this.post()}
-              class="input-group-text purple lighten-3"
+              className="input-group-text purple lighten-3"
               id="basic-text1"
             >
               <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"></link>
-              <i class="fa fa-search" aria-hidden="true"></i>
+              <i className="fa fa-search" aria-hidden="true"></i>
             </span>
           </div>
           <input
-            class="form-control my-0 py-1"
+            className="form-control my-0 py-1"
             type="text"
             placeholder="Search"
             aria-label="Search"

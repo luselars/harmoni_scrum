@@ -4,7 +4,6 @@ import React from 'react';
 import { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
 import { Organiser } from '../../../services/modelService';
-import './stylesheet.css';
 
 type State = {
   organiser_id: number,
@@ -191,7 +190,7 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <button class="btn btn-success bg-green" onClick={() => this.post()}>
+          <button className="btn btn-success bg-green" onClick={() => this.post()}>
             {' '}
             LAGRE{' '}
           </button>

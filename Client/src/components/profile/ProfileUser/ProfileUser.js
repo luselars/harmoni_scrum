@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { Component } from 'react';
-import './stylesheet.css';
+
 import { User } from '../../../services/modelService';
 
 import { UserService } from '../../../services/userService';
@@ -19,7 +19,7 @@ export default class ProfileUser extends Component<{}, State> {
   }
   render() {
     return (
-      <div id="profileOrganiserCard" class="card ">
+      <div id="profileOrganiserCard" className="card ">
         <div className="card-body bg-light">
           <div className="container bg-light">
             <div className="row justify-content-md-center mt-3 mb-5 align-items-center border-bottom pb-1">
@@ -43,7 +43,7 @@ export default class ProfileUser extends Component<{}, State> {
             <div className="row justify-content-md-center mt-y align-items-center">
               <div className="col-4 text-center">
                 <button
-                  class="btn btn-success bg-green mb-4 w-100 text-uppercase"
+                  className="btn btn-success bg-green mb-4 w-100 text-uppercase"
                   onClick={() => (window.location.href = '/editprofile')}
                 >
                   rediger profil
