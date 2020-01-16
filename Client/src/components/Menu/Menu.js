@@ -18,7 +18,47 @@ export default class Menu extends Component<{}, { status: boolean }> {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo center">
+            Harmoni
+          </a>
+          <ul class="left hide-on-med-and-down">
+            <li>
+              <a href="/">
+                <i class="fas fa-home"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a href="badges.html">
+                <i class="material-icons">view_module</i>
+              </a>
+            </li>
+            <li>
+              <a href="collapsible.html">
+                <i class="material-icons">refresh</i>
+              </a>
+            </li>
+            <li>
+              <a href="mobile.html">
+                <i class="fas fa-user"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
+  }
+  logOut() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+}
+
+/*
+<nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand text-light" id="title" href="/">
           HARMONI
         </a>
@@ -61,10 +101,4 @@ export default class Menu extends Component<{}, { status: boolean }> {
           </form>
         )}
       </nav>
-    );
-  }
-  logOut() {
-    localStorage.removeItem('token');
-    window.location.href = '/';
-  }
-}
+      */
