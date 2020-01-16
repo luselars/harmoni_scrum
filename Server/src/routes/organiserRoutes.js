@@ -39,6 +39,7 @@ router.use('', (req, res, next) => {
   });
 });
 
+// Checks organiser of event id for authorization
 router.param('event_id', function(req, res, next, event_id) {
   dao.organiserOwnsEvent(req.params.event_id, req.uid, (status, data) => {
     console.log(status);
@@ -52,7 +53,7 @@ router.param('event_id', function(req, res, next, event_id) {
   });
 });
 
-//get event artists with contract and stuff
+// Get event artists with contract and stuff
 router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEventArtist(req.params.event_id, (status, data) => {
     res.status(status);
@@ -366,6 +367,7 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
   });
 });
 
+// Gets all riders connected to a single event connected to an event
 router.get('/:eid/artist/:aid/riders', (req: express$Request, res: express$Response) => {
   dao.getArtistRiders(req.params.eid, req.params.aid, (status, data) => {
     res.status(status);
