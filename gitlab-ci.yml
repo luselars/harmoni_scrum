@@ -1,0 +1,21 @@
+image: node:8
+
+# Set up MySQL test-database
+services:
+  - mysql:5.5
+
+# Configure test-database
+variables:
+  MYSQL_DATABASE: larsoos
+  MYSQL_USER: root
+  MYSQL_ROOT_PASSWORD: ''
+  MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+
+# Run JEST tests
+run_tests:
+  stage: test
+  script:
+    - npm install -g flow-bin
+    - cd Server && npm install && npm test && flow check src
+    - cd ../Client && npm install && npm test && flow check src
