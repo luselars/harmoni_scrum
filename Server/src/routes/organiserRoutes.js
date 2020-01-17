@@ -8,7 +8,7 @@ const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
 
 const organiserDao = require('../../dao/organiserDao.js');
-let dao = new organiserDao();
+let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
 
 const upload = require('../uploadHelper');
 let router = express.Router();

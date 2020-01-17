@@ -3,13 +3,17 @@ import mysql from 'mysql';
 
 module.exports = class Dao {
   pool: any;
-  constructor() {
+  constructor(host: string, user: string, password: string, database: string) {
     this.pool = mysql.createPool({
-      host: 'mysql-ait.stud.idi.ntnu.no',
-      user: 'larsoos', // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
-      password: 'S6yv7wYa', // Replae "password" with your mysql-ait.stud.idi.ntnu.no password
-      database: 'larsoos', // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
+      host: host,
+      user: user, // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
+      password: password, // Replace "password" with your mysql-ait.stud.idi.ntnu.no password
+      database: database, // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
     });
+  }
+
+  getPool() {
+    return this.pool;
   }
 
   query(sql: string, params: any, callback: (status: string, data: Object) => mixed) {

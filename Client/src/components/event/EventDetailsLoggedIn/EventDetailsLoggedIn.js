@@ -25,10 +25,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     };
   }
   componentDidMount() {
-    OrganiserService.getArtists(this.props.match.params.id).then(resp => {
-      this.setState({ artists: resp.data });
-      console.log(this.state.artists);
-    });
+    OrganiserService.getArtists(this.props.match.params.id)
+      .then(resp => {
+        this.setState({ artists: resp.data });
+        console.log(resp);
+      })
+      .catch(error => {
+        window.location = '/404';
+      });
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
