@@ -1,12 +1,4 @@
--- MySQL Workbench Forward Engineering
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Table `larsoos`.`user`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user`(
   `user_id` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NULL DEFAULT NULL,
@@ -22,10 +14,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 90
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`artist`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artist`(
   `user_id` INT(11) NOT NULL,
   `artist_name` VARCHAR(60) NULL DEFAULT NULL,
@@ -38,10 +26,6 @@ CREATE TABLE IF NOT EXISTS `artist`(
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`location`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `location`(
   `location_id` INT(11) NOT NULL AUTO_INCREMENT,
   `address` VARCHAR(100) NULL DEFAULT NULL,
@@ -52,10 +36,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`event`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event`(
   `event_id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(60) NULL DEFAULT NULL,
@@ -78,10 +58,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 157
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`event_artist`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event_artist`(
   `event_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
@@ -104,10 +80,6 @@ CREATE TABLE IF NOT EXISTS `event_artist`(
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`organiser`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `organiser`(
   `organiser_id` INT(11) NOT NULL AUTO_INCREMENT,
   `organiser_email` VARCHAR(100) NOT NULL,
@@ -125,10 +97,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`event_organiser`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event_organiser`(
   `event_id` INT(11) NOT NULL,
   `organiser_id` INT(11) NOT NULL,
@@ -142,16 +110,12 @@ CREATE TABLE IF NOT EXISTS `event_organiser`(
     ON UPDATE CASCADE,
   CONSTRAINT `fk_event_has_organiser_organiser1`
     FOREIGN KEY (`organiser_id`)
-    REFERENCES `larsoos`.`organiser` (`organiser_id`)
+    REFERENCES `organiser` (`organiser_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`ticket_type`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ticket_type`(
   `ticket_type_id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(60) NOT NULL,
@@ -161,17 +125,13 @@ CREATE TABLE IF NOT EXISTS `ticket_type`(
   INDEX `fk_ticket_type_organiser1_idx` (`organiser_id` ASC) ,
   CONSTRAINT `fk_ticket_type_organiser1`
     FOREIGN KEY (`organiser_id`)
-    REFERENCES `larsoos`.`organiser` (`organiser_id`)
+    REFERENCES `organiser` (`organiser_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`event_ticket`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event_ticket`(
   `event_id` INT(11) NOT NULL,
   `ticket_type_id` INT(11) NOT NULL,
@@ -192,10 +152,6 @@ CREATE TABLE IF NOT EXISTS `event_ticket`(
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`volunteer_type`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `volunteer_type`(
   `volunteer_type_id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
@@ -210,10 +166,6 @@ CREATE TABLE IF NOT EXISTS `volunteer_type`(
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`event_volunteer`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event_volunteer` (
   `user_id` INT(11) NOT NULL,
   `event_id` INT(11) NOT NULL,
@@ -240,10 +192,6 @@ CREATE TABLE IF NOT EXISTS `event_volunteer` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`misc_file`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `misc_file` (
   `file_id` INT(11) NOT NULL,
   `file` VARCHAR(200) NULL DEFAULT NULL,
@@ -258,10 +206,6 @@ CREATE TABLE IF NOT EXISTS `misc_file` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`rider`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `rider` (
   `rider_id` INT(11) NOT NULL AUTO_INCREMENT,
   `rider_file` VARCHAR(200) NOT NULL,
@@ -277,10 +221,6 @@ CREATE TABLE IF NOT EXISTS `rider` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `larsoos`.`schedule`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `schedule` (
   `schedule_id` INT(11) NOT NULL AUTO_INCREMENT,
   `task` TEXT NOT NULL,
@@ -296,8 +236,3 @@ CREATE TABLE IF NOT EXISTS `schedule` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
