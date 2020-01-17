@@ -21,9 +21,47 @@ beforeAll(done => {
   });
 });
 
-describe('Empty test', () => {
+describe('Testing functionality from userDAO', () => {
   it('1 equals 1', done => {
     expect(1).toEqual(1);
     done();
   });
+});
+// Edit your user
+it('Edit an existing user', done => {
+  function callback(status, data) {
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  let user: User = new User('testuser@testemail.com', 'Jens');
+  user.description = 'asdasd';
+  user.user_id = 1;
+  dao.editUser(user, callback);
+});
+
+// Adds your account as an artist
+it('Add an artist to event', done => {
+  function callback(status, data) {
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  dao.linkArtist('testuser@testemail.com', 3, callback);
+});
+
+// Deletes your user
+it('Deletes a user', done => {
+  function callback(status, data) {
+    expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+    done();
+  }
+  dao.deleteUser(2, callback);
+});
+
+// Finds all events user is tied to
+it('Finds all events user is tied to', done => {
+  function callback(status, data) {
+    expect(data.length).toBe(1);
+    done();
+  }
+  dao.getUserByEvent(1, callback);
 });

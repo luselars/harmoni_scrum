@@ -7,6 +7,7 @@ INSERT INTO event_organiser (organiser_id, event_id) VALUES (1,1);
 INSERT INTO ticket_type (name, description, organiser_id) VALUES ('ticket 1', 'the number 1 ticket', 1),('ticket 2','the second ticket',1);
 INSERT INTO event_ticket (event_id, ticket_type_id) VALUES (3,1),(3,2);
 INSERT INTO user (email) VALUES ('testuser@testemail.com');
+INSERT INTO user (email) VALUES ('test@test.com');
 INSERT INTO artist (user_id) VALUES (1);
 INSERT INTO event_artist (user_id, event_id) VALUES (1, 1);
 INSERT INTO volunteer_type (name, organiser_id) VALUES ('serf', 1);
