@@ -15,7 +15,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
 
   render() {
     return (
-      <div id="profileOrganiserCard" className="mainBody">
+      <div id="profileOrganiserCard" className="main">
         <div className="card-body d-flex justify-content-center">
           <form className="bg-light" onSubmit={e => this.post(e)}>
             <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
