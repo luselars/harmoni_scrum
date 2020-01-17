@@ -8,8 +8,8 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
-class EventNew5 extends Component {
-  constructor(props) {
+class EventNew5 extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       event: new Event(),
@@ -57,7 +57,9 @@ class EventNew5 extends Component {
               <div>
                 <textarea id={artist.user_id}>{artist.notes}</textarea>
                 <br />
-                <button onClick={() => this.updateNotes(artist)}>Lagre</button>
+                <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
+                  Lagre
+                </button>
               </div>
               <br />
             </div>

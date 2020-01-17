@@ -9,17 +9,14 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
-{
-  /*
 type State = {
   event: Event,
   artists: Artist[],
 };
-type Props = {};*/
-}
+type Props = {};
 
-class EventNew4 extends Component {
-  constructor(props) {
+class EventNew4 extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       event: new Event(),
@@ -61,7 +58,9 @@ class EventNew4 extends Component {
             id="email"
             placeholder="Skriv e-mail"
           />
-          <button onClick={() => this.invite()}>Inviter artist</button>
+          <button className="btn btn-success" onClick={() => this.invite()}>
+            Inviter artist
+          </button>
           {this.state.artists.map(artist => (
             <div>
               <p>Artist: {artist.email}</p>
