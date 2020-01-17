@@ -198,10 +198,10 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <button class="btn btn-success bg-green" onClick={() => this.post()}>
+          <input type="submit" class="btn btn-success bg-green" onClick={() => this.post()}>
             {' '}
             LAGRE{' '}
-          </button>
+          </input>
         </div>
       </div>
     );
