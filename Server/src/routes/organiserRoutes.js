@@ -325,10 +325,20 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  dao.editProfile(req.uid, req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+  if (req.body.image != null) {
+    uploadFunctions.handleFile(req.body.image, function(imageUrl) {
+      req.body.image = imageUrl;
+      dao.editProfile(req.uid, req.body, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
+    dao.editProfile(req.uid, req.body, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 //Get all volunteers who are part of an event

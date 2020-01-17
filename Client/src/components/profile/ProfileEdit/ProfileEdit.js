@@ -6,6 +6,7 @@ import { OrganiserService } from '../../../services/organiserService';
 import { PublicService } from '../../../services/publicService';
 import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
+let path = require('path');
 
 type State = {
   organiser_id: number,
@@ -58,7 +59,7 @@ class ProfileEdit extends Component<{}, State> {
                 : this.state.image
             }
           />
-          {/*<div className="form-check text-center my-3 p-2 border">
+          <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
               Profilbilde
             </label>
@@ -66,10 +67,10 @@ class ProfileEdit extends Component<{}, State> {
               className="file mr-6"
               accept=".jpg, .jpeg, .png"
               type="file"
-              id="imageInput"
-              name="image"
+              id="upload"
+              name="recfile"
             />
-    </div>*/}
+          </div>
           <div className="form-group" id="name">
             <label for="nameInput">Navn: </label>
             <input
@@ -239,7 +240,7 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(this.state.image);
+    console.log(this.state.organiser_email);
   }
   onChangeAddress(e: any) {
     let name: string = e.target.name;
@@ -252,6 +253,7 @@ class ProfileEdit extends Component<{}, State> {
     console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
   }
 
+  //TODO delete old profile pic <3
   edit(correct: boolean, changePassword: boolean) {
     console.log('reg');
     console.log(correct);
@@ -266,23 +268,68 @@ class ProfileEdit extends Component<{}, State> {
       } else {
         document.getElementById('labelPasswordError').innerHTML = '';
         document.getElementById('labelNewPasswordError').innerHTML = '';
-        this.setState({ password: this.state.newPassword });
-        let editedOrangiser: Organiser = new Organiser(this.state.organiser_email, this.state.name);
-        editedOrangiser.tlf = this.state.tlf;
-        editedOrangiser.website = this.state.website;
-        editedOrangiser.address = this.state.address;
-        editedOrangiser.organiser_id_ = this.state.organiser_id;
-        editedOrangiser.image = this.state.image;
-        editedOrangiser.description = this.state.description;
-        editedOrangiser.password = this.state.password;
-        OrganiserService.editOrganiser(editedOrangiser).then(response => {
-          window.location = '/profile';
-        });
+        // Image
+        let element = document.getElementById('upload');
+        if (element.value !== '') {
+          let fullPath: any = element.value;
+          let ext = path.extname(fullPath).toLowerCase();
+          if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+            //TODO change alert
+            alert('Ikke gyldig filtype');
+            return;
+          }
+          const file = element.files[0];
+          const reader = new FileReader();
+          const state2 = this.state;
+          reader.addEventListener(
+            'load',
+            function() {
+              state2.image = reader.result;
+              let editedOrangiser: Organiser = new Organiser('', '');
+              editedOrangiser.organiser_email = state2.organiser_email;
+              editedOrangiser.name = state2.name;
+              editedOrangiser.tlf = state2.tlf;
+              editedOrangiser.website = state2.website;
+              editedOrangiser.address = state2.address;
+              editedOrangiser.organiser_id_ = state2.organiser_id;
+              editedOrangiser.image = state2.image;
+              editedOrangiser.description = state2.description;
+              if (changePassword) editedOrangiser.password = state2.newPassword;
+              OrganiserService.editOrganiser(editedOrangiser).then(response => {
+                window.location = '/profile';
+              });
+            },
+            false,
+          );
+          if (file) {
+            reader.readAsDataURL(file);
+          } else {
+            this.editPost(this.state, changePassword);
+          }
+        }
       }
     }
   }
 
-  post() {
+  editPost(state: Object, changePassword: boolean) {
+    console.log(state.organiser_email);
+    console.log(state.image);
+    let editedOrangiser: Organiser = new Organiser('', '');
+    editedOrangiser.organiser_email = state.organiser_email;
+    editedOrangiser.name = state.name;
+    editedOrangiser.tlf = state.tlf;
+    editedOrangiser.website = state.website;
+    editedOrangiser.address = state.address;
+    editedOrangiser.organiser_id_ = state.organiser_id;
+    editedOrangiser.image = state.image;
+    editedOrangiser.description = state.description;
+    if (changePassword) editedOrangiser.password = state.newPassword;
+    OrganiserService.editOrganiser(editedOrangiser).then(response => {
+      window.location = '/profile';
+    });
+  }
+
+  post(event: any) {
     console.log(this.state.newPassword);
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
