@@ -44,5 +44,8 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    flowtype: {
+      onlyFilesWithFlowAnnotation: true,
+    },
   },
 };
