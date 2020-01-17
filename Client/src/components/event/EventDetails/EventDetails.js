@@ -13,7 +13,7 @@ type Props = {
 
 type State = {
   event: Event,
-  artist: Artist,
+  artist: Artist[],
 };
 
 export default class EventDetails extends Component<Props, State> {
@@ -21,7 +21,7 @@ export default class EventDetails extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
-      artist: new Artist(),
+      artist: [],
     };
   }
   render() {
@@ -69,7 +69,7 @@ export default class EventDetails extends Component<Props, State> {
                 </th>
                 {this.state.artist.map(artist => (
                   <td className="text-left" id="textleft">
-                    {artist.name}
+                    {artist.artist_name}
                   </td>
                 ))}
               </tr>
@@ -103,7 +103,7 @@ export default class EventDetails extends Component<Props, State> {
 
     PublicService.getPublicArtist(this.state.event.event_id).then(res => {
       let artist: any = res.data;
-      console.log(artist);
+      console.log(res.data);
       this.setState({ artist: artist });
     });
     console.log(this.state.event);
