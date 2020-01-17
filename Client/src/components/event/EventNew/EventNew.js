@@ -32,19 +32,19 @@ class EventNew extends Component<Props> {
 
   render() {
     return (
-      <div class="card" id="cardnewevent">
-        <div class="createEvent">
-          <h2 class="neweventtitle">Opprett arrangement</h2>
+      <div className="card" id="cardnewevent">
+        <div className="createEvent">
+          <h2 className="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
-          <div class="form-row">
-            <div class="col" id="">
+          <div className="form-row">
+            <div className="col" id="">
               <label id="eventnamelabel" for="eventname">
                 Tittel
               </label>
               <input
                 required
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="eventnameinput"
                 onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                   (this.state.event.name = event.target.value)
@@ -67,7 +67,7 @@ class EventNew extends Component<Props> {
                 Starttidspunkt
               </label>
               <input
-                class="date"
+                className="date"
                 type="date"
                 id="start"
                 name="start"
@@ -84,7 +84,7 @@ class EventNew extends Component<Props> {
                 Sluttidspunkt
               </label>
               <input
-                class="date"
+                className="date"
                 type="date"
                 id="end"
                 name="end"
@@ -97,13 +97,23 @@ class EventNew extends Component<Props> {
                 style={{ width: '100px' }}
                 onChange={() => this.updateTime()}
               />
+              <label>Status</label>
+              <textarea
+                className="form-control"
+                id="eventdesc"
+                rows="1"
+                cols="50"
+                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                  (this.state.event.status = event.target.value)
+                }
+              ></textarea>
             </div>
           </div>
           <div>
-            <button onClick={() => this.ny()} class="btn btn-success" id="nextbtn">
+            <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
               Oprett ny. debugknapp
             </button>
-            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
               Neste
             </button>
           </div>
