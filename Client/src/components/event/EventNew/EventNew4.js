@@ -58,7 +58,9 @@ class EventNew4 extends Component<Props, State> {
             id="email"
             placeholder="Skriv e-mail"
           />
-          <button onClick={() => this.invite()}>Inviter artist</button>
+          <button className="btn btn-success" onClick={() => this.invite()}>
+            Inviter artist
+          </button>
           {this.state.artists.map(artist => (
             <div>
               <p>Artist: {artist.email}</p>
