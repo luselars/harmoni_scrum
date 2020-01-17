@@ -7,6 +7,7 @@ import { PublicService } from '../../../services/publicService';
 import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
 let path = require('path');
+let mail: string;
 
 type State = {
   organiser_id: number,
@@ -85,7 +86,7 @@ class ProfileEdit extends Component<{}, State> {
           <div className="form-group" id="phone">
             <label for="tlfInput">Telefonnummer: </label>
             <input
-              type="text"
+              type="tel"
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
@@ -98,7 +99,7 @@ class ProfileEdit extends Component<{}, State> {
             <input
               type="text"
               className="form-control"
-              name="email"
+              name="organiser_email"
               onChange={e => this.onChange(e)}
               defaultValue={this.state.organiser_email}
               id="emailInput"
@@ -221,6 +222,7 @@ class ProfileEdit extends Component<{}, State> {
         address: organiser.address,
         tlf: organiser.tlf,
       });
+      mail = this.state.organiser_email;
       var a = this.state.address + ' ';
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
@@ -285,17 +287,9 @@ class ProfileEdit extends Component<{}, State> {
             'load',
             function() {
               state2.image = reader.result;
-              let editedOrangiser: Organiser = new Organiser('', '');
-              editedOrangiser.organiser_email = state2.organiser_email;
-              editedOrangiser.name = state2.name;
-              editedOrangiser.tlf = state2.tlf;
-              editedOrangiser.website = state2.website;
-              editedOrangiser.address = state2.address;
-              editedOrangiser.organiser_id_ = state2.organiser_id;
-              editedOrangiser.image = state2.image;
-              editedOrangiser.description = state2.description;
-              if (changePassword) editedOrangiser.password = state2.newPassword;
-              OrganiserService.editOrganiser(editedOrangiser).then(response => {
+              alert('hei');
+              if (changePassword) state2.password = state2.newPassword;
+              OrganiserService.editOrganiser(state2).then(response => {
                 window.location = '/profile';
               });
             },
@@ -306,45 +300,35 @@ class ProfileEdit extends Component<{}, State> {
           } else {
             this.editPost(this.state, changePassword);
           }
+        } else {
+          this.editPost(this.state, changePassword);
         }
       }
     }
   }
 
   editPost(state: Object, changePassword: boolean) {
-    console.log(state.organiser_email);
+    alert(state.organiser_email);
     console.log(state.image);
-    let editedOrangiser: Organiser = new Organiser('', '');
-    editedOrangiser.organiser_email = state.organiser_email;
-    editedOrangiser.name = state.name;
-    editedOrangiser.tlf = state.tlf;
-    editedOrangiser.website = state.website;
-    editedOrangiser.address = state.address;
-    editedOrangiser.organiser_id_ = state.organiser_id;
-    editedOrangiser.image = state.image;
-    editedOrangiser.description = state.description;
-    if (changePassword) editedOrangiser.password = state.newPassword;
-    OrganiserService.editOrganiser(editedOrangiser).then(response => {
+    if (changePassword) state.password = state.newPassword;
+    OrganiserService.editOrganiser(state).then(response => {
       window.location = '/profile';
     });
   }
 
   post(event: any) {
-    console.log(this.state.newPassword);
+    console.log(mail);
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
         ? this.edit(false, false)
-        : PublicService.logIn(this.state.organiser_email, this.state.password)
+        : PublicService.logIn(mail, this.state.password)
             .then(response => {
               console.log('Response: ' + response.data.jwt);
-              return true;
+              this.edit(true, true);
             })
             .catch(error => {
               console.log('error: ' + error);
-              return false;
-            })
-            .then(e => {
-              this.edit(e, true);
+              this.edit(false, true);
             });
     }
   }

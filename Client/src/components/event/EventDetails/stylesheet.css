@@ -42,9 +42,16 @@
 }
 
 .img-fluid {
-  width: 70%;
-  height: 20vw;
+  width: 95%;
+  height: 25vw;
   object-fit: cover;
+}
+
+.artistmap {
+  float: left;
+  padding: 0 12px;
+  padding-top: 12px;
+  margin: 0;
 }
 
 @media screen and (max-width: 800px) {
