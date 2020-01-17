@@ -32,8 +32,16 @@ module.exports = class OrganiserDao extends Dao {
     organiser: Organiser,
     callback: (status: string, data: Object) => mixed,
   ) {
+    var password = '';
+
+    if (organiser.hash != null) {
+      password = ", hash = '" + organiser.hash + "', salt = '" + organiser.salt + "'";
+    }
+
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_id = ?';
+      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
+      password +
+      ' WHERE organiser_id = ?';
     super.query(
       queryString,
       [

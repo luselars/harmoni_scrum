@@ -84,7 +84,7 @@ class ProfileEdit extends Component<{}, State> {
           <div className="form-group" id="phone">
             <label for="tlfInput">Telefonnummer: </label>
             <input
-              type="text"
+              type="tel"
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
@@ -274,7 +274,8 @@ class ProfileEdit extends Component<{}, State> {
         editedOrangiser.organiser_id_ = this.state.organiser_id;
         editedOrangiser.image = this.state.image;
         editedOrangiser.description = this.state.description;
-        editedOrangiser.password = this.state.password;
+        if (changePassword) editedOrangiser.password = this.state.password;
+
         OrganiserService.editOrganiser(editedOrangiser).then(response => {
           window.location = '/profile';
         });
@@ -290,14 +291,11 @@ class ProfileEdit extends Component<{}, State> {
         : PublicService.logIn(this.state.organiser_email, this.state.password)
             .then(response => {
               console.log('Response: ' + response.data.jwt);
-              return true;
+              this.edit(true, true);
             })
             .catch(error => {
               console.log('error: ' + error);
-              return false;
-            })
-            .then(e => {
-              this.edit(e, true);
+              this.edit(false, true);
             });
     }
   }
