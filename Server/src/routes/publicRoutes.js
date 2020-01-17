@@ -11,7 +11,7 @@ let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let app = express();
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao();
+let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
