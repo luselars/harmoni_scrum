@@ -5,7 +5,7 @@ const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
 
 const userDao = require('../../dao/userDao.js');
-let dao = new userDao();
+let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
 let router = express.Router();
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
