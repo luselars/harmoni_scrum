@@ -163,7 +163,7 @@ module.exports = class OrganiserDao extends Dao {
   getArtist(event_id: string, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = 129';
-    super.query(queryString, [email], callback);
+    super.query(queryString, [event_id], callback);
   }
 
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
@@ -226,15 +226,11 @@ module.exports = class OrganiserDao extends Dao {
     super.query('DELETE FROM event_ticket WHERE event_id = ?', [event_id], callback);
   }
 
-  //gets all riders in event for one user_id
-  getArtistRiders(
-    event_id: number,
-    user_id: number,
-    callback: (status: string, data: Object) => mixed,
-  ) {
+  //gets all riders in event
+  getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT * FROM rider WHERE event_id = ? AND user_id = ?',
-      [event_id, user_id],
+      'SELECT rider_file, artist_name FROM rider JOIN artist USING(user_id) WHERE event_id = ?',
+      [event_id],
       callback,
     );
   }
