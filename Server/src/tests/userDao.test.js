@@ -74,3 +74,11 @@ it('Finds info for the user', done => {
   }
   dao.getUserInfo(1, callback);
 });
+// Gets the id of the logged in user.
+it('Gets id of the logged in user', done => {
+  function callback(status, data) {
+    expect(data.length).toBe(1);
+    done();
+  }
+  dao.getMyId('testuser@testemail.com', callback);
+});
