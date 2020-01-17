@@ -59,8 +59,28 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   <th class="text-right" scope="row">
                     Dato:
                   </th>
-                  <td class="text-left">{this.state.event.start}</td>
-                  <td class="text-left">{this.state.event.end}</td>
+                  <td class="text-left">
+                    {this.state.event.start
+                      ? this.state.event.start.slice(8, 10) +
+                        '/' +
+                        this.state.event.start.slice(5, 7) +
+                        '/' +
+                        this.state.event.start.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.start.slice(11, 16)
+                      : 'Laster'}
+                  </td>
+                  <td class="text-left">
+                    {this.state.event.end
+                      ? this.state.event.end.slice(8, 10) +
+                        '/' +
+                        this.state.event.end.slice(5, 7) +
+                        '/' +
+                        this.state.event.end.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.end.slice(11, 16)
+                      : 'Laster'}
+                  </td>
                 </tr>
                 <tr>
                   <th class="text-right" scope="row">
