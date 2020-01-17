@@ -8,8 +8,8 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
-class EventNew5 extends Component {
-  constructor(props) {
+class EventNew5 extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       event: new Event(),
