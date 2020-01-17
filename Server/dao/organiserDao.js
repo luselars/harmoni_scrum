@@ -32,8 +32,16 @@ module.exports = class OrganiserDao extends Dao {
     organiser: Organiser,
     callback: (status: string, data: Object) => mixed,
   ) {
+    var password = '';
+
+    if (organiser.hash != null) {
+      password = ", hash = '" + organiser.hash + "', salt = '" + organiser.salt + "'";
+    }
+
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_id = ?';
+      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
+      password +
+      ' WHERE organiser_id = ?';
     super.query(
       queryString,
       [
@@ -167,10 +175,10 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-  getArtist(email: string, callback: (status: string, data: Object) => mixed) {
+  getArtist(event_id: string, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT a.* FROM artist a LEFT JOIN user u ON u.user_id = a.user_id WHERE u.email = ?';
-    super.query(queryString, [email], callback);
+      'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = 129';
+    super.query(queryString, [event_id], callback);
   }
 
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
@@ -233,15 +241,11 @@ module.exports = class OrganiserDao extends Dao {
     super.query('DELETE FROM event_ticket WHERE event_id = ?', [event_id], callback);
   }
 
-  //gets all riders in event for one user_id
-  getArtistRiders(
-    event_id: number,
-    user_id: number,
-    callback: (status: string, data: Object) => mixed,
-  ) {
+  //gets all riders in event
+  getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT * FROM rider WHERE event_id = ? AND user_id = ?',
-      [event_id, user_id],
+      'SELECT rider_file, artist_name FROM rider JOIN artist USING(user_id) WHERE event_id = ?',
+      [event_id],
       callback,
     );
   }

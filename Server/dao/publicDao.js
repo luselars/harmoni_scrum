@@ -83,4 +83,12 @@ module.exports = class PublicDao extends Dao {
       callback,
     );
   }
+
+  emailExists(email: string, callback) {
+    super.query(
+      'SELECT organiser_email as email FROM organiser WHERE organiser_email = ? UNION SELECT email FROM user WHERE email = ?',
+      [email, email],
+      callback,
+    );
+  }
 };

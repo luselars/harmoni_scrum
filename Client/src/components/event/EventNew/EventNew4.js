@@ -4,6 +4,7 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
+import { PublicService } from '../../../services/publicService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
@@ -102,13 +103,18 @@ class EventNew4 extends Component<Props, State> {
   }
   invite() {
     let email = document.getElementById('email').value;
-    // TODO validate email
-    OrganiserService.inviteArtist(email, this.state.event.event_id)
-      .then(resp => {
-        console.log(resp);
-        window.location.reload();
-      })
-      .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+    PublicService.checkEmail(email).then(res => {
+      if (res.data.length == 0) {
+        OrganiserService.inviteArtist(email, this.state.event.event_id)
+          .then(resp => {
+            console.log(resp);
+            window.location.reload();
+          })
+          .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+      } else {
+        alert('Denne Emailen er i bruk av en annen arrangør');
+      }
+    });
   }
   formatTime() {
     if (this.state.event.start !== null) {

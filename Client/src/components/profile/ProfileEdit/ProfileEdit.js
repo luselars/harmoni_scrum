@@ -3,6 +3,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
+import { PublicService } from '../../../services/publicService';
 import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
 
@@ -45,13 +46,17 @@ class ProfileEdit extends Component<{}, State> {
   render() {
     return (
       <div className="card" id="editProfile">
-        <div className="card-body">
+        <div className="card-body m-5">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
           <img
             className="img-rounded w-25"
             id="picture"
-            src={'http://localhost:4000/public/file/' + this.state.image}
             alt="Profilbilde"
+            src={
+              'http://localhost:4000/public/file/' + this.state.image == undefined
+                ? 'profile.png'
+                : this.state.image
+            }
           />
           {/*<div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
@@ -79,7 +84,7 @@ class ProfileEdit extends Component<{}, State> {
           <div className="form-group" id="phone">
             <label for="tlfInput">Telefonnummer: </label>
             <input
-              type="text"
+              type="tel"
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
@@ -100,6 +105,7 @@ class ProfileEdit extends Component<{}, State> {
           </div>
           <div className="form-group" id="password">
             <label for="passwordInput">Nåværende passord: </label>
+            <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
             <input
               type="password"
               className="form-control"
@@ -110,10 +116,11 @@ class ProfileEdit extends Component<{}, State> {
           </div>
           <div className="form-group" id="password">
             <label for="passwordNewInput">Nytt passord: </label>
+            <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
             <input
               type="password"
               className="form-control"
-              name="passwordNew"
+              name="newPassword"
               onChange={e => this.onChange(e)}
               id="passwordNewInput"
             ></input>
@@ -245,20 +252,52 @@ class ProfileEdit extends Component<{}, State> {
     console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
   }
 
-  post() {
+  edit(correct: boolean, changePassword: boolean) {
     console.log('reg');
-    let editedOrangiser: Organiser = new Organiser(this.state.organiser_email, this.state.name);
-    editedOrangiser.tlf = this.state.tlf;
-    editedOrangiser.website = this.state.website;
-    editedOrangiser.address =
-      this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal;
-    editedOrangiser.organiser_id_ = this.state.organiser_id;
-    editedOrangiser.image = this.state.image;
-    editedOrangiser.description = this.state.description;
-    editedOrangiser.password = this.state.password;
-    OrganiserService.editOrganiser(editedOrangiser).then(response => {
-      window.location = '/profile';
-    });
+    console.log(correct);
+    if (!correct && changePassword) {
+      document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
+      document.getElementById('labelNewPasswordError').innerHTML = '';
+    } else {
+      if (this.state.newPassword.length < 8 && changePassword) {
+        document.getElementById('labelPasswordError').innerHTML = '';
+        document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
+        console.log('inne: ' + this.state.newPassword);
+      } else {
+        document.getElementById('labelPasswordError').innerHTML = '';
+        document.getElementById('labelNewPasswordError').innerHTML = '';
+        this.setState({ password: this.state.newPassword });
+        let editedOrangiser: Organiser = new Organiser(this.state.organiser_email, this.state.name);
+        editedOrangiser.tlf = this.state.tlf;
+        editedOrangiser.website = this.state.website;
+        editedOrangiser.address = this.state.address;
+        editedOrangiser.organiser_id_ = this.state.organiser_id;
+        editedOrangiser.image = this.state.image;
+        editedOrangiser.description = this.state.description;
+        if (changePassword) editedOrangiser.password = this.state.password;
+
+        OrganiserService.editOrganiser(editedOrangiser).then(response => {
+          window.location = '/profile';
+        });
+      }
+    }
+  }
+
+  post() {
+    console.log(this.state.newPassword);
+    {
+      this.state.newPassword.length === 0 && this.state.password.length === 0
+        ? this.edit(false, false)
+        : PublicService.logIn(this.state.organiser_email, this.state.password)
+            .then(response => {
+              console.log('Response: ' + response.data.jwt);
+              this.edit(true, true);
+            })
+            .catch(error => {
+              console.log('error: ' + error);
+              this.edit(false, true);
+            });
+    }
   }
 }
 

@@ -44,8 +44,8 @@ export default class EventList extends Component<Props, State> {
                       {event.venue}
                     </p>
                     <p className="eventlistp">
-                      <a className="eventdescription">Tid: </a>kl {event.start.slice(11, 16)} den{' '}
-                      {event.start.slice(8, 10)}/{event.start.slice(5, 7)}/{event.start.slice(0, 4)}
+                      <a className="eventdescription">Tid: </a>
+                      {event.start.slice(11, 16)}
                     </p>
                   </div>
                   <div id="eventbtn" className="col text-right">

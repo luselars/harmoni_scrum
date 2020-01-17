@@ -13,7 +13,7 @@ type Props = {
 
 type State = {
   event: Event,
-  artist: Artist,
+  artist: Artist[],
 };
 
 export default class EventDetails extends Component<Props, State> {
@@ -21,7 +21,7 @@ export default class EventDetails extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
-      artist: new Artist(),
+      artist: [],
     };
   }
   render() {
@@ -34,7 +34,7 @@ export default class EventDetails extends Component<Props, State> {
             alt="Eventbilde"
           ></img>
         </div>
-        <p id="EventDetailsText">{this.state.event.name}</p>
+        <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
         <div id="EventDetailsTable">
           <table className="table table-borderless">
             <tbody>
@@ -44,14 +44,13 @@ export default class EventDetails extends Component<Props, State> {
                 </th>
                 <td className="text-left" id="textleft">
                   {this.state.event.start
-                    ? 'kl ' +
-                      this.state.event.start.slice(11, 16) +
-                      ' den ' +
-                      this.state.event.start.slice(8, 10) +
+                    ? this.state.event.start.slice(8, 10) +
                       '/' +
                       this.state.event.start.slice(5, 7) +
                       '/' +
-                      this.state.event.start.slice(0, 4)
+                      this.state.event.start.slice(0, 4) +
+                      ' - ' +
+                      this.state.event.start.slice(11, 16)
                     : 'Laster'}
                 </td>
               </tr>
@@ -64,22 +63,16 @@ export default class EventDetails extends Component<Props, State> {
                 </td>
               </tr>
               <tr>
-                <th className="text-right" id="textright" scope="row">
-                  Lineup:
-                </th>
+                {this.state.artist.length == 0 ? (
+                  <p></p>
+                ) : (
+                  <th className="text-right" id="textright" scope="row">
+                    Lineup:
+                  </th>
+                )}
                 {this.state.artist.map(artist => (
-                  <td className="text-left" id="textleft">
-                    {artist.name}
-                  </td>
+                  <p className="artistmap">{artist.artist_name}</p>
                 ))}
-              </tr>
-              <tr>
-                <th className="text-right" id="textright" scope="row">
-                  Pris:
-                </th>
-                <td className="text-left" id="textleft">
-                  KOMMER SENERE
-                </td>
               </tr>
             </tbody>
           </table>
@@ -98,14 +91,16 @@ export default class EventDetails extends Component<Props, State> {
         let event: any = res.data[0];
         console.log(res);
         this.setState({ event: event });
+
+        PublicService.getPublicArtist(this.state.event.event_id).then(res => {
+          let artist: any = res.data;
+          console.log(res.data);
+          console.log(res.status);
+          this.setState({ artist: artist });
+        });
       })
       .catch(error => console.error(error));
 
-    PublicService.getPublicArtist(this.state.event.event_id).then(res => {
-      let artist: any = res.data;
-      console.log(artist);
-      this.setState({ artist: artist });
-    });
     console.log(this.state.event);
   }
 }

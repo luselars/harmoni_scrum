@@ -54,7 +54,6 @@ router.get('/', (req: express$Request, res: express$Response) => {
 // Get all public events sorted by a string
 router.get('/event', (req, res: express$Response) => {
   console.log(req.query.sortString + '- sortstirng?');
-
   dao.getPublicEvents(req.query.sortString, (status, data) => {
     res.status(status);
     res.send(data);
@@ -64,6 +63,14 @@ router.get('/event', (req, res: express$Response) => {
 // Get a specific public event
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
   dao.getPublicEvent(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//Get artist on an event, only artist name
+router.get('/event/:id/artist', (req: express$Request, res: express$Response) => {
+  dao.getArtistEvent(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -157,6 +164,14 @@ router.post('/register', (req: express$Request, res: express$Response) => {
       res.send(data);
     });
   }
+});
+
+// Check if email is in DB
+router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
+  dao.emailExists(req.params.email, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
 });
 
 module.exports = router;
