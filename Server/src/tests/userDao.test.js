@@ -60,8 +60,17 @@ it('Deletes a user', done => {
 // Finds all events user is tied to
 it('Finds all events user is tied to', done => {
   function callback(status, data) {
-    expect(data.length).toBe(1);
+    expect(data.length).toBe(2);
     done();
   }
   dao.getUserByEvent(1, callback);
+});
+
+// Finds info for the user by id
+it('Finds info for the user', done => {
+  function callback(status, data) {
+    expect(data.length).toBe(1);
+    done();
+  }
+  dao.getUserInfo(1, callback);
 });
