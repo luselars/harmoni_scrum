@@ -8,15 +8,15 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
-class EventNew5 extends Component<Props, State> {
-  constructor(props: any) {
+class EventNew5 extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       event: new Event(),
       artists: [],
     };
   }
-  componentDidMount(): * {
+  componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
@@ -43,11 +43,11 @@ class EventNew5 extends Component<Props, State> {
   }
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
+      <div className="createEvent" id="cardnewevent">
+        <h2 className="neweventtitle">Opprett arrangement</h2>
         {/*<form>*/}
-        <div class="form-row">
-          <p>Legg til ridere for artist:</p>
+        <div className="form-group text-center ml-5 mr-5">
+          <p>Legg til ridere for artist: </p>
           <p>Dette kommer, foreløpig er det bare notes.</p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
@@ -56,6 +56,7 @@ class EventNew5 extends Component<Props, State> {
               <p>Notes for {artist.email}</p>
               <div>
                 <textarea id={artist.user_id}>{artist.notes}</textarea>
+                <br />
                 <button onClick={() => this.updateNotes(artist)}>Lagre</button>
               </div>
               <br />
@@ -63,10 +64,10 @@ class EventNew5 extends Component<Props, State> {
           ))}
         </div>
         <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
           </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
             Fullfør
           </button>
         </div>

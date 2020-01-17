@@ -12,6 +12,14 @@ event.event_id = 2;
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 const userDao = require('../../dao/userDao.js');
+let dao = new userDao('mysql', 'root', 'secret', 'supertestdb');
+const runsqlfile = require('./runSQL.js');
+
+beforeAll(done => {
+  runsqlfile('src/tests/testTables.sql', dao.getPool(), () => {
+    runsqlfile('src/tests/testData.sql', dao.getPool(), done);
+  });
+});
 
 describe('Empty test', () => {
   it('1 equals 1', done => {

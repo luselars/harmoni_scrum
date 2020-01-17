@@ -3,6 +3,13 @@ import { Event, Organiser, User } from './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class PublicDao extends Dao {
+  constructor(host: string, user: string, password: string, database: string) {
+    super(host, user, password, database);
+  }
+
+  getPool() {
+    return super.getPool();
+  }
   getPublicEvents(sortMethod: string, callback) {
     console.log(typeof sortMethod + ' wtf is sortmethod?');
     let sort: string = sortMethod;

@@ -11,7 +11,7 @@ let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let app = express();
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao();
+let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
@@ -64,6 +64,14 @@ router.get('/event', (req, res: express$Response) => {
 // Get a specific public event
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
   dao.getPublicEvent(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//Get artist on an event, only artist name
+router.get('/event/:id/artist', (req: express$Request, res: express$Response) => {
+  dao.getArtistEvent(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });

@@ -10,6 +10,7 @@ import DownloadFile from '../../DownloadFile/DownloadFile';
 type State = {
   event: Event,
   artists: [],
+  riders: [],
 };
 
 type Props = {
@@ -22,16 +23,22 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artists: [],
+      riders: [],
     };
   }
   componentDidMount() {
     OrganiserService.getArtists(this.props.match.params.id)
-      .then(resp => {
-        this.setState({ artists: resp.data });
-        console.log(resp);
+      .then(res => {
+        this.setState({ artists: res.data });
+        console.log(res);
       })
       .catch(error => {
-        window.location = '/404';
+        if (error == 'Error: Request failed with status code 404') {
+          window.location = '/404';
+        } else {
+          alert(error);
+          window.location = '/404';
+        }
       });
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
@@ -39,6 +46,11 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         this.setState({ event: event });
       })
       .catch(error => console.log(error));
+
+    OrganiserService.getRiders(this.props.match.params.id).then(res => {
+      console.log(res.data);
+      this.setState({ riders: res.data });
+    });
   }
   render() {
     return (
@@ -59,8 +71,28 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   <th class="text-right" scope="row">
                     Dato:
                   </th>
-                  <td class="text-left">{this.state.event.start}</td>
-                  <td class="text-left">{this.state.event.end}</td>
+                  <td class="text-left">
+                    {this.state.event.start
+                      ? this.state.event.start.slice(8, 10) +
+                        '/' +
+                        this.state.event.start.slice(5, 7) +
+                        '/' +
+                        this.state.event.start.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.start.slice(11, 16)
+                      : 'Laster'}
+                  </td>
+                  <td class="text-left">
+                    {this.state.event.end
+                      ? this.state.event.end.slice(8, 10) +
+                        '/' +
+                        this.state.event.end.slice(5, 7) +
+                        '/' +
+                        this.state.event.end.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.end.slice(11, 16)
+                      : 'Laster'}
+                  </td>
                 </tr>
                 <tr>
                   <th class="text-right" scope="row">
@@ -115,7 +147,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   <th class="text-right" scope="row">
                     Riders:
                   </th>
-                  <td class="text-left">Rider.pdf</td>
+                  {this.state.riders.map(rider => (
+                    <div>
+                      <td className="text-left">{rider.artist_name}</td>
+                      <td className="text-right">
+                        <DownloadFile fileName={rider.rider_file} />
+                      </td>
+                    </div>
+                  ))}
                 </tr>
                 <tr>
                   <th class="text-right" scope="row">

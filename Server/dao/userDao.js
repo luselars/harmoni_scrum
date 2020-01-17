@@ -3,6 +3,13 @@ import './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class UserDao extends Dao {
+  constructor(host: string, user: string, password: string, database: string) {
+    super(host, user, password, database);
+  }
+  getPool() {
+    return super.getPool();
+  }
+
   editUser(user: json, callback: (status: string, data: json) => mixed) {
     super.query(
       'UPDATE user SET email=?,name=?,tlf=?,image=?,description=? WHERE user_id = ?',

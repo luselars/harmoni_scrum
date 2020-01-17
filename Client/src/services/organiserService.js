@@ -72,8 +72,8 @@ export class OrganiserService {
     return axios.put(url, data, config);
   }
 
-  static getRiders(artist_id: number, event_id: number) {
-    let url = url_base + '/' + event_id + '/artist/' + artist_id + '/riders';
+  static getRiders(event_id: number) {
+    let url = url_base + '/event/rider/' + event_id;
     return axios.get(url, config);
   }
 
