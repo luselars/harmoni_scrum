@@ -97,14 +97,18 @@ export default class EventDetails extends Component<Props, State> {
         let event: any = res.data[0];
         console.log(res);
         this.setState({ event: event });
+
+        PublicService.getPublicArtist(this.state.event.event_id).then(res => {
+          let artist: any = res.data;
+          console.log("these are the glorious artists:");
+          console.log(res.data);
+          console.log(res.status);
+          this.setState({ artist: artist });
+        });
       })
       .catch(error => console.error(error));
 
-    PublicService.getPublicArtist(this.state.event.event_id).then(res => {
-      let artist: any = res.data;
-      console.log(res.data);
-      this.setState({ artist: artist });
-    });
+
     console.log(this.state.event);
   }
 }
