@@ -14,6 +14,7 @@ event.event_id = 2;
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 const organiserDao = require('../../dao/organiserDao.js');
+const runsqlfile = require('./runSQL.js');
 let dao = new organiserDao('mysql', 'root', 'secret', 'supertestdb');
 
 let event = new Event();
@@ -27,8 +28,8 @@ event.venue = 'Koselig plass';
 event.location_id = 1;
 
 beforeAll(done => {
-  runsqlfile('./testTables.sql', dao.getPool(), () => {
-    runsqlfile('./testData.sql', done);
+  runsqlfile('src/tests/testTables.sql', dao.getPool(), () => {
+    runsqlfile('src/tests/testData.sql', dao.getPool(), done);
   });
 });
 
