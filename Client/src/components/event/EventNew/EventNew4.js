@@ -8,21 +8,24 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 
+{
+  /*
 type State = {
   event: Event,
   artists: Artist[],
 };
-type Props = {};
+type Props = {};*/
+}
 
-class EventNew4 extends Component<Props, State> {
-  constructor(props: any) {
+class EventNew4 extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       event: new Event(),
       artists: [],
     };
   }
-  componentDidMount(): * {
+  componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
@@ -40,10 +43,10 @@ class EventNew4 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="createEvent">
-        <h2>Opprett arrangement</h2>
+      <div className="createEvent" id="cardnewevent">
+        <h2 className="neweventtitle">Opprett arrangement</h2>
         {/*<form>*/}
-        <div class="form-row">
+        <div className="form-row">
           <p>Legg til artister på arrangementet:</p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
@@ -89,10 +92,10 @@ class EventNew4 extends Component<Props, State> {
           ))}
         </div>
         <div>
-          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
           </button>
-          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
             Neste
           </button>
         </div>

@@ -9,17 +9,20 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { OrganiserService } from '../../../services/organiserService';
 import { Location } from '../../../services/modelService';
 
+{
+  /*
 type State = {
   event: Event,
   locations: [],
   location_name: string,
   location_addr: string,
 };
-type Props = {};
+type Props = {};*/
+}
 
-// TODO add postcode
-class EventNew3 extends Component<Props, State> {
-  constructor(props: any) {
+//TODO add postcode
+class EventNew3 extends Component {
+  constructor(props) {
     super(props);
     this.name = React.createRef();
     this.addr = React.createRef();
@@ -30,7 +33,7 @@ class EventNew3 extends Component<Props, State> {
       location_addr: string,
     };
   }
-  componentDidMount(): * {
+  componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
@@ -71,11 +74,11 @@ class EventNew3 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="card" id="cardnewevent">
-        <div class="createEvent">
-          <h2 class="neweventtitle">Opprett arrangement</h2>
+      <div className="card" id="cardnewevent">
+        <div className="createEvent">
+          <h2 className="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
-          <div class="form-row">
+          <div className="form-row">
             <p id="locationtitle">Velg sted</p>
             <Autocomplete
               id="search_name"
@@ -130,10 +133,10 @@ class EventNew3 extends Component<Props, State> {
           <label htmlFor="postcode">Scene:</label>
           <input id="venue" type="text" />
           <div>
-            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
               Tilbake
             </button>
-            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
               Neste
             </button>
           </div>
@@ -142,7 +145,7 @@ class EventNew3 extends Component<Props, State> {
       </div>
     );
   }
-  updateForm(w: number, val) {
+  updateForm(w, val) {
     if (w === 0 && val !== null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].name === val) {
@@ -162,6 +165,8 @@ class EventNew3 extends Component<Props, State> {
       }
     }
   }
+
+  //TODO do not mutate state directly. use setState()
   formatTime() {
     if (this.state.event.start !== null) {
       let d = this.state.event.start.substring(0, 10);
