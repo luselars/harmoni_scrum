@@ -70,7 +70,7 @@ export class Artist {
 
 // Object for sending Organiser
 export class Organiser {
-  constructor(organiser_email: string, name: number) {
+  constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
     this.name = name;
   }
