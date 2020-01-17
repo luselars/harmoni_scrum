@@ -1,0 +1,79 @@
+import './modelDao';
+import { Event, Organiser, User } from './modelDao';
+const Dao = require('./dao.js');
+
+module.exports = class PublicDao extends Dao {
+  getPublicEvents(sortMethod: string, callback) {
+    console.log(typeof sortMethod + ' wtf is sortmethod?');
+    let sort: string = sortMethod;
+    super.query(
+      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE start > CURRENT_TIMESTAMP AND e.is_public IS TRUE ORDER BY ' +
+        sort,
+      sort,
+      callback,
+    );
+  }
+
+  getArtistEvent(event_id: number, callback) {
+    super.query(
+      'SELECT user_id, artist_name from artist WHERE user_id IN(SELECT user_id FROM event_artist WHERE event_id = ?)',
+      [event_id],
+      callback,
+    );
+  }
+
+  getPublicEvent(event_id: number, callback) {
+    super.query(
+      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE AND e.event_id = ?',
+      [event_id],
+      callback,
+    );
+  }
+
+  insertNewUser(state: Object, callback: (status: string, data: Event) => mixed) {
+    if (state.organiser) {
+      super.query(
+        'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?)',
+        [
+          state.email,
+          state.hash,
+          state.salt,
+          state.name,
+          state.imageUrl,
+          state.tlf,
+          state.description,
+          state.address,
+          state.website,
+        ],
+        callback,
+      );
+    } else {
+      super.query(
+        'INSERT INTO user (email, name, hash, salt, image, description, tlf) VALUES(?,?,?,?,?,?,?)',
+        [
+          state.email,
+          state.name,
+          state.hash,
+          state.salt,
+          state.imageUrl,
+          state.description,
+          state.tlf,
+          //hent passord hash og salt
+        ],
+        callback,
+      );
+    }
+  }
+
+  getUserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query('Select hash, salt, user_id from user WHERE email = ?', email, callback);
+  }
+
+  getOrganiserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'Select hash, salt, organiser_id from organiser WHERE organiser_email = ?',
+      email,
+      callback,
+    );
+  }
+};

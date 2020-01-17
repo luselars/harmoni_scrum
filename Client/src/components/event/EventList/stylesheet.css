@@ -1,0 +1,109 @@
+#date {
+  border-right-style: solid;
+  border-right-color: rgb(83, 163, 81);
+}
+
+.datenumber {
+  font-size: 50px;
+  margin-bottom: -5px;
+}
+
+.eventtitle {
+  font-family: sans-serif;
+}
+
+#eventinfo {
+  line-height: 90%;
+  max-width: 60%;
+}
+
+.eventlistp {
+  margin-bottom: 8px;
+}
+
+.card-body {
+  padding: 4px 0;
+  vertical-align: middle;
+}
+
+.card {
+  width: 60%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+  float: left;
+}
+
+.eventdescription {
+  font-weight: bold;
+}
+
+h3,
+h5 {
+  text-transform: uppercase;
+}
+
+#moreinfo {
+  width: 100%;
+}
+
+@media screen and (max-width: 650px) {
+  .card {
+    font-size: 3vw;
+    width: 90% !important;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+    margin-bottom: 1%;
+    margin-top: 1%;
+  }
+  .datemonth {
+    font-size: 5vw;
+  }
+  .datenumber {
+    font-size: 8vw;
+  }
+
+  .eventlistp {
+    margin-bottom: 8px;
+  }
+
+  #date {
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 40%;
+  }
+  #eventinfo {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    line-height: 4vw;
+  }
+  h3 {
+    font-size: 3vw;
+  }
+  h5 {
+    font-size: 3vw;
+  }
+}
+
+@media screen and (max-width: 1010px) {
+  #date {
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 40%;
+  }
+  #eventinfo {
+    -ms-flex: 0 0 66.666667%;
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    line-height: 4vw;
+  }
+
+  .card {
+    width: 90% !important;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    font-size: 3vw;
+  }
+}

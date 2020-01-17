@@ -1,47 +1,55 @@
 {
-  "name": "Server",
+  "name": "server",
   "version": "1.0.0",
+  "description": "Server code for application Harmoni",
+  "main": "src/server.js",
+  "directories": {
+    "test": "tests"
+  },
   "jest": {
-    "testRegex": "./dao/Test/.+test\\.js$",
-    "testURL": "http://localhost"
-  },
-  "dependencies": {
-    "axios": "^0.19.0",
-    "babel-node": "0.0.1-security",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.3.1",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "flow": "^0.2.3",
-    "flow-typed": "^2.6.2",
-    "fs": "0.0.1-security",
-    "jquery": "^3.4.1",
-    "mysql": "^2.17.1",
-    "query": "^0.2.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/node": "^7.6.3",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/preset-flow": "^7.7.4",
-    "@babel/preset-react": "^7.7.4",
-    "babel-jest": "^24.9.0",
-    "flow-bin": "^0.112.0",
-    "jest": "^24.9.0",
-    "nodemon": "^1.19.4",
-    "reload": "^3.0.2"
+    "verbose": true,
+    "coverageReporters": [
+      "json",
+      "html"
+    ]
   },
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
-    "start-client": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest",
-    "flow": "flow check"
+    "start": "nodemon --exec babel-node src/server.js",
+    "test": "jest --detectOpenHandles --forceExit --passWithNoTests"
   },
-  "moduleDirectories": [
-    "node_modules",
-    "dao"
-  ]
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-flow": "^7.7.4",
+    "babel-node": "0.0.1-security",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jest": "^24.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.17.1",
+    "nodemailer": "^6.4.2",
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^4.0.7",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
 }
