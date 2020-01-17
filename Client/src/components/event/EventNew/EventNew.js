@@ -5,6 +5,7 @@ import './stylesheet.css';
 import { Event } from '../../../services/modelService';
 import TimeField from 'react-simple-timefield';
 import { OrganiserService } from '../../../services/organiserService.js';
+import Switch from '@material-ui/core/Switch';
 
 type Props = {};
 class EventNew extends Component<Props> {
@@ -107,6 +108,14 @@ class EventNew extends Component<Props> {
                   (this.state.event.status = event.target.value)
                 }
               ></textarea>
+              {/* her lager olava switch for public
+              <Switch
+              edge=""
+              onChange={handleToggle}
+              checked={}
+              >
+
+              </Switch>*/}
             </div>
           </div>
           <div>
