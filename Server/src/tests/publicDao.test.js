@@ -13,11 +13,11 @@ import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 const publicDao = require('../../dao/publicDao.js');
 let dao = new publicDao('mysql', 'root', 'secret', 'supertestdb');
-var pool = mysql.createPool();
+const runsqlfile = require('./runSQL.js');
 
 beforeAll(done => {
-  runsqlfile('./testTables.sql', dao.getPool(), () => {
-    runsqlfile('./testData.sql', done);
+  runsqlfile('src/tests/testTables.sql', dao.getPool(), () => {
+    runsqlfile('src/tests/testData.sql', dao.getPool(), done);
   });
 });
 
