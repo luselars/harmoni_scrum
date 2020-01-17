@@ -12,10 +12,10 @@ event.event_id = 2;
 
 // @flow
 import mysql from 'mysql';
-import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
+import { Event, User, Location, Organiser, TicketType } from '../../dao/modelDao.js';
 const organiserDao = require('../../dao/organiserDao.js');
-const runsqlfile = require('./runSQL.js');
-let dao = new organiserDao('mysql', 'root', 'secret', 'supertestdb');
+const runsqlfile = require('./runsqlfile.js');
+let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
 
 let event = new Event();
 event.name = 'Mcpearsons nye organfest';
@@ -40,7 +40,16 @@ describe('', () => {
       expect(data.length).toBe(0);
       done();
     }
-    dao.getEvent(4, callback);
+    dao.getEvent(4, 1, callback);
+  });
+
+  // Find an event by ID (needs to be administered by email)
+  it("Find event that isn't connected to right organiser", done => {
+    function callback(status, data) {
+      expect(data.length).toBe(0);
+      done();
+    }
+    dao.getEvent(2, 1, callback);
   });
 
   // Creates a new event
@@ -67,7 +76,7 @@ describe('', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getEvent(4, callback);
+    dao.getEvent(1, 1, callback);
   });
 
   // Updates an event
@@ -80,7 +89,7 @@ describe('', () => {
     let event = new Event();
     event.is_public = 1;
     event.event_id = 1;
-    dao.editEvent(event, callback);
+    dao.editEvent(event, 1, callback);
   });
 
   // Deletes an event
@@ -90,7 +99,7 @@ describe('', () => {
       expect(data.affectedRows).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.deleteEvent(12, callback);
+    dao.deleteEvent(2, callback);
   });
 
   // Finds a tickettype
@@ -100,7 +109,7 @@ describe('', () => {
       expect(data.length).toBe(2);
       done();
     }
-    dao.getEventTickets(1, callback);
+    dao.getEventTickets(3, callback);
   });
 
   // Finds an artist
@@ -110,6 +119,197 @@ describe('', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getArtist('test@test.com', callback);
+    dao.getArtist(1, callback);
+  });
+
+  // Get organiser profile information
+  it('Get profile info of organiser', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getProfile(1, callback);
+  });
+
+  // Get organiser profile information
+  it('Get profile info of organiser', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    let organiser: Organiser = new Organiser('asshole@asshole.com', 'Sorte Bill');
+    dao.editProfile(1, organiser, callback);
+  });
+
+  // Get organiser profile information
+  it('Add artist to an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.addArtistToEvent(1, 3, callback);
+  });
+
+  // Get organiser profile information
+  it('Add artist to an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.putEventArtist(1, 3, 'soo', 'ass', true, callback);
+  });
+
+  // Get all location
+  it('Get all locations', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.getLocation(callback);
+  });
+
+  // Get all location
+  it('Get all locations', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getSingleLocation('adresse', callback);
+  });
+
+  // Add a location
+  it('Add location', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    let location: Location = new Location('ru', 4029, 'rururu');
+    dao.postLocation(location, callback);
+  });
+
+  // Get a volunteer group
+  it('Get a volunteer group', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.getGroup(1, callback);
+  });
+
+  // Get Artist on a single event
+  it('Get Artist on a single event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.getEventArtist(1, callback);
+  });
+
+  // Get a user's id sending in the email
+  it('Get Artist on a single event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.getUserId('testuser@testemail.com', callback);
+  });
+
+  // Check if a user is an artist
+  it('Check if a user is an artist', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.getArtistId(1, callback);
+  });
+
+  //Create a dummy user
+  it('Create a dummy user to add an artist to an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.postUser('snelle@snell.snell', callback);
+  });
+  //Create a dummy artist
+  it('Create a dummy artist to add an artist to an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.postArtist(2, callback);
+  });
+
+  //Adds the organiser to an event as an event organiser
+  it('Adds the organiser to an event as an event organiser', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    dao.postEventOrganiser(3, 1, callback);
+  });
+
+  it('Get the riders on an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getRiders(1, callback);
+  });
+
+  it('Get the volunteers on an event', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getVolunteersByEvent(1, callback);
+  });
+
+  // Editing a single ticket type.
+  it('Edit a single ticket type', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBeGreaterThanOrEqual(1);
+      done();
+    }
+    let type: TicketType = new TicketType('Yolo billett (bli skutt hardt med vanngevær)');
+    type.ticket_type_id = 1;
+    dao.editTicketType(type, 1, callback);
+  });
+
+  // Gets a ticket type
+  it('Get a tickettype', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getTicketType(1, 1, callback);
+  });
+
+  // Gets all events of logged in account
+  it('Get events associated with an organiser', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getMyEvents(1, callback);
   });
 });
