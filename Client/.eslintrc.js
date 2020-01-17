@@ -25,7 +25,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'flowtype', 'react-hooks', 'prettier', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'prettier', 'jsx-a11y'],
   rules: {
     'react/jsx-wrap-multilines': [
       2,
