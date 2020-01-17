@@ -51,14 +51,10 @@ class ProfileEdit extends Component<{}, State> {
         <div className="card-body m-5">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
           <img
-            className="img-rounded w-25"
+            className="circle-img w-25"
             id="picture"
             alt="Profilbilde"
-            src={
-              'http://localhost:4000/public/file/' + this.state.image == undefined
-                ? 'profile.png'
-                : this.state.image
-            }
+            src={'http://localhost:4000/public/file/' + this.state.image}
           />
           <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
@@ -243,6 +239,7 @@ class ProfileEdit extends Component<{}, State> {
     let value: string = e.target.value;
     this.setState({ [name]: value });
     console.log(this.state.organiser_email);
+    console.log(this.state.image);
   }
   onChangeAddress(e: any) {
     let name: string = e.target.name;
