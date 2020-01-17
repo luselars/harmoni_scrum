@@ -18,7 +18,52 @@ export default class Menu extends Component<{}, { status: boolean }> {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="deep-purple  teal darken-2">
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo center">
+            Harmoni
+          </a>
+          <ul class="left hide-on-med-and-down">
+            <li>
+              <a href="/">
+                <i class="fas fa-home"></i>
+              </a>
+            </li>
+          </ul>
+          {this.state.status ? (
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <a href="/login">
+                  <i class="fas fa-user"></i>
+                </a>
+              </li>
+            </ul>
+          ) : (
+            <ul class="right hide-on-med-and-down">
+              <li>
+                <a href="/profile">
+                  <i class="far fa-address-card"></i>
+                </a>
+              </li>
+              <li>
+                <a onClick={() => this.logOut()}>
+                  <i class="fas fa-user-alt-slash"></i>
+                </a>
+              </li>
+            </ul>
+          )}
+        </div>
+      </nav>
+    );
+  }
+  logOut() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+}
+
+/*
+<nav className="navbar navbar-dark bg-dark">
         <a className="navbar-brand text-light" id="title" href="/">
           HARMONI
         </a>
@@ -61,10 +106,4 @@ export default class Menu extends Component<{}, { status: boolean }> {
           </form>
         )}
       </nav>
-    );
-  }
-  logOut() {
-    localStorage.removeItem('token');
-    window.location.href = '/';
-  }
-}
+      */

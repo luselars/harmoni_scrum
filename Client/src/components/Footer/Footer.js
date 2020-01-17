@@ -4,26 +4,48 @@ import * as React from 'react';
 
 function Footer() {
   return (
-    <footer
-      id="footer"
-      className="page-footer footerHeight font-small mdb-color bg-dark pt-4 text-light"
-    >
-      <div className="container text-center text-md-left">
-        <div className="row d-flex align-items-center">
-          <div className="col-md-8 col-lg-8">
-            <h6 className="text-uppercase mb-4 font-weight-bold ">Kontakt</h6>
-            <p>Telefon: +47 123 45 678</p>
-            <p>E-mail: kontakt@harmoni.no</p>
+    <footer class="page-footer teal darken-4">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Footer Content</h5>
+            <p class="grey-text text-lighten-4">
+              You can use rows and columns here to organize your footer content.
+            </p>
           </div>
-          <div className="col-md-3 col-lg-4 ml-lg-0">
-            <div className="text-center text-md-right">
-              <ul className="list-unstyled list-inline">
-                <li className="list-inline-item">
-                  <button className="btn btn-success bg-green">Klageknapp</button>
-                </li>
-              </ul>
-            </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li>
+                <a class="grey-text text-lighten-3" href="#!">
+                  Link 1
+                </a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="#!">
+                  Link 2
+                </a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="#!">
+                  Link 3
+                </a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="#!">
+                  Link 4
+                </a>
+              </li>
+            </ul>
           </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2014 Copyright Text
+          <a class="grey-text text-lighten-4 right" href="#!">
+            More Links
+          </a>
         </div>
       </div>
     </footer>
