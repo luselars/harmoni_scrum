@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS `volunteer_type`;
 DROP TABLE IF EXISTS `ticket_type`;
 DROP TABLE IF EXISTS `organiser`;
 
+
 CREATE TABLE IF NOT EXISTS `user`(
   `user_id` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NULL DEFAULT NULL,
