@@ -4,6 +4,7 @@ import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
+let bcrypt = require('bcryptjs');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
 
@@ -325,6 +326,11 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
+  if (req.body.password != null) {
+    req.body.salt = bcrypt.genSaltSync(10);
+    req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
+    req.body.password = null;
+  }
   dao.editProfile(req.uid, req.body, (status, data) => {
     res.status(status);
     res.send(data);

@@ -32,8 +32,16 @@ module.exports = class OrganiserDao extends Dao {
     organiser: Organiser,
     callback: (status: string, data: Object) => mixed,
   ) {
+    var password = '';
+
+    if (organiser.hash != null) {
+      password = ", hash = '" + organiser.hash + "', salt = '" + organiser.salt + "'";
+    }
+
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_id = ?';
+      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
+      password +
+      ' WHERE organiser_id = ?';
     super.query(
       queryString,
       [
@@ -127,7 +135,7 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
-
+  // Gets the id of the user from token
   getMyId(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
     super.query(queryString, [email], callback);
@@ -154,10 +162,9 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   // Get all groups based on an organiser id.
-  getGroup(email: string, callback: (status: string, data: Object) => mixed) {
-    let queryString =
-      'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_email = ?';
-    super.query(queryString, [email], callback);
+  getGroup(organiser_id: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_id = ?';
+    super.query(queryString, [organiser_id], callback);
   }
 
   // Get all ticket types based on an event id.
@@ -169,7 +176,7 @@ module.exports = class OrganiserDao extends Dao {
 
   getArtist(event_id: string, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = 129';
+      'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
 
@@ -260,12 +267,12 @@ module.exports = class OrganiserDao extends Dao {
 
   editTicketType(
     ticketType: TicketType,
-    email: string,
+    id: number,
     callback: (status: string, data: TicketType) => mixed,
   ) {
     super.query(
-      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_email = ?;',
-      [ticketType.name, ticketType.description, ticketType.ticket_type_id, email],
+      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_id = ?;',
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id, id],
       callback,
     );
   }

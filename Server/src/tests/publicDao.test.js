@@ -12,8 +12,8 @@ event.event_id = 2;
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql', 'root', 'secret', 'supertestdb');
-const runsqlfile = require('./runSQL.js');
+let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+const runsqlfile = require('./runsqlfile.js');
 
 beforeAll(done => {
   runsqlfile('src/tests/testTables.sql', dao.getPool(), () => {
