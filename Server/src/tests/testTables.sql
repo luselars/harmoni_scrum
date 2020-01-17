@@ -1,3 +1,17 @@
+DROP TABLE IF EXISTS `schedule`;
+DROP TABLE IF EXISTS `rider`;
+DROP TABLE IF EXISTS `misc_file`;
+DROP TABLE IF EXISTS `event_artist`;
+DROP TABLE IF EXISTS `event_ticket`;
+DROP TABLE IF EXISTS `event_organiser`;
+DROP TABLE IF EXISTS `event_volunteer`;
+DROP TABLE IF EXISTS `event`;
+DROP TABLE IF EXISTS `location`;
+DROP TABLE IF EXISTS `artist`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `volunteer_type`;
+DROP TABLE IF EXISTS `ticket_type`;
+DROP TABLE IF EXISTS `organiser`;
 
 CREATE TABLE IF NOT EXISTS `user`(
   `user_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -33,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `location`(
   `postcode` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`location_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = latin1;
 
 CREATE TABLE IF NOT EXISTS `event`(
