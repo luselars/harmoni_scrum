@@ -196,9 +196,9 @@ class EventNew3 extends Component<Props, State> {
     l.address = addr;
     l.postcode = postcode;
     OrganiserService.postLocation(l).then(resp => {
-      console.log(resp);
+      console.log(resp.data);
       if (resp.status === 200) {
-        this.state.event.location_id = resp.data[0].location_id;
+        this.state.event.location_id = resp.data.location_id;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);
