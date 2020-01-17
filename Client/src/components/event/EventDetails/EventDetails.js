@@ -34,7 +34,7 @@ export default class EventDetails extends Component<Props, State> {
             alt="Eventbilde"
           ></img>
         </div>
-        <p id="EventDetailsText">{this.state.event.name}</p>
+        <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
         <div id="EventDetailsTable">
           <table className="table table-borderless">
             <tbody>
@@ -44,14 +44,13 @@ export default class EventDetails extends Component<Props, State> {
                 </th>
                 <td className="text-left" id="textleft">
                   {this.state.event.start
-                    ? 'kl ' +
-                      this.state.event.start.slice(11, 16) +
-                      ' den ' +
-                      this.state.event.start.slice(8, 10) +
+                    ? this.state.event.start.slice(8, 10) +
                       '/' +
                       this.state.event.start.slice(5, 7) +
                       '/' +
-                      this.state.event.start.slice(0, 4)
+                      this.state.event.start.slice(0, 4) +
+                      ' - ' +
+                      this.state.event.start.slice(11, 16)
                     : 'Laster'}
                 </td>
               </tr>

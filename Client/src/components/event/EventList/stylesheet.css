@@ -4,8 +4,12 @@
 }
 
 .datenumber {
-  font-size: 50px;
+  font-size: 3vw;
   margin-bottom: -5px;
+}
+
+.datemonth {
+  font-size: 1.8vw;
 }
 
 .eventtitle {

@@ -63,7 +63,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               class="img-fluid"
               alt="Eventbilde"
             ></img>
-            <p class="text display-4">{this.state.event.name}</p>
+            <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
 
             <table class="table table-borderless">
               <tbody>
