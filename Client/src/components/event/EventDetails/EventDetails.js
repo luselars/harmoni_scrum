@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Event } from '../../../services/modelService';
+import { Event, Artist } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
@@ -13,6 +13,7 @@ type Props = {
 
 type State = {
   event: Event,
+  artist: Artist,
 };
 
 export default class EventDetails extends Component<Props, State> {
@@ -20,59 +21,71 @@ export default class EventDetails extends Component<Props, State> {
     super(props);
     this.state = {
       event: new Event(),
+      artist: new Artist(),
     };
   }
   render() {
     return (
-      <div class="card" id="carddetailsevent">
-        <div class="imgdiv">
+      <div className="card" id="carddetailsevent">
+        <div className="imgdiv">
           <img
             src={'http://localhost:4000/public/file/' + this.state.event.image}
-            class="img-fluid"
+            className="img-fluid"
             alt="Eventbilde"
           ></img>
         </div>
         <p id="EventDetailsText">{this.state.event.name}</p>
         <div id="EventDetailsTable">
-          <table class="table table-borderless">
+          <table className="table table-borderless">
             <tbody>
               <tr>
-                <th class="text-right" id="textright" scope="row">
-                  Dato:
+                <th className="text-right" id="textright" scope="row">
+                  Tid:
                 </th>
-                <td class="text-left" id="textleft">
-                  {this.state.event.start}
+                <td className="text-left" id="textleft">
+                  {this.state.event.start
+                    ? 'kl ' +
+                      this.state.event.start.slice(11, 16) +
+                      ' den ' +
+                      this.state.event.start.slice(8, 10) +
+                      '/' +
+                      this.state.event.start.slice(5, 7) +
+                      '/' +
+                      this.state.event.start.slice(0, 4)
+                    : 'Laster'}
                 </td>
               </tr>
               <tr>
-                <th class="text-right" id="textright" scope="row">
+                <th className="text-right" id="textright" scope="row">
                   Sted:
                 </th>
-                <td class="text-left" id="textleft">
+                <td className="text-left" id="textleft">
                   {this.state.event.location_name}, {this.state.event.venue}
                 </td>
               </tr>
               <tr>
-                <th class="text-right" id="textright" scope="row">
+                <th className="text-right" id="textright" scope="row">
                   Lineup:
                 </th>
-                <td class="text-left" id="textleft">
-                  JB
-                </td>
+                {this.state.artist.map(artist => (
+                  <td className="text-left" id="textleft">
+                    {artist.name}
+                  </td>
+                ))}
               </tr>
               <tr>
-                <th class="text-right" id="textright" scope="row">
+                <th className="text-right" id="textright" scope="row">
                   Pris:
                 </th>
-                <td class="text-left" id="textleft">
+                <td className="text-left" id="textleft">
                   KOMMER SENERE
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div class="btndivevent">
-          <button class="btn btn-success bg-green"> KJØP BILLETT </button>
+        <div className="btndivevent">
+          <button className="btn btn-success bg-green"> KJØP BILLETT </button>
         </div>
       </div>
     );
@@ -87,6 +100,12 @@ export default class EventDetails extends Component<Props, State> {
         this.setState({ event: event });
       })
       .catch(error => console.error(error));
+
+    PublicService.getPublicArtist(this.state.event.event_id).then(res => {
+      let artist: any = res.data;
+      console.log(artist);
+      this.setState({ artist: artist });
+    });
     console.log(this.state.event);
   }
 }
