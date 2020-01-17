@@ -39,13 +39,14 @@ module.exports = class OrganiserDao extends Dao {
     }
 
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
+      'UPDATE organiser SET name = ?, organiser_email= ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
       password +
       ' WHERE organiser_id = ?';
     super.query(
       queryString,
       [
         organiser.name,
+        organiser.organiser_email,
         organiser.image,
         organiser.description,
         organiser.tlf,

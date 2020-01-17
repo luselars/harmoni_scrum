@@ -38,56 +38,58 @@ export default class EventList extends Component<Props, State> {
   render() {
     return (
       <div>
-        {this.state.events.map((event, index) =>
-          index >= this.state.offset && index - this.state.offset < 7 ? (
-            <div className="card">
-              <div className="card-body bg-light">
-                <div className="container bg-light">
-                  <div className="row justify-content-md-center align-items-center">
-                    <div id="date" className="col-2 text-center">
-                      <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                      <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
-                    </div>
-                    <div id="eventinfo" className="col-8">
-                      <h5 class="eventtitle">{event.name}</h5>
-                      <p className="eventlistp">
-                        <a className="eventdescription">Sted: </a>
-                        {event.venue}
-                      </p>
-                      <p className="eventlistp">
-                        <a className="eventdescription">Tid: </a>
-                        {event.start.slice(11, 16)}
-                      </p>
-                    </div>
-                    <div id="eventbtn" className="col text-right">
-                      {this.state.status ? (
-                        <button
-                          className="btn btn-success bg-green"
-                          id="moreinfo"
-                          onClick={() => (window.location.href = '/event/' + event.event_id)}
-                        >
-                          {' '}
-                          Mer info
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-success bg-green"
-                          id="moreinfo"
-                          onClick={() => (window.location.href = '/orgevent/' + event.event_id)}
-                        >
-                          {' '}
-                          Mer info
-                        </button>
-                      )}
+        <div>
+          {this.state.events.map((event, index) =>
+            index >= this.state.offset && index - this.state.offset < 7 ? (
+              <div className="card float-right">
+                <div className="card-body bg-light">
+                  <div className="container bg-light">
+                    <div className="row justify-content-md-center align-items-center">
+                      <div id="date" className="col-2 text-center">
+                        <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
+                        <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                      </div>
+                      <div id="eventinfo" className="col-8">
+                        <h5 class="eventtitle">{event.name}</h5>
+                        <p className="eventlistp">
+                          <a className="eventdescription">Sted: </a>
+                          {event.venue}
+                        </p>
+                        <p className="eventlistp">
+                          <a className="eventdescription">Tid: </a>
+                          {event.start.slice(11, 16)}
+                        </p>
+                      </div>
+                      <div id="eventbtn" className="col text-right">
+                        {this.state.status ? (
+                          <button
+                            className="btn btn-success bg-green"
+                            id="moreinfo"
+                            onClick={() => (window.location.href = '/event/' + event.event_id)}
+                          >
+                            {' '}
+                            Mer info
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-success bg-green"
+                            id="moreinfo"
+                            onClick={() => (window.location.href = '/orgevent/' + event.event_id)}
+                          >
+                            {' '}
+                            Mer info
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            ''
-          ),
-        )}
+            ) : (
+              ''
+            ),
+          )}
+        </div>
         <div>
           <ReactPaginate
             previousLabel={'previous'}
