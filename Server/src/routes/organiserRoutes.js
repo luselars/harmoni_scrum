@@ -331,7 +331,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.image != null) {
+  if (req.body.imageUrl != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editProfile(req.uid, req.body, (status, data) => {

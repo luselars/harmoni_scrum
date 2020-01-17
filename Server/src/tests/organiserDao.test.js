@@ -33,7 +33,7 @@ beforeAll(done => {
   });
 });
 
-describe('', () => {
+describe('Testing all relevant parts of organiserDAO', () => {
   // Find an event by ID (needs to be administered by email)
   it("Find event that doesn't exist", done => {
     function callback(status, data) {

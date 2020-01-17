@@ -47,7 +47,7 @@ class ProfileEdit extends Component<{}, State> {
 
   render() {
     return (
-      <div className="card" id="editProfile">
+      <form onSubmit={e => this.post(e)} className="card" id="editProfile">
         <div className="card-body m-5">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
           <img
@@ -77,6 +77,7 @@ class ProfileEdit extends Component<{}, State> {
               onChange={e => this.onChange(e)}
               defaultValue={this.state.name}
               id="nameInput"
+              required
             ></input>
           </div>
           <div className="form-group" id="phone">
@@ -93,12 +94,13 @@ class ProfileEdit extends Component<{}, State> {
           <div className="form-group" id="email">
             <label for="emailInput">Epost: </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
               name="organiser_email"
               onChange={e => this.onChange(e)}
               defaultValue={this.state.organiser_email}
               id="emailInput"
+              required
             ></input>
           </div>
           <div className="form-group" id="password">
@@ -196,12 +198,9 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <button class="btn btn-success bg-green" onClick={() => this.post()}>
-            {' '}
-            LAGRE{' '}
-          </button>
+          <input type="submit" class="btn btn-success bg-green" value="Endre"></input>
         </div>
-      </div>
+      </form>
     );
   }
   componentDidMount() {
@@ -283,7 +282,7 @@ class ProfileEdit extends Component<{}, State> {
           reader.addEventListener(
             'load',
             function() {
-              state2.image = reader.result;
+              state2.imageUrl = reader.result;
               alert('hei');
               if (changePassword) state2.password = state2.newPassword;
               OrganiserService.editOrganiser(state2).then(response => {
@@ -305,7 +304,6 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   editPost(state: Object, changePassword: boolean) {
-    alert(state.organiser_email);
     console.log(state.image);
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
@@ -314,6 +312,7 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   post(event: any) {
+    event.preventDefault();
     console.log(mail);
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
