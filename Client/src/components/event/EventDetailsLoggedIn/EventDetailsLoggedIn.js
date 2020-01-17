@@ -33,8 +33,12 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         console.log(res);
       })
       .catch(error => {
-        alert(error.status);
-        window.location = '/404';
+        if (error == 'Error: Request failed with status code 404') {
+          window.location = '/404';
+        } else {
+          alert(error);
+          window.location = '/404';
+        }
       });
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
