@@ -4,6 +4,13 @@ import { Event, User, Location, Organiser, TicketType } from './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class OrganiserDao extends Dao {
+  constructor(host: string, user: string, password: string, database: string) {
+    super(host, user, password, database);
+  }
+
+  getPool() {
+    return super.getPool();
+  }
   getEvent(
     event_id: number,
     organiser_id: number,

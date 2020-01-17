@@ -14,7 +14,7 @@ event.event_id = 2;
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 const organiserDao = require('../../dao/organiserDao.js');
-let dao = new organiserDao();
+let dao = new organiserDao('mysql', 'root', 'secret', 'supertestdb');
 
 let event = new Event();
 event.name = 'Mcpearsons nye organfest';
@@ -25,6 +25,12 @@ event.status = 'ready to party';
 event.is_public = 1;
 event.venue = 'Koselig plass';
 event.location_id = 1;
+
+beforeAll(done => {
+  runsqlfile('./testTables.sql', dao.getPool(), () => {
+    runsqlfile('./testData.sql', done);
+  });
+});
 
 describe('', () => {
   // Find an event by ID (needs to be administered by email)

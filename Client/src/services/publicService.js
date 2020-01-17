@@ -31,6 +31,11 @@ export class PublicService {
     return axios.get(url, {});
   }
 
+  static getPublicArtist(id: number): AxiosPromise<Event> {
+    let url = url_base + '/event/' + id + '/artist';
+    return axios.get(url, {});
+  }
+
   static registerNewUser(state: Object): AxiosPromise<Object> {
     let url = url_base + '/register';
     return axios.post(url, state);
