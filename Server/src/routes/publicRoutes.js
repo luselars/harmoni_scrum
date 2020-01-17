@@ -167,4 +167,12 @@ router.post('/register', (req: express$Request, res: express$Response) => {
   }
 });
 
+// Check if email is in DB
+router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
+  dao.emailExists(req.params.email, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 module.exports = router;

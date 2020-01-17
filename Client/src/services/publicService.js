@@ -11,6 +11,10 @@ export class PublicService {
     return axios.post(url_base + '/login', { username: email, password: password });
   }
 
+  static checkEmail(email: string) {
+    return axios.get(url_base + '/checkEmail/' + email);
+  }
+
   // Login as organiser.
   static async loginOrganiser(username: string, password: string) {
     return axios.post(
