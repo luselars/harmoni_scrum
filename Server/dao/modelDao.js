@@ -53,6 +53,7 @@ export class User {
   tlf: string;
   image: string;
   description: string;
+  user_id: number;
 }
 
 // Object for sending Artist

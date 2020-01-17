@@ -54,135 +54,177 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   }
   render() {
     return (
-      <div class="card" id="carddetailsevent">
-        <div id="loginBox">
-          <div id="EventDetailsLITable">
+      <div>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        ></link>
+        <div id="myModal" class="modal">
+          <div className="modal-content">
+            <span className="close">&times;</span>
+            <div className="modalbody">
+              <p className="border-bottom">Vil du slette arrangementet?</p>
+              <button className="btn btn-success modalbtn" id="cancel">
+                Avbryt
+              </button>
+              <button className="btn btn-secondary modalbtn" onClick={() => this.delete()}>
+                Slett
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="card" id="carddetailsevent">
+          <div id="loginBox">
             <img
               id="EventPicLI"
               src={'http://localhost:4000/public/file/' + this.state.event.image}
-              class="img-fluid"
+              className="img-fluid"
               alt="Eventbilde"
             ></img>
-            <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
-
-            <table class="table table-borderless">
-              <tbody>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Dato:
-                  </th>
-                  <td class="text-left">
-                    {this.state.event.start
-                      ? this.state.event.start.slice(8, 10) +
-                        '/' +
-                        this.state.event.start.slice(5, 7) +
-                        '/' +
-                        this.state.event.start.slice(0, 4) +
-                        ' - ' +
-                        this.state.event.start.slice(11, 16)
-                      : 'Laster'}
-                  </td>
-                  <td class="text-left">
-                    {this.state.event.end
-                      ? this.state.event.end.slice(8, 10) +
-                        '/' +
-                        this.state.event.end.slice(5, 7) +
-                        '/' +
-                        this.state.event.end.slice(0, 4) +
-                        ' - ' +
-                        this.state.event.end.slice(11, 16)
-                      : 'Laster'}
-                  </td>
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Sted:
-                  </th>
-                  <td class="text-left">{this.state.event.venue}</td>
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Adresse:
-                  </th>
-                  <td class="text-left">{this.state.event.address}</td>
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Lineup:
-                  </th>
-                  {this.state.artists.length === null ? (
-                    <td className="text-left">Ingen artister lagt til</td>
-                  ) : (
-                    this.state.artists.map(artist => (
-                      <div>
-                        {artist.artist_name === null ? (
-                          <td className="text-left">Ukjent artist</td>
-                        ) : (
-                          <td className="text-left">{artist.artist_name}</td>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Kontrakt(er):
-                  </th>
-                  {this.state.artists.map(artist => (
-                    <div>
-                      {artist.contract === null ? null : (
-                        <td>
+            <div id="EventDetailsLITable">
+              <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
+              <table className="table table-borderless">
+                <tbody>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Dato:
+                    </th>
+                    <td class="text-left">
+                      {this.state.event.start
+                        ? this.state.event.start.slice(8, 10) +
+                          '/' +
+                          this.state.event.start.slice(5, 7) +
+                          '/' +
+                          this.state.event.start.slice(0, 4) +
+                          ' - ' +
+                          this.state.event.start.slice(11, 16)
+                        : 'Laster'}
+                    </td>
+                    <td class="text-left">
+                      {this.state.event.end
+                        ? this.state.event.end.slice(8, 10) +
+                          '/' +
+                          this.state.event.end.slice(5, 7) +
+                          '/' +
+                          this.state.event.end.slice(0, 4) +
+                          ' - ' +
+                          this.state.event.end.slice(11, 16)
+                        : 'Laster'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Sted:
+                    </th>
+                    <td class="text-left">{this.state.event.venue}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Adresse:
+                    </th>
+                    <td class="text-left">{this.state.event.address}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Lineup:
+                    </th>
+                    {this.state.artists.length === null ? (
+                      <td className="text-left">Ingen artister lagt til</td>
+                    ) : (
+                      this.state.artists.map(artist => (
+                        <div>
                           {artist.artist_name === null ? (
                             <td className="text-left">Ukjent artist</td>
                           ) : (
                             <td className="text-left">{artist.artist_name}</td>
                           )}
-                          <DownloadFile fileName={artist.contract} />
+                        </div>
+                      ))
+                    )}
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Kontrakt(er):
+                    </th>
+                    {this.state.artists.map(artist => (
+                      <div>
+                        {artist.contract === null ? null : (
+                          <td>
+                            {artist.artist_name === null ? (
+                              <td className="text-left">Ukjent artist</td>
+                            ) : (
+                              <td className="text-left">{artist.artist_name}</td>
+                            )}
+                            <DownloadFile fileName={artist.contract} />
+                          </td>
+                        )}
+                      </div>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Riders:
+                    </th>
+                    {this.state.riders.map(rider => (
+                      <div>
+                        <td className="text-left">{rider.artist_name}</td>
+                        <td className="text-right">
+                          <DownloadFile fileName={rider.rider_file} />
                         </td>
-                      )}
-                    </div>
-                  ))}
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Riders:
-                  </th>
-                  {this.state.riders.map(rider => (
-                    <div>
-                      <td className="text-left">{rider.artist_name}</td>
-                      <td className="text-right">
-                        <DownloadFile fileName={rider.rider_file} />
-                      </td>
-                    </div>
-                  ))}
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Synlig for utenforstående:
-                  </th>
-                  <td class="text-left">Ja</td>
-                </tr>
-                <tr>
-                  <th class="text-right" scope="row">
-                    Status:
-                  </th>
-                  <td class="text-left">Klar til å gjennomføre</td>
-                </tr>
-              </tbody>
-            </table>
-            <button class="btn btn-success bg-green" onClick={() => this.edit()}>
-              {' '}
-              ENDRE ARRANGEMENT{' '}
-            </button>
-            <button class="btn btn-danger bg-green" onClick={() => this.delete()}>
-              {' '}
-              SLETT ARRANGEMENT{' '}
-            </button>
+                      </div>
+                    ))}
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Synlig for utenforstående:
+                    </th>
+                    <td class="text-left">Ja</td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Status:
+                    </th>
+                    <td class="text-left">Klar til å gjennomføre</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <button
+                class="btn btn-success bg-green"
+                id="editeventbtn"
+                onClick={() => this.edit()}
+              >
+                ENDRE ARRANGEMENT
+              </button>
+              <button class="btn" id="deleteeventbtn" onClick={() => this.deletebtn()}>
+                <i class="fa fa-trash" aria-hidden="true"></i>Slett
+              </button>
+            </div>
           </div>
         </div>
       </div>
     );
   }
+  deletebtn() {
+    var btn = document.getElementById('deleteeventbtn');
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName('close')[0];
+    var cancel = document.getElementById('cancel');
+    console.log(cancel);
+    modal.style.display = 'block';
+    span.onclick = function() {
+      modal.style.display = 'none';
+    };
+    cancel.onclick = function() {
+      modal.style.display = 'none';
+    };
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
     window.location = '/newevent';
