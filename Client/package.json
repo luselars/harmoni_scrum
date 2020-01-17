@@ -3,12 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/lab": "^4.0.0-alpha.39",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.1",
+    "bootstrap": "^4.4.1",
+    "flow-react": "^0.1.1",
+    "form-data": "^3.0.0",
+    "material-ui": "^0.20.2",
+    "path": "^0.12.7",
     "react": "^16.12.0",
+    "react-collapse": "^5.0.1",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-dropzone": "^10.2.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "react-select": "^2.0.0-beta.7",
+    "react-simple-timefield": "^3.0.0",
+    "superagent": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,10 +47,20 @@
   },
   "devDependencies": {
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2"
+    "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^4.0.7",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
   },
-  "jest": {
-    "setupFilesAfterEnv": ["jest-enzyme"],
-    "testEnvironment": "enzyme"
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
