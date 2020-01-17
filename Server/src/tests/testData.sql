@@ -1,0 +1,4 @@
+INSERT INTO location (address, name, postcode) VALUES('adresse', 'etsted', 2020);
+INSERT INTO event (name, image, start, end, status, is_public, location_id, venue) VALUES('Test event 1', 'status', '2008-1-29 14:56:59', '2008-10-29 14:56:59', '', 1, 1, 'etsted');
+INSERT INTO event (name, image, start, end, status, is_public, location_id, venue) VALUES('Test event 1', 'status', '2008-1-29 14:56:59', '2008-10-29 14:56:59', '', 1, 1, 'etsted');
+INSERT INTO event (name, image, start, end, status, is_public, location_id, venue) VALUES('Test event 1', 'status', '2008-1-29 14:56:59', '2008-10-29 14:56:59', '', 1, 1, 'etsted');
