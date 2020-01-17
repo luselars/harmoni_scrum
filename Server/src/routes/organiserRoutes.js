@@ -331,10 +331,20 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  dao.editProfile(req.uid, req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+  if (req.body.image != null) {
+    uploadFunctions.handleFile(req.body.image, function(imageUrl) {
+      req.body.image = imageUrl;
+      dao.editProfile(req.uid, req.body, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
+    dao.editProfile(req.uid, req.body, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 //Get all volunteers who are part of an event

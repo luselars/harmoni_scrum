@@ -57,7 +57,9 @@ class EventNew5 extends Component<Props, State> {
               <div>
                 <textarea id={artist.user_id}>{artist.notes}</textarea>
                 <br />
-                <button onClick={() => this.updateNotes(artist)}>Lagre</button>
+                <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
+                  Lagre
+                </button>
               </div>
               <br />
             </div>

@@ -3,6 +3,10 @@
   margin: 0 20%;
 }
 
+#textright {
+  padding-left: 10vw;
+}
+
 #EventDetailsText {
   font-size: 3vw;
   border-bottom-width: 1px;
@@ -35,9 +39,9 @@
 
 #EventDetailsTable {
   text-align: center;
-  margin-left: 20%;
-  width: 50%;
-  margin-right: 20%;
+  margin-left: 10%;
+  width: 80%;
+  margin-right: 10%;
   margin-bottom: 3%;
 }
 

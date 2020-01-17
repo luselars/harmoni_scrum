@@ -9,6 +9,7 @@ module.exports = class Dao {
       user: user, // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
       password: password, // Replace "password" with your mysql-ait.stud.idi.ntnu.no password
       database: database, // Replace "username" with your mysql-ait.stud.idi.ntnu.no username
+      multipleStatements: true,
     });
   }
 
