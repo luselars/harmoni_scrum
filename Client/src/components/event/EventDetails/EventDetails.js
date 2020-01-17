@@ -34,7 +34,9 @@ export default class EventDetails extends Component<Props, State> {
             alt="Eventbilde"
           ></img>
         </div>
-        <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
+        <p className="titleeventdetails display-4 text-uppercase text-center m-4">
+          {this.state.event.name}
+        </p>
         <div id="EventDetailsTable">
           <table className="table table-borderless">
             <tbody>
@@ -78,7 +80,9 @@ export default class EventDetails extends Component<Props, State> {
           </table>
         </div>
         <div className="btndivevent">
-          <button className="btn btn-success bg-green"> KJØP BILLETT </button>
+          <button className="btn btn-success bg-green" onClick={() => (window.location.href = '/')}>
+            Tilbake til forside
+          </button>
         </div>
       </div>
     );
