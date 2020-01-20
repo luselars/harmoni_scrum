@@ -12,13 +12,10 @@ module.exports = class PublicDao extends Dao {
   }
 
   //gets all public events where end date is still in the future
-  getPublicEvents(sortMethod: string, callback) {
-    console.log(typeof sortMethod + ' wtf is sortmethod?');
-    let sort: string = sortMethod;
+  getPublicEvents(callback) {
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE end > CURRENT_TIMESTAMP AND e.is_public IS TRUE ORDER BY ' +
-        sort,
-      sort,
+      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE end > CURRENT_TIMESTAMP AND e.is_public IS TRUE',
+      [],
       callback,
     );
   }
@@ -76,7 +73,6 @@ module.exports = class PublicDao extends Dao {
       );
     }
   }
-
 
   getUserLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
     super.query('Select hash, salt, user_id from user WHERE email = ?', email, callback);

@@ -7,6 +7,7 @@ import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
+import UploadRider from '../../Upload/UploadRider';
 
 class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
@@ -14,6 +15,7 @@ class EventNew5 extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artists: [],
+      riders: [],
     };
   }
   componentDidMount() {
@@ -28,18 +30,24 @@ class EventNew5 extends Component<Props, State> {
           this.setState({ artists: resp.data });
           console.log(this.state.artists);
         });
+        OrganiserService.getRiders(data.event_id).then(resp => {
+          this.setState({ riders: resp.data });
+          console.log(this.state.riders);
+        });
       });
     }
   }
-  updateNotes(artist: Artist) {
-    let notes = document.getElementById(artist.user_id).value;
-    console.log(notes);
-    let temp_art = artist;
-    temp_art.notes = notes;
-    OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
-      console.log(r);
-      window.location.reload();
-    });
+  publishNotes(artist_id: number, notes: string) {
+    for (let i = 0; i < this.state.artists.length; i++) {
+      if (this.state.artists[i].user_id === artist_id) {
+        let temp_art = this.state.artists[i];
+        temp_art.notes = notes;
+        console.log(notes);
+        OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
+          console.log(r);
+        });
+      }
+    }
   }
   render() {
     return (
@@ -55,13 +63,32 @@ class EventNew5 extends Component<Props, State> {
             <div>
               <p>Notes for {artist.email}</p>
               <div>
-                <textarea id={artist.user_id}>{artist.notes}</textarea>
+                <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
+                  {artist.notes}
+                </textarea>
                 <br />
-                <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
-                  Lagre
-                </button>
+                <UploadRider
+                  accept={'.pdf'}
+                  message={'Last opp artist-rider'}
+                  artist_id={artist.user_id}
+                  event_id={this.state.event.event_id}
+                />
               </div>
               <br />
+            </div>
+          ))}
+          {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
+          {this.state.riders.map(rider => (
+            <div>
+              {rider.email}
+              <DownloadFile fileName={rider.rider_file} />
+              <button
+                onClick={() => {
+                  this.deleteRider(rider.rider_id);
+                }}
+              >
+                Slett rider
+              </button>
             </div>
           ))}
         </div>
@@ -76,6 +103,12 @@ class EventNew5 extends Component<Props, State> {
         {/*</form>*/}
       </div>
     );
+  }
+  deleteRider(rider_id: number) {
+    OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
+      console.log(r);
+      window.location.reload();
+    });
   }
   formatTime() {
     if (this.state.event.start !== null) {

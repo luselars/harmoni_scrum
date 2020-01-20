@@ -185,8 +185,6 @@ class EventNew3 extends Component {
     window.location = '/newevent2';
   }
   next() {
-    console.log(this.name.current.value);
-    console.log(this.addr.current.value);
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;
@@ -203,7 +201,20 @@ class EventNew3 extends Component {
     OrganiserService.postLocation(l).then(resp => {
       console.log(resp.data);
       if (resp.status === 200) {
+        alert(
+          'denne lokasjonen finnes og status: ' +
+            resp.status +
+            ' og data er ' +
+            resp.data.location_id,
+        );
         this.state.event.location_id = resp.data.location_id;
+        this.state.event.venue = venue;
+        OrganiserService.updateEvent(this.state.event).then(resp => {
+          console.log(resp);
+          window.location = '/newevent4';
+        });
+      } else if (resp.status === 100) {
+        this.state.event.location_id = resp.data.insertId;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);
