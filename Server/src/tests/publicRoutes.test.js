@@ -19,6 +19,7 @@ beforeAll(done => {
 });
 
 jest.setTimeout(5000);
+
 // Test API-endpoints for /event
 describe('Get events from endpoint', () => {
   it('Should fetch events', done => {
@@ -27,9 +28,25 @@ describe('Get events from endpoint', () => {
       .get('/public/event')
       .set('Accept', 'application/json')
       .end((err, res) => {
-        console.log(res.status);
         expect(res.status).to.equal(200);
         done();
       });
   });
 });
+
+/*
+// Test API-endpoints for /event/:id
+describe('Get specific event from endpoint', () => {
+  it('Should fetch a sepcific event', done => {
+    chai
+      .request(app)
+      .get('/public/event/0')
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(1);
+        done();
+      });
+  });
+});
+*/
