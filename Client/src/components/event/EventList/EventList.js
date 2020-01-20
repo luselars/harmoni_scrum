@@ -36,8 +36,39 @@ export default class EventList extends Component<Props, State> {
   handlePageClick = data => {
     let selected = data.selected;
     let offset = Math.ceil(selected * eventsPerPage);
-
     this.setState({ offset: offset });
+  };
+
+  compareAlphabetically(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  compareChronologically(a, b) {
+    if (a.start < b.start) {
+      return -1;
+    }
+    if (a.start > b.start) {
+      return 1;
+    }
+    return 0;
+  }
+
+  handleFilterChange = sortMethod => {
+    console.log(sortMethod);
+    this.setState({ sortMethod: sortMethod });
+    if (sortMethod == 'alphabetical') {
+      this.state.events.sort(this.compareAlphabetically);
+      this.state.allEvents.sort(this.compareAlphabetically);
+    } else if (sortMethod == 'time') {
+      this.state.events.sort(this.compareChronologically);
+      this.state.allEvents.sort(this.compareChronologically);
+    }
   };
 
   render() {
@@ -59,7 +90,7 @@ export default class EventList extends Component<Props, State> {
             />
           </div>
         </div>
-        <Filter />
+        <Filter handleFilterChange={this.handleFilterChange.bind(this)} />
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
