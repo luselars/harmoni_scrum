@@ -127,7 +127,7 @@ export default class EventList extends Component<Props, State> {
           <div className="card float-right bg-transparent border-0">
             <div className="card-body bg-transparent">
               <div className="row justify-content-md-center align-items-center">
-                <div className="col-8">
+                <div className="col-12">
                   <div className="reactpaginate">
                     <ReactPaginate
                       previousLabel={'Forrige'}

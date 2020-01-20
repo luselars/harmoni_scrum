@@ -12,12 +12,13 @@
   padding-left: 5px;
   padding-right: 5px;
   border: solid;
-  color: #fff;
+  color: #fff !important;
   background-color: #28a745;
   border-color: #28a745;
   margin: 0px 5px 0px 5px;
   font: inherit;
   font-size: 1rem;
+  border-radius: 5px;
 }
 
 .pagination > li:hover {
