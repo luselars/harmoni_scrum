@@ -21,6 +21,7 @@ import ProfileUser from './components/profile/ProfileUser/ProfileUser';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import EventNew5 from './components/event/EventNew/EventNew5';
 import EventNew6 from './components/event/EventNew/EventNew6';
+import Admin from './components/Admin/Admin';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -63,6 +64,7 @@ function App() {
           <Route exact path="/event/:id" component={EventDetails} />
           <Route exact path="/events/:id" component={LoggedIn} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
+          <Route exaxt path="/admin" component={Admin} />
           <Route component={NoMatch} />
         </Switch>
         {/* <LocationDisplay />*/}
