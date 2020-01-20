@@ -283,7 +283,6 @@ class ProfileEdit extends Component<{}, State> {
             'load',
             function() {
               state2.imageUrl = reader.result;
-              alert('hei');
               if (changePassword) state2.password = state2.newPassword;
               OrganiserService.editOrganiser(state2).then(response => {
                 window.location = '/profile';

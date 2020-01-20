@@ -28,7 +28,7 @@ function updateToken(token) {
       res.status(401);
       res.json({ error: 'Not authorized, log in again' });
     } else {
-      console.log('Token ok: ' + decoded.username + ', Assigning new token');
+      //console.log('Token ok: ' + decoded.username + ', Assigning new token');
       let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
         expiresIn: tokenDuration,
       });
@@ -40,8 +40,8 @@ function updateToken(token) {
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
-  console.log('Got a file request');
-  console.log(path.join(__dirname, '../../files/' + req.params.id));
+  //console.log('Got a file request');
+  //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });
 
