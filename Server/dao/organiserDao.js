@@ -171,7 +171,7 @@ module.exports = class OrganiserDao extends Dao {
   // Get all ticket types based on an event id.
   getEventTickets(event_id: number, callback: (status: string, data: Object) => mixed) {
     let queryString =
-      'SELECT et.price, tt.* FROM event_ticket et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?';
+      'SELECT et.price, et.amount, tt.* FROM event_ticket et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
 
