@@ -125,7 +125,7 @@ export default class EventList extends Component<Props, State> {
             ),
           )}
         </div>
-        <div>
+        <div className="reactpaginate">
           <ReactPaginate
             previousLabel={'previous'}
             nextLabel={'next'}
