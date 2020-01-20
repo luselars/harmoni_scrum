@@ -11,7 +11,7 @@ import EventNew from './components/event/EventNew/EventNew';
 import EventDetails from './components/event/EventDetails/EventDetails';
 import EventDetailsLoggedIn from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
 import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
-import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
+import ProfileOrganiser from './components/profile/Profile/Profile';
 import LoggedIn from './views/loggedIn';
 import EventNew2 from './components/event/EventNew/EventNew2';
 import EventNew3 from './components/event/EventNew/EventNew3';
