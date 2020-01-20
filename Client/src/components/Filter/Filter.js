@@ -116,12 +116,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
                 </div>
-
-                <div className="col text-center mt-3">
-                  <button type="submit" className="btn btn-success">
-                    Velg
-                  </button>
-                </div>
               </div>
             </Collapse>
           </form>
