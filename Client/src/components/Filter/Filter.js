@@ -53,8 +53,10 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     <input
                       type="radio"
                       id="sortRadio2"
-                      value="option2"
-                      checked={this.state.sortOption === 'option2'}
+                      value="e.name"
+                      checked={e => {
+                        this.setState({ sortOption: e.value });
+                      }}
                       onChange={e => this.handleChangeSort(e)}
                     ></input>
                     Alfabetisk
@@ -157,7 +159,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
 
   handleSubmit(event) {
     event.preventDefault();
-
     alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
   }
 }
