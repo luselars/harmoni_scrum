@@ -1,5 +1,6 @@
 //@flow
 import express from 'express';
+let bcrypt = require('bcryptjs');
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
@@ -34,4 +35,5 @@ router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
 
 //TODO authorization.
 // only admin should be able to use this
-// add routes /organisers, and /verify/:organiser_id
+
+module.exports = router;
