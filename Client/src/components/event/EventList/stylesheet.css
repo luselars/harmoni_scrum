@@ -67,7 +67,7 @@ h5 {
 }
 
 @media screen and (max-width: 650px) {
-  .card {
+  #card {
     font-size: 3vw;
     width: 90% !important;
     margin-left: 5% !important;
@@ -118,7 +118,7 @@ h5 {
     line-height: 4vw;
   }
 
-  .card {
+  #card {
     width: 90% !important;
     margin-left: 5% !important;
     margin-right: 5% !important;
