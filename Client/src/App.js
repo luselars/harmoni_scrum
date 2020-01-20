@@ -28,8 +28,11 @@ import EventNew6 from './components/event/EventNew/EventNew6';
   /*const Main = () => <h1>Home here</h1>*/
 }
 const NoMatch = () => (
-  <div className="card">
+  <div className="card" id="NotFound">
     <h1>404 Not Found</h1>
+    <p>
+      Oisann.. Siden finnes ikke, eller du har ikke rettighetene som kreves for å gå inn på den.
+    </p>
   </div>
 );
 const LocationDisplay = withRouter(({ location }) => (
