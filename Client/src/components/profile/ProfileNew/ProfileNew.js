@@ -301,8 +301,14 @@ export default class ProfileNew extends Component<
                 state2.image = reader.result;
                 PublicService.registerNewUser(state2)
                   .then(response => {
-                    localStorage.setItem('token', response.data.jwt);
-                    window.location = '/profile';
+                    PublicService.registerNewUser(this.state).then(response => {
+                      PublicService.logIn(this.state.email, this.state.password).then(response => {
+                        console.log(response);
+                        localStorage.setItem('token', response.data.jwt);
+                        localStorage.setItem('userType', response.data.type);
+                        window.location = '/profile';
+                      });
+                    });
                   })
                   .catch(error => {
                     alert(error);
@@ -315,8 +321,14 @@ export default class ProfileNew extends Component<
             } else {
               PublicService.registerNewUser(this.state)
                 .then(response => {
-                  localStorage.setItem('token', response.data.jwt);
-                  window.location = '/profile';
+                  PublicService.registerNewUser(this.state).then(response => {
+                    PublicService.logIn(this.state.email, this.state.password).then(response => {
+                      console.log(response);
+                      localStorage.setItem('token', response.data.jwt);
+                      localStorage.setItem('userType', response.data.type);
+                      window.location = '/profile';
+                    });
+                  });
                 })
                 .catch(error => {
                   alert(error);
@@ -325,8 +337,12 @@ export default class ProfileNew extends Component<
           } else {
             PublicService.registerNewUser(this.state)
               .then(response => {
-                localStorage.setItem('token', response.data.jwt);
-                window.location = '/profile';
+                PublicService.logIn(this.state.email, this.state.password).then(response => {
+                  console.log(response);
+                  localStorage.setItem('token', response.data.jwt);
+                  localStorage.setItem('userType', response.data.type);
+                  window.location = '/profile';
+                });
               })
               .catch(error => {
                 alert(error);

@@ -21,7 +21,7 @@ type State = {
   artist_name: string,
 };
 
-class ProfileEdit extends Component<{}, State> {
+class ProfileEditUser extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -250,4 +250,4 @@ class ProfileEdit extends Component<{}, State> {
   }
 }
 
-export default ProfileEdit;
+export default ProfileEditUser;
