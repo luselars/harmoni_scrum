@@ -53,8 +53,7 @@ router.get('/', (req: express$Request, res: express$Response) => {
 
 // Get all public events sorted by a string
 router.get('/event', (req, res: express$Response) => {
-  console.log(req.query.sortString + '- sortstirng?');
-  dao.getPublicEvents(req.query.sortString, (status, data) => {
+  dao.getPublicEvents((status, data) => {
     res.status(status);
     res.send(data);
   });

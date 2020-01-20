@@ -15,8 +15,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   render() {
-    console.log(this.state.status);
-    console.log(window.screen.availWidth);
     return (
       <div id="filterCard" class="card">
         <div class="card-body bg-light">

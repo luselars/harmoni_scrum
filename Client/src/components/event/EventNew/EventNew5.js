@@ -7,6 +7,7 @@ import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
+import UploadRider from '../../Upload/UploadRider';
 
 class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
@@ -14,6 +15,7 @@ class EventNew5 extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artists: [],
+      riders: [],
     };
   }
   componentDidMount() {
@@ -28,18 +30,24 @@ class EventNew5 extends Component<Props, State> {
           this.setState({ artists: resp.data });
           console.log(this.state.artists);
         });
+        OrganiserService.getRiders(data.event_id).then(resp => {
+          this.setState({ riders: resp.data });
+          console.log(this.state.riders);
+        });
       });
     }
   }
-  updateNotes(artist: Artist) {
-    let notes = document.getElementById(artist.user_id).value;
-    console.log(notes);
-    let temp_art = artist;
-    temp_art.notes = notes;
-    OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
-      console.log(r);
-      window.location.reload();
-    });
+  publishNotes(artist_id: number, notes: string) {
+    for (let i = 0; i < this.state.artists.length; i++) {
+      if (this.state.artists[i].user_id === artist_id) {
+        let temp_art = this.state.artists[i];
+        temp_art.notes = notes;
+        console.log(notes);
+        OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
+          console.log(r);
+        });
+      }
+    }
   }
   render() {
     return (
@@ -48,34 +56,64 @@ class EventNew5 extends Component<Props, State> {
         {/*<form>*/}
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til ridere for artist: </p>
-          <p>Dette kommer, foreløpig er det bare notes.</p>
         </div>
-        <div className="form-group text-center ml-5 mr-5">
-          {this.state.artists.map(artist => (
-            <div>
-              <p>Notes for {artist.email}</p>
+        {this.state.artists.length > 0 ? (
+          <div className="form-group text-center ml-5 mr-5">
+            {this.state.artists.map(artist => (
               <div>
-                <textarea id={artist.user_id}>{artist.notes}</textarea>
+                <p>Notes for {artist.email}</p>
+                <div>
+                  <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
+                    {artist.notes}
+                  </textarea>
+                  <br />
+                  <UploadRider
+                    accept={'.pdf'}
+                    message={'Last opp artist-rider'}
+                    artist_id={artist.user_id}
+                    event_id={this.state.event.event_id}
+                  />
+                </div>
                 <br />
-                <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
-                  Lagre
+              </div>
+            ))}
+            {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
+            {this.state.riders.map(rider => (
+              <div>
+                {rider.email}
+                <DownloadFile fileName={rider.rider_file} />
+                <button
+                  onClick={() => {
+                    this.deleteRider(rider.rider_id);
+                  }}
+                >
+                  Slett rider
                 </button>
               </div>
-              <br />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="form-group text-center ml-5 mr-5">
+            <p>Ingen artiser lagt til.</p>
+          </div>
+        )}
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
           </button>
           <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Fullfør
+            Neste
           </button>
         </div>
         {/*</form>*/}
       </div>
     );
+  }
+  deleteRider(rider_id: number) {
+    OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
+      console.log(r);
+      window.location.reload();
+    });
   }
   formatTime() {
     if (this.state.event.start !== null) {
@@ -93,7 +131,7 @@ class EventNew5 extends Component<Props, State> {
     window.location = '/newevent4';
   }
   next() {
-    window.location = '/profile';
+    window.location = '/newevent6';
   }
 }
 export default EventNew5;
