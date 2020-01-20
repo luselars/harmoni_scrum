@@ -1,4 +1,3 @@
-var mysql = require('mysql');
 var fs = require('fs');
 
 module.exports = function run(filename, pool, done) {

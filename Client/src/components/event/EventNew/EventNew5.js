@@ -56,48 +56,53 @@ class EventNew5 extends Component<Props, State> {
         {/*<form>*/}
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til ridere for artist: </p>
-          <p>Dette kommer, foreløpig er det bare notes.</p>
         </div>
-        <div className="form-group text-center ml-5 mr-5">
-          {this.state.artists.map(artist => (
-            <div>
-              <p>Notes for {artist.email}</p>
+        {this.state.artists.length > 0 ? (
+          <div className="form-group text-center ml-5 mr-5">
+            {this.state.artists.map(artist => (
               <div>
-                <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
-                  {artist.notes}
-                </textarea>
+                <p>Notes for {artist.email}</p>
+                <div>
+                  <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
+                    {artist.notes}
+                  </textarea>
+                  <br />
+                  <UploadRider
+                    accept={'.pdf'}
+                    message={'Last opp artist-rider'}
+                    artist_id={artist.user_id}
+                    event_id={this.state.event.event_id}
+                  />
+                </div>
                 <br />
-                <UploadRider
-                  accept={'.pdf'}
-                  message={'Last opp artist-rider'}
-                  artist_id={artist.user_id}
-                  event_id={this.state.event.event_id}
-                />
               </div>
-              <br />
-            </div>
-          ))}
-          {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
-          {this.state.riders.map(rider => (
-            <div>
-              {rider.email}
-              <DownloadFile fileName={rider.rider_file} />
-              <button
-                onClick={() => {
-                  this.deleteRider(rider.rider_id);
-                }}
-              >
-                Slett rider
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+            {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
+            {this.state.riders.map(rider => (
+              <div>
+                {rider.email}
+                <DownloadFile fileName={rider.rider_file} />
+                <button
+                  onClick={() => {
+                    this.deleteRider(rider.rider_id);
+                  }}
+                >
+                  Slett rider
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="form-group text-center ml-5 mr-5">
+            <p>Ingen artiser lagt til.</p>
+          </div>
+        )}
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
           </button>
           <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Fullfør
+            Neste
           </button>
         </div>
         {/*</form>*/}
@@ -126,7 +131,7 @@ class EventNew5 extends Component<Props, State> {
     window.location = '/newevent4';
   }
   next() {
-    window.location = '/profile';
+    window.location = '/newevent6';
   }
 }
 export default EventNew5;
