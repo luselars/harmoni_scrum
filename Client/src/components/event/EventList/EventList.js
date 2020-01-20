@@ -14,6 +14,7 @@ let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt
 let events: Event[] = [];
 let status: boolean;
 let event_id: number;
+let eventsPerPage = 7;
 
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
@@ -30,7 +31,7 @@ export default class EventList extends Component<Props, State> {
 
   handlePageClick = data => {
     let selected = data.selected;
-    let offset = Math.ceil(selected * 7);
+    let offset = Math.ceil(selected * eventsPerPage);
 
     this.setState({ offset: offset });
   };
@@ -40,7 +41,7 @@ export default class EventList extends Component<Props, State> {
       <div>
         <div>
           {this.state.events.map((event, index) =>
-            index >= this.state.offset && index - this.state.offset < 7 ? (
+            index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
               <div className="card float-right">
                 <div className="card-body bg-light">
                   <div className="container bg-light">
@@ -136,7 +137,7 @@ export default class EventList extends Component<Props, State> {
           console.log(events);
           this.setState({
             events: events.data,
-            pageCount: Math.ceil(events.data.length / 7),
+            pageCount: Math.ceil(events.data.length / eventsPerPage),
           });
         })
         .catch((error: Error) => alert(error.message));
