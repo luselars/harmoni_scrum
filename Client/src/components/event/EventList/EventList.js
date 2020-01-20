@@ -37,8 +37,8 @@ export default class EventList extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <div>
+      <div className="eventlist">
+        <div className="list">
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < 7 ? (
               <div className="card float-right">
@@ -90,7 +90,7 @@ export default class EventList extends Component<Props, State> {
             ),
           )}
         </div>
-        <div>
+        <div className="reactpaginate">
           <ReactPaginate
             previousLabel={'previous'}
             nextLabel={'next'}

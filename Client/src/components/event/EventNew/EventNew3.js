@@ -192,7 +192,7 @@ class EventNew3 extends Component {
     let postcode = document.getElementById('postcode').value;
     let venue = document.getElementById('venue').value;
     if (name.length < 1 || addr.length < 1) {
-      window.location = 'newevent4';
+      alert('DETTE FUNKER IKKE');
       return;
     }
     //post location
@@ -203,9 +203,10 @@ class EventNew3 extends Component {
     OrganiserService.postLocation(l).then(resp => {
       console.log(resp.data);
       if (resp.status === 200) {
-        this.state.event.location_id = resp.data.location_id;
+        this.state.event.location_id = resp.data.insertId;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
+          console.log(this);
           console.log(resp);
           window.location = '/newevent4';
         });
