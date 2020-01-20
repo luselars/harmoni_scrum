@@ -6,6 +6,7 @@ import { Event } from '../../../services/modelService';
 import TimeField from 'react-simple-timefield';
 import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
+import { FormControl, FormControlLabel } from '@material-ui/core';
 
 type Props = {};
 class EventNew extends Component<Props> {
@@ -26,6 +27,7 @@ class EventNew extends Component<Props> {
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
+        document.getElementById('eventispublic').value = this.state.event.is_public;
         this.insertTime();
       });
     }
@@ -108,14 +110,23 @@ class EventNew extends Component<Props> {
                   (this.state.event.status = event.target.value)
                 }
               ></textarea>
-              {/* her lager olava switch for public
-              <Switch
-              edge=""
-              onChange={handleToggle}
-              checked={}
-              >
-
-              </Switch>*/}
+              <div>
+                <FormControlLabel
+                  value="end"
+                  control={
+                    <Switch
+                      checked={this.state.checked}
+                      onChange={event => (this.state.event.is_public = event.target.value)}
+                      value="checked"
+                      color="primary"
+                      id="eventispublic"
+                      inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                  }
+                  label="Jeg ønsker at arrangementet skal være offentlig"
+                  labelPlacement="end"
+                />
+              </div>
             </div>
           </div>
           <div>
