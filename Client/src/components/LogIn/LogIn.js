@@ -57,7 +57,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
             </div>
             <div class="form-group text-center ml-5 mr-5">
               <label for="profileNew" class="form-label">
-                Ny bruker? <a href="/register">Registrer bruker</a>
+                Har du ikke en konto? <a href="/register">Registrer deg her</a>
               </label>
             </div>
           </form>
