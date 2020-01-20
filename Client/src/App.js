@@ -56,7 +56,8 @@ function App() {
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/user" component={ProfileUser} />
-          <Route exact path="/editprofile" component={ProfileEdit} />
+          <Route exact path="/editprofile/organiser" component={ProfileEdit} />
+          <Route exact path="/editprofile/user" component={ProfileEditUser} />
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
