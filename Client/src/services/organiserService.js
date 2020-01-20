@@ -77,8 +77,13 @@ export class OrganiserService {
     return axios.get(url, config);
   }
 
-  static postRider(event_id: number) {
-    let url = url_base + '/' + event_id + '/artist';
-    return axios.post(url, event_id, config);
+  static postRider(rider_file: string, event_id: number, user_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + user_id;
+    return axios.post(url, [rider_file, event_id, user_id], config);
+  }
+
+  static updateRider(rider_file: string, event_id: number, rider_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
+    return axios.put(url, [rider_file, event_id, rider_id], config);
   }
 }
