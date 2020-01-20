@@ -24,19 +24,15 @@ export default class ProfileOrganiser extends Component<{}, State> {
           <div class="container bg-light">
             <div class="row justify-content-md-center my-5 align-items-center border-bottom pb-5">
               <div class="col-4 text-center">
-                {this.state.organiser.image === undefined || this.state.organiser.image === null ? (
-                  <img
-                    src="http://localhost:4000/public/file/profile.png"
-                    class="img-rounded w-100"
-                    alt="Profilbilde"
-                  />
-                ) : (
-                  <img
-                    src={'http://localhost:4000/public/file/' + this.state.organiser.image}
-                    class="img-rounded w-100"
-                    alt="Profilbilde"
-                  />
-                )}
+                <img
+                  src={
+                    this.state.organiser.image === null
+                      ? 'http://localhost:4000/public/file/profile.png'
+                      : 'http://localhost:4000/public/file/' + this.state.organiser.image
+                  }
+                  class="img-rounded w-100"
+                  alt="Profilbilde"
+                />
               </div>
               <div class="col text-center">
                 <h2 class="mb-3">{this.state.organiser.name}</h2>
@@ -122,6 +118,8 @@ export default class ProfileOrganiser extends Component<{}, State> {
         console.log(organiser);
         this.setState({ organiser: organiser });
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error(error);
+      });
   }
 }

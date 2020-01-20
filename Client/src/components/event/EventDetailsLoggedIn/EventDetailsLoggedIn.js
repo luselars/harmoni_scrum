@@ -59,7 +59,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
-        <div id="myModal" class="modal">
+        <div id="myModal" className="modal">
           <div className="modal-content">
             <span className="close">&times;</span>
             <div className="modalbody">
@@ -90,10 +90,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               <table className="table table-borderless">
                 <tbody>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Start:
                     </th>
-                    <td class="text-left">
+                    <td className="text-left">
                       {this.state.event.start
                         ? this.state.event.start.slice(8, 10) +
                           '/' +
@@ -106,10 +106,10 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </td>
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Slutt:
                     </th>
-                    <td class="text-left">
+                    <td className="text-left">
                       {this.state.event.end
                         ? this.state.event.end.slice(8, 10) +
                           '/' +
@@ -122,16 +122,16 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </td>
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    <td class="text-left">{this.state.event.venue}</td>
+                    <td className="text-left">{this.state.event.venue}</td>
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    <td class="text-left">{this.state.event.address}</td>
+                    <td className="text-left">{this.state.event.address}</td>
                   </tr>
                 </tbody>
               </table>
@@ -156,7 +156,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               <table className="table table-borderless">
                 <tbody>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Lineup:
                     </th>
                     {this.state.artists.length === null ? (
@@ -174,7 +174,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     )}
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Kontrakt:
                     </th>
                     {this.state.artists.map(artist => (
@@ -197,7 +197,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     ))}
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Riders:
                     </th>
                     {this.state.riders.map(rider => (
@@ -210,33 +210,33 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     ))}
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Offentlig:
                     </th>
-                    <td class="text-left">Ja</td>
+                    <td className="text-left">Ja</td>
                   </tr>
                   <tr>
-                    <th class="text-right" scope="row">
+                    <th className="text-right" scope="row">
                       Status:
                     </th>
-                    <td class="text-left">Klar til å gjennomføre</td>
+                    <td className="text-left">Klar til å gjennomføre</td>
                   </tr>
                 </tbody>
               </table>
               <div className="eventdetailsbtn">
                 <button
-                  class="btn btn-success bg-green"
+                  className="btn btn-success bg-green"
                   id="editeventbtn"
                   onClick={() => this.edit()}
                 >
                   ENDRE
                 </button>
                 <button
-                  class="btn btn-secondary"
+                  className="btn btn-secondary"
                   id="deleteeventbtn"
                   onClick={() => this.deletebtn()}
                 >
-                  <i class="fa fa-trash" aria-hidden="true"></i> Slett
+                  <i className="fa fa-trash" aria-hidden="true"></i> Slett
                 </button>
               </div>
             </div>
