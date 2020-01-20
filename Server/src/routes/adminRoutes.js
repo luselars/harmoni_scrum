@@ -36,3 +36,4 @@ router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
 //TODO authorization.
 // only admin should be able to use this
 
+module.exports = router;
