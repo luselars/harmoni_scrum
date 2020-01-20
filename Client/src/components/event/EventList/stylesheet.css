@@ -1,3 +1,19 @@
+.eventlist {
+  grid-template-areas:
+    'list'
+    'reactpaginate';
+}
+
+.reactpaginate {
+  font-size: xx-large;
+}
+
+.pagination > li.active > a {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
 #date {
   border-right-style: solid;
   border-right-color: rgb(83, 163, 81);

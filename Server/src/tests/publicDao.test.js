@@ -16,9 +16,8 @@ const publicDao = require('../../dao/publicDao.js');
 let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
 const runsqlfile = require('./runsqlfile.js');
 
-class State{
-  constructor(organiser: boolean, name: string, email: string, salt: string, hash: string)
-  {
+class State {
+  constructor(organiser: boolean, name: string, email: string, salt: string, hash: string) {
     this.email = email;
     this.name = name;
     this.organiser = organiser;
@@ -38,7 +37,6 @@ class State{
   imageUrl: string;
   tlf: string;
   description: string;
-
 }
 
 beforeAll(done => {
@@ -53,48 +51,54 @@ describe('Testing methods in public dao', () => {
     done();
   });
 
-  it("get public events", done => {
+  it('get public events', done => {
     function callback(status, data) {
       expect(data.length).toBeGreaterThanOrEqual(3);
       done();
     }
-    dao.getPublicEvents('e.start',  callback);
+    dao.getPublicEvents(callback);
   });
 
-  it("gets all artists in event with id 1", done => {
+  it('gets all artists in event with id 1', done => {
     function callback(status, data) {
       expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.getArtistEvent(1,  callback);
+    dao.getArtistEvent(1, callback);
   });
 
-  it("gets one public event by id", done => {
+  it('gets one public event by id', done => {
     function callback(status, data) {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getPublicEvent(1,  callback);
+    dao.getPublicEvent(1, callback);
   });
 
-  it("tries to get a not public event, not ok", done => {
+  it('tries to get a not public event, not ok', done => {
     function callback(status, data) {
       expect(data.length).toBe(0);
       done();
     }
-    dao.getPublicEvent(4,  callback);
+    dao.getPublicEvent(4, callback);
   });
 
-  it("tries to register a new organiser", done => {
+  it('tries to register a new organiser', done => {
     function callback(status, data) {
       expect(data.affectedRows).toBe(1);
       done();
     }
-    let state = new State(true ,'orgaanisername', 'newtestorganiser@email.test', 'goofysalt', 'goofyhash');
+    let state = new State(
+      true,
+      'orgaanisername',
+      'newtestorganiser@email.test',
+      'goofysalt',
+      'goofyhash',
+    );
     dao.insertNewUser(state, callback);
   });
 
-  it("checks to see if an email exists", done => {
+  it('checks to see if an email exists', done => {
     function callback(status, data) {
       expect(data.length).toBe(1);
       done();
@@ -102,5 +106,4 @@ describe('Testing methods in public dao', () => {
     let email = 'newtestorganiser@email.test';
     dao.emailExists(email, callback);
   });
-
 });
