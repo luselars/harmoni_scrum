@@ -1,7 +1,7 @@
 // @flow
 
 import axios, { AxiosPromise } from 'axios';
-import { Event, Artist, Organiser } from './modelService.js';
+import { Event, Artist, Organiser, TicketType } from './modelService.js';
 const url_base = 'http://localhost:4000/organiser';
 // axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
 // console.log(localStorage.getItem('token'));
@@ -72,13 +72,69 @@ export class OrganiserService {
     return axios.put(url, data, config);
   }
 
+  // Get all riders on an event
   static getRiders(event_id: number) {
     let url = url_base + '/event/rider/' + event_id;
     return axios.get(url, config);
   }
 
-  static postRider(event_id: number) {
-    let url = url_base + '/' + event_id + '/artist';
-    return axios.post(url, event_id, config);
+  // Posts a new rider
+  static postRider(rider_file: string, event_id: number, user_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + user_id;
+    return axios.post(url, { rider_file }, config);
+  }
+
+  // Updates an existing rider
+  static updateRider(rider_file: string, event_id: number, rider_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
+    return axios.put(url, { rider_file }, config);
+  }
+
+  // Deletes a rider
+  static deleteRider(event_id: number, rider_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
+    console.log(url);
+    return axios.put(url, {}, config);
+  }
+
+  // Get all tickettypes on an event
+  static getTickets(event_id: number) {
+    let url = url_base + '/event/' + event_id + '/tickets';
+    return axios.get(url, config);
+  }
+  // Get all tickettypes an organiser has
+  static getMyTickets(organiser_id: number) {
+    let url = url_base + '/tickets';
+    return axios.get(url, config);
+  }
+
+  // Adds a new tickettype to an event
+  static postTicket(ticket: TicketType, event_id: number) {
+    let url = url_base + '/tickets';
+    return axios.post(url, { ticket }, config);
+  }
+
+  // Adds a new tickettype to an event
+  static postEventTicket(ticket: TicketType, ticket_id: number, event_id: number) {
+    let url = url_base + '/event/' + event_id + '/tickets/' + ticket_id;
+    return axios.post(url, { ticket }, config);
+  }
+
+  // Delete a tickettype on an event
+  static deleteEventTicket(ticket_id: number, event_id: number) {
+    let url = url_base + '/event/' + event_id + '/tickets/' + ticket_id;
+    return axios.delete(url, config);
+  }
+
+  // Updates an existing tickettype
+  static updateTickets(ticket: TicketType, ticket_id: number) {
+    let url = url_base + '/tickets/' + ticket_id;
+    return axios.put(url, { ticket }, config);
+  }
+
+  // Removes an existing tickettype
+  static deleteTickets(ticket_id: number) {
+    let url = url_base + '/tickets/' + ticket_id;
+    return axios.put(url, config);
   }
 }

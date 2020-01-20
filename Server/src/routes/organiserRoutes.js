@@ -4,6 +4,7 @@ import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
+let bcrypt = require('bcryptjs');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
 
@@ -24,7 +25,7 @@ router.use('', (req, res, next) => {
       });
     } else {
       if (decoded.type == 'organiser') {
-        console.log('Token ok: ' + decoded.username);
+        //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
         next();
@@ -98,14 +99,14 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 // Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
   dao.getSingleLocation(req.body.address, (status, data) => {
-    res.status(status);
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
-        res.status(status);
+        res.status(100);
         res.send(data);
       });
     } else {
-      res.send(data);
+      res.status(status);
+      res.send(data[0]);
     }
   });
 });
@@ -155,16 +156,46 @@ router.delete('/event/:event_id', (req: express$Request, res: express$Response) 
 });
 
 // Get artist
-router.get('/artist', (req: { body: string }, res: express$Response) => {
+router.get('/artist', (req: express$Request, res: express$Response) => {
   dao.getArtist(req.body, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
 
-//get riders for event
-router.get('/event/rider/:event_id', (req: { body: string }, res: express$Response) => {
+//Get riders for event
+router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
   dao.getRiders(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Adds a rider to the event on a user
+router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  });
+});
+
+// Adds a rider to the event on a user
+router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  });
+});
+
+// Delete a single rider
+router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.event_id, req.params.rider_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -172,6 +203,8 @@ router.get('/event/rider/:event_id', (req: { body: string }, res: express$Respon
 
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
+  //TODO check to see if its an organiser email, if it is, it shouldn't do anything.
+
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
     let d = data;
@@ -325,10 +358,25 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  dao.editProfile(req.uid, req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+  if (req.body.password != null) {
+    req.body.salt = bcrypt.genSaltSync(10);
+    req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
+    req.body.password = null;
+  }
+  if (req.body.image != null) {
+    uploadFunctions.handleFile(req.body.image, function(imageUrl) {
+      req.body.image = imageUrl;
+      dao.editProfile(req.uid, req.body, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
+    dao.editProfile(req.uid, req.body, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 //Get all volunteers who are part of an event
@@ -347,9 +395,49 @@ router.get('/event/:event_id/artist', (req: express$Request, res: express$Respon
   });
 });
 
+// Get all of users ticket types
+router.get('/tickets', (req: express$Request, res: express$Response) => {
+  dao.getMyTickets(req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Create a new ticket type
+router.post('/tickets', (req: { body: Object }, res: express$Response) => {
+  dao.postTicketType(req.body, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Add ticket type to event
+router.post('/event/:eid/tickets/:tid', (req: { body: Object }, res: express$Response) => {
+  dao.postEventTicket(req.body, req.params.eid, req.params.tid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Edit a ticket type
-router.put('/tickets', (req: { body: Object }, res: express$Response) => {
-  dao.editTicketType(req.body, req.email, (status, data) => {
+router.put('/tickets/:id', (req: { body: Object }, res: express$Response) => {
+  dao.editTicketType(req.body, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Delete a ticket type
+router.delete('/tickets/:id', (req: express$Request, res: express$Response) => {
+  dao.deleteTicketType(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Delete a ticket type from an event
+router.delete('/event/:eid/tickets/:tid', (req: express$Request, res: express$Response) => {
+  dao.deleteEventTicket(req.params.eid, req.params.tid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -357,21 +445,9 @@ router.put('/tickets', (req: { body: Object }, res: express$Response) => {
 
 //Get a ticket type
 router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
-  dao.getMyId(req.email, (status, data) => {
+  dao.getTicketType(req.params.id, (status, data) => {
     res.status(status);
-    dao.getTicketType(req.params.id, data[0], (status, data2) => {
-      res.status(status);
-      console.log(data2);
-      res.send(data2);
-    });
-  });
-});
-
-// Gets all riders connected to a single event connected to an event
-router.get('/:eid/artist/:aid/riders', (req: express$Request, res: express$Response) => {
-  dao.getArtistRiders(req.params.eid, req.params.aid, (status, data) => {
-    res.status(status);
-    res.send(data2);
+    res.send(data);
   });
 });
 

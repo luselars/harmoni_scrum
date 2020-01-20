@@ -15,12 +15,10 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   render() {
-    console.log(this.state.status);
-    console.log(window.screen.availWidth);
     return (
       <div id="filterCard" class="card">
         <div class="card-body bg-light">
-          <h2 class="mb-3">
+          <h5 class="filtertitle">
             FILTER
             {this.state.status ? (
               <element class="dropdown" onClick={() => this.handleStatus()}>
@@ -31,108 +29,96 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                 <i class="arrow down"></i>
               </element>
             )}
-          </h2>
+          </h5>
           <form onSubmit={this.handleSubmit}>
             <Collapse isOpened={this.state.status}>
               <div className="container bg-light">
-                <div className="col text-center border-bottom">
-                  <h6 className="mb-3 text-success">SORTER ETTER...</h6>
-                  <div className="form-check text-left mb-3">
-                    <label className="form-check-label" htmlFor="sortRadio1">
-                      <input
-                        type="radio"
-                        id="sortRadio1"
-                        value="e.start"
-                        checked={this.state.sortOption === 'e.start'}
-                        onChange={e => this.handleChangeSort(e)}
-                      ></input>
-                      Tid
-                    </label>
-                    <label className="form-check-label" htmlFor="sortRadio2">
-                      <input
-                        type="radio"
-                        id="sortRadio2"
-                        value="option2"
-                        checked={this.state.sortOption === 'option2'}
-                        onChange={e => this.handleChangeSort(e)}
-                      ></input>
-                      Alfabetisk
-                    </label>
-                    <label className="form-check-label" htmlFor="sortRadio3">
-                      <input
-                        type="radio"
-                        id="sortRadio3"
-                        value="option3"
-                        checked={this.state.sortOption === 'option3'}
-                        onChange={e => this.handleChangeSort(e)}
-                      ></input>
-                      Størrelse
-                    </label>
-                  </div>
+                <div className="filtercategories col border-bottom">
+                  <h6 className="mb-3 text-success">SORTER</h6>
                 </div>
-                <div className="col text-center border-bottom">
-                  <h6 className="mb-3 text-success">TYPE ARRANGEMENT</h6>
-                  <div className="form-check text-left mb-3">
-                    <input type="checkbox" class="form-check-input" id="typeCheck1"></input>
-                    <label className="form-check-label" for="typeCheck1">
-                      Rock
-                    </label>
-                    <input type="checkbox" class="form-check-input" id="typeCheck2"></input>
-                    <label className="form-check-label" for="typeCheck2">
-                      Pop
-                    </label>
-                    <input type="checkbox" class="form-check-input" id="typeCheck3"></input>
-                    <label className="form-check-label" for="typeCheck3">
-                      Klassisk
-                    </label>
-                  </div>
+                <div className="sortlabel form-check text-left mb-3">
+                  <label className="form-check-label" htmlFor="sortRadio1">
+                    <input
+                      type="radio"
+                      id="sortRadio1"
+                      value="e.start"
+                      checked={this.state.sortOption === 'e.start'}
+                      onChange={e => this.handleChangeSort(e)}
+                    ></input>
+                    Tid
+                  </label>
+                  <label className="form-check-label" htmlFor="sortRadio2">
+                    <input
+                      type="radio"
+                      id="sortRadio2"
+                      value="e.name"
+                      checked={e => {
+                        this.setState({ sortOption: e.value });
+                      }}
+                      onChange={e => this.handleChangeSort(e)}
+                    ></input>
+                    Alfabetisk
+                  </label>
+                  <label className="form-check-label" htmlFor="sortRadio3">
+                    <input
+                      type="radio"
+                      id="sortRadio3"
+                      value="option3"
+                      checked={this.state.sortOption === 'option3'}
+                      onChange={e => this.handleChangeSort(e)}
+                    ></input>
+                    Størrelse
+                  </label>
                 </div>
-                <div className="col text-center border-bottom">
+                <div className="filtercategories col border-bottom">
                   <h6 className="mb-3 text-success">STED</h6>
-                  <div className="form-check text-left mb-3">
-                    <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
-                    <label className="form-check-label" for="placeCheck1">
-                      Trondheim Spektrum
-                    </label>
-                    <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
-                    <label className="form-check-label" for="placeCheck2">
-                      Sukkerhuset
-                    </label>
-                    <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
-                    <label className="form-check-label" for="placeCheck3">
-                      Olavshallen
-                    </label>
-                  </div>
                 </div>
-                <div className="col text-center border-bottom">
+
+                <div className="form-check text-left mb-3">
+                  <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
+                  <label className="placecheck form-check-label" for="placeCheck1">
+                    Trondheim Spektrum
+                  </label>
+                  <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
+                  <label className="placecheck form-check-label" for="placeCheck2">
+                    Sukkerhuset
+                  </label>
+                  <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
+                  <label className="placecheck form-check-label" for="placeCheck3">
+                    Olavshallen
+                  </label>
+                </div>
+
+                <div className="col filtercategories border-bottom">
                   <h6 className="mb-3 text-success">PRIS</h6>
-                  <div className="input-group input-group-sm mb-3">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroup-sizing-sm">
-                        Fra
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Fra"
-                      aria-describedby="inputGroup-sizing-sm"
-                    ></input>
-                  </div>
-                  <div className="input-group input-group-sm mb-3">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroup-sizing-sm">
-                        Til
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Til"
-                      aria-describedby="inputGroup-sizing-sm"
-                    ></input>
-                  </div>
                 </div>
+                <div className="input-group input-group-sm mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="inputGroup-sizing-sm">
+                      Fra
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Fra"
+                    aria-describedby="inputGroup-sizing-sm"
+                  ></input>
+                </div>
+                <div className="input-group input-group-sm mb-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text" id="inputGroup-sizing-sm">
+                      Til
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Til"
+                    aria-describedby="inputGroup-sizing-sm"
+                  ></input>
+                </div>
+
                 <div className="col text-center mt-3">
                   <button type="submit" className="btn btn-success">
                     Velg
@@ -166,11 +152,11 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     const target = e.target;
     let value: string = target.value;
     this.setState({ sortOption: value });
+    this.props.setFilter(value);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-
     alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
   }
 }

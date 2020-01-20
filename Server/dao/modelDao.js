@@ -53,6 +53,7 @@ export class User {
   tlf: string;
   image: string;
   description: string;
+  user_id: number;
 }
 
 // Object for sending Artist
@@ -69,7 +70,7 @@ export class Artist {
 
 // Object for sending Organiser
 export class Organiser {
-  constructor(organiser_email: string, name: number) {
+  constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
     this.name = name;
   }
@@ -93,4 +94,6 @@ export class TicketType {
   name: string;
   description: string;
   ticket_type_id: number;
+  organiser_id: number;
+  price: number;
 }

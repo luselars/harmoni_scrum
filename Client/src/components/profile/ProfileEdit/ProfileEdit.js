@@ -3,8 +3,11 @@
 import React from 'react';
 import { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
+import { PublicService } from '../../../services/publicService';
 import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
+let path = require('path');
+let mail: string;
 
 type State = {
   organiser_id: number,
@@ -44,16 +47,20 @@ class ProfileEdit extends Component<{}, State> {
 
   render() {
     return (
-      <div className="card" id="editProfile">
-        <div className="card-body">
+      <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+        <div className="card-body m-5">
           <h2 id="editTitle"> REDIGER PROFIL </h2>
           <img
-            className="img-rounded w-25"
+            className="circle-img w-25"
             id="picture"
-            src={'http://localhost:4000/public/file/' + this.state.image}
             alt="Profilbilde"
+            src={
+              this.state.image
+                ? 'http://localhost:4000/public/file/' + this.state.image
+                : 'http://localhost:4000/public/file/profile.png'
+            }
           />
-          {/*<div className="form-check text-center my-3 p-2 border">
+          <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
               Profilbilde
             </label>
@@ -61,10 +68,11 @@ class ProfileEdit extends Component<{}, State> {
               className="file mr-6"
               accept=".jpg, .jpeg, .png"
               type="file"
-              id="imageInput"
               name="image"
+              id="upload"
+              name="recfile"
             />
-    </div>*/}
+          </div>
           <div className="form-group" id="name">
             <label for="nameInput">Navn: </label>
             <input
@@ -74,12 +82,13 @@ class ProfileEdit extends Component<{}, State> {
               onChange={e => this.onChange(e)}
               defaultValue={this.state.name}
               id="nameInput"
+              required
             ></input>
           </div>
           <div className="form-group" id="phone">
             <label for="tlfInput">Telefonnummer: </label>
             <input
-              type="text"
+              type="tel"
               className="form-control"
               name="tlf"
               onChange={e => this.onChange(e)}
@@ -90,18 +99,21 @@ class ProfileEdit extends Component<{}, State> {
           <div className="form-group" id="email">
             <label for="emailInput">Epost: </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
-              name="email"
+              name="organiser_email"
               onChange={e => this.onChange(e)}
               defaultValue={this.state.organiser_email}
               id="emailInput"
+              required
             ></input>
           </div>
           <div className="form-group" id="password">
             <label for="passwordInput">Nåværende passord: </label>
+            <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
             <input
               type="password"
+              autocomplete="new-password"
               className="form-control"
               name="password"
               onChange={e => this.onChange(e)}
@@ -110,17 +122,18 @@ class ProfileEdit extends Component<{}, State> {
           </div>
           <div className="form-group" id="password">
             <label for="passwordNewInput">Nytt passord: </label>
+            <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
             <input
               type="password"
               className="form-control"
-              name="passwordNew"
+              name="newPassword"
               onChange={e => this.onChange(e)}
               id="passwordNewInput"
             ></input>
           </div>
 
           <div className="form-group" id="description">
-            <label for="descritionInput">Beskrivelse</label>
+            <label for="descritionInput">Beskrivelse:</label>
             <textarea
               type="text"
               className="form-control"
@@ -191,12 +204,9 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <button class="btn btn-success bg-green" onClick={() => this.post()}>
-            {' '}
-            LAGRE{' '}
-          </button>
+          <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
         </div>
-      </div>
+      </form>
     );
   }
   componentDidMount() {
@@ -213,6 +223,7 @@ class ProfileEdit extends Component<{}, State> {
         address: organiser.address,
         tlf: organiser.tlf,
       });
+      mail = this.state.organiser_email;
       var a = this.state.address + ' ';
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
@@ -232,7 +243,6 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(this.state.image);
   }
   onChangeAddress(e: any) {
     let name: string = e.target.name;
@@ -245,20 +255,75 @@ class ProfileEdit extends Component<{}, State> {
     console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
   }
 
-  post() {
+  //TODO delete old profile pic <3
+  edit(changePassword: boolean) {
     console.log('reg');
-    let editedOrangiser: Organiser = new Organiser(this.state.organiser_email, this.state.name);
-    editedOrangiser.tlf = this.state.tlf;
-    editedOrangiser.website = this.state.website;
-    editedOrangiser.address =
-      this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal;
-    editedOrangiser.organiser_id_ = this.state.organiser_id;
-    editedOrangiser.image = this.state.image;
-    editedOrangiser.description = this.state.description;
-    editedOrangiser.password = this.state.password;
-    OrganiserService.editOrganiser(editedOrangiser).then(response => {
+    if (this.state.newPassword.length < 8 && changePassword) {
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
+      console.log('inne: ' + this.state.newPassword);
+    } else {
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = '';
+      // Image
+      let imageUpload = document.getElementById('upload');
+      if (imageUpload.value !== '') {
+        let fullPath: any = imageUpload.value;
+        let ext = path.extname(fullPath).toLowerCase();
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+          //TODO change alert
+          alert('Ikke gyldig filtype');
+          return;
+        }
+        const file = imageUpload.files[0];
+        const reader = new FileReader();
+        const state2 = this.state;
+        reader.addEventListener(
+          'load',
+          function() {
+            state2.image = reader.result;
+            if (changePassword) state2.password = state2.newPassword;
+            OrganiserService.editOrganiser(state2).then(response => {
+              alert('Endring registert');
+              window.location = '/profile';
+            });
+          },
+          false,
+        );
+        if (file) {
+          reader.readAsDataURL(file);
+        } else {
+          this.editPost(this.state, changePassword);
+        }
+      } else {
+        this.editPost(this.state, changePassword);
+      }
+    }
+  }
+
+  editPost(state: Object, changePassword: boolean) {
+    if (changePassword) state.password = state.newPassword;
+    OrganiserService.editOrganiser(state).then(response => {
       window.location = '/profile';
     });
+  }
+
+  post(event: any) {
+    event.preventDefault();
+    {
+      this.state.newPassword.length === 0 && this.state.password.length === 0
+        ? this.edit(false)
+        : PublicService.logIn(mail, this.state.password)
+            .then(response => {
+              console.log('Response: ' + response.data.jwt);
+              this.edit(true);
+            })
+            .catch(error => {
+              console.log('error: ' + error);
+              document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
+              document.getElementById('labelNewPasswordError').innerHTML = '';
+            });
+    }
   }
 }
 

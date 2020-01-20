@@ -31,6 +31,7 @@ class EventNew3 extends Component {
       locations: [],
       location_name: string,
       location_addr: string,
+      location_nr: Number,
     };
   }
   componentDidMount() {
@@ -47,6 +48,7 @@ class EventNew3 extends Component {
           console.log(response.data);
           this.setState({ locations: response.data });
           console.log(this.state.locations);
+          this.setState({ location_nr: document.getElementById('postcode').value });
           if (data.location_id !== null) {
             let locData = new Location();
             for (let i = 0; i < response.data.length; i++) {
@@ -80,6 +82,20 @@ class EventNew3 extends Component {
           {/*<form>*/}
           <div className="form-row">
             <p id="locationtitle">Velg sted</p>
+            <iframe
+              id="map"
+              width="100%"
+              height="300px"
+              frameborder="0"
+              src={
+                'https://www.google.com/maps/embed/v1/place?q=' +
+                this.state.location_addr +
+                ',+' +
+                this.state.location_nr +
+                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+              }
+              allowfullscreen
+            ></iframe>
             <Autocomplete
               id="search_name"
               style={{ width: '800px' }}
@@ -185,14 +201,12 @@ class EventNew3 extends Component {
     window.location = '/newevent2';
   }
   next() {
-    console.log(this.name.current.value);
-    console.log(this.addr.current.value);
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;
     let venue = document.getElementById('venue').value;
     if (name.length < 1 || addr.length < 1) {
-      window.location = 'newevent4';
+      alert('DETTE FUNKER IKKE');
       return;
     }
     //post location
@@ -203,7 +217,21 @@ class EventNew3 extends Component {
     OrganiserService.postLocation(l).then(resp => {
       console.log(resp.data);
       if (resp.status === 200) {
+        alert(
+          'denne lokasjonen finnes og status: ' +
+            resp.status +
+            ' og data er ' +
+            resp.data.location_id,
+        );
         this.state.event.location_id = resp.data.location_id;
+        this.state.event.venue = venue;
+        OrganiserService.updateEvent(this.state.event).then(resp => {
+          console.log(this);
+          console.log(resp);
+          window.location = '/newevent4';
+        });
+      } else if (resp.status === 100) {
+        this.state.event.location_id = resp.data.insertId;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);

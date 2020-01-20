@@ -29,21 +29,16 @@ export default class ProfileOrganiser extends Component<Props, State> {
       <div className="container bg-light p-2">
         <div className="row justify-content-md-center align-items-center pb-4">
           <div className="col-md-4 text-center">
-            {this.state.userType.image === undefined || this.state.userType.image === null ? (
-              <img
-                src="http://localhost:4000/public/file/profile.png"
-                className="rounded w-100"
-                id="profilepic"
-                alt="Profilbilde"
-              />
-            ) : (
-              <img
-                src={'http://localhost:4000/public/file/' + this.state.userType.image}
-                className="img rounded-circle"
-                id="profilepic"
-                alt="Profilbilde"
-              />
-            )}
+            <img
+              src={
+                this.state.userType.image
+                  ? 'http://localhost:4000/public/file/' + this.state.userType.image
+                  : 'http://localhost:4000/public/file/profile.png'
+              }
+              className="img rounded-circle"
+              id="profilepic"
+              alt="Profilbilde"
+            />
           </div>
           <div className="col-md text-center float-left">
             <p id="profilename" className="display-md-4 display-4 text-uppercase text-center m-4">

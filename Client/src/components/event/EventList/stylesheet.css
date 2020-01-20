@@ -1,11 +1,31 @@
+.eventlist {
+  grid-template-areas:
+    'list'
+    'reactpaginate';
+}
+
+.reactpaginate {
+  font-size: xx-large;
+}
+
+.pagination > li.active > a {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
 #date {
   border-right-style: solid;
   border-right-color: rgb(83, 163, 81);
 }
 
 .datenumber {
-  font-size: 50px;
+  font-size: 3vw;
   margin-bottom: -5px;
+}
+
+.datemonth {
+  font-size: 1.8vw;
 }
 
 .eventtitle {
@@ -26,7 +46,7 @@
   vertical-align: middle;
 }
 
-#card {
+.card {
   width: 60%;
   margin-bottom: 1%;
   margin-top: 1%;

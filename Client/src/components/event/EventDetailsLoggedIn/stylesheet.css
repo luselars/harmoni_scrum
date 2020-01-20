@@ -1,21 +1,84 @@
 #EventDetailsLITable {
   float: left;
   text-align: center;
-  margin-left: 20%;
-  width: 60%;
-  margin-right: 20%;
+  margin-left: 10%;
+  width: 80%;
+  margin-right: 10%;
   margin-bottom: 3%;
 }
 
-#EventPicLI {
-  width: 100%;
+.text-right {
+  padding-left: 20px;
+}
+
+.img-fluid {
+  width: 95%;
+  height: 25vw;
+  object-fit: cover;
+}
+
+.modal-content {
+  margin: 10% 35%;
+  width: 30%;
+}
+
+.modalbody {
+  padding: 2% 5%;
+  text-align: center;
+}
+
+.modalbtn {
+  margin: 0 5px;
+}
+
+.eventdetailsbtn {
+  margin-top: 1vw;
+  margin: 10%;
+}
+
+#editeventbtn {
+  float: left;
+  margin: 0;
+}
+
+#deleteeventbtn {
+  float: right;
+}
+
+#textright {
+  padding-left: 0vw;
+}
+
+#loginBox {
+  text-align: center;
+}
+
+.img-fluid {
+  width: 90%;
+  height: 25vw;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 800px) {
+  .titleeventdetails {
+    font-size: 6vw;
+  }
+  #textleft,
+  #textright {
+    font-size: 2vw;
+  }
 }
 
 @media screen and (max-width: 650px) {
+  .modal-content {
+    margin: 40% 10%;
+    width: 80%;
+  }
+
   #EventDetailsLITable {
-    margin-left: 0%;
-    margin-right: 0%;
-    width: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
     text-align: left;
   }
   #loginBox {
@@ -24,5 +87,15 @@
     float: left;
     margin-left: 0%;
     margin-right: 0%;
+  }
+  .titleeventdetails {
+    font-size: 8vw;
+  }
+  .imgdiv {
+    text-align: center;
+  }
+  .text-left,
+  .text-right {
+    font-size: 4vw;
   }
 }

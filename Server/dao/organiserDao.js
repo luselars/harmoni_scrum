@@ -32,12 +32,21 @@ module.exports = class OrganiserDao extends Dao {
     organiser: Organiser,
     callback: (status: string, data: Object) => mixed,
   ) {
+    var password = '';
+
+    if (organiser.hash != null) {
+      password = ", hash = '" + organiser.hash + "', salt = '" + organiser.salt + "'";
+    }
+
     var queryString =
-      'UPDATE organiser SET name = ?, image= ?, description = ?, tlf = ?, website = ?, address = ? WHERE organiser_id = ?';
+      'UPDATE organiser SET name = ?, organiser_email= ?, image= ?, description = ?, tlf = ?, website = ?, address = ?' +
+      password +
+      ' WHERE organiser_id = ?';
     super.query(
       queryString,
       [
         organiser.name,
+        organiser.organiser_email,
         organiser.image,
         organiser.description,
         organiser.tlf,
@@ -127,7 +136,7 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
-
+  // Gets the id of the user from token
   getMyId(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
     super.query(queryString, [email], callback);
@@ -154,22 +163,21 @@ module.exports = class OrganiserDao extends Dao {
   }
 
   // Get all groups based on an organiser id.
-  getGroup(email: string, callback: (status: string, data: Object) => mixed) {
-    let queryString =
-      'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_email = ?';
-    super.query(queryString, [email], callback);
+  getGroup(organiser_id: string, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_id = ?';
+    super.query(queryString, [organiser_id], callback);
   }
 
   // Get all ticket types based on an event id.
   getEventTickets(event_id: number, callback: (status: string, data: Object) => mixed) {
     let queryString =
-      'SELECT et.price, tt.* FROM event_ticket et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?';
+      'SELECT et.price, et.amount, tt.* FROM event_ticket et LEFT JOIN ticket_type tt ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
 
   getArtist(event_id: string, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = 129';
+      'SELECT contract, notes, accepted, artist_name, email FROM event_artist JOIN artist USING(user_id) JOIN user USING(user_id) WHERE event_artist.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
 
@@ -236,8 +244,48 @@ module.exports = class OrganiserDao extends Dao {
   //gets all riders in event
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT rider_file, artist_name FROM rider JOIN artist USING(user_id) WHERE event_id = ?',
+      'SELECT rider_id, rider_file, email FROM rider JOIN user USING(user_id) WHERE event_id = ?',
       [event_id],
+      callback,
+    );
+  }
+
+  //Updates a rider in the database
+  editRider(
+    rider_file: string,
+    event_id: number,
+    rider_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'UPDATE rider SET rider_file = ? WHERE rider_id = ? AND event_id = ?',
+      [rider_file, rider_id, event_id],
+      callback,
+    );
+  }
+
+  //Posts a rider to the database
+  postRider(
+    rider_file: string,
+    event_id: number,
+    user_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'INSERT INTO rider (rider_file, event_id, user_id) VALUES(?,?,?)',
+      [rider_file, event_id, user_id],
+      callback,
+    );
+  }
+  // Deletes a rider
+  deleteRider(
+    event_id: number,
+    rider_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'DELETE FROM rider WHERE event_id = ? AND rider_id = ?',
+      [event_id, rider_id],
       callback,
     );
   }
@@ -260,12 +308,12 @@ module.exports = class OrganiserDao extends Dao {
 
   editTicketType(
     ticketType: TicketType,
-    email: string,
+    ticket_type_id: number,
     callback: (status: string, data: TicketType) => mixed,
   ) {
     super.query(
-      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_email = ?;',
-      [ticketType.name, ticketType.description, ticketType.ticket_type_id, email],
+      'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_id = ?;',
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id, ticket_type_id],
       callback,
     );
   }
@@ -276,13 +324,47 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-  getTicketType(
-    ticket_type_id: number,
+  getMyTickets(organiser_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT * FROM ticket_type WHERE organiser_id = ?';
+    super.query(queryString, [organiser_id], callback);
+  }
+
+  getTicketType(ticket_type_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ?';
+    super.query(queryString, [ticket_type_id], callback);
+  }
+
+  postTicketType(
+    ticket: TicketType,
     organiser_id: number,
     callback: (status: string, data: Object) => mixed,
   ) {
-    var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ? AND organiser_id = ?;';
-    super.query(queryString, [ticket_type_id, organiser_id], callback);
+    var queryString = 'INSERT INTO ticket_type (organiser_id, name, description) VALUES(?,?,?)';
+    super.query(queryString, [organiser_id, ticket.name, ticket.description], callback);
+  }
+
+  deleteTicketType(ticket_type_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'DELETE FROM ticket_type WHERE ticket_type_id = ?';
+    super.query(queryString, [ticket_type_id], callback);
+  }
+
+  deleteEventTicket(
+    ticket_type_id: number,
+    event_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'DELETE FROM event_ticket WHERE ticket_type_id = ? AND event_id = ?';
+    super.query(queryString, [ticket_type_id, event_id], callback);
+  }
+
+  postEventTicket(
+    ticket: TicketType,
+    event_id: number,
+    ticket_type_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'INSERT INTO event_ticket (ticket_type_id, price, event_id) VALUES(?,?,?)';
+    super.query(queryString, [event_id, ticket.price, event_id], callback);
   }
 
   getMyEvents(organiser_id: number, callback) {
