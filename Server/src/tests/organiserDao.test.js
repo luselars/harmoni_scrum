@@ -300,7 +300,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getTicketType(1, 1, callback);
+    dao.getTicketType(1, callback);
   });
 
   // Gets all events of logged in account
@@ -371,5 +371,25 @@ describe('Testing all relevant parts of organiserDAO', () => {
       done();
     }
     dao.getRiders(1, callback);
+  });
+
+  // Checks that the tickettypes were gotten.
+  it('Checks that the tickettypes were gotten.', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(2);
+      done();
+    }
+    dao.getMyTickets(1, callback);
+  });
+
+  // Checks that a tickettype was gotten.
+  it('Checks that a single tickettype was gotten.', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getTicketType(1, callback);
   });
 });
