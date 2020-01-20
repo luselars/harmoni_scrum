@@ -7,6 +7,7 @@ import { Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
+import UploadRider from '../../Upload/UploadRider';
 
 class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
@@ -14,6 +15,7 @@ class EventNew5 extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artists: [],
+      riders: [],
     };
   }
   componentDidMount() {
@@ -27,6 +29,10 @@ class EventNew5 extends Component<Props, State> {
         OrganiserService.getArtists(data.event_id).then(resp => {
           this.setState({ artists: resp.data });
           console.log(this.state.artists);
+        });
+        OrganiserService.getRiders(data.event_id).then(resp => {
+          this.setState({ riders: resp.data });
+          console.log(this.state.riders);
         });
       });
     }
@@ -57,11 +63,31 @@ class EventNew5 extends Component<Props, State> {
               <div>
                 <textarea id={artist.user_id}>{artist.notes}</textarea>
                 <br />
+                <UploadRider
+                  accept={'.pdf'}
+                  message={'last opp artist-rider'}
+                  artist_id={artist.user_id}
+                  event_id={this.state.event.event_id}
+                />
                 <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
                   Lagre
                 </button>
               </div>
               <br />
+            </div>
+          ))}
+          {this.state.riders.length > 0 ? <p>Mine riders:</p> : null}
+          {this.state.riders.map(rider => (
+            <div>
+              {rider.email}
+              <DownloadFile fileName={rider.rider_file} />
+              <button
+                onClick={() => {
+                  this.deleteRider(rider.rider_id);
+                }}
+              >
+                Slett rider
+              </button>
             </div>
           ))}
         </div>
@@ -76,6 +102,12 @@ class EventNew5 extends Component<Props, State> {
         {/*</form>*/}
       </div>
     );
+  }
+  deleteRider(rider_id: number) {
+    OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
+      console.log(r);
+      window.location.reload();
+    });
   }
   formatTime() {
     if (this.state.event.start !== null) {

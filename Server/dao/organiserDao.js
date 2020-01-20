@@ -244,7 +244,7 @@ module.exports = class OrganiserDao extends Dao {
   //gets all riders in event
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT rider_file, artist_name FROM rider JOIN artist USING(user_id) WHERE event_id = ?',
+      'SELECT rider_id, rider_file, email FROM rider JOIN user USING(user_id) WHERE event_id = ?',
       [event_id],
       callback,
     );

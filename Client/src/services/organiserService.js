@@ -93,6 +93,7 @@ export class OrganiserService {
   // Deletes a rider
   static deleteRider(event_id: number, rider_id: number) {
     let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
+    console.log(url);
     return axios.put(url, config);
   }
 }
