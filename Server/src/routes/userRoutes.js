@@ -1,5 +1,6 @@
 // @flow
 import express from 'express';
+import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
@@ -8,9 +9,9 @@ let bcrypt = require('bcryptjs');
 
 const userDao = require('../../dao/userDao.js');
 let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
-let router = express.Router();
-
 const upload = require('../uploadHelper');
+
+let router = express.Router();
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
 router.use('', (req, res, next) => {
@@ -45,7 +46,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.imageUrl != null) {
+  if (req.body.image != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editUser(req.uid, req.body, (status, data) => {

@@ -95,7 +95,7 @@ class ProfileEdit extends Component<{}, State> {
             <input
               type="email"
               className="form-control"
-              name="organiser_email"
+              name="email"
               onChange={e => this.onChange(e)}
               defaultValue={this.state.email}
               id="emailInput"
@@ -167,8 +167,6 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(this.state.email);
-    console.log(this.state.image);
   }
 
   //TODO delete old profile pic <3
@@ -203,7 +201,7 @@ class ProfileEdit extends Component<{}, State> {
           reader.addEventListener(
             'load',
             function() {
-              state2.imageUrl = reader.result;
+              state2.image = reader.result;
               alert('hei');
               if (changePassword) state2.password = state2.newPassword;
               UserService.editUser(state2).then(response => {
@@ -228,7 +226,7 @@ class ProfileEdit extends Component<{}, State> {
     console.log(state.image);
     if (changePassword) state.password = state.newPassword;
     UserService.editUser(state).then(response => {
-      //window.location = '/profile';
+      window.location = '/profile';
       console.log('done');
     });
   }
