@@ -8,8 +8,12 @@ import './stylesheet.css';
 import { string } from 'prop-types';
 import { PublicService } from '../../../services/publicService';
 import { UserService } from '../../../services/userService';
+import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
-
+import Fuse from 'fuse.js';
+var options = {
+  keys: ['name', 'description'],
+};
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 let events: Event[] = [];
 let status: boolean;
@@ -27,6 +31,7 @@ export default class EventList extends Component<Props, State> {
       organiser: organiser,
       offset: 0,
     };
+    this.fuse = new Fuse(this.state.events, options);
   }
 
   handlePageClick = data => {
@@ -39,6 +44,23 @@ export default class EventList extends Component<Props, State> {
   render() {
     return (
       <div>
+        <div className="input-group my-3 " id="searchBox">
+          <div class="input-group md-form form-sm form-1 pl-0">
+            <div class="input-group-prepend">
+              <span class="input-group-text purple lighten-3" id="basic-text1">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div>
+            <input
+              class="form-control my-0 py-1"
+              type="text"
+              onChange={e => this.search(e)}
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </div>
+        </div>
+        <Filter />
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
@@ -117,33 +139,56 @@ export default class EventList extends Component<Props, State> {
       if (this.props.organiser) {
         OrganiserService.getMyEvents()
           .then(events => {
-            console.log('events: \n\n');
-            console.log(events);
-            this.setState({ events: events.data });
+            this.setState({
+              events: events.data,
+              allEvents: events.data,
+              pageCount: Math.ceil(events.data.length / eventsPerPage),
+            });
+            this.fuse = new Fuse(events.data, options);
           })
           .catch((error: Error) => alert(error.message));
       } else {
         UserService.getMyEvents()
           .then(events => {
-            console.log(events);
-            this.setState({ events: events.data });
+            this.setState({
+              events: events.data,
+              allEvents: events.data,
+              pageCount: Math.ceil(events.data.length / eventsPerPage),
+            });
+            this.fuse = new Fuse(events.data, options);
           })
           .catch((error: Error) => alert(error.message));
       }
     } else {
       PublicService.getFrontpage(this.state.sortMethod)
         .then(events => {
-          console.log('welcome to the frontpage');
-          console.log(events);
           this.setState({
             events: events.data,
+            allEvents: events.data,
             pageCount: Math.ceil(events.data.length / eventsPerPage),
           });
+          this.fuse = new Fuse(events.data, options);
         })
         .catch((error: Error) => alert(error.message));
     }
   }
   componentWillReceiveProps(props) {
     this.setState({ sortMethod: props.sortString });
+  }
+  search(event) {
+    // Updates the state events to search results
+    let value: string = event.target.value;
+    if (value) {
+      this.setState({
+        events: this.fuse.search(value),
+        pageCount: Math.ceil(this.state.events.length / eventsPerPage),
+      });
+    } else {
+      // If there is no search string it resets the eventlist
+      this.setState({
+        events: this.state.allEvents,
+        pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
+      });
+    }
   }
 }
