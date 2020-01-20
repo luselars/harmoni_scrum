@@ -18,7 +18,11 @@ let router = express.Router();
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
 
-var tokenDuration = 18000000;
+let tokenDuration = 18000000;
+
+router.changeDao = function changeDao(publicDao: publicDao) {
+  dao = publicDao;
+};
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
 function updateToken(token) {

@@ -203,6 +203,8 @@ router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: ex
 
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
+  //TODO check to see if its an organiser email, if it is, it shouldn't do anything.
+
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
     let d = data;

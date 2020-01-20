@@ -110,6 +110,7 @@ class EventNew5 extends Component<Props, State> {
     );
   }
   deleteRider(rider_id: number) {
+    console.log(rider_id);
     OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
       console.log(r);
       window.location.reload();
