@@ -10,13 +10,22 @@ module.exports = class UserDao extends Dao {
     return super.getPool();
   }
 
-  editUser(user: json, callback: (status: string, data: json) => mixed) {
+  editUser(user_id: number, user: User, callback: (status: string, data: Object) => mixed) {
+    var password = '';
+
+    if (user.hash != null) {
+      password = ", hash = '" + user.hash + "', salt = '" + user.salt + "'";
+    }
+
+    var queryString =
+      'UPDATE user SET email=?,name=?,tlf=?,image=?,description=?' + password + ' WHERE user_id =?';
     super.query(
-      'UPDATE user SET email=?,name=?,tlf=?,image=?,description=? WHERE user_id = ?',
-      [user.email, user.name, user.tlf, user.image, user.description, user.user_id],
+      queryString,
+      [user.email, user.name, user.tlf, user.image, user.description, user_id],
       callback,
     );
   }
+
   linkArtist(email: string, event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'INSERT INTO event_artist (event_id, user_id) VALUES(?, (SELECT user_id FROM user WHERE email = ?))',
