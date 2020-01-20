@@ -37,15 +37,17 @@ class EventNew5 extends Component<Props, State> {
       });
     }
   }
-  updateNotes(artist: Artist) {
-    let notes = document.getElementById(artist.user_id).value;
-    console.log(notes);
-    let temp_art = artist;
-    temp_art.notes = notes;
-    OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
-      console.log(r);
-      window.location.reload();
-    });
+  publishNotes(artist_id: number, notes: string) {
+    for (let i = 0; i < this.state.artists.length; i++) {
+      if (this.state.artists[i].user_id === artist_id) {
+        let temp_art = this.state.artists[i];
+        temp_art.notes = notes;
+        console.log(notes);
+        OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
+          console.log(r);
+        });
+      }
+    }
   }
   render() {
     return (
@@ -61,22 +63,21 @@ class EventNew5 extends Component<Props, State> {
             <div>
               <p>Notes for {artist.email}</p>
               <div>
-                <textarea id={artist.user_id}>{artist.notes}</textarea>
+                <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
+                  {artist.notes}
+                </textarea>
                 <br />
                 <UploadRider
                   accept={'.pdf'}
-                  message={'last opp artist-rider'}
+                  message={'Last opp artist-rider'}
                   artist_id={artist.user_id}
                   event_id={this.state.event.event_id}
                 />
-                <button className="btn btn-success" onClick={() => this.updateNotes(artist)}>
-                  Lagre
-                </button>
               </div>
               <br />
             </div>
           ))}
-          {this.state.riders.length > 0 ? <p>Mine riders:</p> : null}
+          {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
           {this.state.riders.map(rider => (
             <div>
               {rider.email}
