@@ -12,8 +12,8 @@ event.event_id = 2;
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 //import {Artist} from "../../../Client/src/services/modelService";
-const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+const adminDao = require('../../dao/adminDao.js');
+let dao = new adminDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
 const runsqlfile = require('./runsqlfile.js');
 
 class State {
@@ -51,59 +51,32 @@ describe('Testing methods in public dao', () => {
     done();
   });
 
-  it('get public events', done => {
-    function callback(status, data) {
-      expect(data.length).toBeGreaterThanOrEqual(3);
-      done();
-    }
-    dao.getPublicEvents(callback);
-  });
-
-  it('gets all artists in event with id 1', done => {
-    function callback(status, data) {
-      expect(data.length).toBeGreaterThanOrEqual(1);
-      done();
-    }
-    dao.getArtistEvent(1, callback);
-  });
-
-  it('gets one public event by id', done => {
+  it('Get all organisers', done => {
     function callback(status, data) {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getPublicEvent(1, callback);
+    dao.getOrganisers(callback);
   });
-
-  it('tries to get a not public event, not ok', done => {
+  it('Get unverified organiser', done => {
     function callback(status, data) {
-      expect(data.length).toBe(0);
+      expect(data.length).toBe(1);
       done();
     }
-    dao.getPublicEvent(4, callback);
+    dao.getUnverified(callback);
   });
-
-  it('tries to register a new organiser', done => {
+  it('Verify the organiser', done => {
     function callback(status, data) {
       expect(data.affectedRows).toBe(1);
       done();
     }
-    let state = new State(
-      true,
-      'orgaanisername',
-      'newtestorganiser@email.test',
-      'goofysalt',
-      'goofyhash',
-    );
-    dao.insertNewUser(state, callback);
+    dao.verifyOrganiser(1, callback);
   });
-
-  it('checks to see if an email exists', done => {
+  it('Make sure that no more unverified organisers exist', done => {
     function callback(status, data) {
-      expect(data.length).toBe(1);
+      expect(data.length).toBe(0);
       done();
     }
-    let email = 'newtestorganiser@email.test';
-    dao.emailExists(email, callback);
+    dao.getUnverified(callback);
   });
 });

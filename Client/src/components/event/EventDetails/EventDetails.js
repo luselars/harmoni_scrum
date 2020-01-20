@@ -61,7 +61,13 @@ export default class EventDetails extends Component<Props, State> {
                   Sted:
                 </th>
                 <td className="text-left" id="textleft">
-                  {this.state.event.location_name}, {this.state.event.venue}
+                  {this.state.event.location_name == undefined &&
+                  this.state.event.venue != undefined
+                    ? this.state.event.venue
+                    : this.state.event.venue == undefined &&
+                      this.state.event.location_name != undefined
+                    ? this.state.event.location_name
+                    : this.state.event.location_name + ', ' + this.state.event.venue}
                 </td>
               </tr>
               <tr>
@@ -78,10 +84,28 @@ export default class EventDetails extends Component<Props, State> {
               </tr>
             </tbody>
           </table>
+          {this.state.event.address == null ? (
+            <></>
+          ) : (
+            <iframe
+              id="map"
+              width="100%"
+              height="300px"
+              frameborder="0"
+              src={
+                'https://www.google.com/maps/embed/v1/place?q=' +
+                this.state.event.address +
+                ',+' +
+                this.state.event.postcode +
+                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+              }
+              allowfullscreen
+            ></iframe>
+          )}
         </div>
         <div className="btndivevent">
           <button className="btn btn-success bg-green" onClick={() => (window.location.href = '/')}>
-            Tilbake til forside
+            Tilbake
           </button>
         </div>
       </div>
@@ -99,12 +123,9 @@ export default class EventDetails extends Component<Props, State> {
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {
           let artist: any = res.data;
           console.log(res.data);
-          console.log(res.status);
           this.setState({ artist: artist });
         });
       })
       .catch(error => console.error(error));
-
-    console.log(this.state.event);
   }
 }

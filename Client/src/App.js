@@ -14,13 +14,13 @@ import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
-import Upload from './components/Upload/Upload';
 import EventNew2 from './components/event/EventNew/EventNew2';
 import EventNew3 from './components/event/EventNew/EventNew3';
 import EventNew4 from './components/event/EventNew/EventNew4';
 import ProfileUser from './components/profile/ProfileUser/ProfileUser';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import EventNew5 from './components/event/EventNew/EventNew5';
+import EventNew6 from './components/event/EventNew/EventNew6';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -28,7 +28,12 @@ import EventNew5 from './components/event/EventNew/EventNew5';
 {
   /*const Main = () => <h1>Home here</h1>*/
 }
-const NoMatch = () => <h1>404 Not Found</h1>;
+const NoMatch = () => (
+  <div className="card" id="NotFound">
+    <h1>404 Not Found</h1>
+    <p>Oisann.. Siden finnes ikke, eller du mangler rettighetene som kreves for å gå inn på den.</p>
+  </div>
+);
 const LocationDisplay = withRouter(({ location }) => (
   <div data-testid="location-display">{location.pathname}</div>
 ));
@@ -47,6 +52,7 @@ function App() {
           <Route exact path="/newevent3" component={EventNew3} />
           <Route exact path="/newevent4" component={EventNew4} />
           <Route exact path="/newevent5" component={EventNew5} />
+          <Route exact path="/newevent6" component={EventNew6} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/user" component={ProfileUser} />

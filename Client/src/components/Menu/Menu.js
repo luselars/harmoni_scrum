@@ -18,7 +18,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="navbar navbar-dark bg-dark mb-1">
         <a className="navbar-brand text-light" id="title" href="/">
           HARMONI
         </a>
@@ -45,10 +45,16 @@ export default class Menu extends Component<{}, { status: boolean }> {
           </form>
         ) : (
           <form className="loginGroup">
+            <a className="nav-link text-light text-right" id="eventButton" href="/newevent">
+              Opprett arrangement
+              <span className="sr-only"></span>
+            </a>
+
             <a className="nav-link text-light" id="homeButton" href="/">
               Hjem <i className="fa fa-home fa-lg"></i>
               <span className="sr-only"></span>
             </a>
+
             <a className="nav-link text-light" id="profileButton" href="/profile">
               Profil <i className="fa fa-user fa-lg"></i>
               <span className="sr-only"></span>

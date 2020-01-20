@@ -54,7 +54,11 @@ class ProfileEdit extends Component<{}, State> {
             className="circle-img w-25"
             id="picture"
             alt="Profilbilde"
-            src={'http://localhost:4000/public/file/' + this.state.image}
+            src={
+              this.state.image
+                ? 'http://localhost:4000/public/file/' + this.state.image
+                : 'http://localhost:4000/public/file/profile.png'
+            }
           />
           <div className="form-check text-center my-3 p-2 border">
             <label className="form-check-label" for="upload">
@@ -64,6 +68,7 @@ class ProfileEdit extends Component<{}, State> {
               className="file mr-6"
               accept=".jpg, .jpeg, .png"
               type="file"
+              name="image"
               id="upload"
               name="recfile"
             />
@@ -108,6 +113,7 @@ class ProfileEdit extends Component<{}, State> {
             <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
             <input
               type="password"
+              autocomplete="new-password"
               className="form-control"
               name="password"
               onChange={e => this.onChange(e)}
@@ -127,7 +133,7 @@ class ProfileEdit extends Component<{}, State> {
           </div>
 
           <div className="form-group" id="description">
-            <label for="descritionInput">Beskrivelse</label>
+            <label for="descritionInput">Beskrivelse:</label>
             <textarea
               type="text"
               className="form-control"
@@ -198,7 +204,7 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <input type="submit" class="btn btn-success bg-green" value="Endre"></input>
+          <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
         </div>
       </form>
     );
@@ -237,8 +243,6 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(this.state.organiser_email);
-    console.log(this.state.image);
   }
   onChangeAddress(e: any) {
     let name: string = e.target.name;
@@ -252,59 +256,52 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   //TODO delete old profile pic <3
-  edit(correct: boolean, changePassword: boolean) {
+  edit(changePassword: boolean) {
     console.log('reg');
-    console.log(correct);
-    if (!correct && changePassword) {
-      document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
-      document.getElementById('labelNewPasswordError').innerHTML = '';
+    if (this.state.newPassword.length < 8 && changePassword) {
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
+      console.log('inne: ' + this.state.newPassword);
     } else {
-      if (this.state.newPassword.length < 8 && changePassword) {
-        document.getElementById('labelPasswordError').innerHTML = '';
-        document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
-        console.log('inne: ' + this.state.newPassword);
-      } else {
-        document.getElementById('labelPasswordError').innerHTML = '';
-        document.getElementById('labelNewPasswordError').innerHTML = '';
-        // Image
-        let element = document.getElementById('upload');
-        if (element.value !== '') {
-          let fullPath: any = element.value;
-          let ext = path.extname(fullPath).toLowerCase();
-          if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-            //TODO change alert
-            alert('Ikke gyldig filtype');
-            return;
-          }
-          const file = element.files[0];
-          const reader = new FileReader();
-          const state2 = this.state;
-          reader.addEventListener(
-            'load',
-            function() {
-              state2.imageUrl = reader.result;
-              alert('hei');
-              if (changePassword) state2.password = state2.newPassword;
-              OrganiserService.editOrganiser(state2).then(response => {
-                window.location = '/profile';
-              });
-            },
-            false,
-          );
-          if (file) {
-            reader.readAsDataURL(file);
-          } else {
-            this.editPost(this.state, changePassword);
-          }
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = '';
+      // Image
+      let imageUpload = document.getElementById('upload');
+      if (imageUpload.value !== '') {
+        let fullPath: any = imageUpload.value;
+        let ext = path.extname(fullPath).toLowerCase();
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+          //TODO change alert
+          alert('Ikke gyldig filtype');
+          return;
+        }
+        const file = imageUpload.files[0];
+        const reader = new FileReader();
+        const state2 = this.state;
+        reader.addEventListener(
+          'load',
+          function() {
+            state2.image = reader.result;
+            if (changePassword) state2.password = state2.newPassword;
+            OrganiserService.editOrganiser(state2).then(response => {
+              alert('Endring registert');
+              window.location = '/profile';
+            });
+          },
+          false,
+        );
+        if (file) {
+          reader.readAsDataURL(file);
         } else {
           this.editPost(this.state, changePassword);
         }
+      } else {
+        this.editPost(this.state, changePassword);
       }
     }
   }
 
   editPost(state: Object, changePassword: boolean) {
-    console.log(state.image);
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
       window.location = '/profile';
@@ -313,18 +310,18 @@ class ProfileEdit extends Component<{}, State> {
 
   post(event: any) {
     event.preventDefault();
-    console.log(mail);
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
-        ? this.edit(false, false)
+        ? this.edit(false)
         : PublicService.logIn(mail, this.state.password)
             .then(response => {
               console.log('Response: ' + response.data.jwt);
-              this.edit(true, true);
+              this.edit(true);
             })
             .catch(error => {
               console.log('error: ' + error);
-              this.edit(false, true);
+              document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
+              document.getElementById('labelNewPasswordError').innerHTML = '';
             });
     }
   }

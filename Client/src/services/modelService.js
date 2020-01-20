@@ -89,3 +89,16 @@ export class Organiser {
   eventsFinished: number;
   eventsComing: number;
 }
+
+// Object for sending ticket type
+export class TicketType {
+  constructor(name: string) {
+    this.name = name;
+  }
+  //Ticket type Information
+  name: string;
+  description: string;
+  ticket_type_id: number;
+  organiser_id: number;
+  price: number;
+}

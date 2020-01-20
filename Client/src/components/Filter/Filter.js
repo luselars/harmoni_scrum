@@ -15,8 +15,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   render() {
-    console.log(this.state.status);
-    console.log(window.screen.availWidth);
     return (
       <div id="filterCard" class="card">
         <div class="card-body bg-light">
@@ -53,8 +51,10 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     <input
                       type="radio"
                       id="sortRadio2"
-                      value="option2"
-                      checked={this.state.sortOption === 'option2'}
+                      value="e.name"
+                      checked={e => {
+                        this.setState({ sortOption: e.value });
+                      }}
                       onChange={e => this.handleChangeSort(e)}
                     ></input>
                     Alfabetisk
@@ -152,11 +152,11 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     const target = e.target;
     let value: string = target.value;
     this.setState({ sortOption: value });
+    this.props.setFilter(value);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-
     alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
   }
 }

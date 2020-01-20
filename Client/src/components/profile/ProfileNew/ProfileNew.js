@@ -18,6 +18,7 @@ export default class ProfileNew extends Component<
     organiser: boolean,
     check: boolean,
     address: string,
+    streetAddress: string,
     postalcode: number,
     postal: string,
     image: string,
@@ -36,6 +37,7 @@ export default class ProfileNew extends Component<
       organiser: false,
       check: false,
       address: string,
+      streetAddress: '',
       postalcode: number,
       postal: string,
       image: string,
@@ -72,7 +74,7 @@ export default class ProfileNew extends Component<
             </div>
             <div className="form-group text-center ml-5 mr-5">
               <label for="inputEmail1" id="registerText">
-                E-mail*
+                E-post*
               </label>
               <input
                 type="email"
@@ -116,7 +118,7 @@ export default class ProfileNew extends Component<
             </div>
             <div className="form-group text-center ml-5 mr-5">
               <label for="inputPasswordRepeat1" id="loginText">
-                Gjenta passord*
+                Bekreft passord*
               </label>
               <input
                 type="password"
@@ -156,8 +158,24 @@ export default class ProfileNew extends Component<
               ></input>
             </div>
             {this.state.organiser ? (
-              <div id="addressForm">
-                <div className="form-group text-center ml-5 mr-5">
+              <div className="ml-5 mr-5" id="addressForm">
+                <iframe
+                  id="map"
+                  width="100%"
+                  height="300px"
+                  frameborder="0"
+                  src={
+                    'https://www.google.com/maps/embed/v1/place?q=' +
+                    this.state.streetAddress +
+                    ',+' +
+                    this.state.postalcode +
+                    '+' +
+                    this.state.postal +
+                    '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+                  }
+                  allowfullscreen
+                ></iframe>
+                <div className="form-group text-center">
                   <label for="inputAddress" id="loginText">
                     Adresse
                   </label>
@@ -167,10 +185,10 @@ export default class ProfileNew extends Component<
                     className="form-control"
                     id="inputAddress"
                     placeholder="Adresse"
-                    name="address"
+                    name="streetAddress"
                   ></input>
                 </div>
-                <div className="form-group text-center ml-5 mr-5">
+                <div className="form-group text-center ">
                   <label for="inputPostalcode" id="loginText">
                     Postnummer
                   </label>
@@ -183,7 +201,7 @@ export default class ProfileNew extends Component<
                     name="postalcode"
                   ></input>
                 </div>
-                <div className="form-group text-center ml-5 mr-5">
+                <div className="form-group text-center ">
                   <label for="inputPostal" id="loginText">
                     Poststed
                   </label>
@@ -196,7 +214,7 @@ export default class ProfileNew extends Component<
                     name="postal"
                   ></input>
                 </div>
-                <div class="form-group text-center ml-5 mr-5">
+                <div class="form-group text-center">
                   <label for="inputURL1" id="loginText">
                     URL til nettsted
                   </label>
@@ -230,10 +248,10 @@ export default class ProfileNew extends Component<
                 type="checkbox"
                 onChange={event => this.handleChange(event)}
                 className="form-check-input"
-                id="check1"
+                id="check2"
                 required
               ></input>
-              <label class="form-check-label" for="check1">
+              <label class="form-check-label" for="check2">
                 Jeg godkjenner deres vilkår
               </label>
             </div>
@@ -258,6 +276,9 @@ export default class ProfileNew extends Component<
 
   post(event: any) {
     event.preventDefault();
+    this.setState({
+      address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
+    });
     if (this.state.password == this.state.passwordConfirmation) {
       PublicService.checkEmail(this.state.email).then(res => {
         if (res.data.length == 0) {

@@ -23,7 +23,7 @@ router.use('', (req, res, next) => {
       });
     } else {
       if (decoded.type == 'user') {
-        console.log('Token ok: ' + decoded.username);
+        //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
         next();
