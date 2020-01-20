@@ -152,6 +152,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     const target = e.target;
     let value: string = target.value;
     this.setState({ sortOption: value });
+    this.props.setFilter(value);
   }
 
   handleSubmit(event) {

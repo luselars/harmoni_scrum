@@ -9,6 +9,7 @@ import { string } from 'prop-types';
 import { PublicService } from '../../../services/publicService';
 import { UserService } from '../../../services/userService';
 import ReactPaginate from 'react-paginate';
+import filterStore from '../../../services/filterStore';
 
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 let events: Event[] = [];
@@ -20,7 +21,6 @@ export default class EventList extends Component<Props, State> {
     super(props);
     this.state = {
       events: [],
-      sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       organiser_id: 0,
       organiser: organiser,
@@ -110,7 +110,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
-    let sortMethod: string = CommunicationService.getSortString();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {
@@ -130,7 +129,7 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       }
     } else {
-      PublicService.getFrontpage(this.state.sortMethod)
+      PublicService.getFrontpage(this.props.sortMethod)
         .then(events => {
           console.log('welcome to the frontpage');
           console.log(events);
@@ -142,7 +141,7 @@ export default class EventList extends Component<Props, State> {
         .catch((error: Error) => alert(error.message));
     }
   }
-  componentWillReceiveProps(props) {
-    this.setState({ sortMethod: props.sortString });
-  }
+  // componentWillReceiveProps(props) {
+  //   this.setState({ sortMethod: props.sortString });
+  // }
 }
