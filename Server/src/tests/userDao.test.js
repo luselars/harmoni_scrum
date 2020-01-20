@@ -36,7 +36,7 @@ it('Edit an existing user', done => {
   let user: User = new User('testuser@testemail.com', 'Jens');
   user.description = 'asdasd';
   user.user_id = 1;
-  dao.editUser(user, callback);
+  dao.editUser(user.user_id, user, callback);
 });
 
 // Adds your account as an artist

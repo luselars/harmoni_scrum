@@ -243,21 +243,4 @@ class EventNew extends Component<Props> {
   }
 }
 
-// var today = new Date();
-// if (today.getMonth().toString.length === 1) {
-//     var date = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
-// }
-// if (today.getDate().toString.length === 1) {
-//     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-0' + today.getDate();
-// }
-// if (today.getMonth().toString.length === 1 && today.getDate().toString.length === 1) {
-//     var date = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-0' + today.getDate();
-// }
-// else {
-//     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-// }
-//
-// var time = today.getHours() + ":" + today.getMinutes();
-// console.log(time)
-
 export default EventNew;

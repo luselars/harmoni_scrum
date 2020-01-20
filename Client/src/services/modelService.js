@@ -101,4 +101,5 @@ export class TicketType {
   ticket_type_id: number;
   organiser_id: number;
   price: number;
+  amount: number;
 }
