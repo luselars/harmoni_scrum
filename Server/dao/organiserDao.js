@@ -250,6 +250,46 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
+  //Updates a rider in the database
+  editRider(
+    rider_file: string,
+    event_id: number,
+    rider_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'UPDATE rider SET rider_file = ? WHERE rider_id = ? AND event_id = ?',
+      [rider_file, rider_id, event_id],
+      callback,
+    );
+  }
+
+  //Posts a rider to the database
+  postRider(
+    rider_file: string,
+    event_id: number,
+    user_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'INSERT INTO rider (rider_file, event_id, user_id) VALUES(?,?,?)',
+      [rider_file, event_id, user_id],
+      callback,
+    );
+  }
+  // Deletes a rider
+  deleteRider(
+    event_id: number,
+    rider_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    super.query(
+      'DELETE FROM rider WHERE event_id = ? AND rider_id = ?',
+      [event_id, rider_id],
+      callback,
+    );
+  }
+
   // Deletes riders for an event
   deleteEventRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('DELETE FROM rider WHERE event_id = ?', [event_id], callback);

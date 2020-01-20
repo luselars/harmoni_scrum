@@ -105,7 +105,7 @@ export default class EventDetails extends Component<Props, State> {
         </div>
         <div className="btndivevent">
           <button className="btn btn-success bg-green" onClick={() => (window.location.href = '/')}>
-            Tilbake til forside
+            Tilbake
           </button>
         </div>
       </div>

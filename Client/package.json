@@ -12,6 +12,7 @@
     "bootstrap": "^4.4.1",
     "flow-react": "^0.1.1",
     "form-data": "^3.0.0",
+    "fuse.js": "^3.4.6",
     "material-ui": "^0.20.2",
     "path": "^0.12.7",
     "react": "^16.12.0",

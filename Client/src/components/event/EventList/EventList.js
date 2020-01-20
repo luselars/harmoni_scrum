@@ -20,7 +20,6 @@ export default class EventList extends Component<Props, State> {
     super(props);
     this.state = {
       events: [],
-      sortMethod: 'e.start',
       status: localStorage.getItem('token') === null,
       organiser_id: 0,
       organiser: organiser,
@@ -42,7 +41,15 @@ export default class EventList extends Component<Props, State> {
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < 7 ? (
               <div className="card float-right">
-                <div className="card-body bg-light">
+                <div
+                  className="card-body bg-light"
+                  onClick={() => {
+                    if (this.props.profile_list)
+                      window.location.href = '/orgevent/' + event.event_id;
+                    else window.location.href = '/event/' + event.event_id;
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="container bg-light">
                     <div className="row justify-content-md-center align-items-center">
                       <div id="date" className="col-2 text-center">
@@ -51,13 +58,14 @@ export default class EventList extends Component<Props, State> {
                       </div>
                       <div id="eventinfo" className="col-8">
                         <h5 class="eventtitle">{event.name}</h5>
-                        <p className="eventlistp">
-                          <a className="eventdescription">Sted: </a>
-                          {event.venue}
-                        </p>
+
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
                           {event.start.slice(11, 16)}
+                        </p>
+                        <p className="eventlistp">
+                          <a className="eventdescription">Sted: </a>
+                          {event.venue}
                         </p>
                       </div>
                       <div id="eventbtn" className="col text-right">
@@ -74,7 +82,11 @@ export default class EventList extends Component<Props, State> {
                           <button
                             className="btn btn-success bg-green"
                             id="moreinfo"
-                            onClick={() => (window.location.href = '/orgevent/' + event.event_id)}
+                            onClick={() => {
+                              if (this.props.profile_list)
+                                window.location.href = '/orgevent/' + event.event_id;
+                              else window.location.href = '/event/' + event.event_id;
+                            }}
                           >
                             {' '}
                             Mer info
@@ -110,7 +122,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
-    let sortMethod: string = CommunicationService.getSortString();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {
@@ -130,7 +141,7 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       }
     } else {
-      PublicService.getFrontpage(this.state.sortMethod)
+      PublicService.getFrontpage(this.props.sortMethod)
         .then(events => {
           console.log('welcome to the frontpage');
           console.log(events);
@@ -142,7 +153,7 @@ export default class EventList extends Component<Props, State> {
         .catch((error: Error) => alert(error.message));
     }
   }
-  componentWillReceiveProps(props) {
-    this.setState({ sortMethod: props.sortString });
-  }
+  // componentWillReceiveProps(props) {
+  //   this.setState({ sortMethod: props.sortString });
+  // }
 }
