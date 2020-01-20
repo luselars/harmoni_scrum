@@ -14,7 +14,7 @@ module.exports = class AdminDao extends Dao {
   //verify an account
   verifyOrganiser(organiser_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
-      'UPDATE organiser SET verified = 1 WHERE organiser_id = ?',
+      'UPDATE organiser SET verified = NOT verified WHERE organiser_id = ?',
       [organiser_id],
       callback,
     );
