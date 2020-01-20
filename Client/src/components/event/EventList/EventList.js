@@ -42,7 +42,10 @@ export default class EventList extends Component<Props, State> {
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < 7 ? (
               <div className="card float-right">
-                <div className="card-body bg-light">
+                <div className="card-body bg-light" onClick={() => {
+                    if (this.props.profile_list) (window.location.href = '/orgevent/' + event.event_id)
+                    else (window.location.href = '/event/' + event.event_id)}
+                } style={ {cursor: "pointer"} }>
                   <div className="container bg-light">
                     <div className="row justify-content-md-center align-items-center">
                       <div id="date" className="col-2 text-center">
@@ -74,7 +77,10 @@ export default class EventList extends Component<Props, State> {
                           <button
                             className="btn btn-success bg-green"
                             id="moreinfo"
-                            onClick={() => (window.location.href = '/orgevent/' + event.event_id)}
+                            onClick={() => {
+                                if (this.props.profile_list) (window.location.href = '/orgevent/' + event.event_id)
+                                else (window.location.href = '/event/' + event.event_id)}
+                            }
                           >
                             {' '}
                             Mer info
