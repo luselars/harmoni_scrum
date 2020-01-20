@@ -41,8 +41,8 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     <input
                       type="radio"
                       id="sortRadio1"
-                      value="e.start"
-                      checked={this.state.sortOption === 'e.start'}
+                      value="time"
+                      checked={this.state.sortOption === 'time'}
                       onChange={e => this.handleChangeSort(e)}
                     ></input>
                     Tid
@@ -51,10 +51,8 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     <input
                       type="radio"
                       id="sortRadio2"
-                      value="e.name"
-                      checked={e => {
-                        this.setState({ sortOption: e.value });
-                      }}
+                      value="alphabetical"
+                      checked={this.state.sortOption === 'alphabetical'}
                       onChange={e => this.handleChangeSort(e)}
                     ></input>
                     Alfabetisk
@@ -63,11 +61,11 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     <input
                       type="radio"
                       id="sortRadio3"
-                      value="option3"
-                      checked={this.state.sortOption === 'option3'}
+                      value="price"
+                      checked={this.state.sortOption === 'price'}
                       onChange={e => this.handleChangeSort(e)}
                     ></input>
-                    Størrelse
+                    Pris
                   </label>
                 </div>
                 <div className="filtercategories col border-bottom">
@@ -118,12 +116,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
                 </div>
-
-                <div className="col text-center mt-3">
-                  <button type="submit" className="btn btn-success">
-                    Velg
-                  </button>
-                </div>
               </div>
             </Collapse>
           </form>
@@ -149,10 +141,9 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   handleChangeSort(e: any) {
-    const target = e.target;
-    let value: string = target.value;
+    let value: string = e.target.value;
     this.setState({ sortOption: value });
-    this.props.setFilter(value);
+    this.props.handleFilterChange(value);
   }
 
   handleSubmit(event) {

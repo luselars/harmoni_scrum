@@ -4,17 +4,25 @@
     'reactpaginate';
 }
 
-.reactpaginate {
-  font-size: xx-large;
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-}
-
 .pagination > li.active > a {
   color: #fff;
-  background-color: #218838;
-  border-color: #1e7e34;
+}
+
+.pagination > li {
+  padding-left: 5px;
+  padding-right: 5px;
+  border: solid;
+  color: #fff !important;
+  background-color: #28a745;
+  border-color: #28a745;
+  margin: 0px 5px 0px 5px;
+  font: inherit;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.pagination > li:hover {
+  background-color: #1e7e34 !important;
 }
 
 #date {
