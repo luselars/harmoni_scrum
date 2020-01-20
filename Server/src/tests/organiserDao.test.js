@@ -312,4 +312,64 @@ describe('Testing all relevant parts of organiserDAO', () => {
     }
     dao.getMyEvents(1, callback);
   });
+
+  // Gets riders
+  it('Gets riders', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getRiders(1, callback);
+  });
+
+  // Posts a new rider
+  it('Posts a new rider', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBe(1);
+      done();
+    }
+    dao.postRider('newfile.pdf', 1, 1, callback);
+  });
+
+  // Checks that the new rider is now found when get runs
+  it('Gets riders again with new one.', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(2);
+      done();
+    }
+    dao.getRiders(1, callback);
+  });
+
+  // Edits a rider
+  it('Edit rider', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBe(1);
+      done();
+    }
+    dao.editRider('anotherfile.pdf', 1, 2, callback);
+  });
+
+  // Deletes a rider
+  it('Deletes rider', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.affectedRows).toBe(1);
+      done();
+    }
+    dao.deleteRider(1, 1, callback);
+  });
+
+  // Checks that the rider was deleted.
+  it('Checks that the rider was deleted.', done => {
+    function callback(status, data) {
+      console.log('Test callback: status=');
+      expect(data.length).toBe(1);
+      done();
+    }
+    dao.getRiders(1, callback);
+  });
 });

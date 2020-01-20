@@ -127,7 +127,7 @@ class ProfileEdit extends Component<{}, State> {
           </div>
 
           <div className="form-group" id="description">
-            <label for="descritionInput">Beskrivelse</label>
+            <label for="descritionInput">Beskrivelse:</label>
             <textarea
               type="text"
               className="form-control"
@@ -198,7 +198,7 @@ class ProfileEdit extends Component<{}, State> {
               id="postalInput"
             ></input>
           </div>
-          <input type="submit" class="btn btn-success bg-green" value="Endre"></input>
+          <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
         </div>
       </form>
     );

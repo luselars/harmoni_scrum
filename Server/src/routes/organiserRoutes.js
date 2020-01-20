@@ -156,16 +156,46 @@ router.delete('/event/:event_id', (req: express$Request, res: express$Response) 
 });
 
 // Get artist
-router.get('/artist', (req: { body: string }, res: express$Response) => {
+router.get('/artist', (req: express$Request, res: express$Response) => {
   dao.getArtist(req.body, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
 
-//get riders for event
-router.get('/event/rider/:event_id', (req: { body: string }, res: express$Response) => {
+//Get riders for event
+router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
   dao.getRiders(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Adds a rider to the event on a user
+router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
+  uploadFunctions.handleFile(req.body, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  });
+});
+
+// Adds a rider to the event on a user
+router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  });
+});
+
+// Delete a single rider
+router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.event_id, req.params.rider_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -380,14 +410,6 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
       console.log(data2);
       res.send(data2);
     });
-  });
-});
-
-// Gets all riders connected to a single event connected to an event
-router.get('/:eid/artist/:aid/riders', (req: express$Request, res: express$Response) => {
-  dao.getArtistRiders(req.params.eid, req.params.aid, (status, data) => {
-    res.status(status);
-    res.send(data2);
   });
 });
 

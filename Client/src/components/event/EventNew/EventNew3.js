@@ -185,8 +185,6 @@ class EventNew3 extends Component {
     window.location = '/newevent2';
   }
   next() {
-    console.log(this.name.current.value);
-    console.log(this.addr.current.value);
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;
