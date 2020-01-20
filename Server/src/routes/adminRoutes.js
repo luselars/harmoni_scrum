@@ -18,13 +18,13 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
 
 // Get all unverified
 router.get('/unverified', (req: express$Request, res: express$Response) => {
-  dao.getMyTickets(req.uid, (status, data) => {
+  dao.getUnverified((status, data) => {
     res.status(status);
     res.send(data);
   });
 });
 
-// Verify this organiser
+// Change verification status of this organiser
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
   dao.verifyOrganiser(req.id, (status, data) => {
     res.status(status);
