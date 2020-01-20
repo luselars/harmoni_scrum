@@ -7,7 +7,8 @@ const { expect } = chai;
 const publicDao = require('../../dao/publicDao.js');
 let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
 const runsqlfile = require('./runsqlfile.js');
-
+let publicRoutes = require('../routes/publicRoutes');
+publicRoutes.changeDao(dao);
 /*
 File to test endpoints in routes-folder.
 Uses chai to send the requests.
@@ -27,7 +28,7 @@ describe('Get events from endpoint', () => {
       .get('/public/event')
       .set('Accept', 'application/json')
       .end((err, res) => {
-        console.log(res.status);
+        console.log(res.body);
         expect(res.status).to.equal(200);
         done();
       });
