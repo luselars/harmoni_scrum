@@ -133,6 +133,28 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </th>
                     <td class="text-left">{this.state.event.address}</td>
                   </tr>
+                </tbody>
+              </table>
+              {this.state.event.address == null ? (
+                <p></p>
+              ) : (
+                <iframe
+                  id="map"
+                  width="100%"
+                  height="300px"
+                  frameborder="0"
+                  src={
+                    'https://www.google.com/maps/embed/v1/place?q=' +
+                    this.state.event.address +
+                    ',+' +
+                    this.state.event.postcode +
+                    '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+                  }
+                  allowfullscreen
+                ></iframe>
+              )}
+              <table className="table table-borderless">
+                <tbody>
                   <tr>
                     <th class="text-right" scope="row">
                       Lineup:
