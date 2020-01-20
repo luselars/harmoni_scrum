@@ -1,7 +1,11 @@
-#profileOrganiserCard {
-  width: 60%;
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-bottom: 1%;
-  margin-top: 1%;
+#profilepic {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 415px) {
+  #profilename {
+    font-size: 2rem;
+  }
 }
