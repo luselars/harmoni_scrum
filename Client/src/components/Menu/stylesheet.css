@@ -26,6 +26,11 @@
   margin-right: -10px;
 }
 
+#eventButton {
+  margin-left: 0;
+  margin-right: -15px;
+}
+
 .loginGroup {
   display: contents;
 }
@@ -33,7 +38,7 @@
 @media screen and (max-width: 415px) {
   #loginButton,
   #profileButton,
-  #homeButton {
+  #homeButton #eventButton {
     padding-left: 5px;
   }
 }
