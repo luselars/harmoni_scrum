@@ -75,19 +75,23 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         </div>
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
-            <img
-              id="EventPicLI"
-              src={'http://localhost:4000/public/file/' + this.state.event.image}
-              className="img-fluid"
-              alt="Eventbilde"
-            ></img>
+            <div className="imgdiv">
+              <img
+                id="EventPicLI"
+                src={'http://localhost:4000/public/file/' + this.state.event.image}
+                className="img-fluid"
+                alt="Eventbilde"
+              ></img>
+            </div>
             <div id="EventDetailsLITable">
-              <p className="display-4 text-uppercase text-center m-4">{this.state.event.name}</p>
+              <p className="titleeventdetails display-4 text-uppercase text-center m-4">
+                {this.state.event.name}
+              </p>
               <table className="table table-borderless">
                 <tbody>
                   <tr>
                     <th class="text-right" scope="row">
-                      Dato:
+                      Start:
                     </th>
                     <td class="text-left">
                       {this.state.event.start
@@ -100,6 +104,11 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                           this.state.event.start.slice(11, 16)
                         : 'Laster'}
                     </td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" scope="row">
+                      Slutt:
+                    </th>
                     <td class="text-left">
                       {this.state.event.end
                         ? this.state.event.end.slice(8, 10) +
@@ -144,19 +153,23 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th class="text-right" scope="row">
-                      Kontrakt(er):
+                      Kontrakt:
                     </th>
                     {this.state.artists.map(artist => (
                       <div>
                         {artist.contract === null ? null : (
-                          <td>
+                          <div>
                             {artist.artist_name === null ? (
-                              <td className="text-left">Ukjent artist</td>
+                              <td className="text-left">Ukjent artist: </td>
                             ) : (
-                              <td className="text-left">{artist.artist_name}</td>
+                              <td className="text-left">{artist.artist_name}: </td>
                             )}
-                            <DownloadFile fileName={artist.contract} />
-                          </td>
+                            <tr>
+                              <td calssName="text-left">
+                                <DownloadFile fileName={artist.contract} />
+                              </td>
+                            </tr>
+                          </div>
                         )}
                       </div>
                     ))}
@@ -176,7 +189,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th class="text-right" scope="row">
-                      Synlig for utenforstående:
+                      Offentlig:
                     </th>
                     <td class="text-left">Ja</td>
                   </tr>
@@ -188,17 +201,22 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                 </tbody>
               </table>
-
-              <button
-                class="btn btn-success bg-green"
-                id="editeventbtn"
-                onClick={() => this.edit()}
-              >
-                ENDRE ARRANGEMENT
-              </button>
-              <button class="btn" id="deleteeventbtn" onClick={() => this.deletebtn()}>
-                <i class="fa fa-trash" aria-hidden="true"></i>Slett
-              </button>
+              <div className="eventdetailsbtn">
+                <button
+                  class="btn btn-success bg-green"
+                  id="editeventbtn"
+                  onClick={() => this.edit()}
+                >
+                  ENDRE
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  id="deleteeventbtn"
+                  onClick={() => this.deletebtn()}
+                >
+                  <i class="fa fa-trash" aria-hidden="true"></i> Slett
+                </button>
+              </div>
             </div>
           </div>
         </div>

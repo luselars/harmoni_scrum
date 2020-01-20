@@ -1,3 +1,24 @@
+.filtertitle {
+  font-size: 1.25rem;
+  margin: 10px 15px;
+  font-family: sans-serif;
+}
+
+.placecheck {
+  padding-left: 2px;
+}
+
+h6 {
+  font-family: sans-serif;
+}
+.filtercategories {
+  padding: 0;
+}
+
+.sortlabel {
+  padding-left: 0;
+}
+
 #filterCard {
   width: 18%;
   margin-left: 10%;
@@ -29,6 +50,11 @@
   background-color: transparent;
   visibility: hidden;
   float: right;
+}
+
+h6 {
+  text-align: left;
+  margin-top: 1px;
 }
 
 @media screen and (max-width: 700px) {
