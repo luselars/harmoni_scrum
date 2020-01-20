@@ -74,7 +74,7 @@ export default class ProfileNew extends Component<
             </div>
             <div className="form-group text-center ml-5 mr-5">
               <label for="inputEmail1" id="registerText">
-                E-mail*
+                E-post*
               </label>
               <input
                 type="email"
@@ -118,7 +118,7 @@ export default class ProfileNew extends Component<
             </div>
             <div className="form-group text-center ml-5 mr-5">
               <label for="inputPasswordRepeat1" id="loginText">
-                Gjenta passord*
+                Bekreft passord*
               </label>
               <input
                 type="password"

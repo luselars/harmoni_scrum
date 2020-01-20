@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `organiser`(
   `address` VARCHAR(100) NULL DEFAULT NULL,
   `hash` VARCHAR(60) NOT NULL,
   `salt` VARCHAR(30) NOT NULL,
+  `verified` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`organiser_id`),
   UNIQUE INDEX `organiser_email` (`organiser_email` ASC) )
 ENGINE = InnoDB
