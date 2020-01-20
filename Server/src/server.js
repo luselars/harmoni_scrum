@@ -45,7 +45,7 @@ app.use(express.json()); // For parsing application/json
 app.use('/public/', publicRoutes);
 app.use('/organiser/', organiserRoutes);
 app.use('/user/', userRoutes);
-app.use('/admin/', adminRoutes);
+//app.use('/admin/', adminRoutes);
 
 let server = app.listen(PORT);
 console.log('Server started on port: ' + PORT);
