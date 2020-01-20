@@ -94,4 +94,6 @@ export class TicketType {
   name: string;
   description: string;
   ticket_type_id: number;
+  organiser_id: number;
+  price: number;
 }

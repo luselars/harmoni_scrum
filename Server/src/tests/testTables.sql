@@ -146,6 +146,7 @@ CREATE TABLE IF NOT EXISTS `event_ticket`(
   `event_id` INT(11) NOT NULL,
   `ticket_type_id` INT(11) NOT NULL,
   `price` INT(11) NULL DEFAULT NULL,
+  `amount` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`event_id`, `ticket_type_id`),
   INDEX `fk_event_has_ticket_type_ticket_type1_idx` (`ticket_type_id` ASC) ,
   INDEX `fk_event_has_ticket_type_event1_idx` (`event_id` ASC) ,
