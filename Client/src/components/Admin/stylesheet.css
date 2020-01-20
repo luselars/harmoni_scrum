@@ -1,0 +1,19 @@
+#admincard {
+  margin: 0 20%;
+  padding: 0;
+}
+
+#textright {
+  font-family: sans-serif;
+  float: left;
+  margin-left: 5%;
+}
+
+.textadmin {
+  margin: 0;
+  font-size: x-large;
+}
+
+.btnclassadmin {
+  float: right;
+}
