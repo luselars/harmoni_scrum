@@ -13,7 +13,6 @@ import EventDetailsLoggedIn from './components/event/EventDetailsLoggedIn/EventD
 import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileOrganiser from './components/profile/ProfileOrganiser/ProfileOrganiser';
 import LoggedIn from './views/loggedIn';
-import Upload from './components/Upload/Upload';
 import EventNew2 from './components/event/EventNew/EventNew2';
 import EventNew3 from './components/event/EventNew/EventNew3';
 import EventNew4 from './components/event/EventNew/EventNew4';
@@ -27,7 +26,11 @@ import EventNew5 from './components/event/EventNew/EventNew5';
 {
   /*const Main = () => <h1>Home here</h1>*/
 }
-const NoMatch = () => <h1>404 Not Found</h1>;
+const NoMatch = () => (
+  <div className="card">
+    <h1>404 Not Found</h1>
+  </div>
+);
 const LocationDisplay = withRouter(({ location }) => (
   <div data-testid="location-display">{location.pathname}</div>
 ));
