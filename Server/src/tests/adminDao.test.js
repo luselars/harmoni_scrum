@@ -60,7 +60,7 @@ describe('Testing methods in public dao', () => {
   });
   it('Get unverified organiser', done => {
     function callback(status, data) {
-      expect(data.length).toBe(1);
+      expect(data.length).toBe(0);
       done();
     }
     dao.getUnverified(callback);
@@ -74,7 +74,7 @@ describe('Testing methods in public dao', () => {
   });
   it('Make sure that no more unverified organisers exist', done => {
     function callback(status, data) {
-      expect(data.length).toBe(0);
+      expect(data.length).toBe(1);
       done();
     }
     dao.getUnverified(callback);
