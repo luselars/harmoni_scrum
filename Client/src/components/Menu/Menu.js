@@ -18,7 +18,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
 
   render() {
     return (
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="navbar navbar-dark bg-dark mb-1">
         <a className="navbar-brand text-light" id="title" href="/">
           HARMONI
         </a>
