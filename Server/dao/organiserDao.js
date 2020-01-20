@@ -241,6 +241,11 @@ module.exports = class OrganiserDao extends Dao {
     super.query('DELETE FROM event_ticket WHERE event_id = ?', [event_id], callback);
   }
 
+  // Deletes organiser
+  deleteOrganiser(organiser_id: number, callback: (status: String, data: Object) => mixed) {
+    super.query('DELETE FROM organiser WHERE organiser_id = ?', [organiser_id], callback);
+  }
+
   //gets all riders in event
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(

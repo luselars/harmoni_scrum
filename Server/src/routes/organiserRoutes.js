@@ -257,6 +257,14 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
   });
 });
 
+// Deletes one organiser
+router.delete('/organiser/:organiser_id', (req: express$Request, res: express$Response) => {
+  dao.deleteOrganiser(req.params.organiser_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Get all types of volunteers from an organiser.
 router.get('/group', (req: express$Request, res: express$Response) => {
   dao.getGroup(req.email, (status, data) => {
