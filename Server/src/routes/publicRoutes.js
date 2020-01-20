@@ -99,7 +99,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
             },
           );
           res.status(200);
-          res.json({ jwt: token });
+          res.json({ jwt: token, type: 'user' });
         } else {
           console.log('Username and password NOT ok');
           res.status(401);
@@ -124,7 +124,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
                     expiresIn: tokenDuration,
                   },
                 );
-                res.json({ jwt: token });
+                res.json({ jwt: token, type: 'organiser' });
               } else {
                 console.log('Username and password NOT ok');
                 res.status(401);

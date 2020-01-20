@@ -71,6 +71,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
   }
   logOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userType');
     window.location.href = '/';
   }
 }
