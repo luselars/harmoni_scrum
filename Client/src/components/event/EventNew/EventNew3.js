@@ -31,6 +31,7 @@ class EventNew3 extends Component {
       locations: [],
       location_name: string,
       location_addr: string,
+      location_nr: Number,
     };
   }
   componentDidMount() {
@@ -47,6 +48,7 @@ class EventNew3 extends Component {
           console.log(response.data);
           this.setState({ locations: response.data });
           console.log(this.state.locations);
+          this.setState({ location_nr: document.getElementById('postcode').value });
           if (data.location_id !== null) {
             let locData = new Location();
             for (let i = 0; i < response.data.length; i++) {
@@ -80,6 +82,20 @@ class EventNew3 extends Component {
           {/*<form>*/}
           <div className="form-row">
             <p id="locationtitle">Velg sted</p>
+            <iframe
+              id="map"
+              width="100%"
+              height="300px"
+              frameborder="0"
+              src={
+                'https://www.google.com/maps/embed/v1/place?q=' +
+                this.state.location_addr +
+                ',+' +
+                this.state.location_nr +
+                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+              }
+              allowfullscreen
+            ></iframe>
             <Autocomplete
               id="search_name"
               style={{ width: '800px' }}
