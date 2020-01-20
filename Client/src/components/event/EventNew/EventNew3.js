@@ -206,7 +206,6 @@ class EventNew3 extends Component {
     let postcode = document.getElementById('postcode').value;
     let venue = document.getElementById('venue').value;
     if (name.length < 1 || addr.length < 1) {
-      alert('DETTE FUNKER IKKE');
       return;
     }
     //post location
