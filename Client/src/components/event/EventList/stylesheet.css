@@ -6,6 +6,9 @@
 
 .reactpaginate {
   font-size: xx-large;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
 
 .pagination > li.active > a {
@@ -67,7 +70,7 @@ h5 {
 }
 
 @media screen and (max-width: 650px) {
-  #card {
+  .card {
     font-size: 3vw;
     width: 90% !important;
     margin-left: 5% !important;
