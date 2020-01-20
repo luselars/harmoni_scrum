@@ -86,6 +86,10 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
+  getAdminLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query('Select * from admin WHERE email = ?', email, callback);
+  }
+
   emailExists(email: string, callback) {
     super.query(
       'SELECT organiser_email as email FROM organiser WHERE organiser_email = ? UNION SELECT email FROM user WHERE email = ?',
