@@ -233,7 +233,7 @@ export default class EventList extends Component<Props, State> {
     if (value) {
       this.setState({
         events: this.fuse.search(value),
-        pageCount: Math.ceil(this.state.events.length / eventsPerPage),
+        pageCount: Math.ceil(value.length / eventsPerPage),
       });
     } else {
       // If there is no search string it resets the eventlist
