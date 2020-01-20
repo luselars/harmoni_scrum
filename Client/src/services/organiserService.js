@@ -72,18 +72,27 @@ export class OrganiserService {
     return axios.put(url, data, config);
   }
 
+  // Get all riders on an event
   static getRiders(event_id: number) {
     let url = url_base + '/event/rider/' + event_id;
     return axios.get(url, config);
   }
 
+  // Posts a new rider
   static postRider(rider_file: string, event_id: number, user_id: number) {
     let url = url_base + '/event/rider/' + event_id + '/' + user_id;
-    return axios.post(url, [rider_file, event_id, user_id], config);
+    return axios.post(url, { rider_file }, config);
   }
 
+  // Updates an existing rider
   static updateRider(rider_file: string, event_id: number, rider_id: number) {
     let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
-    return axios.put(url, [rider_file, event_id, rider_id], config);
+    return axios.put(url, { rider_file }, config);
+  }
+
+  // Deletes a rider
+  static deleteRider(event_id: number, rider_id: number) {
+    let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
+    return axios.put(url, config);
   }
 }

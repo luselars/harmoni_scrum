@@ -173,15 +173,29 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
 
 // Adds a rider to the event on a user
 router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
-  dao.editRider(req.body, req.params.event_id, req.params.rider_id, (status, data) => {
-    res.status(status);
-    res.send(data);
+  uploadFunctions.handleFile(req.body, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
   });
 });
 
 // Adds a rider to the event on a user
 router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
-  dao.postRider(req.body, req.params.event_id, req.params.user_id, (status, data) => {
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  });
+});
+
+// Delete a single rider
+router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.event_id, req.params.rider_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
