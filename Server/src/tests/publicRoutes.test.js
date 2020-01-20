@@ -1,6 +1,7 @@
 import chai from 'chai';
 import http from 'chai-http';
 import app from '../server';
+import { User } from '../../dao/modelDao';
 
 chai.use(http);
 const { expect } = chai;
@@ -76,3 +77,23 @@ describe('Get artist on an event from endpoint', () => {
       });
   });
 });
+
+/*
+  let usr = new User();
+  usr.email = "kulgutt@hotmail.com";
+  usr.name = "macarena";
+  usr.tlf = "1234567";
+  usr.description = "kulgutt er kul";
+  usr.user_id = 53;
+  it('Should fetch a artist', done => {
+    chai
+      .request(app)
+      .post('/public/login')
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(0);
+        done();
+      });
+  });
+*/

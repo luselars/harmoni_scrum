@@ -100,7 +100,7 @@ class EventNew extends Component<Props> {
                 style={{ width: '100px' }}
                 onChange={() => this.updateTime()}
               />
-              <label>Status</label>
+              <label>Status i henhold til arrangementet</label>
               <textarea
                 className="form-control"
                 id="eventdesc"

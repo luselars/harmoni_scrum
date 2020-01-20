@@ -252,7 +252,7 @@ export default class ProfileNew extends Component<
                 required
               ></input>
               <label class="form-check-label" for="check2">
-                Jeg godkjenner deres vilkår
+                Jeg godkjenner vilkårene
               </label>
             </div>
             <button type="submit" className="btn btn-success m-3 w-25 text-">
