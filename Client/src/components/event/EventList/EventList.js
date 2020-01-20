@@ -159,29 +159,33 @@ export default class EventList extends Component<Props, State> {
               ''
             ),
           )}
-          <div className="card float-right bg-transparent border-0">
-            <div className="card-body bg-transparent">
-              <div className="row justify-content-md-center align-items-center">
-                <div className="col-12">
-                  <div className="reactpaginate">
-                    <ReactPaginate
-                      previousLabel={<i class="fa fa-chevron-left" aria-hidden="true"></i>}
-                      nextLabel={<i class="fa fa-chevron-right" aria-hidden="true"></i>}
-                      breakLabel={'...'}
-                      breakClassName={'break-me'}
-                      pageCount={this.state.pageCount}
-                      marginPagesDisplayed={2}
-                      pageRangeDisplayed={5}
-                      onPageChange={this.handlePageClick}
-                      containerClassName={'pagination'}
-                      subContainerClassName={'pages pagination'}
-                      activeClassName={'active'}
-                    />
+          {this.state.pageCount >= 2 ? (
+            <div className="card float-right bg-transparent border-0">
+              <div className="card-body bg-transparent">
+                <div className="row justify-content-md-center align-items-center">
+                  <div className="col-12">
+                    <div className="reactpaginate">
+                      <ReactPaginate
+                        previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
+                        nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     );

@@ -41,6 +41,12 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.put<Object>(url, organiser, config);
   }
+
+  static deleteOrganiser(id: number): AxiosPromise<Organiser> {
+    let url = url_base + '/organiser/:id';
+    return axios.delete<Object>(url, config);
+  }
+
   static getLocations(): AxiosPromise<Location[]> {
     let url = url_base + '/location';
     return axios.get(url, config);
