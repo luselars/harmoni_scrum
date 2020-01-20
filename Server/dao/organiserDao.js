@@ -360,11 +360,15 @@ module.exports = class OrganiserDao extends Dao {
   postEventTicket(
     ticket: TicketType,
     event_id: number,
-    ticket_type_id: number,
     callback: (status: string, data: Object) => mixed,
   ) {
-    var queryString = 'INSERT INTO event_ticket (ticket_type_id, price, event_id) VALUES(?,?,?)';
-    super.query(queryString, [event_id, ticket.price, event_id], callback);
+    var queryString =
+      'INSERT INTO event_ticket (ticket_type_id, price, amount, event_id) VALUES(?,?,?,?)';
+    super.query(
+      queryString,
+      [ticket.ticket_type_id, ticket.price, ticket.amount, event_id],
+      callback,
+    );
   }
 
   getMyEvents(organiser_id: number, callback) {

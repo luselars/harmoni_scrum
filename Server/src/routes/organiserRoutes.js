@@ -405,15 +405,15 @@ router.get('/tickets', (req: express$Request, res: express$Response) => {
 
 // Create a new ticket type
 router.post('/tickets', (req: { body: Object }, res: express$Response) => {
-  dao.postTicketType(req.body, req.params.id, (status, data) => {
+  dao.postTicketType(req.body, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
 
 // Add ticket type to event
-router.post('/event/:eid/tickets/:tid', (req: { body: Object }, res: express$Response) => {
-  dao.postEventTicket(req.body, req.params.eid, req.params.tid, (status, data) => {
+router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response) => {
+  dao.postEventTicket(req.body, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
   });
