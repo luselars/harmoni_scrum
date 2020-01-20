@@ -99,7 +99,6 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 // Create new location
 router.post('/location', (req: { body: Object }, res: express$Response) => {
   dao.getSingleLocation(req.body.address, (status, data) => {
-
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
         res.status(100);
@@ -394,9 +393,49 @@ router.get('/event/:event_id/artist', (req: express$Request, res: express$Respon
   });
 });
 
+// Get all of users ticket types
+router.get('/tickets', (req: express$Request, res: express$Response) => {
+  dao.getMyTickets(req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Create a new ticket type
+router.post('/tickets', (req: { body: Object }, res: express$Response) => {
+  dao.postTicketType(req.body, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Add ticket type to event
+router.post('/event/:eid/tickets/:tid', (req: { body: Object }, res: express$Response) => {
+  dao.postEventTicket(req.body, req.params.eid, req.params.tid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Edit a ticket type
-router.put('/tickets', (req: { body: Object }, res: express$Response) => {
-  dao.editTicketType(req.body, req.email, (status, data) => {
+router.put('/tickets/:id', (req: { body: Object }, res: express$Response) => {
+  dao.editTicketType(req.body, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Delete a ticket type
+router.delete('/tickets/:id', (req: express$Request, res: express$Response) => {
+  dao.deleteTicketType(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Delete a ticket type from an event
+router.delete('/event/:eid/tickets/:tid', (req: express$Request, res: express$Response) => {
+  dao.deleteEventTicket(req.params.eid, req.params.tid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -404,13 +443,9 @@ router.put('/tickets', (req: { body: Object }, res: express$Response) => {
 
 //Get a ticket type
 router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
-  dao.getMyId(req.email, (status, data) => {
+  dao.getTicketType(req.params.id, (status, data) => {
     res.status(status);
-    dao.getTicketType(req.params.id, data[0], (status, data2) => {
-      res.status(status);
-      console.log(data2);
-      res.send(data2);
-    });
+    res.send(data);
   });
 });
 

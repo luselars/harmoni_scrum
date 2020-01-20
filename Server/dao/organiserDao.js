@@ -308,12 +308,12 @@ module.exports = class OrganiserDao extends Dao {
 
   editTicketType(
     ticketType: TicketType,
-    id: number,
+    ticket_type_id: number,
     callback: (status: string, data: TicketType) => mixed,
   ) {
     super.query(
       'UPDATE ticket_type SET name = ?, description = ? WHERE ticket_type_id = ? AND organiser_id = ?;',
-      [ticketType.name, ticketType.description, ticketType.ticket_type_id, id],
+      [ticketType.name, ticketType.description, ticketType.ticket_type_id, ticket_type_id],
       callback,
     );
   }
@@ -324,13 +324,47 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-  getTicketType(
+  getMyTickets(organiser_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT * FROM ticket_type WHERE organiser_id = ?';
+    super.query(queryString, [organiser_id], callback);
+  }
+
+  getTicketType(ticket_type_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ?';
+    super.query(queryString, [ticket_type_id], callback);
+  }
+
+  postTicketType(
+    ticket: TicketType,
     ticket_type_id: number,
-    organiser_id: number,
     callback: (status: string, data: Object) => mixed,
   ) {
-    var queryString = 'SELECT * FROM ticket_type WHERE ticket_type_id = ? AND organiser_id = ?;';
-    super.query(queryString, [ticket_type_id, organiser_id], callback);
+    var queryString = 'INSERT INTO ticket_type (organiser_id, name, description) VALUES(?,?,?)';
+    super.query(queryString, [ticket.organiser_id, ticket.name, ticket.description], callback);
+  }
+
+  deleteTicketType(ticket_type_id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'DELETE FROM ticket_type WHERE ticket_type_id = ?';
+    super.query(queryString, [ticket_type_id], callback);
+  }
+
+  deleteEventTicket(
+    ticket_type_id: number,
+    event_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'DELETE FROM event_ticket WHERE ticket_type_id = ? AND event_id = ?';
+    super.query(queryString, [ticket_type_id, event_id], callback);
+  }
+
+  postEventTicket(
+    ticket: TicketType,
+    event_id: number,
+    ticket_type_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'INSERT INTO event_ticket (ticket_type_id, price, event_id) VALUES(?,?,?)';
+    super.query(queryString, [event_id, ticket.price, event_id], callback);
   }
 
   getMyEvents(organiser_id: number, callback) {
