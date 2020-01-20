@@ -336,11 +336,11 @@ module.exports = class OrganiserDao extends Dao {
 
   postTicketType(
     ticket: TicketType,
-    ticket_type_id: number,
+    organiser_id: number,
     callback: (status: string, data: Object) => mixed,
   ) {
     var queryString = 'INSERT INTO ticket_type (organiser_id, name, description) VALUES(?,?,?)';
-    super.query(queryString, [ticket.organiser_id, ticket.name, ticket.description], callback);
+    super.query(queryString, [organiser_id, ticket.name, ticket.description], callback);
   }
 
   deleteTicketType(ticket_type_id: number, callback: (status: string, data: Object) => mixed) {
