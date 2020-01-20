@@ -84,12 +84,21 @@ export default class ProfileOrganiser extends Component<Props, State> {
                 )}
               </tbody>
             </table>
-            <button
-              className="btn btn-success bg-green mb-4 mt-4"
-              onClick={() => (window.location.href = '/editprofile')}
-            >
-              REDIGER PROFIL
-            </button>
+            {localStorage.getItem('userType') == 'organiser' ? (
+              <button
+                className="btn btn-success bg-green mb-4 mt-4"
+                onClick={() => (window.location.href = '/editprofile/organiser')}
+              >
+                REDIGER PROFIL
+              </button>
+            ) : (
+              <button
+                className="btn btn-success bg-green mb-4 mt-4"
+                onClick={() => (window.location.href = '/editprofile/user')}
+              >
+                REDIGER PROFIL
+              </button>
+            )}
           </div>
         </div>
         {localStorage.getItem('userType') == 'organiser' ? (
