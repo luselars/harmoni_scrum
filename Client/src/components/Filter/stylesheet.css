@@ -26,6 +26,7 @@ h6 {
   float: left;
   margin-bottom: 1%;
   margin-top: 1%;
+  margin-bottom: 60%;
 }
 .up {
   transform: rotate(-135deg);

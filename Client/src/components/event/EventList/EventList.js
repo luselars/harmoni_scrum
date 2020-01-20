@@ -63,7 +63,7 @@ export default class EventList extends Component<Props, State> {
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
-              <div className="card float-right">
+              <div className="card float-left">
                 <div
                   className="card-body bg-light"
                   onClick={() => {
@@ -124,20 +124,28 @@ export default class EventList extends Component<Props, State> {
               ''
             ),
           )}
-          <div className="reactpaginate">
-            <ReactPaginate
-              previousLabel={'Forrige'}
-              nextLabel={'Neste'}
-              breakLabel={'...'}
-              breakClassName={'break-me'}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
-            />
+          <div className="card float-right bg-transparent border-0">
+            <div className="card-body bg-transparent">
+              <div className="row justify-content-md-center align-items-center">
+                <div className="col-8">
+                  <div className="reactpaginate">
+                    <ReactPaginate
+                      previousLabel={'Forrige'}
+                      nextLabel={'Neste'}
+                      breakLabel={'...'}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
