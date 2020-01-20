@@ -26,7 +26,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="container bg-light p-2">
+      <div className="card profilecard container bg-light p-2">
         <div className="row justify-content-md-center align-items-center pb-4">
           <div className="col-md-4 text-center">
             <img

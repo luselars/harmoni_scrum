@@ -42,9 +42,9 @@ const LocationDisplay = withRouter(({ location }) => (
 function App() {
   return (
     <Router basename="/">
+      {/*<Link to="/"></Link>*/}
+      <Menu />
       <div className="maindiv">
-        {/*<Link to="/"></Link>*/}
-        <Menu />
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
@@ -67,9 +67,9 @@ function App() {
           <Route exaxt path="/admin" component={Admin} />
           <Route component={NoMatch} />
         </Switch>
-        {/* <LocationDisplay />*/}
-        <Footer />
       </div>
+      {/* <LocationDisplay />*/}
+      <Footer />
     </Router>
   );
 }

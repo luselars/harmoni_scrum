@@ -7,7 +7,10 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: calc(100vh - 275vw);
+}
+
+.maindiv {
+  min-height: calc(100vh - 255px);
 }
 
 #NotFound {
