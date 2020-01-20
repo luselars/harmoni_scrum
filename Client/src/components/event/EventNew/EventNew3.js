@@ -201,13 +201,22 @@ class EventNew3 extends Component {
     OrganiserService.postLocation(l).then(resp => {
       console.log(resp.data);
       if (resp.status === 200) {
+        alert("denne lokasjonen finnes og status: " + resp.status + " og data er " + resp.data.location_id);
         this.state.event.location_id = resp.data.location_id;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);
           window.location = '/newevent4';
         });
-      } else {
+      }else if (resp.status === 100) {
+        this.state.event.location_id = resp.data.insertId;
+        this.state.event.venue = venue;
+        OrganiserService.updateEvent(this.state.event).then(resp => {
+          console.log(resp);
+          window.location = '/newevent4';
+        });
+      }
+      else {
         alert('Kunne ikke legge til addresse');
       }
     });
