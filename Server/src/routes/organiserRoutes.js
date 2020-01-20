@@ -187,6 +187,14 @@ router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: expr
   });
 });
 
+// Delete a single rider
+router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.event_id, req.params.rider_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
