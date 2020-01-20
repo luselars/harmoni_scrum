@@ -23,8 +23,16 @@ router.put('/verify/:organiser_id', (req: express$Request, res: express$Response
 });
 
 // get all the organisers
-router.put('/organisers', (req: express$Request, res: express$Response) => {
+router.get('/organisers', (req: express$Request, res: express$Response) => {
     dao.getOrganisers((status, data) => {
+        res.status(status);
+        res.send(data);
+    });
+});
+
+// get all the unverified organisers
+router.get('/organisers/unverified', (req: express$Request, res: express$Response) => {
+    dao.getUnverified((status, data) => {
         res.status(status);
         res.send(data);
     });

@@ -29,4 +29,14 @@ module.exports = class AdminDao extends Dao {
             callback,
         );
     }
+
+
+    //get all unverified organisers.
+    getUnverified(callback: (status: string, data: Event) => mixed) {
+        super.query(
+            'SELECT * FROM organiser WHERE NOT verified',
+            [],
+            callback,
+        );
+    }
 }
