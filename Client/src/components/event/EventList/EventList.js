@@ -130,6 +130,7 @@ export default class EventList extends Component<Props, State> {
       events: newEventList,
       pageCount: Math.ceil(newEventList.length / eventsPerPage),
     });
+    this.fuse = new Fuse(newEventList, options);
   };
 
   render() {
@@ -334,13 +335,14 @@ export default class EventList extends Component<Props, State> {
       allEvents: events.data,
       pageCount: Math.ceil(upcommingEvents.length / eventsPerPage),
     });
-    this.fuse = new Fuse(upcommingEvents.data, options);
+    this.fuse = new Fuse(upcommingEvents, options);
   }
 
   search(event) {
     // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
+      console.log(value);
       var searchResults = this.fuse.search(value);
       this.setState({
         events: searchResults,
@@ -348,9 +350,10 @@ export default class EventList extends Component<Props, State> {
       });
     } else {
       // If there is no search string it resets the eventlist
+      let events = this.state.showAllEvents ? this.state.allEvents : this.state.upcommingEvents;
       this.setState({
-        events: this.state.allEvents,
-        pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
+        events: events,
+        pageCount: Math.ceil(events.length / eventsPerPage),
       });
     }
   }
