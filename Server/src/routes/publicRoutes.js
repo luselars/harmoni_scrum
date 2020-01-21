@@ -79,6 +79,14 @@ router.get('/event/:id/artist', (req: express$Request, res: express$Response) =>
   });
 });
 
+//Get tickets on an event
+router.get('/event/:id/tickets', (req: express$Request, res: express$Response) => {
+  dao.getEventTickets(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // login for user, returns a jwt token
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
