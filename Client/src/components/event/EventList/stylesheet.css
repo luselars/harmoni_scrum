@@ -4,7 +4,8 @@
     'reactpaginate';
 }
 
-.pagination > li.active > a {
+.pagination li a {
+  font-size: 30px;
   color: black;
 }
 
