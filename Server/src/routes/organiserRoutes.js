@@ -203,8 +203,6 @@ router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: ex
 
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
-  //TODO check to see if its an organiser email, if it is, it shouldn't do anything.
-
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
     let d = data;
@@ -250,6 +248,42 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
               res.send(data);
             }
           });
+        }
+      });
+    }
+  });
+});
+
+//adds volunteer to event, here we go again 413
+router.post('volunteer/:vid/:event_id', (req: express$Request, res: express$Response) => {
+  dao.getUserId(req.body.email, (status, data) => {
+    res.status(status);
+    let d = data;
+
+    if (data.length === 0) {
+      //lag en dummy user og artist:
+      dao.postUser(req.body.email, (status, data) => {
+        res.status(status);
+        let ud = data;
+        let id = ud.insertId;
+
+        res.status(status);
+        dao.addVolunteerToEvent(id, req.params.event_id, req.params.vid, (status, data) => {
+          res.status(status);
+          res.send(data);
+        });
+      });
+    } else {
+      let start_id = data[0].user_id;
+      //sjekk om artist eksisterer
+      console.log(start_id);
+      dao.addVolunteerToEvent(start_id, req.params.event_id, req.params.vid, (status, data) => {
+        if (status == 500) {
+          res.status(400);
+          res.send('Staff already in event');
+        } else {
+          res.status(status);
+          res.send(data);
         }
       });
     }
@@ -410,12 +444,12 @@ router.delete('/volunteer/:id', (req: express$Request, res: express$Response) =>
 });
 
 //adds user to event with a volunteer type
-router.post('event/:eid/user/:id/volunteer/:vid', (req: express$Request, res: express$Response) => {
+/*router.post('event/:eid/user/:id/volunteer/:vid', (req: express$Request, res: express$Response) => {
   dao.addVolunteerToEvent(req.params.id, req.params.eid, req.params.vid, (status, data) => {
     res.status(status);
     res.send(data);
   });
-});
+});*/
 
 //removes user from event as staff
 router.delete('event/:eid/user/:id', (req: express$Request, res: express$Response) => {
