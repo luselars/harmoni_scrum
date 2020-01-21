@@ -48,6 +48,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   componentDidMount() {
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
+        console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
@@ -75,11 +76,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       this.setState({ tickets: response.data });
     });
     OrganiserService.getVolunteerType().then(response => {
-      console.log(response.data);
       this.setState({ types: response.data });
     });
     OrganiserService.getMyVolunteers(this.props.match.params.id).then(response => {
-      console.log(response.data);
       this.setState({ pers: response.data });
     });
   }
@@ -151,15 +150,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Start:
                     </th>
                     <td className="text-left">
-                      {this.state.event.start
-                        ? this.state.event.start.slice(8, 10) +
-                          '/' +
-                          this.state.event.start.slice(5, 7) +
-                          '/' +
-                          this.state.event.start.slice(0, 4) +
-                          ' - ' +
-                          this.state.event.start.slice(11, 16)
-                        : 'Laster'}
+                      {this.state.event.start ? (
+                        this.state.event.start.slice(8, 10) +
+                        '/' +
+                        this.state.event.start.slice(5, 7) +
+                        '/' +
+                        this.state.event.start.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.start.slice(11, 16)
+                      ) : (
+                        <span>-</span>
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -167,15 +168,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Slutt:
                     </th>
                     <td className="text-left">
-                      {this.state.event.end
-                        ? this.state.event.end.slice(8, 10) +
-                          '/' +
-                          this.state.event.end.slice(5, 7) +
-                          '/' +
-                          this.state.event.end.slice(0, 4) +
-                          ' - ' +
-                          this.state.event.end.slice(11, 16)
-                        : 'Laster'}
+                      {this.state.event.end ? (
+                        this.state.event.end.slice(8, 10) +
+                        '/' +
+                        this.state.event.end.slice(5, 7) +
+                        '/' +
+                        this.state.event.end.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.end.slice(11, 16)
+                      ) : (
+                        <span>-</span>
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -186,15 +189,15 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     this.state.event.description !== '' ? (
                       <td className="text-left">{this.state.event.description}</td>
                     ) : (
-                      <td className="text-left">Beskrivelse ikke lagt til</td>
+                      <td className="text-left">-</td>
                     )}
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Lineup:
                     </th>
-                    {this.state.artists.length === null ? (
-                      <td className="text-left">Ingen artister lagt til</td>
+                    {this.state.artists.length === 0 ? (
+                      <td className="text-left">-</td>
                     ) : (
                       this.state.artists.map(artist => (
                         <div>
@@ -236,7 +239,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                         ))}
                       </table>
                     ) : (
-                      <tr>Ingen kontrakter lastet opp</tr>
+                      <table>
+                        <td className="text-left">-</td>
+                      </table>
                     )}
                   </tr>
                   <tr>
@@ -260,7 +265,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       </span>
                     ) : (
                       <div>
-                        <td>Ingen ridere lagt til</td>
+                        <td>-</td>
                       </div>
                     )}
                   </tr>
@@ -279,7 +284,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                         ))}
                       </div>
                     ) : (
-                      <td className="text-left">Billetter ikke lagt til</td>
+                      <td className="text-left">-</td>
                     )}
                   </tr>
                   <tr>
@@ -311,7 +316,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                         ))}
                       </table>
                     ) : (
-                      <td>Personell ikke lagt til</td>
+                      <table>
+                        <td className="text-left">-</td>
+                      </table>
                     )}
                   </tr>
                   <tr>
@@ -332,7 +339,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       </div>
                     ) : (
                       <div>
-                        <td className="text-left">Ingen status satt</td>
+                        <td className="text-left">-</td>
                       </div>
                     )}
                   </tr>
@@ -343,14 +350,18 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     {this.state.event.venue !== '' && this.state.event.venue !== null ? (
                       <td className="text-left">{this.state.event.venue}</td>
                     ) : (
-                      <td className="text-left">Sted ikke lagt til</td>
+                      <td className="text-left">-</td>
                     )}
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    <td className="text-left">{this.state.event.address}</td>
+                    {this.state.event.address !== null && this.state.event.address !== '' ? (
+                      <td className="text-left">{this.state.event.address}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
                   </tr>
                 </tbody>
               </table>
