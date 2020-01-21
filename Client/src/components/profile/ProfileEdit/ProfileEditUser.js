@@ -95,6 +95,22 @@ class ProfileEditUser extends Component<{}, State> {
                 required
               ></input>
             </div>
+            {this.state.artist_name !== null ? (
+              <div className="form-group" id="name">
+                <label for="artistnameInput">Artistnavn: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="artist_name"
+                  onChange={e => this.onChange(e)}
+                  defaultValue={this.state.artist_name}
+                  id="artistnameInput"
+                  required
+                ></input>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <div className="form-group" id="phone">
               <label for="tlfInput">Telefonnummer: </label>
               <input
@@ -185,6 +201,7 @@ class ProfileEditUser extends Component<{}, State> {
         image: user.image,
         description: user.description,
         tlf: user.tlf,
+        artist_name: user.artist_name,
       });
       mail = this.state.email;
       if (this.state.image !== null) imagePrev = this.state.image;
