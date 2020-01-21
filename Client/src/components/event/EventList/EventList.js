@@ -228,14 +228,12 @@ export default class EventList extends Component<Props, State> {
       PublicService.getFrontpage()
         .then(events => {
           var today = new Date();
-          var dd = today.getDate();
-          var mm = today.getMonth();
-          var yy = today.getYear();
+          var time = today.getTime();
           var oldEvents = [];
           var upcommingEvents = [];
           for (var i = 0; i < events.data.length; i++) {
-            console.log(events.data[i].start);
-            console.log(dd + '-' + mm + '-' + yy);
+            console.log(this.formatSqlTime(events.data[i].start));
+            console.log(time);
             //if(events[i].start >)
           }
           this.setState({
@@ -247,6 +245,12 @@ export default class EventList extends Component<Props, State> {
         })
         .catch((error: Error) => alert(error.message));
     }
+  }
+
+  formatSqlTime(date: string) {
+    console.log(date);
+    return (parseInt(date.substring(0, 4)) - 1970) * 365 * 24 * 60 * 60;
+    // 1970 - parseInt(date.substring(0, 4));
   }
   /*
   componentWillReceiveProps(props) {
