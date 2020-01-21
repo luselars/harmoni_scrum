@@ -255,7 +255,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
 });
 
 //adds volunteer to event, here we go again 413
-router.post('volunteer/:vid/:event_id', (req: express$Request, res: express$Response) => {
+router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
     let d = data;
@@ -300,7 +300,7 @@ router.delete('/organiser/:organiser_id', (req: express$Request, res: express$Re
 
 // Get all types of volunteers from an organiser.
 router.get('/group', (req: express$Request, res: express$Response) => {
-  dao.getGroup(req.email, (status, data) => {
+  dao.getGroup(req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -421,7 +421,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
 
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
-  dao.getVolunteersByEvent(req.params.event_id, (status, data) => {
+  dao.getVolunteersByEvent(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -452,7 +452,7 @@ router.delete('/volunteer/:id', (req: express$Request, res: express$Response) =>
 });*/
 
 //removes user from event as staff
-router.delete('event/:eid/user/:id', (req: express$Request, res: express$Response) => {
+router.delete('/event/:eid/user/:id', (req: express$Request, res: express$Response) => {
   dao.removeVolunteerFromEvent(req.params.id, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);

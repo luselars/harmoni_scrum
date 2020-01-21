@@ -67,7 +67,6 @@ class EventNew6 extends Component<Props, State> {
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til billett-typer: </p>
         </div>
-        <div className="form-group text-center ml-5 mr-5"></div>
         <div>
           <p>Opprett billett:</p>
           <input

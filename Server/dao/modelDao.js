@@ -17,6 +17,8 @@ export class Event {
   location_id: number;
   address: string;
   venue: string;
+  max_price: number;
+  min_price: number;
 
   location_name: string;
   postcode: number;
