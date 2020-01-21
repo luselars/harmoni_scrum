@@ -46,7 +46,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.image != null) {
+  if (req.body.image !== null && req.body.image !== undefined) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editUser(req.uid, req.body, (status, data) => {
@@ -100,6 +100,13 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
 // Lets an organiser change his profile.
 router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
   dao.linkArtist(req.email, req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+router.put('/artistname', (req: express$Request, res: express$Response) => {
+  dao.setArtistName(req.body.artist_name, req.uid,(status, data) => {
     res.status(status);
     res.send(data);
   });

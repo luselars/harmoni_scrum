@@ -54,6 +54,11 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [email], callback);
   }
 
+  setArtistName(artist_name: string, user_id: number, callback: (status: string, data: Object) => mixed) {
+    let queryString = 'UPDATE artist SET artist_name = ? WHERE user_id = ?';
+    super.query(queryString, [artist_name, user_id], callback);
+  }
+
   getMyEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?', [user_id], callback);
   }
