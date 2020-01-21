@@ -153,11 +153,12 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     }
     if (e.target.id == 'sortRadio1') {
       this.setState({ sortRadio1: value });
-      console.log(this.state.sortRadio1);
     } else if (e.target.id == 'sortRadio2') {
       this.setState({ sortRadio2: value });
     } else if (e.target.id == 'sortRadio3') {
       this.setState({ sortRadio3: value });
+    } else {
+      console.log('Ukjent id: ' + e.target.id);
     }
     this.props.handleFilterChange(e.target.value);
   }
@@ -172,7 +173,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
       let newValue = this.state.sortAlt[1] === '' ? value : '';
       this.state.sortAlt[1] = newValue;
     }
-    this.props.handleFilterChange(this.state.sortAlt);
+    this.props.handleFilterAlternativChange(this.state.sortAlt);
   }
 
   handleSubmit(event) {
