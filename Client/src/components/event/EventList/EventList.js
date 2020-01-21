@@ -59,9 +59,13 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
+  // TODO BLI FERDIG HER
   handleFilterChange = filterChange => {
     if (Array.isArray(filterChange)) {
       this.setState({ sortAlt: filterChange });
+      if (filterChange[0] === 'viewOld') {
+      } else {
+      }
     } else {
       this.setState({ sortMethod: filterChange });
       if (filterChange == 'alphabetical') {
@@ -221,8 +225,19 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       }
     } else {
-      PublicService.getFrontpage(this.props.filterChange)
+      PublicService.getFrontpage()
         .then(events => {
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth();
+          var yy = today.getYear();
+          var oldEvents = [];
+          var upcommingEvents = [];
+          for (var i = 0; i < events.data.length; i++) {
+            console.log(events.data[i].start);
+            console.log(dd + '-' + mm + '-' + yy);
+            //if(events[i].start >)
+          }
           this.setState({
             events: events.data,
             allEvents: events.data,
