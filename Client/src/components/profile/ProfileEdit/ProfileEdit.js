@@ -8,6 +8,7 @@ import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
 let path = require('path');
 let mail: string;
+let imagePrev: string = '   ';
 
 type State = {
   organiser_id: number,
@@ -70,7 +71,7 @@ class ProfileEdit extends Component<{}, State> {
           <div className="card-body m-5">
             <h2 id="editTitle"> REDIGER PROFIL </h2>
             <img
-              className="circle-img w-25"
+              className="circle-img w-50 mx-auto d-block"
               id="picture"
               alt="Profilbilde"
               src={
@@ -223,10 +224,19 @@ class ProfileEdit extends Component<{}, State> {
                 id="postalInput"
               ></input>
             </div>
-            <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
+            <input
+              type="submit"
+              class="btn btn-success w-50 mx-auto d-block m-2"
+              value="Lagre"
+            ></input>
+            <a href="/profile">
+              <button type="button" class="btn btn-success w-50 mx-auto d-block m-2">
+                Tilbake
+              </button>
+            </a>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary w-50 mx-auto d-block m-2"
               id="deleteprofilebtn"
               onClick={() => this.deletebtn()}
             >
@@ -252,6 +262,7 @@ class ProfileEdit extends Component<{}, State> {
         tlf: organiser.tlf,
       });
       mail = this.state.organiser_email;
+      if (this.state.image !== null) imagePrev = this.state.image;
       var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
@@ -303,17 +314,16 @@ class ProfileEdit extends Component<{}, State> {
 
   //TODO delete old profile pic <3
   edit(changePassword: boolean) {
-    console.log('reg');
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
       document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
-      console.log('inne: ' + this.state.newPassword);
     } else {
       document.getElementById('labelPasswordError').innerHTML = '';
       document.getElementById('labelNewPasswordError').innerHTML = '';
       // Image
       let imageUpload = document.getElementById('upload');
       if (imageUpload.value !== '') {
+        console.log('imgae: ' + imageUpload.value);
         let fullPath: any = imageUpload.value;
         let ext = path.extname(fullPath).toLowerCase();
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
@@ -350,6 +360,7 @@ class ProfileEdit extends Component<{}, State> {
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
+      alert('ikke blide');
       window.location = '/profile';
     });
   }
