@@ -23,6 +23,7 @@ import EventNew5 from './components/event/EventNew/EventNew5';
 import EventNew6 from './components/event/EventNew/EventNew6';
 import Admin from './components/Admin/Admin';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
+import EventNew7 from './components/event/EventNew/EventNew7';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -55,6 +56,7 @@ function App() {
           <Route exact path="/newevent4" component={EventNew4} />
           <Route exact path="/newevent5" component={EventNew5} />
           <Route exact path="/newevent6" component={EventNew6} />
+          <Route exact path="/newevent7" component={EventNew7} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/user" component={ProfileUser} />
