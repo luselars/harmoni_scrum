@@ -17,7 +17,12 @@ function Footer() {
             <div class="text-center text-md-right">
               <ul class="list-unstyled list-inline">
                 <li class="list-inline-item">
-                  <button class="btn btn-success bg-green">Klageknapp</button>
+                  <button
+                    class="btn btn-success bg-green"
+                    onClick={() => (window.location.href = '/feedback')}
+                  >
+                    Klageknapp
+                  </button>
                 </li>
               </ul>
             </div>
