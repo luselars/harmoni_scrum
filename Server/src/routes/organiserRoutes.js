@@ -14,6 +14,8 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
+var nodemailer = require('nodemailer');
+
 // Middleware for organiser activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
@@ -436,6 +438,27 @@ router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Res
 
 //post a new volunteer type to an organiser
 router.post('/volunteer', (req: express$Request, res: express$Response) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  var mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Nytt arrangement',
+    html: '<h1>Halla</h1><p>Du har blitt lagt til i et arrangement.</p>',
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
   dao.postVolunteerType(req.body.name, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
