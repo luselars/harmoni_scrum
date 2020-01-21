@@ -60,6 +60,10 @@ export class OrganiserService {
     let url = url_base + '/artist/' + event_id;
     return axios.post(url, { email: email }, config);
   }
+  static inviteVolunteer(email: string, event_id, volunteer_type_id: number) {
+    let url = url_base + '/volunteer/' + volunteer_type_id + '/' + event_id;
+    return axios.post(url, { email: email }, config);
+  }
   static getMyEvents(): AxiosPromise<Event[]> {
     let url = url_base + '/myevents';
     return axios.get(url, config);
