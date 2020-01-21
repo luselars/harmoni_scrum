@@ -61,7 +61,7 @@ class ProfileEditUser extends Component<{}, State> {
             {this.state.image === undefined || this.state.image === null ? (
               <img
                 src="http://localhost:4000/public/file/profile.png"
-                class="circle-img w-50 mx-auto d-block"
+                class="img rounded-circle w-50 mx-auto d-block"
                 alt="Profilbilde"
               />
             ) : (

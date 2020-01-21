@@ -71,7 +71,7 @@ class ProfileEdit extends Component<{}, State> {
           <div className="card-body m-5">
             <h2 id="editTitle"> REDIGER PROFIL </h2>
             <img
-              className="circle-img w-50 mx-auto d-block"
+              className="img rounded-circle w-50 mx-auto d-block"
               id="picture"
               alt="Profilbilde"
               src={
