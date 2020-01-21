@@ -205,7 +205,7 @@ class EventNew7 extends Component<Props, State> {
     this.props.onSelectPage(6);
   }
   next() {
-    window.location = '/profile';
+    window.location = '/orgevent/' + this.state.event.event_id;
   }
 }
 export default EventNew7;
