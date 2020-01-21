@@ -11,7 +11,6 @@ type State = {
   event: Event,
   artists: [],
   riders: [],
-  cancel: number,
 };
 
 type Props = {
@@ -27,7 +26,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       event: new Event(),
       artists: [],
       riders: [],
-      cancel: 0,
     };
 
     {
@@ -54,10 +52,8 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
-        console.log(event.cancel);
         this.setState({
           event: event,
-          cancel: event.cancel,
         });
       })
       .catch(error => console.log(error));
@@ -104,14 +100,26 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         </div>
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
-            <div className="imgdiv">
-              <img
-                id="EventPicLI"
-                src={'http://localhost:4000/public/file/' + this.state.event.image}
-                className="img-fluid"
-                alt="Eventbilde"
-              ></img>
-            </div>
+            {this.state.event.cancel == 0 ? (
+              <div className="imgdiv">
+                <img
+                  id="EventPicLI"
+                  src={'http://localhost:4000/public/file/' + this.state.event.image}
+                  className="img-fluid"
+                  alt="Eventbilde"
+                ></img>
+              </div>
+            ) : (
+              <div className="imgdiv">
+                <img
+                  id="EventPicLI"
+                  src={'http://localhost:4000/public/file/' + this.state.event.image}
+                  className="img-fluid cancelimg"
+                  alt="Eventbilde"
+                ></img>
+                <div class="centered">AVLYST</div>
+              </div>
+            )}
             <div id="EventDetailsLITable">
               <p className="titleeventdetails display-4 text-uppercase text-center m-4">
                 {this.state.event.name}
@@ -288,13 +296,23 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               >
                 Endre
               </button>
-              <button
-                className="btn btn-secondary mx-auto d-block m-2"
-                id="cancelbtn"
-                onClick={() => this.btnclicked('cancelbtn')}
-              >
-                Avlys
-              </button>
+              {this.state.event.cancel == 0 ? (
+                <button
+                  className="btn btn-secondary mx-auto d-block m-2"
+                  id="cancelbtn"
+                  onClick={() => this.btnclicked('cancelbtn')}
+                >
+                  Avlys
+                </button>
+              ) : (
+                <button
+                  className="btn btn-secondary mx-auto d-block m-2"
+                  id="cancelbtn"
+                  onClick={() => this.cancel()}
+                >
+                  Gjenopprett
+                </button>
+              )}
               <button
                 className="btn btn-secondary mx-auto d-block m-2"
                 id="deleteeventbtn"
@@ -353,8 +371,8 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   }
 
   cancel() {
-    this.setState({ cancel: 1 });
-    OrganiserService.updateEvent(this.state.event).then(response => {
+    OrganiserService.toggleCancel(this.state.event.event_id).then(response => {
+      window.location = '/orgevent/' + this.state.event.event_id;
       console.log('done');
       console.log(this.state.event.cancel);
     });
@@ -362,7 +380,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
 
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
-    window.location = '/newevent';
+    window.location = '/editevent';
   }
   delete() {
     OrganiserService.deleteEvent(this.props.match.params.id)

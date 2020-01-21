@@ -7,6 +7,24 @@
   margin-bottom: 3%;
 }
 
+.imgdiv {
+  position: relative;
+  text-align: center;
+  color: black;
+  font-family: sans-serif;
+  font-size: 4rem;
+}
+
+.centered {
+  position: absolute;
+  top: 35%;
+  left: 33%;
+  transform: translate(-30%, -50%);
+  transform: rotate(15deg);
+  border-style: solid;
+  padding: 1%;
+}
+
 .text-right {
   padding-left: 20px;
 }
@@ -45,6 +63,10 @@
   text-align: center;
 }
 
+.cancelimg {
+  opacity: 0.2;
+}
+
 .img-fluid {
   width: 90%;
   height: 25vw;
@@ -64,12 +86,18 @@
   #deleteeventbtn {
     width: 40%;
   }
+  .imgdiv {
+    font-size: 3rem;
+  }
 }
 
 @media screen and (max-width: 650px) {
   .modal-content {
     margin: 40% 10%;
     width: 80%;
+  }
+  .imgdiv {
+    font-size: 2rem;
   }
 
   #editeventbtn,
