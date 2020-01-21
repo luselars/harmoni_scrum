@@ -106,7 +106,6 @@ router.post('/login', (req: express$Request, res: express$Response) => {
           res.json({ error: 'Not authorized, check username and password' });
         }
       } else {
-        console.log('organiser');
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
           if (status == '200') {
             if (data[0] != null) {
@@ -138,7 +137,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
                     let hash = bcrypt.hashSync(req.body.password, salt);
                     if (hash == data[0].hash) {
                       // Returns a token for autherization if credentials match
-                      console.log('Username and password ok');
+                      console.log('Username and password ok. Admin signed inn');
                       let token = jwt.sign(
                         {
                           username: req.body.username,
@@ -181,13 +180,9 @@ router.post('/login', (req: express$Request, res: express$Response) => {
 
 // Register new user/organiser
 router.post('/register', (req: express$Request, res: express$Response) => {
-  let password: string = req.body.password;
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
   req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
-
-  //test
-  console.log(req.body);
   if (req.body.image != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.imageUrl = imageUrl;

@@ -225,6 +225,7 @@ class ProfileEdit extends Component<{}, State> {
             </div>
             <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
             <button
+              type="button"
               className="btn btn-secondary"
               id="deleteprofilebtn"
               onClick={() => this.deletebtn()}
@@ -241,7 +242,7 @@ class ProfileEdit extends Component<{}, State> {
       console.log(res.data);
       let organiser: Organiser = res.data;
       this.setState({
-        organiser_id: organiser.organiser_id_,
+        organiser_id: organiser.organiser_id,
         name: organiser.name,
         organiser_email: organiser.organiser_email,
         image: organiser.image,
@@ -288,7 +289,8 @@ class ProfileEdit extends Component<{}, State> {
   delete() {
     OrganiserService.deleteOrganiser(this.state.organiser_id)
       .then(response => {
-        window.location = '/eventdeleted';
+        localStorage.removeItem('token');
+        window.location = '/deletedprofile';
       })
       .catch(error => console.error(error));
   }

@@ -43,7 +43,8 @@ export class OrganiserService {
   }
 
   static deleteOrganiser(id: number): AxiosPromise<Organiser> {
-    let url = url_base + '/organiser/:id';
+    console.log('Service: ' + id);
+    let url = url_base + '/organiser/' + id;
     return axios.delete<Object>(url, config);
   }
 
@@ -142,5 +143,17 @@ export class OrganiserService {
   static deleteTicket(ticket_id: number) {
     let url = url_base + '/tickets/' + ticket_id;
     return axios.delete(url, config);
+  }
+
+  //get all volunteertypes on this organiser
+  static getVolunteerType() {
+    let url = url_base + '/group';
+    return axios.get(url, config);
+  }
+
+  //adds volunteer type to this organiser
+  static addVolunteerType(name: string) {
+    let url = url_base + '/volunteer';
+    return axios.post(url, { name }, config);
   }
 }

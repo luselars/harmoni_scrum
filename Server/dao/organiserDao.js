@@ -101,27 +101,27 @@ module.exports = class OrganiserDao extends Dao {
 
   //add volunteer to event
   addVolunteerToEvent(
-      user_id: number,
-      event_id: number,
-      volunteer_type_id: number,
-      callback: (status: string, data: Event) => mixed,
+    user_id: number,
+    event_id: number,
+    volunteer_type_id: number,
+    callback: (status: string, data: Event) => mixed,
   ) {
     super.query(
-        'INSERT INTO `event_volunteer` (event_id, user_id, volunteer_type_id) VALUES (?, ?, ?)',
-        [event_id, user_id, volunteer_type_id],
-        callback,
+      'INSERT INTO `event_volunteer` (event_id, user_id, volunteer_type_id) VALUES (?, ?, ?)',
+      [event_id, user_id, volunteer_type_id],
+      callback,
     );
   }
 
   removeVolunteerFromEvent(
-      user_id: number,
-      event_id: number,
-      callback: (status: string, data: Event) => mixed,
+    user_id: number,
+    event_id: number,
+    callback: (status: string, data: Event) => mixed,
   ) {
     super.query(
-        'DELETE FROM `event_volunteer` WHERE event_id = ? AND user_id = ?',
-        [event_id, user_id],
-        callback,
+      'DELETE FROM `event_volunteer` WHERE event_id = ? AND user_id = ?',
+      [event_id, user_id],
+      callback,
     );
   }
 
@@ -270,6 +270,7 @@ module.exports = class OrganiserDao extends Dao {
 
   // Deletes organiser
   deleteOrganiser(organiser_id: number, callback: (status: String, data: Object) => mixed) {
+    console.log('Dao: ' + organiser_id);
     super.query('DELETE FROM organiser WHERE organiser_id = ?', [organiser_id], callback);
   }
 
@@ -340,7 +341,7 @@ module.exports = class OrganiserDao extends Dao {
 
   postVolunteerType(name: string, id: number, callback: (status: string, data: Object) => mixed) {
     var queryString = 'INSERT INTO volunteer_type (name, organiser_id) VALUES (?,?)';
-    super.query(queryString, [name,id], callback);
+    super.query(queryString, [name, id], callback);
   }
 
   deleteVolunteerType(id: number, callback: (status: string, data: Object) => mixed) {
