@@ -51,10 +51,12 @@ export default class EventList extends Component<Props, State> {
   }
 
   compareChronologically(a, b) {
-    if (a.start < b.start) {
+    let aDate = new Date(a.start);
+    let bDate = new Date(b.start);
+    if (aDate < bDate) {
       return -1;
     }
-    if (a.start > b.start) {
+    if (aDate > bDate) {
       return 1;
     }
     return 0;
@@ -76,21 +78,17 @@ export default class EventList extends Component<Props, State> {
     this.setState({ sortMethod: filterChange });
     if (sortType === 'Alfabetisk') {
       this.state.events.sort(this.compareAlphabetically);
-      this.state.upcommingEvents.sort(this.compareAlphabetically);
-      this.state.allEvents.sort(this.compareAlphabetically);
     } else if (sortType === 'Tid') {
       this.state.events.sort(this.compareChronologically);
-      this.state.upcommingEvents.sort(this.comparePrice);
-      this.state.allEvents.sort(this.compareChronologically);
     } else if (sortType === 'Pris') {
       this.state.events.sort(this.comparePrice);
-      this.state.upcommingEvents.sort(this.comparePrice);
-      this.state.allEvents.sort(this.comparePrice);
     }
     if (filterChange.charAt(filterChange.length - 1) == '↑') {
-      console.log('Reverse');
       this.state.events.reverse();
     }
+
+    for (let i = 0; i < this.state.events.length; i++)
+      console.log(this.state.events[i].start.substring(0, 10));
   };
 
   handleFilterAlternativChange = filterChange => {

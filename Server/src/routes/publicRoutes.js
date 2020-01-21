@@ -26,7 +26,8 @@ router.changeDao = function changeDao(publicDao: publicDao) {
 };
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
-function updateToken(token) {
+router.get('/refreshToken', (req: express$Request, res: express$Response) => {
+  let token = req.headers['x-access-token'];
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
       console.log('Token NOT ok');
@@ -37,10 +38,11 @@ function updateToken(token) {
       let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
         expiresIn: tokenDuration,
       });
-      return token;
+      res.status(200);
+      res.send(token);
     }
   });
-}
+});
 
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
@@ -48,12 +50,6 @@ router.get('/file/:id', function(req, res) {
   //console.log('Got a file request');
   //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
-});
-
-// Example 1 - GET /public
-router.get('/', (req: express$Request, res: express$Response) => {
-  console.log('Triggered at /public');
-  res.sendStatus(200);
 });
 
 // Get all public events sorted by a string
