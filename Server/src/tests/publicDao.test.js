@@ -85,7 +85,7 @@ describe('Testing methods in public dao', () => {
 
   it('tries to register a new organiser', done => {
     function callback(status, data) {
-      expect(data.affectedRows).toBe(1);
+      expect(data[0].affectedRows).toBe(1);
       done();
     }
     let state = new State(
