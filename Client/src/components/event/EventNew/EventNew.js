@@ -1,5 +1,5 @@
 //@flow
-import React from 'react';
+import React, { createRef } from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService';
@@ -12,6 +12,7 @@ type Props = {};
 class EventNew extends Component<Props> {
   constructor(props: any) {
     super(props);
+    this.check = createRef();
     this.state = {
       event: new Event(),
     };
@@ -27,7 +28,7 @@ class EventNew extends Component<Props> {
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
-        document.getElementById('eventispublic').value = this.state.event.is_public;
+        document.getElementById('eventstatus').value = this.state.event.status;
         this.insertTime();
       });
     }
@@ -103,7 +104,7 @@ class EventNew extends Component<Props> {
               <label>Status</label>
               <textarea
                 className="form-control"
-                id="eventdesc"
+                id="eventstatus"
                 rows="1"
                 cols="50"
                 onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
@@ -112,19 +113,18 @@ class EventNew extends Component<Props> {
               ></textarea>
               <div>
                 <FormControlLabel
-                  value="end"
                   control={
                     <Switch
-                      checked={this.state.checked}
-                      onChange={event => (this.state.event.is_public = event.target.value)}
-                      value="checked"
+                      inputRef={this.check}
+                      onChange={event => {
+                        this.state.event.is_public = event.target.checked;
+                      }}
                       color="primary"
                       id="eventispublic"
                       inputProps={{ 'aria-label': 'primary checkbox' }}
                     />
                   }
                   label="Jeg ønsker at arrangementet skal være offentlig"
-                  labelPlacement="end"
                 />
               </div>
             </div>

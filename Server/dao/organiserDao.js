@@ -98,6 +98,33 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
+  //add volunteer to event
+  addVolunteerToEvent(
+    user_id: number,
+    event_id: number,
+    volunteer_type_id: number,
+    callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+      'INSERT INTO `event_volunteer` (event_id, user_id, volunteer_type_id) VALUES (?, ?, ?)',
+      [event_id, user_id, volunteer_type_id],
+      callback,
+    );
+  }
+
+  removeVolunteerFromEvent(
+    user_id: number,
+    event_id: number,
+    callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+      'DELETE FROM `event_volunteer` WHERE event_id = ? AND user_id = ?',
+      [event_id, user_id],
+      callback,
+    );
+  }
+
   //edit event artist to add contract and stuff
   putEventArtist(
     user_id: number,
@@ -310,6 +337,16 @@ module.exports = class OrganiserDao extends Dao {
     let queryString =
       'SELECT u.user_id, u.email, u.name, u.tlf, u.image, u.description, vt.name as volunteer_type FROM user u LEFT JOIN event_volunteer ev ON u.user_id = ev.user_id LEFT JOIN volunteer_type vt ON ev.volunteer_type_id = vt.volunteer_type_id WHERE ev.event_id = ?;';
     super.query(queryString, [event_id], callback);
+  }
+
+  postVolunteerType(name: string, id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO volunteer_type (name, organiser_id) VALUES (?,?)';
+    super.query(queryString, [name, id], callback);
+  }
+
+  deleteVolunteerType(id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'DELETE FROM volunteer_type WHERE volunteer_type_id = ?';
+    super.query(queryString, [id], callback);
   }
 
   editTicketType(

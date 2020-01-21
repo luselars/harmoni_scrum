@@ -239,9 +239,10 @@ export default class EventList extends Component<Props, State> {
     // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
+      var searchResults = this.fuse.search(value);
       this.setState({
-        events: this.fuse.search(value),
-        pageCount: Math.ceil(value.length / eventsPerPage),
+        events: searchResults,
+        pageCount: Math.ceil(searchResults.length / eventsPerPage),
       });
     } else {
       // If there is no search string it resets the eventlist

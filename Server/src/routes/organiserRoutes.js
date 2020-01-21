@@ -14,7 +14,7 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
-// Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
+// Middleware for organiser activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
   td.decode(token, (err, decoded) => {
@@ -230,7 +230,6 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
       dao.getArtistId(start_id, (status, data) => {
         res.status(status);
         d = data;
-        console.log('uuuuuuuuuuuuuuuuu ' + data.length);
         if (data.length === 0) {
           dao.postArtist(start_id, (status, data) => {
             res.status(status);
@@ -302,7 +301,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
 router.get('/sendmail', (req, res) => {
   console.log('Sender mail');
   sendInvite('jonas4a@gmail.com', 'event!!!', function(resp) {
-    console.log(resp);
     if (resp) res.sendStatus(200);
     else res.sendStatus(400);
   });
@@ -366,7 +364,7 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password != null) {
+  if (req.body.password.length != 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
@@ -389,7 +387,39 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
 
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
-  dao.getVolunteersByEvent(req.params.id, (status, data) => {
+  dao.getVolunteersByEvent(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//post a new volunteer type to an organiser
+router.post('/volunteer', (req: express$Request, res: express$Response) => {
+  dao.postVolunteerType(req.body.name, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//delete voluunteer type by id
+router.delete('/volunteer/:id', (req: express$Request, res: express$Response) => {
+  dao.deleteVolunteerType(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//adds user to event with a volunteer type
+router.post('event/:eid/user/:id/volunteer/:vid', (req: express$Request, res: express$Response) => {
+  dao.addVolunteerToEvent(req.params.id, req.params.eid, req.params.vid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//removes user from event as staff
+router.delete('event/:eid/user/:id', (req: express$Request, res: express$Response) => {
+  dao.removeVolunteerFromEvent(req.params.id, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -445,7 +475,7 @@ router.delete('/tickets/:id', (req: express$Request, res: express$Response) => {
 
 // Delete a ticket type from an event
 router.delete('/event/:eid/tickets/:tid', (req: express$Request, res: express$Response) => {
-  dao.deleteEventTicket(req.params.eid, req.params.tid, (status, data) => {
+  dao.deleteEventTicket(req.params.tid, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
   });

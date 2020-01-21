@@ -69,7 +69,7 @@ class EventNew6 extends Component<Props, State> {
         </div>
         <div className="form-group text-center ml-5 mr-5"></div>
         <div>
-          <p>Oprett billett:</p>
+          <p>Opprett billett:</p>
           <input
             onChange={e => {
               this.setState({ new_ticket: e.target.value });
@@ -105,13 +105,21 @@ class EventNew6 extends Component<Props, State> {
             placeholder={'antall'}
           />
           <button onClick={() => this.addTicketToEvent()}>Legg til</button>
+          <button onClick={() => this.deleteTicket()}>Slett billett</button>
           <div>
             <p>Mine billetter:</p>
-            {this.state.event_tickets.map(ticket => (
-              <p>
-                {ticket.name}: {ticket.amount} stk. kr {ticket.price}
-              </p>
-            ))}
+            {this.state.event_tickets.length > 0 ? (
+              <span>
+                {this.state.event_tickets.map(ticket => (
+                  <p>
+                    {ticket.name}: {ticket.amount} stk. kr {ticket.price}{' '}
+                    <button onClick={() => this.removeTicket(ticket.ticket_type_id)}>Fjern</button>
+                  </p>
+                ))}
+              </span>
+            ) : (
+              <p>Du har ikke lagt til noen billetter på dette arrangementet.</p>
+            )}
           </div>
         </div>
         <div>
@@ -119,12 +127,25 @@ class EventNew6 extends Component<Props, State> {
             Tilbake
           </button>
           <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Fullfør
+            Neste
           </button>
         </div>
         {/*</form>*/}
       </div>
     );
+  }
+  deleteTicket() {
+    console.log(this.state.new_event_ticket);
+    OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
+      console.log(response);
+      window.location.reload();
+    });
+  }
+  removeTicket(ticket_id: number) {
+    OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
+      console.log(response);
+      window.location.reload();
+    });
   }
   addTicketToEvent() {
     let ticket = new TicketType();
@@ -160,6 +181,7 @@ class EventNew6 extends Component<Props, State> {
     ticket.description = this.state.new_ticket_desc;
     OrganiserService.postTicket(ticket, this.state.event.event_id).then(response => {
       console.log(response);
+      window.location.reload();
     });
   }
   formatTime() {
@@ -178,7 +200,7 @@ class EventNew6 extends Component<Props, State> {
     window.location = '/newevent5';
   }
   next() {
-    window.location = '/profile';
+    window.location = '/newevent7';
   }
 }
 export default EventNew6;
