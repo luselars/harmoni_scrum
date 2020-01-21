@@ -10,6 +10,7 @@ type Props = {
   message: string,
   artist: Artist,
   event_id: number,
+  reload: any,
 };
 type State = {
   value: any,
@@ -60,6 +61,7 @@ class UploadContract extends Component<Props, State> {
     const reader = new FileReader();
     let temp_artist = this.props.artist;
     let ev_id = this.props.event_id;
+    let that = this;
     reader.addEventListener(
       'load',
       function() {
@@ -71,7 +73,8 @@ class UploadContract extends Component<Props, State> {
             if (resp.status === 200) {
               console.log('Kontrakt lastet opp.');
               element.files = null;
-              window.location.reload();
+              // window.location.reload();
+              that.props.reload();
             } else {
               alert('Kunne ikke oppdatere artistens kontrakt.');
             }

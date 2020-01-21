@@ -8,8 +8,6 @@ export default class LoggedIn extends Component {
   render() {
     return (
       <div>
-        <SearchBar />
-        <ProfileSummary />
         <EventList profile_list={true} organiser={true} />
       </div>
     );

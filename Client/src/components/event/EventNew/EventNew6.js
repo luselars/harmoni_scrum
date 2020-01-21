@@ -18,7 +18,9 @@ type State = {
   ev_price: number,
   ev_amount: number,
 };
-
+type Props = {
+  onSelectPage: any,
+};
 class EventNew6 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -67,7 +69,6 @@ class EventNew6 extends Component<Props, State> {
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til billett-typer: </p>
         </div>
-        <div className="form-group text-center ml-5 mr-5"></div>
         <div>
           <p>Opprett billett:</p>
           <input
@@ -138,13 +139,13 @@ class EventNew6 extends Component<Props, State> {
     console.log(this.state.new_event_ticket);
     OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   removeTicket(ticket_id: number) {
     OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   addTicketToEvent() {
@@ -170,7 +171,7 @@ class EventNew6 extends Component<Props, State> {
     } else {
       OrganiserService.postEventTicket(ticket, this.state.event.event_id).then(r => {
         console.log(r);
-        window.location.reload();
+        this.componentDidMount();
       });
     }
   }
@@ -181,7 +182,7 @@ class EventNew6 extends Component<Props, State> {
     ticket.description = this.state.new_ticket_desc;
     OrganiserService.postTicket(ticket, this.state.event.event_id).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   formatTime() {
@@ -197,10 +198,10 @@ class EventNew6 extends Component<Props, State> {
     }
   }
   back() {
-    window.location = '/newevent5';
+    this.props.onSelectPage(5);
   }
   next() {
-    window.location = '/newevent7';
+    this.props.onSelectPage(7);
   }
 }
 export default EventNew6;

@@ -59,15 +59,22 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  handleFilterChange = sortMethod => {
-    console.log(sortMethod);
-    this.setState({ sortMethod: sortMethod });
-    if (sortMethod == 'alphabetical') {
-      this.state.events.sort(this.compareAlphabetically);
-      this.state.allEvents.sort(this.compareAlphabetically);
-    } else if (sortMethod == 'time') {
-      this.state.events.sort(this.compareChronologically);
-      this.state.allEvents.sort(this.compareChronologically);
+  // TODO BLI FERDIG HER
+  handleFilterChange = filterChange => {
+    if (Array.isArray(filterChange)) {
+      this.setState({ sortAlt: filterChange });
+      if (filterChange[0] === 'viewOld') {
+      } else {
+      }
+    } else {
+      this.setState({ sortMethod: filterChange });
+      if (filterChange == 'alphabetical') {
+        this.state.events.sort(this.compareAlphabetically);
+        this.state.allEvents.sort(this.compareAlphabetically);
+      } else if (filterChange == 'time') {
+        this.state.events.sort(this.compareChronologically);
+        this.state.allEvents.sort(this.compareChronologically);
+      }
     }
   };
 
@@ -110,10 +117,16 @@ export default class EventList extends Component<Props, State> {
                 >
                   <div className="container bg-light">
                     <div className="row justify-content-md-center align-items-center">
-                      <div id="date" className="col-2 text-center">
-                        <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                        <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
-                      </div>
+                      {event.cancel == 0 ? (
+                        <div id="date" className="col-2 text-center">
+                          <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
+                          <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                        </div>
+                      ) : (
+                        <div id="date" className="col-2 text-center">
+                          <h3 className="cancelledtitle">AVLYST</h3>
+                        </div>
+                      )}
                       <div id="eventinfo" className="col-8">
                         <h5 class="eventtitle">{event.name}</h5>
 
@@ -128,17 +141,41 @@ export default class EventList extends Component<Props, State> {
                       </div>
                       <div id="eventbtn" className="col text-right">
                         {this.state.status ? (
+                          event.cancel == 0 ? (
+                            <button
+                              className="btn btn-success bg-green"
+                              id="moreinfo"
+                              onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            >
+                              {' '}
+                              Mer info
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-secondary bg-green"
+                              id="moreinfo"
+                              onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            >
+                              {' '}
+                              Mer info
+                            </button>
+                          )
+                        ) : event.cancel == 0 ? (
                           <button
                             className="btn btn-success bg-green"
                             id="moreinfo"
-                            onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            onClick={() => {
+                              if (this.props.profile_list)
+                                window.location.href = '/orgevent/' + event.event_id;
+                              else window.location.href = '/event/' + event.event_id;
+                            }}
                           >
                             {' '}
                             Mer info
                           </button>
                         ) : (
                           <button
-                            className="btn btn-success bg-green"
+                            className="btn btn-secondary bg-green"
                             id="moreinfo"
                             onClick={() => {
                               if (this.props.profile_list)
@@ -218,8 +255,17 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       }
     } else {
-      PublicService.getFrontpage(this.props.sortMethod)
+      PublicService.getFrontpage()
         .then(events => {
+          var today = new Date();
+          var time = today.getTime();
+          var oldEvents = [];
+          var upcommingEvents = [];
+          for (var i = 0; i < events.data.length; i++) {
+            console.log(this.formatSqlTime(events.data[i].start));
+            console.log(time);
+            //if(events[i].start >)
+          }
           this.setState({
             events: events.data,
             allEvents: events.data,
@@ -230,9 +276,15 @@ export default class EventList extends Component<Props, State> {
         .catch((error: Error) => alert(error.message));
     }
   }
+
+  formatSqlTime(date: string) {
+    console.log(date);
+    return (parseInt(date.substring(0, 4)) - 1970) * 365 * 24 * 60 * 60;
+    // 1970 - parseInt(date.substring(0, 4));
+  }
   /*
   componentWillReceiveProps(props) {
-    this.setState({ sortMethod: props.sortString });
+    this.setState({ filterChange: props.sortString });
   }
   */
   search(event) {
