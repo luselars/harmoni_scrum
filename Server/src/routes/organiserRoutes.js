@@ -333,15 +333,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
   });
 });
 
-// Send an invite email (CHANGE TO POST WITH COMMENTING POSSIBILITY)
-router.get('/sendmail', (req, res) => {
-  console.log('Sender mail');
-  sendInvite('jonas4a@gmail.com', 'event!!!', function(resp) {
-    if (resp) res.sendStatus(200);
-    else res.sendStatus(400);
-  });
-});
-
 // TODO auth
 // Upload file. If the request is valid the file is moved to the folder files with a new randomised name
 // and the new name is returned to the user.
@@ -438,27 +429,6 @@ router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Res
 
 //post a new volunteer type to an organiser
 router.post('/volunteer', (req: express$Request, res: express$Response) => {
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'harmoni.scrum@gmail.com',
-      pass: 'scrum2team',
-    },
-  });
-
-  var mailOptions = {
-    from: 'harmoni.scrum@gmail.com',
-    to: req.body.email,
-    subject: 'Nytt arrangement',
-    html: '<h1>Halla</h1><p>Du har blitt lagt til i et arrangement.</p>',
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
   dao.postVolunteerType(req.body.name, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
