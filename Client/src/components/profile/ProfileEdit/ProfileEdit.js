@@ -47,166 +47,193 @@ class ProfileEdit extends Component<{}, State> {
 
   render() {
     return (
-      <form onSubmit={e => this.post(e)} className="card" id="editProfile">
-        <div className="card-body m-5">
-          <h2 id="editTitle"> REDIGER PROFIL </h2>
-          <img
-            className="circle-img w-25"
-            id="picture"
-            alt="Profilbilde"
-            src={
-              this.state.image
-                ? 'http://localhost:4000/public/file/' + this.state.image
-                : 'http://localhost:4000/public/file/profile.png'
-            }
-          />
-          <div className="form-check text-center my-3 p-2 border">
-            <label className="form-check-label" for="upload">
-              Profilbilde
-            </label>
-            <input
-              className="file mr-6"
-              accept=".jpg, .jpeg, .png"
-              type="file"
-              name="image"
-              id="upload"
-              name="recfile"
-            />
+      <div>
+        <div id="myModal" className="modal">
+          <div className="modal-content">
+            <span className="close">&times;</span>
+            <div className="modalbody">
+              <p className="border-bottom">Vil du slette profilen?</p>
+              <button className="btn btn-success modalbtn" id="cancel">
+                Avbryt
+              </button>
+              <button className="btn btn-secondary modalbtn" onClick={() => this.delete()}>
+                Slett
+              </button>
+            </div>
           </div>
-          <div className="form-group" id="name">
-            <label for="nameInput">Navn: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.name}
-              id="nameInput"
-              required
-            ></input>
-          </div>
-          <div className="form-group" id="phone">
-            <label for="tlfInput">Telefonnummer: </label>
-            <input
-              type="tel"
-              className="form-control"
-              name="tlf"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.tlf}
-              id="tlfInput"
-            ></input>
-          </div>
-          <div className="form-group" id="email">
-            <label for="emailInput">Epost: </label>
-            <input
-              type="email"
-              className="form-control"
-              name="organiser_email"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.organiser_email}
-              id="emailInput"
-              required
-            ></input>
-          </div>
-          <div className="form-group" id="password">
-            <label for="passwordInput">Nåværende passord: </label>
-            <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
-            <input
-              type="password"
-              autocomplete="new-password"
-              className="form-control"
-              name="password"
-              onChange={e => this.onChange(e)}
-              id="passwordInput"
-            ></input>
-          </div>
-          <div className="form-group" id="password">
-            <label for="passwordNewInput">Nytt passord: </label>
-            <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
-            <input
-              type="password"
-              className="form-control"
-              name="newPassword"
-              onChange={e => this.onChange(e)}
-              id="passwordNewInput"
-            ></input>
-          </div>
-
-          <div className="form-group" id="description">
-            <label for="descritionInput">Beskrivelse:</label>
-            <textarea
-              type="text"
-              className="form-control"
-              name="description"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.description}
-              id="descritionInput"
-            ></textarea>
-          </div>
-          <div className="form-group" id="website">
-            <label for="websiteInput">Nettside: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="website"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.website}
-              id="websiteInput"
-            ></input>
-          </div>
-
-          <iframe
-            id="map"
-            width="100%"
-            height="300px"
-            frameborder="0"
-            src={
-              'https://www.google.com/maps/embed/v1/place?q=' +
-              this.state.streetAddress +
-              ',+' +
-              this.state.postalcode +
-              '+' +
-              this.state.postal +
-              '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
-            }
-            allowfullscreen
-          ></iframe>
-          <div className="form-group" id="address">
-            <label for="streetAddressInput">Adresse: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="streetAddress"
-              onChange={e => this.onChangeAddress(e)}
-              defaultValue={this.state.streetAddress}
-              id="streetAddressInput"
-            ></input>
-          </div>
-          <div className="form-group" id="postalcode">
-            <label for="postalcodeInput">Postnummer: </label>
-            <input
-              type="number"
-              className="form-control"
-              name="postalcode"
-              onChange={e => this.onChangeAddress(e)}
-              value={this.state.postalcode}
-              id="postalcodeInput"
-            ></input>
-          </div>
-          <div className="form-group" id="postal">
-            <label for="postalInput">Poststed: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="postal"
-              onChange={e => this.onChangeAddress(e)}
-              defaultValue={this.state.postal}
-              id="postalInput"
-            ></input>
-          </div>
-          <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
         </div>
-      </form>
+        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          ></link>
+          <div className="card-body m-5">
+            <h2 id="editTitle"> REDIGER PROFIL </h2>
+            <img
+              className="circle-img w-25"
+              id="picture"
+              alt="Profilbilde"
+              src={
+                this.state.image
+                  ? 'http://localhost:4000/public/file/' + this.state.image
+                  : 'http://localhost:4000/public/file/profile.png'
+              }
+            />
+            <div className="form-check text-center my-3 p-2 border">
+              <label className="form-check-label" for="upload">
+                Profilbilde
+              </label>
+              <input
+                className="file mr-6"
+                accept=".jpg, .jpeg, .png"
+                type="file"
+                name="image"
+                id="upload"
+                name="recfile"
+              />
+            </div>
+            <div className="form-group" id="name">
+              <label for="nameInput">Navn: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.name}
+                id="nameInput"
+                required
+              ></input>
+            </div>
+            <div className="form-group" id="phone">
+              <label for="tlfInput">Telefonnummer: </label>
+              <input
+                type="tel"
+                className="form-control"
+                name="tlf"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.tlf}
+                id="tlfInput"
+              ></input>
+            </div>
+            <div className="form-group" id="email">
+              <label for="emailInput">Epost: </label>
+              <input
+                type="email"
+                className="form-control"
+                name="organiser_email"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.organiser_email}
+                id="emailInput"
+                required
+              ></input>
+            </div>
+            <div className="form-group" id="password">
+              <label for="passwordInput">Nåværende passord: </label>
+              <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
+              <input
+                type="password"
+                autocomplete="new-password"
+                className="form-control"
+                name="password"
+                onChange={e => this.onChange(e)}
+                id="passwordInput"
+              ></input>
+            </div>
+            <div className="form-group" id="password">
+              <label for="passwordNewInput">Nytt passord: </label>
+              <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
+              <input
+                type="password"
+                className="form-control"
+                name="newPassword"
+                onChange={e => this.onChange(e)}
+                id="passwordNewInput"
+              ></input>
+            </div>
+
+            <div className="form-group" id="description">
+              <label for="descritionInput">Beskrivelse:</label>
+              <textarea
+                type="text"
+                className="form-control"
+                name="description"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.description}
+                id="descritionInput"
+              ></textarea>
+            </div>
+            <div className="form-group" id="website">
+              <label for="websiteInput">Nettside: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="website"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.website}
+                id="websiteInput"
+              ></input>
+            </div>
+
+            <iframe
+              id="map"
+              width="100%"
+              height="300px"
+              frameborder="0"
+              src={
+                'https://www.google.com/maps/embed/v1/place?q=' +
+                this.state.streetAddress +
+                ',+' +
+                this.state.postalcode +
+                '+' +
+                this.state.postal +
+                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+              }
+              allowfullscreen
+            ></iframe>
+            <div className="form-group" id="address">
+              <label for="streetAddressInput">Adresse: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="streetAddress"
+                onChange={e => this.onChangeAddress(e)}
+                defaultValue={this.state.streetAddress}
+                id="streetAddressInput"
+              ></input>
+            </div>
+            <div className="form-group" id="postalcode">
+              <label for="postalcodeInput">Postnummer: </label>
+              <input
+                type="number"
+                className="form-control"
+                name="postalcode"
+                onChange={e => this.onChangeAddress(e)}
+                value={this.state.postalcode}
+                id="postalcodeInput"
+              ></input>
+            </div>
+            <div className="form-group" id="postal">
+              <label for="postalInput">Poststed: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="postal"
+                onChange={e => this.onChangeAddress(e)}
+                defaultValue={this.state.postal}
+                id="postalInput"
+              ></input>
+            </div>
+            <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
+            <button
+              className="btn btn-secondary"
+              id="deleteprofilebtn"
+              onClick={() => this.deletebtn()}
+            >
+              <i className="fa fa-trash" aria-hidden="true"></i> Slett
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
   componentDidMount() {
@@ -237,6 +264,34 @@ class ProfileEdit extends Component<{}, State> {
         this.state.streetAddress + ', ' + this.state.postalcode + ', ' + this.state.postal,
       );
     });
+  }
+
+  deletebtn() {
+    var btn = document.getElementById('deleteprofilebtn');
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName('close')[0];
+    var cancel = document.getElementById('cancel');
+    modal.style.display = 'block';
+    span.onclick = function() {
+      modal.style.display = 'none';
+    };
+    cancel.onclick = function() {
+      modal.style.display = 'none';
+    };
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  delete() {
+    console.log('hei');
+    OrganiserService.deleteOrganiser(this.state.organiser_id)
+      .then(response => {
+        window.location = '/eventdeleted';
+      })
+      .catch(error => console.error(error));
   }
 
   onChange(e: any) {

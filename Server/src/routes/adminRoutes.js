@@ -27,7 +27,7 @@ router.get('/unverified', (req: express$Request, res: express$Response) => {
 
 // Change verification status of this organiser
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
-  dao.verifyOrganiser(req.id, (status, data) => {
+  dao.verifyOrganiser(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });

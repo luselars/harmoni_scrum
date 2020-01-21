@@ -41,6 +41,12 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.put<Object>(url, organiser, config);
   }
+
+  static deleteOrganiser(id: number): AxiosPromise<Organiser> {
+    let url = url_base + '/organiser/:id';
+    return axios.delete<Object>(url, config);
+  }
+
   static getLocations(): AxiosPromise<Location[]> {
     let url = url_base + '/location';
     return axios.get(url, config);
@@ -133,8 +139,8 @@ export class OrganiserService {
   }
 
   // Removes an existing tickettype
-  static deleteTickets(ticket_id: number) {
+  static deleteTicket(ticket_id: number) {
     let url = url_base + '/tickets/' + ticket_id;
-    return axios.put(url, config);
+    return axios.delete(url, config);
   }
 }
