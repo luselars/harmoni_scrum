@@ -42,7 +42,7 @@ module.exports = class PublicDao extends Dao {
   insertNewUser(state: Object, callback: (status: string, data: Event) => mixed) {
     if (state.organiser) {
       super.query(
-        'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?);INSERT INTO ticket_type (name, description, organiser_id) VALUES (\'Ordinær Billett\',\'Vanlig billett\',LAST_INSERT_ID()),(\'Ståbillett\',\'Ståplass\',LAST_INSERT_ID()),(\'Sittebillett\',\'Sitteplass\',LAST_INSERT_ID());',
         [
           state.email,
           state.hash,
