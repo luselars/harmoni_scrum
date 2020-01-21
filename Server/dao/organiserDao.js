@@ -311,6 +311,16 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
+  postVolunteerType(name: string, id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO volunteer_type (name, organiser_id) VALUES (?,?)';
+    super.query(queryString, [name,id], callback);
+  }
+
+  deleteVolunteerType(id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'DELETE FROM volunteer_type WHERE volunteer_type_id = ?';
+    super.query(queryString, [id], callback);
+  }
+
   editTicketType(
     ticketType: TicketType,
     ticket_type_id: number,
