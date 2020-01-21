@@ -160,9 +160,17 @@ export class OrganiserService {
     let url = url_base + '/volunteer';
     return axios.post(url, { name }, config);
   }
+  static getMyVolunteers(event_id: number) {
+    let url = url_base + '/event/' + event_id + '/volunteer';
+    return axios.get(url, config);
+  }
 
   static removeVolunteerFromEvent(event_id, user_id: number) {
     let url = url_base + '/event/' + event_id + '/user/' + user_id;
+    return axios.delete(url, config);
+  }
+  static deleteVolunteerType(vol_id: number) {
+    let url = url_base + '/volunteer/' + vol_id;
     return axios.delete(url, config);
   }
 }

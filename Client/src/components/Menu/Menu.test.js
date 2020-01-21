@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from 'Menu.js';
+import Menu from './Menu.js';
 import ReactDOM from 'react-router-dom';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
