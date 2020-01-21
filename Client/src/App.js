@@ -24,6 +24,7 @@ import EventNew6 from './components/event/EventNew/EventNew6';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
+import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EventNew7 from './components/event/EventNew/EventNew7';
 
 //https://testing-library.com/docs/example-react-router
@@ -69,6 +70,7 @@ function App() {
           <Route exact path="/events/:id" component={LoggedIn} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
           <Route exaxt path="/admin" component={Admin} />
+          <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
           <Route component={NoMatch} />

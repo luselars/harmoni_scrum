@@ -14,7 +14,7 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
-// Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
+// Middleware for organiser activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
   td.decode(token, (err, decoded) => {
@@ -461,8 +461,6 @@ router.delete('event/:eid/user/:id', (req: express$Request, res: express$Respons
   });
 });
 
-
-
 //Get all artists who are part of an event
 router.get('/event/:event_id/artist', (req: express$Request, res: express$Response) => {
   dao.getArtistsByEvent(req.params.id, (status, data) => {
@@ -526,7 +524,5 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
     res.send(data);
   });
 });
-
-
 
 module.exports = router;

@@ -43,7 +43,8 @@ export class OrganiserService {
   }
 
   static deleteOrganiser(id: number): AxiosPromise<Organiser> {
-    let url = url_base + '/organiser/:id';
+    console.log('Service: ' + id);
+    let url = url_base + '/organiser/' + id;
     return axios.delete<Object>(url, config);
   }
 
@@ -57,10 +58,6 @@ export class OrganiserService {
   }
   static inviteArtist(email: string, event_id) {
     let url = url_base + '/artist/' + event_id;
-    return axios.post(url, { email: email }, config);
-  }
-  static inviteVolunteer(email: string, event_id, volunteer_type_id: number) {
-    let url = url_base + '/volunteer/' + volunteer_type_id + '/' + event_id;
     return axios.post(url, { email: email }, config);
   }
   static getMyEvents(): AxiosPromise<Event[]> {
@@ -157,12 +154,6 @@ export class OrganiserService {
   //adds volunteer type to this organiser
   static addVolunteerType(name: string) {
     let url = url_base + '/volunteer';
-    return axios.post(url, {name}, config);
-  }
-
-  //add user to event as volunteer
-  static addEventVolunteer() {
-    let url = url_base + '/volunteer';
-    return axios.post(url, {}, config);
+    return axios.post(url, { name }, config);
   }
 }
