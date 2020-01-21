@@ -16,13 +16,13 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
 
   render() {
     return (
-      <div id="filterCard" class="card">
-        <div class="card-body bg-light">
-          <h5 class="filtertitle">
+      <div id="filterCard" className="card">
+        <div className="card-body bg-light">
+          <h5 className="filtertitle">
             FILTER
             {this.state.status ? (
               <element class="dropdown" onClick={() => this.handleStatus()}>
-                <i class="arrow up"></i>
+                <i className="arrow up"></i>
               </element>
             ) : (
               <element className="dropdown" onClick={() => this.handleStatus()}>
@@ -73,15 +73,15 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                 </div>
 
                 <div className="form-check text-left mb-3">
-                  <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
+                  <input type="checkbox" className="form-check-input" id="placeCheck1"></input>
                   <label className="placecheck form-check-label" for="placeCheck1">
                     Trondheim Spektrum
                   </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
+                  <input type="checkbox" className="form-check-input" id="placeCheck2"></input>
                   <label className="placecheck form-check-label" for="placeCheck2">
                     Sukkerhuset
                   </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
+                  <input type="checkbox" className="form-check-input" id="placeCheck3"></input>
                   <label className="placecheck form-check-label" for="placeCheck3">
                     Olavshallen
                   </label>

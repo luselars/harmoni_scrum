@@ -8,13 +8,19 @@ import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
 import { FormControl, FormControlLabel } from '@material-ui/core';
 
+type State = {
+  event: Event,
+  checked: boolean,
+};
 type Props = {};
-class EventNew extends Component<Props> {
+
+class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.check = createRef();
+    //this.check = createRef();
     this.state = {
       event: new Event(),
+      checked: false,
     };
   }
   componentDidMount(): * {
@@ -29,6 +35,7 @@ class EventNew extends Component<Props> {
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
+        document.getElementById('eventispublic').value = this.state.event.is_public;
         this.insertTime();
       });
     }
@@ -107,6 +114,7 @@ class EventNew extends Component<Props> {
                 id="eventstatus"
                 rows="1"
                 cols="50"
+                type="boolean"
                 onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                   (this.state.event.status = event.target.value)
                 }
@@ -115,10 +123,9 @@ class EventNew extends Component<Props> {
                 <FormControlLabel
                   control={
                     <Switch
-                      inputRef={this.check}
-                      onChange={event => {
-                        this.state.event.is_public = event.target.checked;
-                      }}
+                      checked={this.state.checked}
+                      value="checked"
+                      onChange={() => this.handleChange}
                       color="primary"
                       id="eventispublic"
                       inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -142,6 +149,15 @@ class EventNew extends Component<Props> {
       </div>
     );
   }
+  //TODO fiks
+  handleChange = (event: any) => {
+    //this.setState({checked: ((event.target.checked == 1) ? false : true)});
+    this.state.checked = event.target.checked == 1 ? false : true;
+    //this.state.event.is_public = (event.target.checked == true ? 1 : -1);
+    console.log(this.state.checked);
+    //this.setState()(this.state.event.is_public == 1) ? -1 : 1;
+    //this.setState({ [e.target.public]: e.target.value});
+  };
 
   today() {
     var today = new Date();

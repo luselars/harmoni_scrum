@@ -79,14 +79,14 @@ export default class EventList extends Component<Props, State> {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
         <div className="input-group my-3 " id="searchBox">
-          <div class="input-group md-form form-sm form-1 pl-0">
-            <div class="input-group-prepend">
-              <span class="input-group-text purple lighten-3" id="basic-text1">
-                <i class="fa fa-search" aria-hidden="true"></i>
+          <div className="input-group md-form form-sm form-1 pl-0">
+            <div className="input-group-prepend">
+              <span className="input-group-text purple lighten-3" id="basic-text1">
+                <i className="fa fa-search" aria-hidden="true"></i>
               </span>
             </div>
             <input
-              class="form-control my-0 py-1"
+              className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
               placeholder="Search"
@@ -115,7 +115,7 @@ export default class EventList extends Component<Props, State> {
                         <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
                       </div>
                       <div id="eventinfo" className="col-8">
-                        <h5 class="eventtitle">{event.name}</h5>
+                        <h5 className="eventtitle">{event.name}</h5>
 
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
