@@ -27,18 +27,21 @@ class EditEvent extends Component<Props, State> {
 
   render() {
     return (
-      <div>
-        {
+      <div className="card" id="cardnewevent">
+        <div className="createEvent">
+          <h2 className="neweventtitle">Opprett arrangement</h2>
           {
-            1: <EventNew onSelectPage={this.handlePage} />,
-            2: <EventNew2 onSelectPage={this.handlePage} />,
-            3: <EventNew3 onSelectPage={this.handlePage} />,
-            4: <EventNew4 onSelectPage={this.handlePage} />,
-            5: <EventNew5 onSelectPage={this.handlePage} />,
-            6: <EventNew6 onSelectPage={this.handlePage} />,
-            7: <EventNew7 onSelectPage={this.handlePage} />,
-          }[this.state.page]
-        }
+            {
+              1: <EventNew onSelectPage={this.handlePage} />,
+              2: <EventNew2 onSelectPage={this.handlePage} />,
+              3: <EventNew3 onSelectPage={this.handlePage} />,
+              4: <EventNew4 onSelectPage={this.handlePage} />,
+              5: <EventNew5 onSelectPage={this.handlePage} />,
+              6: <EventNew6 onSelectPage={this.handlePage} />,
+              7: <EventNew7 onSelectPage={this.handlePage} />,
+            }[this.state.page]
+          }
+        </div>
       </div>
     );
   }

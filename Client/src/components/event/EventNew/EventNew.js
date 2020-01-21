@@ -38,108 +38,103 @@ class EventNew extends Component<Props> {
 
   render() {
     return (
-      <div className="card" id="cardnewevent">
-        <div className="createEvent">
-          <h2 className="neweventtitle">Opprett arrangement</h2>
-          {/*<form>*/}
-          <div className="form-row">
-            <div className="col" id="">
-              <label id="eventnamelabel" for="eventname">
-                Tittel
-              </label>
-              <input
-                required
-                type="text"
-                className="form-control"
-                id="eventnameinput"
-                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                  (this.state.event.name = event.target.value)
+      <div>
+        <div className="form-row">
+          <div className="col" id="">
+            <label id="eventnamelabel" for="eventname">
+              Tittel
+            </label>
+            <input
+              required
+              type="text"
+              className="form-control"
+              id="eventnameinput"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.name = event.target.value)
+              }
+            />
+            <label id="eventdesclabel" htmlFor="eventdesc">
+              Beskrivelse
+            </label>
+            <textarea
+              className={'form-control'}
+              id={'eventdesc'}
+              rows="4"
+              cols="50"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.description = event.target.value)
+              }
+            ></textarea>
+            {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
+            <label id="eventdatestart" htmlFor="start">
+              Starttidspunkt
+            </label>
+            <input
+              className="date"
+              type="date"
+              id="start"
+              name="start"
+              min={this.today()}
+              max="2023-12-31"
+              onChange={() => this.updateTime()}
+            />
+            <TimeField
+              id="start_time"
+              style={{ width: '100px' }}
+              onChange={() => this.updateTime()}
+            />
+            <label id="eventdateend" htmlFor="end">
+              Sluttidspunkt
+            </label>
+            <input
+              className="date"
+              type="date"
+              id="end"
+              name="end"
+              min={this.today()}
+              max="2023-12-31"
+              onChange={() => this.updateTime()}
+            />
+            <TimeField
+              id="end_time"
+              style={{ width: '100px' }}
+              onChange={() => this.updateTime()}
+            />
+            <label>Status</label>
+            <textarea
+              className="form-control"
+              id="eventstatus"
+              rows="1"
+              cols="50"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.status = event.target.value)
+              }
+            ></textarea>
+            <div>
+              <FormControlLabel
+                control={
+                  <Switch
+                    inputRef={this.check}
+                    onChange={event => {
+                      this.state.event.is_public = event.target.checked;
+                    }}
+                    color="primary"
+                    id="eventispublic"
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  />
                 }
+                label="Jeg ønsker at arrangementet skal være offentlig"
               />
-              <label id="eventdesclabel" htmlFor="eventdesc">
-                Beskrivelse
-              </label>
-              <textarea
-                className={'form-control'}
-                id={'eventdesc'}
-                rows="4"
-                cols="50"
-                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                  (this.state.event.description = event.target.value)
-                }
-              ></textarea>
-              {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
-              <label id="eventdatestart" htmlFor="start">
-                Starttidspunkt
-              </label>
-              <input
-                className="date"
-                type="date"
-                id="start"
-                name="start"
-                min={this.today()}
-                max="2023-12-31"
-                onChange={() => this.updateTime()}
-              />
-              <TimeField
-                id="start_time"
-                style={{ width: '100px' }}
-                onChange={() => this.updateTime()}
-              />
-              <label id="eventdateend" htmlFor="end">
-                Sluttidspunkt
-              </label>
-              <input
-                className="date"
-                type="date"
-                id="end"
-                name="end"
-                min={this.today()}
-                max="2023-12-31"
-                onChange={() => this.updateTime()}
-              />
-              <TimeField
-                id="end_time"
-                style={{ width: '100px' }}
-                onChange={() => this.updateTime()}
-              />
-              <label>Status</label>
-              <textarea
-                className="form-control"
-                id="eventstatus"
-                rows="1"
-                cols="50"
-                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                  (this.state.event.status = event.target.value)
-                }
-              ></textarea>
-              <div>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      inputRef={this.check}
-                      onChange={event => {
-                        this.state.event.is_public = event.target.checked;
-                      }}
-                      color="primary"
-                      id="eventispublic"
-                      inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
-                  }
-                  label="Jeg ønsker at arrangementet skal være offentlig"
-                />
-              </div>
             </div>
           </div>
-          <div>
-            <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
-              Oprett ny. debugknapp
-            </button>
-            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-              Neste
-            </button>
-          </div>
-          {/*</form>*/}
+        </div>
+        <div>
+          <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
+            Oprett ny. debugknapp
+          </button>
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+            Neste
+          </button>
         </div>
       </div>
     );
