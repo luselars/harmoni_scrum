@@ -67,7 +67,7 @@ class ProfileEditUser extends Component<{}, State> {
             ) : (
               <img
                 src={'http://localhost:4000/public/file/' + this.state.image}
-                class="circle-img w-50 mx-auto d-block"
+                class="img rounded-circle w-50 mx-auto d-block"
                 alt="Profilbilde"
               />
             )}
@@ -313,6 +313,7 @@ class ProfileEditUser extends Component<{}, State> {
               document.getElementById('labelNewPasswordError').innerHTML = '';
             });
     }
+    //UserService.
   }
 }
 
