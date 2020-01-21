@@ -8,6 +8,12 @@
   color: black;
 }
 
+.cancelledtitle {
+  transform: rotate(20deg);
+  font-size: 1.2rem;
+  border-style: solid;
+}
+
 .pagination:hover {
   cursor: pointer;
 }
@@ -23,11 +29,6 @@ li.active {
   font-size: xx-small;
   font-family: sans-serif;
   border-radius: 5px;
-}
-
-#date {
-  border-right-style: solid;
-  border-right-color: rgb(83, 163, 81);
 }
 
 .datenumber {
@@ -46,6 +47,8 @@ li.active {
 #eventinfo {
   line-height: 90%;
   max-width: 60%;
+  border-left-style: solid;
+  border-left-color: rgb(83, 163, 81);
 }
 
 .eventlistp {

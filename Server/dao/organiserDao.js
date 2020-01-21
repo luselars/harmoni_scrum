@@ -11,6 +11,7 @@ module.exports = class OrganiserDao extends Dao {
   getPool() {
     return super.getPool();
   }
+
   getEvent(
     event_id: number,
     organiser_id: number,
@@ -83,6 +84,14 @@ module.exports = class OrganiserDao extends Dao {
         event.end,
         event_id,
       ],
+      callback,
+    );
+  }
+
+  toggleCancel(event_id: number, callback: (status: string, data: Event) => mixed) {
+    super.query(
+      'UPDATE event e SET e.cancel = NOT e.cancel WHERE e.event_id = ?',
+      [event_id],
       callback,
     );
   }
@@ -163,11 +172,13 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
   // Gets the id of the user from token
   getMyId(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
     super.query(queryString, [email], callback);
   }
+
   // Get all locations
   getLocation(callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT * FROM location ORDER BY name';
@@ -219,16 +230,19 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT user_id FROM user WHERE email = ?';
     super.query(queryString, [email], callback);
   }
+
   //gets (artist) user id to an email to see if user exists
   getArtistId(user_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString = 'SELECT user_id FROM artist WHERE user_id = ?';
     super.query(queryString, [user_id], callback);
   }
+
   //create dummy user and artist, to add an artist on event.
   postUser(email: string, callback: (status: string, data: Object) => mixed) {
     var queryString = 'INSERT INTO user (email) VALUES(?)';
     super.query(queryString, [email], callback);
   }
+
   postArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString = 'INSERT INTO artist(user_id) VALUES(?)';
     super.query(queryString, [user_id], callback);
@@ -310,6 +324,7 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
   // Deletes a rider
   deleteRider(
     event_id: number,

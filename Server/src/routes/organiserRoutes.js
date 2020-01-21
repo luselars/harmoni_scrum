@@ -419,6 +419,13 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
   }
 });
 
+router.put('/event/:event_id/cancel', (req: express$Request, res: express$Response) => {
+  dao.toggleCancel(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
   dao.getVolunteersByEvent(req.params.event_id, req.uid, (status, data) => {

@@ -31,18 +31,10 @@
   margin: 0 5px;
 }
 
-.eventdetailsbtn {
-  margin-top: 1vw;
-  margin: 10%;
-}
-
-#editeventbtn {
-  float: left;
-  margin: 0;
-}
-
+#editeventbtn,
+#cancelbtn,
 #deleteeventbtn {
-  float: right;
+  width: 25%;
 }
 
 #textright {
@@ -67,12 +59,23 @@
   #textright {
     font-size: 2vw;
   }
+  #editeventbtn,
+  #cancelbtn,
+  #deleteeventbtn {
+    width: 40%;
+  }
 }
 
 @media screen and (max-width: 650px) {
   .modal-content {
     margin: 40% 10%;
     width: 80%;
+  }
+
+  #editeventbtn,
+  #cancelbtn,
+  #deleteeventbtn {
+    width: 50%;
   }
 
   #EventDetailsLITable {
@@ -96,6 +99,6 @@
   }
   .text-left,
   .text-right {
-    font-size: 4vw;
+    font-size: 3vw;
   }
 }

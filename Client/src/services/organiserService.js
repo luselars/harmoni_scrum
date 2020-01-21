@@ -173,4 +173,8 @@ export class OrganiserService {
     let url = url_base + '/volunteer/' + vol_id;
     return axios.delete(url, config);
   }
+  static toggleCancel(event_id) {
+    let url = url_base + '/event/' + event_id + '/cancel';
+    return axios.put(url, {}, config);
+  }
 }

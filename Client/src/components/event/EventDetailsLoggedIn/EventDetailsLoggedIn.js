@@ -11,6 +11,7 @@ type State = {
   event: Event,
   artists: [],
   riders: [],
+  cancel: number,
 };
 
 type Props = {
@@ -26,6 +27,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       event: new Event(),
       artists: [],
       riders: [],
+      cancel: 0,
     };
 
     {
@@ -52,8 +54,11 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
-        console.log(event);
-        this.setState({ event: event });
+        console.log(event.cancel);
+        this.setState({
+          event: event,
+          cancel: event.cancel,
+        });
       })
       .catch(error => console.log(error));
 
@@ -83,7 +88,20 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
             </div>
           </div>
         </div>
-
+        <div id="myModal2" className="modal">
+          <div className="modal-content">
+            <span className="close2">&times;</span>
+            <div className="modalbody">
+              <p className="border-bottom">Vil du avlyse arrangementet?</p>
+              <button className="btn btn-success modalbtn" id="cancel2">
+                Avbryt
+              </button>
+              <button className="btn btn-secondary modalbtn" onClick={() => this.cancel()}>
+                Avlys
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
             <div className="imgdiv">
@@ -147,7 +165,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                 </tbody>
               </table>
               {this.state.event.address == null ? (
-                <p></p>
+                <div></div>
               ) : (
                 <iframe
                   id="map"
@@ -263,42 +281,65 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                 </tbody>
               </table>
-              <div className="eventdetailsbtn">
-                <button
-                  className="btn btn-success bg-green"
-                  id="editeventbtn"
-                  onClick={() => this.edit()}
-                >
-                  ENDRE
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  id="deleteeventbtn"
-                  type="button"
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  onClick={() => this.deletebtn()}
-                >
-                  <i className="fa fa-trash" aria-hidden="true"></i> Slett
-                </button>
-              </div>
+              <button
+                className="btn btn-success mx-auto d-block m-2"
+                id="editeventbtn"
+                onClick={() => this.edit()}
+              >
+                Endre
+              </button>
+              <button
+                className="btn btn-secondary mx-auto d-block m-2"
+                id="cancelbtn"
+                onClick={() => this.btnclicked('cancelbtn')}
+              >
+                Avlys
+              </button>
+              <button
+                className="btn btn-secondary mx-auto d-block m-2"
+                id="deleteeventbtn"
+                onClick={() => this.btnclicked('deleteeventbtn')}
+              >
+                <i className="fa fa-trash" aria-hidden="true"></i> Slett
+              </button>
             </div>
           </div>
         </div>
       </div>
     );
   }
-  deletebtn() {
-    let btn = document.getElementById('deleteeventbtn');
-    let modal = document.getElementById('myModal');
-    let span = document.getElementsByClassName('close')[0];
-    let cancel = document.getElementById('cancel');
-    console.log(cancel);
-    if (modal && cancel instanceof HTMLElement) {
+  btnclicked(id: string) {
+    if (id == 'deleteeventbtn') {
+      var btn = document.getElementById('deleteeventbtn');
+      var modal = document.getElementById('myModal');
+      var span = document.getElementsByClassName('close')[0];
+      var cancel = document.getElementById('cancel');
       modal.style.display = 'block';
       span.onclick = function() {
         modal.style.display = 'none';
       };
+      cancel.onclick = function() {
+        modal.style.display = 'none';
+      };
+    } else {
+      var btn = document.getElementById('cancelbtn');
+      var modal = document.getElementById('myModal2');
+      var span = document.getElementsByClassName('close2')[0];
+      var cancel = document.getElementById('cancel2');
+      modal.style.display = 'block';
+      span.onclick = function() {
+        modal.style.display = 'none';
+      };
+      cancel.onclick = function() {
+        modal.style.display = 'none';
+        console.log('heihiii');
+      };
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
 
       cancel.onclick = function() {
         modal.style.display = 'none';
@@ -308,7 +349,15 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           modal.style.display = 'none';
         }
       };
-    }
+    };
+  }
+
+  cancel() {
+    this.setState({ cancel: 1 });
+    OrganiserService.updateEvent(this.state.event).then(response => {
+      console.log('done');
+      console.log(this.state.event.cancel);
+    });
   }
 
   edit() {
