@@ -196,7 +196,7 @@ class ProfileEdit extends Component<{}, State> {
                 type="text"
                 className="form-control"
                 name="streetAddress"
-                onChange={e => this.onChangeAddress(e)}
+                onChange={e => this.onChange(e)}
                 defaultValue={this.state.streetAddress}
                 id="streetAddressInput"
               ></input>
@@ -207,7 +207,7 @@ class ProfileEdit extends Component<{}, State> {
                 type="number"
                 className="form-control"
                 name="postalcode"
-                onChange={e => this.onChangeAddress(e)}
+                onChange={e => this.onChange(e)}
                 value={this.state.postalcode}
                 id="postalcodeInput"
               ></input>
@@ -218,7 +218,7 @@ class ProfileEdit extends Component<{}, State> {
                 type="text"
                 className="form-control"
                 name="postal"
-                onChange={e => this.onChangeAddress(e)}
+                onChange={e => this.onChange(e)}
                 defaultValue={this.state.postal}
                 id="postalInput"
               ></input>
@@ -251,7 +251,7 @@ class ProfileEdit extends Component<{}, State> {
         tlf: organiser.tlf,
       });
       mail = this.state.organiser_email;
-      var a = this.state.address + ' ';
+      var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
       console.log('postnr: ' + nr);
@@ -286,7 +286,6 @@ class ProfileEdit extends Component<{}, State> {
   }
 
   delete() {
-    console.log('hei');
     OrganiserService.deleteOrganiser(this.state.organiser_id)
       .then(response => {
         window.location = '/eventdeleted';
@@ -298,16 +297,6 @@ class ProfileEdit extends Component<{}, State> {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-  }
-  onChangeAddress(e: any) {
-    let name: string = e.target.name;
-    let value: string = e.target.value;
-    this.setState({ [name]: value });
-    this.setState({
-      address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
-    });
-    console.log(this.state.address);
-    console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
   }
 
   //TODO delete old profile pic <3
@@ -365,6 +354,8 @@ class ProfileEdit extends Component<{}, State> {
 
   post(event: any) {
     event.preventDefault();
+    this.state.address =
+      this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal;
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
         ? this.edit(false)

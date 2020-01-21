@@ -387,11 +387,45 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
 
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
-  dao.getVolunteersByEvent(req.params.id, (status, data) => {
+  dao.getVolunteersByEvent(req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
+
+//post a new volunteer type to an organiser
+router.post('/volunteer', (req: express$Request, res: express$Response) => {
+  dao.postVolunteerType(req.body.name, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//delete voluunteer type by id
+router.delete('/volunteer/:id', (req: express$Request, res: express$Response) => {
+  dao.deleteVolunteerType(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//adds user to event with a volunteer type
+router.post('event/:eid/user/:id/volunteer/:vid', (req: express$Request, res: express$Response) => {
+  dao.addVolunteerToEvent(req.params.id, req.params.eid, req.params.vid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//removes user from event as staff
+router.delete('event/:eid/user/:id', (req: express$Request, res: express$Response) => {
+  dao.removeVolunteerFromEvent(req.params.id, req.params.eid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+
 
 //Get all artists who are part of an event
 router.get('/event/:event_id/artist', (req: express$Request, res: express$Response) => {
@@ -456,5 +490,7 @@ router.get('/tickets/:id', (req: express$Request, res: express$Response) => {
     res.send(data);
   });
 });
+
+
 
 module.exports = router;
