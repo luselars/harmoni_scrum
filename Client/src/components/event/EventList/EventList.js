@@ -64,7 +64,17 @@ export default class EventList extends Component<Props, State> {
     if (Array.isArray(filterChange)) {
       this.setState({ sortAlt: filterChange });
       if (filterChange[0] === 'viewOld') {
+        this.setState({
+          events: this.state.allEvents,
+          pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
+        });
+        this.fuse = new Fuse(this.state.allEvents.data, options);
       } else {
+        this.setState({
+          events: this.state.upcommingEvents,
+          pageCount: Math.ceil(this.state.upcommingEvents.length / eventsPerPage),
+        });
+        this.fuse = new Fuse(this.state.upcommingEvents.data, options);
       }
     } else {
       this.setState({ sortMethod: filterChange });
@@ -234,59 +244,50 @@ export default class EventList extends Component<Props, State> {
       if (this.props.organiser) {
         OrganiserService.getMyEvents()
           .then(events => {
-            this.setState({
-              events: events.data,
-              allEvents: events.data,
-              pageCount: Math.ceil(events.data.length / eventsPerPage),
-            });
-            this.fuse = new Fuse(events.data, options);
+            this.insertEvents(events);
           })
           .catch((error: Error) => alert(error.message));
       } else {
         UserService.getMyEvents()
           .then(events => {
-            this.setState({
-              events: events.data,
-              allEvents: events.data,
-              pageCount: Math.ceil(events.data.length / eventsPerPage),
-            });
-            this.fuse = new Fuse(events.data, options);
+            this.insertEvents(events);
           })
           .catch((error: Error) => alert(error.message));
       }
     } else {
       PublicService.getFrontpage()
         .then(events => {
-          var today = new Date();
-          var time = today.getTime();
-          var oldEvents = [];
-          var upcommingEvents = [];
-          for (var i = 0; i < events.data.length; i++) {
-            console.log(this.formatSqlTime(events.data[i].start));
-            console.log(time);
-            //if(events[i].start >)
-          }
-          this.setState({
-            events: events.data,
-            allEvents: events.data,
-            pageCount: Math.ceil(events.data.length / eventsPerPage),
-          });
-          this.fuse = new Fuse(events.data, options);
+          this.insertEvents(events);
         })
         .catch((error: Error) => alert(error.message));
     }
   }
 
-  formatSqlTime(date: string) {
-    console.log(date);
-    return (parseInt(date.substring(0, 4)) - 1970) * 365 * 24 * 60 * 60;
-    // 1970 - parseInt(date.substring(0, 4));
+  insertEvents(events: Object) {
+    var today = new Date();
+    var time = today.getTime();
+    var oldEvents = [];
+    var upcommingEvents = [];
+    for (var i = 0; i < events.data.length; i++) {
+      let jsDate = new Date(events.data[i].end);
+      if (time > jsDate.getTime()) {
+        events.data[i].old = true;
+        oldEvents.push(events.data[i]);
+      } else {
+        events.data[i].old = false;
+        upcommingEvents.push(events.data[i]);
+      }
+    }
+    this.setState({
+      oldEvents: oldEvents,
+      upcommingEvents: upcommingEvents,
+      events: upcommingEvents,
+      allEvents: events.data,
+      pageCount: Math.ceil(upcommingEvents.length / eventsPerPage),
+    });
+    this.fuse = new Fuse(upcommingEvents.data, options);
   }
-  /*
-  componentWillReceiveProps(props) {
-    this.setState({ filterChange: props.sortString });
-  }
-  */
+
   search(event) {
     // Updates the state events to search results
     let value: string = event.target.value;
