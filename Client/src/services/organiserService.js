@@ -43,7 +43,8 @@ export class OrganiserService {
   }
 
   static deleteOrganiser(id: number): AxiosPromise<Organiser> {
-    let url = url_base + '/organiser/:id';
+    console.log('Service: ' + id);
+    let url = url_base + '/organiser/' + id;
     return axios.delete<Object>(url, config);
   }
 
