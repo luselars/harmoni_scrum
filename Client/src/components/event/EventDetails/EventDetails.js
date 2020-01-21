@@ -117,7 +117,7 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
-        console.log(res);
+        console.log(res.data[0]);
         this.setState({ event: event });
 
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {

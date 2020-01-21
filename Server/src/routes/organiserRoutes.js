@@ -230,7 +230,6 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
       dao.getArtistId(start_id, (status, data) => {
         res.status(status);
         d = data;
-        console.log('uuuuuuuuuuuuuuuuu ' + data.length);
         if (data.length === 0) {
           dao.postArtist(start_id, (status, data) => {
             res.status(status);
@@ -302,7 +301,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
 router.get('/sendmail', (req, res) => {
   console.log('Sender mail');
   sendInvite('jonas4a@gmail.com', 'event!!!', function(resp) {
-    console.log(resp);
     if (resp) res.sendStatus(200);
     else res.sendStatus(400);
   });
@@ -445,7 +443,7 @@ router.delete('/tickets/:id', (req: express$Request, res: express$Response) => {
 
 // Delete a ticket type from an event
 router.delete('/event/:eid/tickets/:tid', (req: express$Request, res: express$Response) => {
-  dao.deleteEventTicket(req.params.eid, req.params.tid, (status, data) => {
+  dao.deleteEventTicket(req.params.tid, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
   });

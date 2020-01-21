@@ -139,8 +139,8 @@ export class OrganiserService {
   }
 
   // Removes an existing tickettype
-  static deleteTickets(ticket_id: number) {
+  static deleteTicket(ticket_id: number) {
     let url = url_base + '/tickets/' + ticket_id;
-    return axios.put(url, config);
+    return axios.delete(url, config);
   }
 }
