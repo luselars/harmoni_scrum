@@ -76,20 +76,6 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     Se eldre arragementer (1 måned gamle)
                   </label>
                 </div>
-                <div className="form-check text-left mb-3">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="placeCheck2"
-                    value="test"
-                    checked={this.state.sortAlt[1] === 'test'}
-                    onChange={e => this.handleChangeAlt(e)}
-                  ></input>
-                  <label className="placecheck form-check-label" for="placeCheck2">
-                    test
-                  </label>
-                </div>
-
                 <div className="col filtercategories border-bottom">
                   <h6 className="mb-3 text-success">PRIS</h6>
                 </div>
