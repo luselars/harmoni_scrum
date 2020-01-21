@@ -301,8 +301,11 @@ export default class ProfileNew extends Component<
                 state2.image = reader.result;
                 PublicService.registerNewUser(state2)
                   .then(response => {
-                    localStorage.setItem('token', response.data.jwt);
-                    window.location = '/profile';
+                    PublicService.logIn(state2.email, state2.password).then(response2 => {
+                      localStorage.setItem('token', response2.data.jwt);
+                      localStorage.setItem('userType', response2.data.type);
+                      window.location = '/profile';
+                    });
                   })
                   .catch(error => {
                     alert(error);
@@ -313,10 +316,14 @@ export default class ProfileNew extends Component<
             if (file) {
               reader.readAsDataURL(file);
             } else {
+              console.log(this.state);
               PublicService.registerNewUser(this.state)
                 .then(response => {
-                  localStorage.setItem('token', response.data.jwt);
-                  window.location = '/profile';
+                  PublicService.logIn(this.state.email, this.state.password).then(response => {
+                    localStorage.setItem('token', response.data.jwt);
+                    localStorage.setItem('userType', response.data.type);
+                    window.location = '/profile';
+                  });
                 })
                 .catch(error => {
                   alert(error);
@@ -325,8 +332,12 @@ export default class ProfileNew extends Component<
           } else {
             PublicService.registerNewUser(this.state)
               .then(response => {
-                localStorage.setItem('token', response.data.jwt);
-                window.location = '/profile';
+                PublicService.logIn(this.state.email, this.state.password).then(response => {
+                  console.log(response);
+                  localStorage.setItem('token', response.data.jwt);
+                  localStorage.setItem('userType', response.data.type);
+                  window.location = '/profile';
+                });
               })
               .catch(error => {
                 alert(error);

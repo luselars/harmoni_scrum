@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
+import './stylesheet.css';
 
 export default class LogIn extends Component<{}, { email: string, password: string }> {
   constructor(props: any) {
@@ -15,7 +16,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
 
   render() {
     return (
-      <div id="profileOrganiserCard" class="main">
+      <div id="logincard" class="main">
         <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
             <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
@@ -86,6 +87,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
       .then(response => {
         console.log('Response: ' + response.data.jwt);
         localStorage.setItem('token', response.data.jwt);
+        localStorage.setItem('userType', response.data.type);
         window.location = '/profile';
       })
       .catch(error => {

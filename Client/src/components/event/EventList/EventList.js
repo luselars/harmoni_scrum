@@ -36,13 +36,48 @@ export default class EventList extends Component<Props, State> {
   handlePageClick = data => {
     let selected = data.selected;
     let offset = Math.ceil(selected * eventsPerPage);
-
     this.setState({ offset: offset });
+  };
+
+  compareAlphabetically(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  compareChronologically(a, b) {
+    if (a.start < b.start) {
+      return -1;
+    }
+    if (a.start > b.start) {
+      return 1;
+    }
+    return 0;
+  }
+
+  handleFilterChange = sortMethod => {
+    console.log(sortMethod);
+    this.setState({ sortMethod: sortMethod });
+    if (sortMethod == 'alphabetical') {
+      this.state.events.sort(this.compareAlphabetically);
+      this.state.allEvents.sort(this.compareAlphabetically);
+    } else if (sortMethod == 'time') {
+      this.state.events.sort(this.compareChronologically);
+      this.state.allEvents.sort(this.compareChronologically);
+    }
   };
 
   render() {
     return (
       <div>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        ></link>
         <div className="input-group my-3 " id="searchBox">
           <div class="input-group md-form form-sm form-1 pl-0">
             <div class="input-group-prepend">
@@ -59,11 +94,11 @@ export default class EventList extends Component<Props, State> {
             />
           </div>
         </div>
-        <Filter />
+        <Filter handleFilterChange={this.handleFilterChange.bind(this)} />
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
-              <div className="card float-right">
+              <div className="card float-left">
                 <div
                   className="card-body bg-light"
                   onClick={() => {
@@ -124,21 +159,33 @@ export default class EventList extends Component<Props, State> {
               ''
             ),
           )}
-        </div>
-        <div className="reactpaginate">
-          <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
-            breakLabel={'...'}
-            breakClassName={'break-me'}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
+          {this.state.pageCount >= 2 ? (
+            <div className="card float-right bg-transparent border-0">
+              <div className="card-body bg-transparent">
+                <div className="row justify-content-md-center align-items-center">
+                  <div className="col-12">
+                    <div className="reactpaginate">
+                      <ReactPaginate
+                        previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
+                        nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                        breakLabel={'...'}
+                        breakClassName={'break-me'}
+                        pageCount={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     );
@@ -192,9 +239,10 @@ export default class EventList extends Component<Props, State> {
     // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
+      var searchResults = this.fuse.search(value);
       this.setState({
-        events: this.fuse.search(value),
-        pageCount: Math.ceil(this.state.events.length / eventsPerPage),
+        events: searchResults,
+        pageCount: Math.ceil(searchResults.length / eventsPerPage),
       });
     } else {
       // If there is no search string it resets the eventlist

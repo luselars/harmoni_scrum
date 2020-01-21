@@ -53,7 +53,7 @@ describe('Testing methods in public dao', () => {
 
   it('get public events', done => {
     function callback(status, data) {
-      expect(data.length).toBeGreaterThanOrEqual(3);
+      expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
     dao.getPublicEvents(callback);

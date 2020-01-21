@@ -1,11 +1,16 @@
 // @flow
 import express from 'express';
+import mysql from 'mysql';
+import uploadFunctions from '../uploadHelper';
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
+let bcrypt = require('bcryptjs');
 
 const userDao = require('../../dao/userDao.js');
 let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+const upload = require('../uploadHelper');
+
 let router = express.Router();
 
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
@@ -19,7 +24,7 @@ router.use('', (req, res, next) => {
       });
     } else {
       if (decoded.type == 'user') {
-        console.log('Token ok: ' + decoded.username);
+        //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
         next();
@@ -35,11 +40,26 @@ router.use('', (req, res, next) => {
 });
 
 // Edit a specific user
-router.put('', (req: { body: JSON }, res: express$Response) => {
-  dao.editUser(req.body, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
+router.put('/myprofile', (req: express$Request, res: express$Response) => {
+  if (req.body.password.length != 0) {
+    req.body.salt = bcrypt.genSaltSync(10);
+    req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
+    req.body.password = null;
+  }
+  if (req.body.image != null) {
+    uploadFunctions.handleFile(req.body.image, function(imageUrl) {
+      req.body.image = imageUrl;
+      dao.editUser(req.uid, req.body, (status, data) => {
+        res.status(status);
+        res.send(data);
+      });
+    });
+  } else {
+    dao.editUser(req.uid, req.body, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
 });
 
 // Delete single user

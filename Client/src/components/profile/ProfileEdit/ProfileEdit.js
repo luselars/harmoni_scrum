@@ -47,160 +47,194 @@ class ProfileEdit extends Component<{}, State> {
 
   render() {
     return (
-      <form onSubmit={e => this.post(e)} className="card" id="editProfile">
-        <div className="card-body m-5">
-          <h2 id="editTitle"> REDIGER PROFIL </h2>
-          <img
-            className="circle-img w-25"
-            id="picture"
-            alt="Profilbilde"
-            src={'http://localhost:4000/public/file/' + this.state.image}
-          />
-          <div className="form-check text-center my-3 p-2 border">
-            <label className="form-check-label" for="upload">
-              Profilbilde
-            </label>
-            <input
-              className="file mr-6"
-              accept=".jpg, .jpeg, .png"
-              type="file"
-              id="upload"
-              name="recfile"
-            />
+      <div>
+        <div id="myModal" className="modal">
+          <div className="modal-content">
+            <span className="close">&times;</span>
+            <div className="modalbody">
+              <p className="border-bottom">Vil du slette profilen?</p>
+              <button className="btn btn-success modalbtn" id="cancel">
+                Avbryt
+              </button>
+              <button className="btn btn-secondary modalbtn" onClick={() => this.delete()}>
+                Slett
+              </button>
+            </div>
           </div>
-          <div className="form-group" id="name">
-            <label for="nameInput">Navn: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="name"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.name}
-              id="nameInput"
-              required
-            ></input>
-          </div>
-          <div className="form-group" id="phone">
-            <label for="tlfInput">Telefonnummer: </label>
-            <input
-              type="tel"
-              className="form-control"
-              name="tlf"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.tlf}
-              id="tlfInput"
-            ></input>
-          </div>
-          <div className="form-group" id="email">
-            <label for="emailInput">Epost: </label>
-            <input
-              type="email"
-              className="form-control"
-              name="organiser_email"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.organiser_email}
-              id="emailInput"
-              required
-            ></input>
-          </div>
-          <div className="form-group" id="password">
-            <label for="passwordInput">Nåværende passord: </label>
-            <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              onChange={e => this.onChange(e)}
-              id="passwordInput"
-            ></input>
-          </div>
-          <div className="form-group" id="password">
-            <label for="passwordNewInput">Nytt passord: </label>
-            <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
-            <input
-              type="password"
-              className="form-control"
-              name="newPassword"
-              onChange={e => this.onChange(e)}
-              id="passwordNewInput"
-            ></input>
-          </div>
-
-          <div className="form-group" id="description">
-            <label for="descritionInput">Beskrivelse:</label>
-            <textarea
-              type="text"
-              className="form-control"
-              name="description"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.description}
-              id="descritionInput"
-            ></textarea>
-          </div>
-          <div className="form-group" id="website">
-            <label for="websiteInput">Nettside: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="website"
-              onChange={e => this.onChange(e)}
-              defaultValue={this.state.website}
-              id="websiteInput"
-            ></input>
-          </div>
-
-          <iframe
-            id="map"
-            width="100%"
-            height="300px"
-            frameborder="0"
-            src={
-              'https://www.google.com/maps/embed/v1/place?q=' +
-              this.state.streetAddress +
-              ',+' +
-              this.state.postalcode +
-              '+' +
-              this.state.postal +
-              '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
-            }
-            allowfullscreen
-          ></iframe>
-          <div className="form-group" id="address">
-            <label for="streetAddressInput">Adresse: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="streetAddress"
-              onChange={e => this.onChangeAddress(e)}
-              defaultValue={this.state.streetAddress}
-              id="streetAddressInput"
-            ></input>
-          </div>
-          <div className="form-group" id="postalcode">
-            <label for="postalcodeInput">Postnummer: </label>
-            <input
-              type="number"
-              className="form-control"
-              name="postalcode"
-              onChange={e => this.onChangeAddress(e)}
-              value={this.state.postalcode}
-              id="postalcodeInput"
-            ></input>
-          </div>
-          <div className="form-group" id="postal">
-            <label for="postalInput">Poststed: </label>
-            <input
-              type="text"
-              className="form-control"
-              name="postal"
-              onChange={e => this.onChangeAddress(e)}
-              defaultValue={this.state.postal}
-              id="postalInput"
-            ></input>
-          </div>
-          <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
         </div>
-      </form>
+        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          ></link>
+          <div className="card-body m-5">
+            <h2 id="editTitle"> REDIGER PROFIL </h2>
+            <img
+              className="circle-img w-25"
+              id="picture"
+              alt="Profilbilde"
+              src={
+                this.state.image
+                  ? 'http://localhost:4000/public/file/' + this.state.image
+                  : 'http://localhost:4000/public/file/profile.png'
+              }
+            />
+            <div className="form-check text-center my-3 p-2 border">
+              <label className="form-check-label" for="upload">
+                Profilbilde
+              </label>
+              <input
+                className="file mr-6"
+                accept=".jpg, .jpeg, .png"
+                type="file"
+                name="image"
+                id="upload"
+                name="recfile"
+              />
+            </div>
+            <div className="form-group" id="name">
+              <label for="nameInput">Navn: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.name}
+                id="nameInput"
+                required
+              ></input>
+            </div>
+            <div className="form-group" id="phone">
+              <label for="tlfInput">Telefonnummer: </label>
+              <input
+                type="tel"
+                className="form-control"
+                name="tlf"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.tlf}
+                id="tlfInput"
+              ></input>
+            </div>
+            <div className="form-group" id="email">
+              <label for="emailInput">Epost: </label>
+              <input
+                type="email"
+                className="form-control"
+                name="organiser_email"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.organiser_email}
+                id="emailInput"
+                required
+              ></input>
+            </div>
+            <div className="form-group" id="password">
+              <label for="passwordInput">Nåværende passord: </label>
+              <label for="passwordError" id="labelPasswordError" className="text-danger"></label>
+              <input
+                type="password"
+                autocomplete="new-password"
+                className="form-control"
+                name="password"
+                onChange={e => this.onChange(e)}
+                id="passwordInput"
+              ></input>
+            </div>
+            <div className="form-group" id="password">
+              <label for="passwordNewInput">Nytt passord: </label>
+              <label for="passwordError" id="labelNewPasswordError" className="text-danger"></label>
+              <input
+                type="password"
+                className="form-control"
+                name="newPassword"
+                onChange={e => this.onChange(e)}
+                id="passwordNewInput"
+              ></input>
+            </div>
+
+            <div className="form-group" id="description">
+              <label for="descritionInput">Beskrivelse:</label>
+              <textarea
+                type="text"
+                className="form-control"
+                name="description"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.description}
+                id="descritionInput"
+              ></textarea>
+            </div>
+            <div className="form-group" id="website">
+              <label for="websiteInput">Nettside: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="website"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.website}
+                id="websiteInput"
+              ></input>
+            </div>
+
+            <iframe
+              id="map"
+              width="100%"
+              height="300px"
+              frameborder="0"
+              src={
+                'https://www.google.com/maps/embed/v1/place?q=' +
+                this.state.streetAddress +
+                ',+' +
+                this.state.postalcode +
+                '+' +
+                this.state.postal +
+                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+              }
+              allowfullscreen
+            ></iframe>
+            <div className="form-group" id="address">
+              <label for="streetAddressInput">Adresse: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="streetAddress"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.streetAddress}
+                id="streetAddressInput"
+              ></input>
+            </div>
+            <div className="form-group" id="postalcode">
+              <label for="postalcodeInput">Postnummer: </label>
+              <input
+                type="number"
+                className="form-control"
+                name="postalcode"
+                onChange={e => this.onChange(e)}
+                value={this.state.postalcode}
+                id="postalcodeInput"
+              ></input>
+            </div>
+            <div className="form-group" id="postal">
+              <label for="postalInput">Poststed: </label>
+              <input
+                type="text"
+                className="form-control"
+                name="postal"
+                onChange={e => this.onChange(e)}
+                defaultValue={this.state.postal}
+                id="postalInput"
+              ></input>
+            </div>
+            <input type="submit" class="btn btn-success bg-green" value="Lagre"></input>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              id="deleteprofilebtn"
+              onClick={() => this.deletebtn()}
+            >
+              <i className="fa fa-trash" aria-hidden="true"></i> Slett
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
   componentDidMount() {
@@ -208,7 +242,7 @@ class ProfileEdit extends Component<{}, State> {
       console.log(res.data);
       let organiser: Organiser = res.data;
       this.setState({
-        organiser_id: organiser.organiser_id_,
+        organiser_id: organiser.organiser_id,
         name: organiser.name,
         organiser_email: organiser.organiser_email,
         image: organiser.image,
@@ -218,7 +252,7 @@ class ProfileEdit extends Component<{}, State> {
         tlf: organiser.tlf,
       });
       mail = this.state.organiser_email;
-      var a = this.state.address + ' ';
+      var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
       console.log('postnr: ' + nr);
@@ -233,78 +267,87 @@ class ProfileEdit extends Component<{}, State> {
     });
   }
 
+  deletebtn() {
+    var btn = document.getElementById('deleteprofilebtn');
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName('close')[0];
+    var cancel = document.getElementById('cancel');
+    modal.style.display = 'block';
+    span.onclick = function() {
+      modal.style.display = 'none';
+    };
+    cancel.onclick = function() {
+      modal.style.display = 'none';
+    };
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    };
+  }
+
+  delete() {
+    OrganiserService.deleteOrganiser(this.state.organiser_id)
+      .then(response => {
+        localStorage.removeItem('token');
+        window.location = '/deletedprofile';
+      })
+      .catch(error => console.error(error));
+  }
+
   onChange(e: any) {
     let name: string = e.target.name;
     let value: string = e.target.value;
     this.setState({ [name]: value });
-    console.log(this.state.organiser_email);
-    console.log(this.state.image);
-  }
-  onChangeAddress(e: any) {
-    let name: string = e.target.name;
-    let value: string = e.target.value;
-    this.setState({ [name]: value });
-    this.setState({
-      address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
-    });
-    console.log(this.state.address);
-    console.log('delt: ' + this.state.streetAddress + this.state.postalcode + this.state.postal);
   }
 
   //TODO delete old profile pic <3
-  edit(correct: boolean, changePassword: boolean) {
+  edit(changePassword: boolean) {
     console.log('reg');
-    console.log(correct);
-    if (!correct && changePassword) {
-      document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
-      document.getElementById('labelNewPasswordError').innerHTML = '';
+    if (this.state.newPassword.length < 8 && changePassword) {
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
+      console.log('inne: ' + this.state.newPassword);
     } else {
-      if (this.state.newPassword.length < 8 && changePassword) {
-        document.getElementById('labelPasswordError').innerHTML = '';
-        document.getElementById('labelNewPasswordError').innerHTML = 'Må være mer enn 8 tegn';
-        console.log('inne: ' + this.state.newPassword);
-      } else {
-        document.getElementById('labelPasswordError').innerHTML = '';
-        document.getElementById('labelNewPasswordError').innerHTML = '';
-        // Image
-        let element = document.getElementById('upload');
-        if (element.value !== '') {
-          let fullPath: any = element.value;
-          let ext = path.extname(fullPath).toLowerCase();
-          if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-            //TODO change alert
-            alert('Ikke gyldig filtype');
-            return;
-          }
-          const file = element.files[0];
-          const reader = new FileReader();
-          const state2 = this.state;
-          reader.addEventListener(
-            'load',
-            function() {
-              state2.imageUrl = reader.result;
-              alert('hei');
-              if (changePassword) state2.password = state2.newPassword;
-              OrganiserService.editOrganiser(state2).then(response => {
-                window.location = '/profile';
-              });
-            },
-            false,
-          );
-          if (file) {
-            reader.readAsDataURL(file);
-          } else {
-            this.editPost(this.state, changePassword);
-          }
+      document.getElementById('labelPasswordError').innerHTML = '';
+      document.getElementById('labelNewPasswordError').innerHTML = '';
+      // Image
+      let imageUpload = document.getElementById('upload');
+      if (imageUpload.value !== '') {
+        let fullPath: any = imageUpload.value;
+        let ext = path.extname(fullPath).toLowerCase();
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+          //TODO change alert
+          alert('Ikke gyldig filtype');
+          return;
+        }
+        const file = imageUpload.files[0];
+        const reader = new FileReader();
+        const state2 = this.state;
+        reader.addEventListener(
+          'load',
+          function() {
+            state2.image = reader.result;
+            if (changePassword) state2.password = state2.newPassword;
+            OrganiserService.editOrganiser(state2).then(response => {
+              alert('Endring registert');
+              window.location = '/profile';
+            });
+          },
+          false,
+        );
+        if (file) {
+          reader.readAsDataURL(file);
         } else {
           this.editPost(this.state, changePassword);
         }
+      } else {
+        this.editPost(this.state, changePassword);
       }
     }
   }
 
   editPost(state: Object, changePassword: boolean) {
-    console.log(state.image);
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
       window.location = '/profile';
@@ -313,18 +356,20 @@ class ProfileEdit extends Component<{}, State> {
 
   post(event: any) {
     event.preventDefault();
-    console.log(mail);
+    this.state.address =
+      this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal;
     {
       this.state.newPassword.length === 0 && this.state.password.length === 0
-        ? this.edit(false, false)
+        ? this.edit(false)
         : PublicService.logIn(mail, this.state.password)
             .then(response => {
               console.log('Response: ' + response.data.jwt);
-              this.edit(true, true);
+              this.edit(true);
             })
             .catch(error => {
               console.log('error: ' + error);
-              this.edit(false, true);
+              document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
+              document.getElementById('labelNewPasswordError').innerHTML = '';
             });
     }
   }

@@ -32,7 +32,7 @@ function updateToken(token) {
       res.status(401);
       res.json({ error: 'Not authorized, log in again' });
     } else {
-      console.log('Token ok: ' + decoded.username + ', Assigning new token');
+      //console.log('Token ok: ' + decoded.username + ', Assigning new token');
       let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
         expiresIn: tokenDuration,
       });
@@ -44,8 +44,8 @@ function updateToken(token) {
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
-  console.log('Got a file request');
-  console.log(path.join(__dirname, '../../files/' + req.params.id));
+  //console.log('Got a file request');
+  //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });
 
@@ -99,17 +99,15 @@ router.post('/login', (req: express$Request, res: express$Response) => {
             },
           );
           res.status(200);
-          res.json({ jwt: token });
+          res.json({ jwt: token, type: 'user' });
         } else {
           console.log('Username and password NOT ok');
           res.status(401);
           res.json({ error: 'Not authorized, check username and password' });
         }
       } else {
-        console.log('organiser');
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
           if (status == '200') {
-            console.log('data ' + data);
             if (data[0] != null) {
               // Callback function that hashes inputed password and compares to hash in DB
               let salt = data[0].salt;
@@ -124,15 +122,48 @@ router.post('/login', (req: express$Request, res: express$Response) => {
                     expiresIn: tokenDuration,
                   },
                 );
-                res.json({ jwt: token });
+                res.json({ jwt: token, type: 'organiser' });
               } else {
                 console.log('Username and password NOT ok');
                 res.status(401);
                 res.json({ error: 'Not authorized, check username and password' });
               }
             } else {
-              res.status(404);
-              res.json({ error: 'Username not found' });
+              dao.getAdminLoginInfo(req.body.username, (status, data) => {
+                if (status == '200') {
+                  if (data[0] != null) {
+                    // Callback function that hashes inputed password and compares to hash in DB
+                    let salt = data[0].salt;
+                    let hash = bcrypt.hashSync(req.body.password, salt);
+                    if (hash == data[0].hash) {
+                      // Returns a token for autherization if credentials match
+                      console.log('Username and password ok. Admin signed inn');
+                      let token = jwt.sign(
+                        {
+                          username: req.body.username,
+                          type: 'admin',
+                          id: data[0].admin_id,
+                        },
+                        privateKey,
+                        {
+                          expiresIn: tokenDuration,
+                        },
+                      );
+                      res.json({ jwt: token, type: 'admin' });
+                    } else {
+                      console.log('Username and password NOT ok');
+                      res.status(401);
+                      res.json({ error: 'Not authorized, check username and password' });
+                    }
+                  } else {
+                    res.status(404);
+                    res.json({ error: 'Username not found' });
+                  }
+                } else {
+                  res.status(status);
+                  res.json({ error: data });
+                }
+              });
             }
           } else {
             res.status(status);
@@ -140,19 +171,18 @@ router.post('/login', (req: express$Request, res: express$Response) => {
           }
         });
       }
+    } else {
+      res.status(status);
+      res.json({ error: data });
     }
   });
 });
 
 // Register new user/organiser
 router.post('/register', (req: express$Request, res: express$Response) => {
-  let password: string = req.body.password;
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
   req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
-
-  //test
-  console.log(req.body);
   if (req.body.image != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.imageUrl = imageUrl;

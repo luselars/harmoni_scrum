@@ -4,14 +4,25 @@
     'reactpaginate';
 }
 
-.reactpaginate {
-  font-size: xx-large;
+.pagination > li.active > a {
+  color: black;
 }
 
-.pagination > li.active > a {
-  color: #fff;
-  background-color: #218838;
-  border-color: #1e7e34;
+.pagination:hover {
+  cursor: pointer;
+}
+
+li.active {
+  background-color: white;
+}
+
+.pagination > li {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0px 5px 0px 5px;
+  font-size: xx-small;
+  font-family: sans-serif;
+  border-radius: 5px;
 }
 
 #date {
@@ -118,7 +129,7 @@ h5 {
     line-height: 4vw;
   }
 
-  .card {
+  #card {
     width: 90% !important;
     margin-left: 5% !important;
     margin-right: 5% !important;

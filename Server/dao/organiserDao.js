@@ -98,6 +98,33 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
+  //add volunteer to event
+  addVolunteerToEvent(
+    user_id: number,
+    event_id: number,
+    volunteer_type_id: number,
+    callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+      'INSERT INTO `event_volunteer` (event_id, user_id, volunteer_type_id) VALUES (?, ?, ?)',
+      [event_id, user_id, volunteer_type_id],
+      callback,
+    );
+  }
+
+  removeVolunteerFromEvent(
+    user_id: number,
+    event_id: number,
+    callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+      'DELETE FROM `event_volunteer` WHERE event_id = ? AND user_id = ?',
+      [event_id, user_id],
+      callback,
+    );
+  }
+
   //edit event artist to add contract and stuff
   putEventArtist(
     user_id: number,
@@ -241,6 +268,12 @@ module.exports = class OrganiserDao extends Dao {
     super.query('DELETE FROM event_ticket WHERE event_id = ?', [event_id], callback);
   }
 
+  // Deletes organiser
+  deleteOrganiser(organiser_id: number, callback: (status: String, data: Object) => mixed) {
+    console.log('Dao: ' + organiser_id);
+    super.query('DELETE FROM organiser WHERE organiser_id = ?', [organiser_id], callback);
+  }
+
   //gets all riders in event
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
@@ -306,6 +339,16 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
+  postVolunteerType(name: string, id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'INSERT INTO volunteer_type (name, organiser_id) VALUES (?,?)';
+    super.query(queryString, [name, id], callback);
+  }
+
+  deleteVolunteerType(id: number, callback: (status: string, data: Object) => mixed) {
+    var queryString = 'DELETE FROM volunteer_type WHERE volunteer_type_id = ?';
+    super.query(queryString, [id], callback);
+  }
+
   editTicketType(
     ticketType: TicketType,
     ticket_type_id: number,
@@ -360,11 +403,15 @@ module.exports = class OrganiserDao extends Dao {
   postEventTicket(
     ticket: TicketType,
     event_id: number,
-    ticket_type_id: number,
     callback: (status: string, data: Object) => mixed,
   ) {
-    var queryString = 'INSERT INTO event_ticket (ticket_type_id, price, event_id) VALUES(?,?,?)';
-    super.query(queryString, [event_id, ticket.price, event_id], callback);
+    var queryString =
+      'INSERT INTO event_ticket (ticket_type_id, price, amount, event_id) VALUES(?,?,?,?)';
+    super.query(
+      queryString,
+      [ticket.ticket_type_id, ticket.price, ticket.amount, event_id],
+      callback,
+    );
   }
 
   getMyEvents(organiser_id: number, callback) {

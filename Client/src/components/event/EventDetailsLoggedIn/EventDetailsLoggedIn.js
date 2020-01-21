@@ -40,7 +40,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
         this.setState({ artists: res.data });
-        console.log(res);
       })
       .catch(error => {
         if (error == 'Error: Request failed with status code 404') {
@@ -53,6 +52,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
+        console.log(event);
         this.setState({ event: event });
       })
       .catch(error => console.log(error));
@@ -190,7 +190,18 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </th>
                     {this.state.artists.map(artist => (
                       <div>
-                        {artist.contract === null ? null : (
+                        {artist.contract === null ? (
+                          <div>
+                            {artist.artist_name === null ? (
+                              <td className="text-left">Ukjent artist: </td>
+                            ) : (
+                              <td className="text-left">{artist.artist_name}: </td>
+                            )}
+                            <tr>
+                              <td className="text-left">Ingen kontrakt lastet opp</td>
+                            </tr>
+                          </div>
+                        ) : (
                           <div>
                             {artist.artist_name === null ? (
                               <td className="text-left">Ukjent artist: </td>
@@ -211,26 +222,44 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Riders:
                     </th>
-                    {this.state.riders.map(rider => (
+                    {this.state.riders.length > 0 ? (
+                      <span>
+                        {this.state.riders.map(rider => (
+                          <div>
+                            <td className="text-left">{rider.artist_name}</td>
+                            <td className="text-right">
+                              <DownloadFile fileName={rider.rider_file} />
+                            </td>
+                          </div>
+                        ))}
+                      </span>
+                    ) : (
                       <div>
-                        <td className="text-left">{rider.artist_name}</td>
-                        <td className="text-right">
-                          <DownloadFile fileName={rider.rider_file} />
-                        </td>
+                        <td>Ingen ridere lagt til</td>
                       </div>
-                    ))}
+                    )}
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Offentlig:
                     </th>
-                    <td className="text-left">Ja</td>
+                    <td className="text-left">
+                      {this.state.event.is_public === 1 ? <span>Ja</span> : <span>Nei</span>}
+                    </td>
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Status:
                     </th>
-                    <td className="text-left">Klar til å gjennomføre</td>
+                    {this.state.event.status !== null ? (
+                      <div>
+                        <td className="text-left">{this.state.event.status}</td>
+                      </div>
+                    ) : (
+                      <div>
+                        <td className="text-left">Ingen status satt</td>
+                      </div>
+                    )}
                   </tr>
                 </tbody>
               </table>

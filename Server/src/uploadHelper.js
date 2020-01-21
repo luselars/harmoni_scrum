@@ -1,14 +1,21 @@
 // @flow
 const crypto = require('crypto');
 const fs = require('fs');
+var path = require('path');
 
 let uploadFunctions = {
   handleFile: function(f: string, callback): string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
-    let p = __dirname + '/../files/';
-    let check_path = p + f;
-    if (fs.existsSync(check_path) || f === null) {
-      console.log('File already exists.');
+    let p = path.join(__dirname + '/../files/');
+    /*
+    let check_path = p + f.name;
+    console.log(f);
+    console.log('Check path: ' + check_path);
+    fs.existsSync(check_path) ||
+    */
+
+    if (f === null) {
+      console.log('File undefined.');
       callback(f);
       return;
     }
@@ -38,7 +45,7 @@ let uploadFunctions = {
     extension = extension.substring(extension.indexOf('/') + 1, extension.length);
     extension = '.' + extension;
     const len = 16;
-    let p = __dirname + '/../files/';
+    let p = path.join(__dirname + '/../files/');
     //Create a random number for the file
     let str = crypto
       .randomBytes(Math.ceil(len / 2))

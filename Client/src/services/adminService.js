@@ -9,16 +9,16 @@ const config = {
 
 export class AdminService {
   // Get Unverified
-  static getUnverifed(email: string, password: string) {
+  static getUnverifed() {
     return axios.get(url_base + '/unverified', config);
   }
   // Get all organisers
-  static getAll(email: string, password: string) {
+  static getAll() {
     return axios.get(url_base + '/organisers', config);
   }
 
   // Verify an account
-  static verify(email: string, password: string) {
-    return axios.put(url_base + '/unverified/:id', config);
+  static verify(id) {
+    return axios.put(url_base + '/unverified/' + id, config);
   }
 }

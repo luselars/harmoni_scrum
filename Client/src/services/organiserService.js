@@ -41,6 +41,13 @@ export class OrganiserService {
     let url = url_base + '/myprofile';
     return axios.put<Object>(url, organiser, config);
   }
+
+  static deleteOrganiser(id: number): AxiosPromise<Organiser> {
+    console.log('Service: ' + id);
+    let url = url_base + '/organiser/' + id;
+    return axios.delete<Object>(url, config);
+  }
+
   static getLocations(): AxiosPromise<Location[]> {
     let url = url_base + '/location';
     return axios.get(url, config);
@@ -94,7 +101,7 @@ export class OrganiserService {
   static deleteRider(event_id: number, rider_id: number) {
     let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
     console.log(url);
-    return axios.put(url, {}, config);
+    return axios.delete(url, config);
   }
 
   // Get all tickettypes on an event
@@ -103,21 +110,21 @@ export class OrganiserService {
     return axios.get(url, config);
   }
   // Get all tickettypes an organiser has
-  static getMyTickets(organiser_id: number) {
+  static getMyTickets() {
     let url = url_base + '/tickets';
     return axios.get(url, config);
   }
 
-  // Adds a new tickettype to an event
-  static postTicket(ticket: TicketType, event_id: number) {
+  // Adds a new tickettype to an organiser
+  static postTicket(ticket: TicketType) {
     let url = url_base + '/tickets';
-    return axios.post(url, { ticket }, config);
+    return axios.post(url, ticket, config);
   }
 
   // Adds a new tickettype to an event
-  static postEventTicket(ticket: TicketType, ticket_id: number, event_id: number) {
-    let url = url_base + '/event/' + event_id + '/tickets/' + ticket_id;
-    return axios.post(url, { ticket }, config);
+  static postEventTicket(ticket: TicketType, event_id: number) {
+    let url = url_base + '/event/' + event_id + '/tickets';
+    return axios.post(url, ticket, config);
   }
 
   // Delete a tickettype on an event
@@ -133,8 +140,20 @@ export class OrganiserService {
   }
 
   // Removes an existing tickettype
-  static deleteTickets(ticket_id: number) {
+  static deleteTicket(ticket_id: number) {
     let url = url_base + '/tickets/' + ticket_id;
-    return axios.put(url, config);
+    return axios.delete(url, config);
+  }
+
+  //get all volunteertypes on this organiser
+  static getVolunteerType() {
+    let url = url_base + '/group';
+    return axios.get(url, config);
+  }
+
+  //adds volunteer type to this organiser
+  static addVolunteerType(name: string) {
+    let url = url_base + '/volunteer';
+    return axios.post(url, { name }, config);
   }
 }
