@@ -243,6 +243,7 @@ module.exports = class OrganiserDao extends Dao {
 
   // Deletes organiser
   deleteOrganiser(organiser_id: number, callback: (status: String, data: Object) => mixed) {
+    console.log('Dao: ' + organiser_id);
     super.query('DELETE FROM organiser WHERE organiser_id = ?', [organiser_id], callback);
   }
 
