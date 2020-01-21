@@ -69,8 +69,8 @@ class EventNew4 extends Component<Props, State> {
                   Kontrakt: <br />
                   {artist.contract === null ? (
                     <UploadContract
-                      onBlur={() => {
-                        this.componentDidMount();
+                      reload={() => {
+                        this.handleReload();
                       }}
                       artist={artist}
                       accept={'.pdf'}
