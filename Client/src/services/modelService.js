@@ -24,6 +24,8 @@ export class Event {
   address: string;
   location_name: string;
   postcode: number;
+  max_price: number;
+  min_price: number;
 }
 
 // Object for sending Artist
