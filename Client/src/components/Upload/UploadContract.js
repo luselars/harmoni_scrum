@@ -46,11 +46,6 @@ class UploadContract extends Component<Props, State> {
   upload(element) {
     let value = element.value;
     console.log(element.value);
-    // if (element.value === '') {
-    //   // No new file set.
-    //   alert('No file set');
-    //   return;
-    // }
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let ext = path.extname(value);
     if (ext !== '.pdf') {
@@ -73,7 +68,6 @@ class UploadContract extends Component<Props, State> {
             if (resp.status === 200) {
               console.log('Kontrakt lastet opp.');
               element.files = null;
-              // window.location.reload();
               that.props.reload();
             } else {
               alert('Kunne ikke oppdatere artistens kontrakt.');
