@@ -100,8 +100,9 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     </span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
+                    onChange={e => this.handleChangeMinPrice(e)}
                     aria-label="Fra"
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
@@ -113,8 +114,9 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     </span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
+                    onChange={e => this.handleChangeMaxPrice(e)}
                     aria-label="Til"
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
@@ -174,6 +176,15 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
       this.state.sortAlt[1] = newValue;
     }
     this.props.handleFilterAlternativChange(this.state.sortAlt);
+  }
+
+  handleChangeMinPrice(e: any) {
+    let price = e.target.value;
+    this.props.handleFilterPriceChange(price, 'min');
+  }
+  handleChangeMaxPrice(e: any) {
+    let price = e.target.value;
+    this.props.handleFilterPriceChange(price, 'max');
   }
 
   handleSubmit(event) {
