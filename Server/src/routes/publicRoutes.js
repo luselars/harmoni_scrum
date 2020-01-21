@@ -84,7 +84,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
     if (status == '200') {
-      if (data[0] != null) {
+      if (data[0].hash != null) {
         // Callback function that hashes inputed password and compares to hash in DB
         let salt = data[0].salt;
         let hash = bcrypt.hashSync(req.body.password, salt);
@@ -108,7 +108,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
       } else {
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
           if (status == '200') {
-            if (data[0] != null) {
+            if (data[0].hash != null) {
               // Callback function that hashes inputed password and compares to hash in DB
               let salt = data[0].salt;
               let hash = bcrypt.hashSync(req.body.password, salt);
@@ -131,7 +131,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
             } else {
               dao.getAdminLoginInfo(req.body.username, (status, data) => {
                 if (status == '200') {
-                  if (data[0] != null) {
+                  if (data[0].hash != null) {
                     // Callback function that hashes inputed password and compares to hash in DB
                     let salt = data[0].salt;
                     let hash = bcrypt.hashSync(req.body.password, salt);
