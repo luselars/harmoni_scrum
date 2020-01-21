@@ -116,15 +116,14 @@ class EventNew4 extends Component<Props, State> {
   invite() {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
-      if (res.data.length == 0) {
+      console.log(res.data);
+      if (res.data.length == 0 || res.data.type != 'organiser') {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);
             this.componentDidMount();
           })
           .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
-      } else {
-        alert('Denne Emailen er i bruk av en annen arrangør');
       }
     });
   }

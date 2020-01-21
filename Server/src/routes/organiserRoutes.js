@@ -14,6 +14,8 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
+var nodemailer = require('nodemailer');
+
 // Middleware for organiser activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
@@ -328,15 +330,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
   dao.getEventTickets(req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
-  });
-});
-
-// Send an invite email (CHANGE TO POST WITH COMMENTING POSSIBILITY)
-router.get('/sendmail', (req, res) => {
-  console.log('Sender mail');
-  sendInvite('jonas4a@gmail.com', 'event!!!', function(resp) {
-    if (resp) res.sendStatus(200);
-    else res.sendStatus(400);
   });
 });
 
