@@ -21,11 +21,11 @@ module.exports = class PublicDao extends Dao {
   }
 
   getEventTickets(event_id: number, callback) {
-      super.query(
-          'SELECT tt.name, tt.description, et.price, et.amount FROM ticket_type tt LEFT JOIN event_ticket et ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?',
-          [event_id],
-          callback,
-      );
+    super.query(
+      'SELECT tt.name, tt.description, et.price, et.amount FROM ticket_type tt LEFT JOIN event_ticket et ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?',
+      [event_id],
+      callback,
+    );
   }
 
   //gets all artists in an event
@@ -100,7 +100,7 @@ module.exports = class PublicDao extends Dao {
 
   emailExists(email: string, callback) {
     super.query(
-      'SELECT organiser_email as email FROM organiser WHERE organiser_email = ? UNION SELECT email FROM user WHERE email = ?',
+      'SELECT organiser_email as email, "organiser" as type FROM organiser WHERE organiser_email = ? UNION SELECT email, "user" as type FROM user WHERE email = ?',
       [email, email],
       callback,
     );
