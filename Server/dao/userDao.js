@@ -54,8 +54,11 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [email], callback);
   }
 
-  getMyEvents(sortMethod: string, callback) {
-    let sort: string = sortMethod;
-    super.query('' + sort, sort, callback);
+  getMyEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query('SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?', [user_id], callback);
+  }
+
+  getMyRiders(event_id, user_id, callback: (status: string, data: Object) => mixed) {
+    super.query('SELECT * FROM rider WHERE event_id = ? AND user_id = ?', [event_id, user_id], callback);
   }
 };
