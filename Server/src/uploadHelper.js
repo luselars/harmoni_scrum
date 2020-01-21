@@ -19,6 +19,12 @@ let uploadFunctions = {
       callback(f);
       return;
     }
+    // If the file is to short to be a file, it is probably not a new file. return f
+    if (f.length < 24) {
+      console.log('String to short, not a new file.');
+      callback(f);
+      return;
+    }
     let file = uploadFunctions.base64Decoder(f);
     let name = uploadFunctions.createFilePath(file.type);
     fs.writeFile(p + name, file.data, function(err) {
