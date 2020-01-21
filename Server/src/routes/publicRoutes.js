@@ -17,6 +17,7 @@ let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
+var nodemailer = require('nodemailer');
 
 let tokenDuration = 18000000;
 
@@ -212,6 +213,58 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
   dao.emailExists(req.params.email, (status, data) => {
     res.status(status);
     res.send(data);
+  });
+});
+
+//Send feedback-email
+router.post('/feedback', (req: express$Request, res: express$Response) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  var mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Tilbakemelding mottatt',
+    html:
+      '<h1></h1><p>Vi har mottatt din tilbakemelding og svarer på henvendelsen så fort som mulig. </p><p><b>Din tibakemelding: </b>' +
+      req.body.feedback +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  var mailOptions2 = {
+    from: 'harmoni.scrum@gmail.com',
+    to: 'harmoni.scrum@gmail.com',
+    subject: 'Ny tilbakemelding',
+    html:
+      '<h1>FEEDBACK</h1><p><b>Tibakemelding: </b>' +
+      req.body.feedback +
+      '</p><p><b>Avsender: </b>' +
+      req.body.email +
+      '</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(200);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+  transporter.sendMail(mailOptions2, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(200);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
   });
 });
 

@@ -21,6 +21,7 @@ import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
 import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
+import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -62,6 +63,7 @@ function App() {
           <Route exaxt path="/admin" component={Admin} />
           <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />
+          <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
           <Route component={NoMatch} />
         </Switch>
