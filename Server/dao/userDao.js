@@ -45,7 +45,7 @@ module.exports = class UserDao extends Dao {
 
   getUserInfo(user_id: number, callback: (status: string, data: Object) => mixed) {
     console.log(user_id);
-    let queryString = 'SELECT * FROM user WHERE user_id = ?';
+    let queryString = 'SELECT u.*, a.artist_name FROM user u LEFT JOIN artist a USING(user_id) WHERE user_id = ?';
     super.query(queryString, [user_id], callback);
   }
 
