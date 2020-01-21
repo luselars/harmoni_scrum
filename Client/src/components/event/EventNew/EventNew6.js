@@ -64,8 +64,6 @@ class EventNew6 extends Component<Props, State> {
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
-        <h2 className="neweventtitle">Opprett arrangement</h2>
-        {/*<form>*/}
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til billett-typer: </p>
         </div>

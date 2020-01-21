@@ -10,6 +10,9 @@ import EventNew6 from './EventNew6';
 import EventNew5 from './EventNew5';
 import EventNew4 from './EventNew4';
 
+type Props = {
+  edit: boolean,
+};
 type State = {
   page: number,
 };
@@ -29,7 +32,11 @@ class EditEvent extends Component<Props, State> {
     return (
       <div className="card" id="cardnewevent">
         <div className="createEvent">
-          <h2 className="neweventtitle">Opprett arrangement</h2>
+          {this.props.edit ? (
+            <h2 className="neweventtitle">Rediger arrangement</h2>
+          ) : (
+            <h2 className="neweventtitle">Opprett arrangement</h2>
+          )}
           {
             {
               1: <EventNew onSelectPage={this.handlePage} />,

@@ -80,7 +80,6 @@ class EventNew3 extends Component<Props> {
     return (
       <div className="card" id="cardnewevent">
         <div className="createEvent">
-          <h2 className="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
           <div className="form-row">
             <p id="locationtitle">Velg sted</p>

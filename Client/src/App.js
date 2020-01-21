@@ -47,7 +47,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
-          <Route exact path="/editevent" component={EditEvent} />
+          <Route exact path="/newevent" component={EditEvent} />
+          <Route exact path="/editevent" render={props => <EditEvent {...props} edit={true} />} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/user" component={ProfileUser} />
