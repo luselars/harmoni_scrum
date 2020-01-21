@@ -41,7 +41,7 @@ router.use('', (req, res, next) => {
 
 // Edit a specific user
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password != null) {
+  if (req.body.password.length != 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;

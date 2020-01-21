@@ -364,7 +364,7 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password != null) {
+  if (req.body.password.length != 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
@@ -387,7 +387,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
 
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
-  dao.getVolunteersByEvent(req.params.id, (status, data) => {
+  dao.getVolunteersByEvent(req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -408,6 +408,24 @@ router.delete('/volunteer/:id', (req: express$Request, res: express$Response) =>
     res.send(data);
   });
 });
+
+//adds user to event with a volunteer type
+router.post('event/:eid/user/:id/volunteer/:vid', (req: express$Request, res: express$Response) => {
+  dao.addVolunteerToEvent(req.params.id, req.params.eid, req.params.vid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//removes user from event as staff
+router.delete('event/:eid/user/:id', (req: express$Request, res: express$Response) => {
+  dao.removeVolunteerFromEvent(req.params.id, req.params.eid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+
 
 //Get all artists who are part of an event
 router.get('/event/:event_id/artist', (req: express$Request, res: express$Response) => {

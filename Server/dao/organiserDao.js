@@ -98,6 +98,33 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
+  //add volunteer to event
+  addVolunteerToEvent(
+      user_id: number,
+      event_id: number,
+      volunteer_type_id: number,
+      callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+        'INSERT INTO `event_volunteer` (event_id, user_id, volunteer_type_id) VALUES (?, ?, ?)',
+        [event_id, user_id, volunteer_type_id],
+        callback,
+    );
+  }
+
+  removeVolunteerFromEvent(
+      user_id: number,
+      event_id: number,
+      callback: (status: string, data: Event) => mixed,
+  ) {
+    super.query(
+        'DELETE FROM `event_volunteer` WHERE event_id = ? AND user_id = ?',
+        [event_id, user_id],
+        callback,
+    );
+  }
+
   //edit event artist to add contract and stuff
   putEventArtist(
     user_id: number,
