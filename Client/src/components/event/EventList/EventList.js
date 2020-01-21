@@ -113,6 +113,7 @@ export default class EventList extends Component<Props, State> {
   };
 
   handleFilterPriceChange = (filterChange, type) => {
+    if (filterChange == '' && type == 'max') filterChange = 999999999999999;
     let previousEventList = this.state.showAllEvents
       ? this.state.allEvents
       : this.state.upcommingEvents;
