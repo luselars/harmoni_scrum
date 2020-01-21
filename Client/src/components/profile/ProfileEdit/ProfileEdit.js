@@ -251,7 +251,7 @@ class ProfileEdit extends Component<{}, State> {
         tlf: organiser.tlf,
       });
       mail = this.state.organiser_email;
-      var a = this.state.address + ' ';
+      var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
       console.log('postnr: ' + nr);
