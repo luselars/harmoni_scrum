@@ -105,4 +105,11 @@ router.post('/event/:id/join', (req: express$Request, res: express$Response) => 
   });
 });
 
+router.put('/artistname', (req: express$Request, res: express$Response) => {
+  dao.setArtistName(req.body.artist_name, req.uid,(status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 module.exports = router;
