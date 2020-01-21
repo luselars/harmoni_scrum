@@ -3,13 +3,13 @@
   margin: 0 20%;
 }
 
-#textright {
-  padding-left: 10vw;
-}
-
 .imgdiv {
   text-align: center;
   margin-bottom: 2px;
+}
+
+#eventdetailsimg {
+  font-size: 1rem;
 }
 
 #textleft,
@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-#EventDetailsTable {
+.eventdetailstable {
   text-align: center;
   margin-left: 10%;
   width: 80%;
@@ -48,10 +48,6 @@
   .titleeventdetails {
     font-size: 7vw;
   }
-  #textleft,
-  #textright {
-    font-size: 2vw;
-  }
 }
 
 @media screen and (max-width: 650px) {
@@ -59,7 +55,7 @@
     font-size: 8vw;
   }
 
-  #EventDetailsTable {
+  .eventdetailstable {
     text-align: left;
     margin-left: 5%;
     width: 90%;
