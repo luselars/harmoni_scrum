@@ -127,10 +127,16 @@ export default class EventList extends Component<Props, State> {
                 >
                   <div className="container bg-light">
                     <div className="row justify-content-md-center align-items-center">
-                      <div id="date" className="col-2 text-center">
-                        <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                        <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
-                      </div>
+                      {event.cancel == 0 ? (
+                        <div id="date" className="col-2 text-center">
+                          <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
+                          <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                        </div>
+                      ) : (
+                        <div id="date" className="col-2 text-center">
+                          <h3 className="cancelledtitle">AVLYST</h3>
+                        </div>
+                      )}
                       <div id="eventinfo" className="col-8">
                         <h5 class="eventtitle">{event.name}</h5>
 
@@ -145,17 +151,41 @@ export default class EventList extends Component<Props, State> {
                       </div>
                       <div id="eventbtn" className="col text-right">
                         {this.state.status ? (
+                          event.cancel == 0 ? (
+                            <button
+                              className="btn btn-success bg-green"
+                              id="moreinfo"
+                              onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            >
+                              {' '}
+                              Mer info
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-secondary bg-green"
+                              id="moreinfo"
+                              onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            >
+                              {' '}
+                              Mer info
+                            </button>
+                          )
+                        ) : event.cancel == 0 ? (
                           <button
                             className="btn btn-success bg-green"
                             id="moreinfo"
-                            onClick={() => (window.location.href = '/event/' + event.event_id)}
+                            onClick={() => {
+                              if (this.props.profile_list)
+                                window.location.href = '/orgevent/' + event.event_id;
+                              else window.location.href = '/event/' + event.event_id;
+                            }}
                           >
                             {' '}
                             Mer info
                           </button>
                         ) : (
                           <button
-                            className="btn btn-success bg-green"
+                            className="btn btn-secondary bg-green"
                             id="moreinfo"
                             onClick={() => {
                               if (this.props.profile_list)

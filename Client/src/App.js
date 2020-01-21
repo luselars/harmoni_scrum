@@ -14,18 +14,13 @@ import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import ProfileOrganiser from './components/profile/Profile/Profile';
 import LoggedIn from './views/loggedIn';
-import EventNew2 from './components/event/EventNew/EventNew2';
-import EventNew3 from './components/event/EventNew/EventNew3';
-import EventNew4 from './components/event/EventNew/EventNew4';
 import ProfileUser from './components/profile/ProfileUser/ProfileUser';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
-import EventNew5 from './components/event/EventNew/EventNew5';
-import EventNew6 from './components/event/EventNew/EventNew6';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
 import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
-import EventNew7 from './components/event/EventNew/EventNew7';
+import EditEvent from './components/event/EventNew/EditEvent';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -52,13 +47,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/login" component={LogIn} />
-          <Route exact path="/newevent" component={EventNew} />
-          <Route exact path="/newevent2" component={EventNew2} />
-          <Route exact path="/newevent3" component={EventNew3} />
-          <Route exact path="/newevent4" component={EventNew4} />
-          <Route exact path="/newevent5" component={EventNew5} />
-          <Route exact path="/newevent6" component={EventNew6} />
-          <Route exact path="/newevent7" component={EventNew7} />
+          <Route exact path="/newevent" component={EditEvent} />
+          <Route exact path="/editevent" render={props => <EditEvent {...props} edit={true} />} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={ProfileOrganiser} />
           <Route exact path="/profile/user" component={ProfileUser} />
