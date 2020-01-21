@@ -59,15 +59,18 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  handleFilterChange = sortMethod => {
-    console.log(sortMethod);
-    this.setState({ sortMethod: sortMethod });
-    if (sortMethod == 'alphabetical') {
-      this.state.events.sort(this.compareAlphabetically);
-      this.state.allEvents.sort(this.compareAlphabetically);
-    } else if (sortMethod == 'time') {
-      this.state.events.sort(this.compareChronologically);
-      this.state.allEvents.sort(this.compareChronologically);
+  handleFilterChange = filterChange => {
+    if (Array.isArray(filterChange)) {
+      this.setState({ sortAlt: filterChange });
+    } else {
+      this.setState({ sortMethod: filterChange });
+      if (filterChange == 'alphabetical') {
+        this.state.events.sort(this.compareAlphabetically);
+        this.state.allEvents.sort(this.compareAlphabetically);
+      } else if (filterChange == 'time') {
+        this.state.events.sort(this.compareChronologically);
+        this.state.allEvents.sort(this.compareChronologically);
+      }
     }
   };
 
@@ -218,7 +221,7 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       }
     } else {
-      PublicService.getFrontpage(this.props.sortMethod)
+      PublicService.getFrontpage(this.props.filterChange)
         .then(events => {
           this.setState({
             events: events.data,
@@ -232,7 +235,7 @@ export default class EventList extends Component<Props, State> {
   }
   /*
   componentWillReceiveProps(props) {
-    this.setState({ sortMethod: props.sortString });
+    this.setState({ filterChange: props.sortString });
   }
   */
   search(event) {
