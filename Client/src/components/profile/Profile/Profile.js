@@ -11,7 +11,8 @@ import { any } from 'prop-types';
 
 type State = {
   userType: any,
-  name: String,
+  name: string,
+  artist: boolean,
 };
 
 export default class ProfileOrganiser extends Component<Props, State> {
@@ -22,6 +23,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
       name: '',
       organiser: new Organiser('', ''),
       user: new User(),
+      artist: false,
     };
   }
   render() {
@@ -54,6 +56,16 @@ export default class ProfileOrganiser extends Component<Props, State> {
             </p>
             <table className="table table-borderless">
               <tbody className="align-items-center">
+                {this.state.artist ? (
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Artistnavn:
+                    </th>
+                    <td className="text-left">{this.state.userType.artist_name}</td>
+                  </tr>
+                ) : (
+                  <div></div>
+                )}
                 <tr>
                   <th className="text-right" scope="row">
                     Email:
@@ -101,26 +113,39 @@ export default class ProfileOrganiser extends Component<Props, State> {
             )}
           </div>
         </div>
-        {localStorage.getItem('userType') == 'organiser' ? (
+        {localStorage.getItem('userType') == 'organiser' || this.state.artist ? (
           <div className="row justify-content-md-center align-items-center border-top pt-5">
             <div className="col-md-4 text-center pb-4">
-              <button
-                className="btn btn-success bg-green mb-4"
-                onClick={() => {
-                  localStorage.removeItem('curr_event');
-                  window.location.href = '/newevent';
-                }}
-              >
-                OPPRETT ARRANGEMENT
-              </button>
-              <button
-                className="btn btn-success bg-green"
-                onClick={() =>
-                  (window.location.href = '/events/' + this.state.userType.organiser_id)
-                }
-              >
-                SE MINE ARRANGEMENTER
-              </button>
+              {localStorage.getItem('userType') == 'organiser' ? (
+                <button
+                  className="btn btn-success bg-green mb-4"
+                  onClick={() => {
+                    localStorage.removeItem('curr_event');
+                    window.location.href = '/newevent';
+                  }}
+                >
+                  OPPRETT ARRANGEMENT
+                </button>
+              ) : (
+                <div></div>
+              )}
+              {this.state.artist ? (
+                <button
+                  className="btn btn-success bg-green"
+                  onClick={() => (window.location.href = '/events/' + this.state.userType.user_id)}
+                >
+                  SE MINE ARRANGEMENTER
+                </button>
+              ) : (
+                <button
+                  className="btn btn-success bg-green"
+                  onClick={() =>
+                    (window.location.href = '/events/' + this.state.userType.organiser_id)
+                  }
+                >
+                  SE MINE ARRANGEMENTER
+                </button>
+              )}
             </div>
             <div className="col-md text-center">
               <h4 className="mb-3 text-success">ARRANGEMENTER</h4>
@@ -169,6 +194,10 @@ export default class ProfileOrganiser extends Component<Props, State> {
             userType: user,
             email: user.email,
           });
+          if (user.artist_name !== null) {
+            this.setState({ artist: true });
+            console.log(this.state.user.artist_name);
+          }
         })
         .catch(error => console.error(error));
     } else if (localStorage.getItem('userType') == 'organiser') {
