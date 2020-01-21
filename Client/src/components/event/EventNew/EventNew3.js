@@ -19,9 +19,11 @@ type State = {
 };
 type Props = {};*/
 }
-
+type Props = {
+  onSelectPage: any,
+};
 //TODO add postcode
-class EventNew3 extends Component {
+class EventNew3 extends Component<Props> {
   constructor(props) {
     super(props);
     this.name = React.createRef();
@@ -198,7 +200,7 @@ class EventNew3 extends Component {
   // todo ADD postcode
   back() {
     // I won't save the address here, it would create a lot of unfinished locations
-    window.location = '/newevent2';
+    this.props.onSelectPage(2);
   }
   next() {
     let name = this.name.current.value;
@@ -227,14 +229,14 @@ class EventNew3 extends Component {
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(this);
           console.log(resp);
-          window.location = '/newevent4';
+          this.props.onSelectPage(4);
         });
       } else if (resp.status === 100) {
         this.state.event.location_id = resp.data.insertId;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(resp);
-          window.location = '/newevent4';
+          this.props.onSelectPage(4);
         });
       } else {
         alert('Kunne ikke legge til addresse');

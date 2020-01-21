@@ -8,7 +8,9 @@ import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
 import { FormControl, FormControlLabel } from '@material-ui/core';
 
-type Props = {};
+type Props = {
+  onSelectPage: any,
+};
 class EventNew extends Component<Props> {
   constructor(props: any) {
     super(props);
@@ -198,7 +200,7 @@ class EventNew extends Component<Props> {
   // TODO delete
   ny() {
     localStorage.removeItem('curr_event');
-    window.location = '/newevent';
+    window.location = '/editevent';
   }
   next() {
     // TODO validate time input
@@ -222,7 +224,7 @@ class EventNew extends Component<Props> {
         if (resp.status === 200) {
           console.log('Arrangement oprettet');
           localStorage.setItem('curr_event', resp.data.insertId);
-          window.location = '/newevent2';
+          this.props.onSelectPage(2);
         } else {
           alert('Kunne ikke oprette arrangement.');
           // TODO bytt ut denne alerten med et komponent.
@@ -233,7 +235,7 @@ class EventNew extends Component<Props> {
         console.log(resp);
         if (resp.status === 200) {
           console.log('Arrangement oppdatert');
-          window.location = '/newevent2';
+          this.props.onSelectPage(2);
         } else {
           alert('Kunne ikke oppdatere arrangement.');
           // TODO bytt ut denne alerten med et komponent.

@@ -13,7 +13,9 @@ type State = {
   event: Event,
   artists: Artist[],
 };
-type Props = {};
+type Props = {
+  onSelectPage: any,
+};
 
 class EventNew4 extends Component<Props, State> {
   constructor(props: any) {
@@ -69,6 +71,9 @@ class EventNew4 extends Component<Props, State> {
                   Kontrakt: <br />
                   {artist.contract === null ? (
                     <UploadContract
+                      onBlur={() => {
+                        this.componentDidMount();
+                      }}
                       artist={artist}
                       accept={'.pdf'}
                       message={'Last opp kontrakt'}
@@ -78,6 +83,9 @@ class EventNew4 extends Component<Props, State> {
                     <p>
                       <DownloadFile fileName={artist.contract} />
                       <UploadContract
+                        reload={() => {
+                          this.handleReload();
+                        }}
                         artist={artist}
                         accept={'.pdf'}
                         message={'Last opp annen kontrakt'}
@@ -103,6 +111,10 @@ class EventNew4 extends Component<Props, State> {
       </div>
     );
   }
+  handleReload = () => {
+    console.log('RELOAD');
+    this.componentDidMount();
+  };
   invite() {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
@@ -110,7 +122,7 @@ class EventNew4 extends Component<Props, State> {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);
-            window.location.reload();
+            this.componentDidMount();
           })
           .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
       } else {
@@ -131,10 +143,10 @@ class EventNew4 extends Component<Props, State> {
     }
   }
   back() {
-    window.location = '/newevent3';
+    this.props.onSelectPage(3);
   }
   next() {
-    window.location = '/newevent5';
+    this.props.onSelectPage(5);
   }
 }
 export default EventNew4;

@@ -10,6 +10,7 @@ type Props = {
   message: string,
   artist_id: number,
   event_id: number,
+  reload: any,
 };
 type State = {
   value: any,
@@ -55,6 +56,7 @@ class UploadRider extends Component<Props, State> {
     const reader = new FileReader();
     let artist_id = this.props.artist_id;
     let ev_id = this.props.event_id;
+    let that = this;
     reader.addEventListener(
       'load',
       function() {
@@ -65,7 +67,7 @@ class UploadRider extends Component<Props, State> {
             if (resp.status === 200) {
               console.log('Rider lastet opp.');
               element.files = null;
-              window.location.reload();
+              that.props.reload();
             } else {
               alert('Kunne ikke laste opp rider.');
             }

@@ -108,7 +108,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
                 className="btn btn-success bg-green mb-4"
                 onClick={() => {
                   localStorage.removeItem('curr_event');
-                  window.location.href = '/newevent';
+                  window.location.href = '/editevent';
                 }}
               >
                 OPPRETT ARRANGEMENT

@@ -12,7 +12,9 @@ let path = require('path');
 type State = {
   event: Event,
 };
-type Props = {};
+type Props = {
+  onSelectPage: any,
+};
 
 class EventNew2 extends Component<Props, State> {
   constructor(props: any) {
@@ -89,12 +91,13 @@ class EventNew2 extends Component<Props, State> {
       let fullPath = element.value;
       let ext = path.extname(fullPath);
       if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-        window.location = '/newevent';
+        this.props.onSelectPage(1);
         return;
       }
       const file = element.files[0];
       const reader = new FileReader();
       let temp_event = this.state.event;
+      let that = this;
       reader.addEventListener(
         'load',
         function() {
@@ -104,10 +107,10 @@ class EventNew2 extends Component<Props, State> {
             console.log(resp);
             if (resp.status === 200) {
               console.log('Arrangement oppdatert');
-              window.location = '/newevent';
+              that.props.onSelectPage(1);
             } else {
               console.log('Kunne ikke oppdatere arrangement');
-              window.location = '/newevent';
+              this.props.onSelectPage(1);
             }
           });
         },
@@ -117,14 +120,14 @@ class EventNew2 extends Component<Props, State> {
         reader.readAsDataURL(file);
       }
     }
-    window.location = '/newevent';
+    this.props.onSelectPage(1);
   }
   next() {
     let element = document.getElementById('upload');
     if (element.value === '') {
       // No new image set.
       // Redirect
-      window.location = '/newevent3';
+      this.props.onSelectPage(3);
     }
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let fullPath = element.value;
@@ -137,6 +140,7 @@ class EventNew2 extends Component<Props, State> {
     const file = element.files[0];
     const reader = new FileReader();
     let temp_event = this.state.event;
+    let that = this;
     reader.addEventListener(
       'load',
       function() {
@@ -146,7 +150,7 @@ class EventNew2 extends Component<Props, State> {
           console.log(resp);
           if (resp.status === 200) {
             console.log('Arrangement oppdatert');
-            window.location = '/newevent3';
+            that.props.onSelectPage(3);
           } else {
             alert('Kunne ikke oppdatere arrangement.');
             // TODO bytt ut denne alerten med et komponent.

@@ -16,6 +16,9 @@ type State = {
   delete: {},
   invite: {},
 };
+type Props = {
+  onSelectPage: any,
+};
 class EventNew7 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -154,13 +157,13 @@ class EventNew7 extends Component<Props, State> {
       this.state.invite.volunteer_type_id,
     ).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   removePerson(user_id: number) {
     OrganiserService.removeVolunteerFromEvent(this.state.event.event_id, user_id).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   deleteType() {
@@ -169,7 +172,7 @@ class EventNew7 extends Component<Props, State> {
     }
     OrganiserService.deleteVolunteerType(this.state.delete.volunteer_type_id).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   createType() {
@@ -185,7 +188,7 @@ class EventNew7 extends Component<Props, State> {
     }
     OrganiserService.addVolunteerType(this.state.new_type).then(response => {
       console.log(response);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   formatTime() {
@@ -201,7 +204,7 @@ class EventNew7 extends Component<Props, State> {
     }
   }
   back() {
-    window.location = '/newevent6';
+    this.props.onSelectPage(6);
   }
   next() {
     window.location = '/profile';
