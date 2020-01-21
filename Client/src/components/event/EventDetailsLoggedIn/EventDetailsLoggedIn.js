@@ -11,6 +11,7 @@ type State = {
   event: Event,
   artists: [],
   riders: [],
+  cancel: number,
 };
 
 type Props = {
@@ -26,6 +27,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       event: new Event(),
       artists: [],
       riders: [],
+      cancel: 0,
     };
 
     {
@@ -54,6 +56,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         let event: any = res.data;
         this.setState({
           event: event,
+          cancel: event.cancel,
         });
       })
       .catch(error => console.log(error));
@@ -100,7 +103,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         </div>
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.event.cancel == 0 ? (
+            {this.state.cancel == 0 ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
