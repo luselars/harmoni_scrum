@@ -59,32 +59,50 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  // TODO BLI FERDIG HER
-  handleFilterChange = filterChange => {
-    if (Array.isArray(filterChange)) {
-      this.setState({ sortAlt: filterChange });
-      if (filterChange[0] === 'viewOld') {
-        this.setState({
-          events: this.state.allEvents,
-          pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
-        });
-        this.fuse = new Fuse(this.state.allEvents.data, options);
-      } else {
-        this.setState({
-          events: this.state.upcommingEvents,
-          pageCount: Math.ceil(this.state.upcommingEvents.length / eventsPerPage),
-        });
-        this.fuse = new Fuse(this.state.upcommingEvents.data, options);
-      }
+  comparePrice(a, b) {
+    if (a.min_price < b.min_price) {
+      return -1;
+    }
+    if (a.min_price > b.min_price) {
+      return 1;
+    }
+    return 0;
+  }
+
+  handleFilterAlternativChange = filterChange => {
+    this.setState({ sortAlt: filterChange });
+    if (filterChange[0] === 'viewOld') {
+      this.setState({
+        events: this.state.allEvents,
+        pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
+      });
+      this.fuse = new Fuse(this.state.allEvents.data, options);
     } else {
-      this.setState({ sortMethod: filterChange });
-      if (filterChange == 'alphabetical') {
-        this.state.events.sort(this.compareAlphabetically);
-        this.state.allEvents.sort(this.compareAlphabetically);
-      } else if (filterChange == 'time') {
-        this.state.events.sort(this.compareChronologically);
-        this.state.allEvents.sort(this.compareChronologically);
-      }
+      this.setState({
+        events: this.state.upcommingEvents,
+        pageCount: Math.ceil(this.state.upcommingEvents.length / eventsPerPage),
+      });
+      this.fuse = new Fuse(this.state.upcommingEvents.data, options);
+    }
+  };
+
+  handleFilterChange = filterChange => {
+    console.log('Filter change ' + filterChange);
+    let sortType = filterChange.substring(0, filterChange.length - 2);
+    this.setState({ sortMethod: filterChange });
+    if (sortType === 'Alfabetisk') {
+      this.state.events.sort(this.compareAlphabetically);
+      this.state.allEvents.sort(this.compareAlphabetically);
+    } else if (sortType === 'Tid') {
+      this.state.events.sort(this.compareChronologically);
+      this.state.allEvents.sort(this.compareChronologically);
+    } else if (sortType === 'Pris') {
+      this.state.events.sort(this.comparePrice);
+      this.state.allEvents.sort(this.comparePrice);
+    }
+    if (filterChange.charAt(filterChange.length - 1) == '↑') {
+      console.log('Reverse');
+      this.state.events.reverse();
     }
   };
 
@@ -111,7 +129,10 @@ export default class EventList extends Component<Props, State> {
             />
           </div>
         </div>
-        <Filter handleFilterChange={this.handleFilterChange.bind(this)} />
+        <Filter
+          handleFilterChange={this.handleFilterChange.bind(this)}
+          handleFilterAlternativChange={this.handleFilterAlternativChange.bind(this)}
+        />
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
@@ -264,6 +285,7 @@ export default class EventList extends Component<Props, State> {
   }
 
   insertEvents(events: Object) {
+    console.log(events);
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
