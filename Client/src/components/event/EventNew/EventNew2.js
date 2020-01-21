@@ -43,7 +43,6 @@ class EventNew2 extends Component<Props, State> {
     return (
       <div class="card" id="cardnewevent">
         <div class="createEvent">
-          <h2 class="neweventtitle">Opprett arrangement</h2>
           {/*<form>*/}
           <div class="form-row">
             <div class="col" id="coltitle">

@@ -44,8 +44,6 @@ class EventNew4 extends Component<Props, State> {
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
-        <h2 className="neweventtitle">Opprett arrangement</h2>
-        {/*<form>*/}
         <div className="form-row">
           <p>Legg til artister på arrangementet:</p>
         </div>
