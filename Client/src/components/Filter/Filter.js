@@ -11,6 +11,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     this.state = {
       sortOption: '',
       status: true,
+      sortAlt: ['', ''],
     };
   }
 
@@ -69,21 +70,33 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                   </label>
                 </div>
                 <div className="filtercategories col border-bottom">
-                  <h6 className="mb-3 text-success">STED</h6>
+                  <h6 className="mb-3 text-success">ALTERNATIVER</h6>
                 </div>
 
                 <div className="form-check text-left mb-3">
-                  <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="placeCheck1"
+                    value="viewOld"
+                    checked={this.state.sortAlt[0] === 'viewOld'}
+                    onChange={e => this.handleChangeAlt(e)}
+                  ></input>
                   <label className="placecheck form-check-label" for="placeCheck1">
-                    Trondheim Spektrum
+                    Se eldre arragementer (1 måned gamle)
                   </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
+                </div>
+                <div className="form-check text-left mb-3">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="placeCheck2"
+                    value="test"
+                    checked={this.state.sortAlt[1] === 'test'}
+                    onChange={e => this.handleChangeAlt(e)}
+                  ></input>
                   <label className="placecheck form-check-label" for="placeCheck2">
-                    Sukkerhuset
-                  </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
-                  <label className="placecheck form-check-label" for="placeCheck3">
-                    Olavshallen
+                    test
                   </label>
                 </div>
 
@@ -144,6 +157,19 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
     let value: string = e.target.value;
     this.setState({ sortOption: value });
     this.props.handleFilterChange(value);
+  }
+
+  handleChangeAlt(e: any) {
+    let value: string = e.target.value;
+    if (value == 'viewOld') {
+      let newValue = this.state.sortAlt[0] === '' ? value : '';
+      this.state.sortAlt[0] = newValue;
+    }
+    if (value == 'test') {
+      let newValue = this.state.sortAlt[1] === '' ? value : '';
+      this.state.sortAlt[1] = newValue;
+    }
+    this.props.handleFilterChange(this.state.sortAlt);
   }
 
   handleSubmit(event) {

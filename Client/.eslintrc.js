@@ -10,6 +10,7 @@ module.exports = {
     'airbnb',
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:jest/recommended',
     'plugin:flowtype/recommended',
     'prettier',
     'prettier/react',

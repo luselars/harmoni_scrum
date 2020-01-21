@@ -18,6 +18,8 @@ type Props = {
   match: { params: { id: number } },
 };
 
+//<{match: { params: {id: number}}},{props: {event: Event, artists: [], riders: []}}>
+
 export default class EventDetailsLoggedIn extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -27,6 +29,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       riders: [],
       cancel: 0,
     };
+
+    {
+      /*this.state = {
+      event: new Event(),
+      artists: [],
+      riders: [],
+    };*/
+    }
   }
   componentDidMount() {
     OrganiserService.getArtists(this.props.match.params.id)
@@ -64,7 +74,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
-        <div id="myModal" className="modal">
+        <div id="myModal" className="modal" role="dialog" aria-hidden="true">
           <div className="modal-content">
             <span className="close">&times;</span>
             <div className="modalbody">
@@ -330,6 +340,15 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       if (event.target == modal) {
         modal.style.display = 'none';
       }
+
+      cancel.onclick = function() {
+        modal.style.display = 'none';
+      };
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      };
     };
   }
 
