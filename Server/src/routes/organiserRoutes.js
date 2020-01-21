@@ -421,7 +421,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
 
 //Get all volunteers who are part of an event
 router.get('/event/:event_id/volunteer', (req: express$Request, res: express$Response) => {
-  dao.getVolunteersByEvent(req.params.event_id, (status, data) => {
+  dao.getVolunteersByEvent(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
