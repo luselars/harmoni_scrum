@@ -127,6 +127,7 @@ class EventNew2 extends Component<Props, State> {
       // No new image set.
       // Redirect
       this.props.onSelectPage(3);
+      return;
     }
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let fullPath = element.value;

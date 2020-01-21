@@ -9,7 +9,9 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   constructor(props: any) {
     super(props);
     this.state = {
-      sortOption: '',
+      sortRadio1: 'Tid ↓',
+      sortRadio2: 'Alfabetisk ↓',
+      sortRadio3: 'Pris ↓',
       status: true,
       sortAlt: ['', ''],
     };
@@ -38,36 +40,24 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                   <h6 className="mb-3 text-success">SORTER</h6>
                 </div>
                 <div className="sortlabel form-check text-left mb-3">
-                  <label className="form-check-label" htmlFor="sortRadio1">
-                    <input
-                      type="radio"
-                      id="sortRadio1"
-                      value="time"
-                      checked={this.state.sortOption === 'time'}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Tid
-                  </label>
-                  <label className="form-check-label" htmlFor="sortRadio2">
-                    <input
-                      type="radio"
-                      id="sortRadio2"
-                      value="alphabetical"
-                      checked={this.state.sortOption === 'alphabetical'}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Alfabetisk
-                  </label>
-                  <label className="form-check-label" htmlFor="sortRadio3">
-                    <input
-                      type="radio"
-                      id="sortRadio3"
-                      value="price"
-                      checked={this.state.sortOption === 'price'}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Pris
-                  </label>
+                  <input
+                    type="button"
+                    id="sortRadio1"
+                    value={this.state.sortRadio1}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
+                  <input
+                    type="button"
+                    id="sortRadio2"
+                    value={this.state.sortRadio2}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
+                  <input
+                    type="button"
+                    id="sortRadio3"
+                    value={this.state.sortRadio3}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
                 </div>
                 <div className="filtercategories col border-bottom">
                   <h6 className="mb-3 text-success">ALTERNATIVER</h6>
@@ -155,8 +145,21 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
 
   handleChangeSort(e: any) {
     let value: string = e.target.value;
-    this.setState({ sortOption: value });
-    this.props.handleFilterChange(value);
+    if (value.charAt(value.length - 1) == '↓') {
+      value = value.substring(0, value.length - 1) + '↑';
+      this.setState();
+    } else {
+      value = value.substring(0, value.length - 1) + '↓';
+    }
+    if (e.target.id == 'sortRadio1') {
+      this.setState({ sortRadio1: value });
+      console.log(this.state.sortRadio1);
+    } else if (e.target.id == 'sortRadio2') {
+      this.setState({ sortRadio2: value });
+    } else if (e.target.id == 'sortRadio3') {
+      this.setState({ sortRadio3: value });
+    }
+    this.props.handleFilterChange(e.target.value);
   }
 
   handleChangeAlt(e: any) {
