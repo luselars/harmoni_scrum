@@ -253,6 +253,7 @@ class ProfileEditUser extends Component<{}, State> {
     } else {
       document.getElementById('labelPasswordError').innerHTML = '';
       document.getElementById('labelNewPasswordError').innerHTML = '';
+
       // Image
       let element = document.getElementById('upload');
       if (element.value !== '') {
@@ -289,12 +290,18 @@ class ProfileEditUser extends Component<{}, State> {
   }
 
   editPost(state: Object, changePassword: boolean) {
-    console.log(state.image);
+    alert('heeeeeeelllo' + state.artist_name);
+
     if (changePassword) state.password = state.newPassword;
-    UserService.editUser(state).then(response => {
-      window.location = '/profile';
-      console.log('done');
-    });
+    UserService.editUser(state)
+      .then(UserService.editArtistname(state.artist_name).then(alert('hei')))
+      .then(response => {
+        window.location = '/profile';
+        console.log('done');
+      })
+      .catch(error => {
+        console.log('error: ' + error);
+      });
   }
 
   post(event: any) {
@@ -313,7 +320,6 @@ class ProfileEditUser extends Component<{}, State> {
               document.getElementById('labelNewPasswordError').innerHTML = '';
             });
     }
-    //UserService.
   }
 }
 

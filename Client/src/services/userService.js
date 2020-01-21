@@ -28,9 +28,9 @@ export class UserService {
     return axios.put<Object>(url, user, { headers: { 'x-access-token': token } });
   }
 
-  static editArtistname(artistname: string): AxiosPromise<User> {
+  static editArtistname(artist_name: string): AxiosPromise<User> {
     let url = url_base + '/artistname';
     let token = localStorage.getItem('token');
-    return axios.put<Object>(url, artistname, { headers: { 'x-access-token': token } });
+    return axios.put<Object>(url, { artist_name }, { headers: { 'x-access-token': token } });
   }
 }
