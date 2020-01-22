@@ -60,6 +60,13 @@ export class OrganiserService {
     let url = url_base + '/artist/' + event_id;
     return axios.post(url, { email: email }, config);
   }
+
+  // Send email
+  static sendmail(email: string, name: string) {
+    let url = url_base + '/sendmail';
+    return axios.post(url, { email: email, name: name }, config);
+  }
+
   static inviteVolunteer(email: string, event_id, volunteer_type_id: number) {
     let url = url_base + '/volunteer/' + volunteer_type_id + '/' + event_id;
     return axios.post(url, { email: email }, config);
