@@ -81,7 +81,7 @@ export default class Filter extends Component<{}, State> {
                     onChange={e => this.handleChangeAlt(e)}
                   ></input>
                   <label className="placecheck form-check-label" for="placeCheck1">
-                    Se eldre arragementer (1 måned gamle)
+                    Se utgåtte arragementer
                   </label>
                 </div>
                 <div className="col filtercategories border-bottom">

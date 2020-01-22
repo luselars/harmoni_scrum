@@ -64,7 +64,12 @@ class EventNew5 extends Component<Props, State> {
               <div>
                 <p>Notes for {artist.email}</p>
                 <div>
-                  <textarea onBlur={e => this.publishNotes(artist.user_id, e.target.value)}>
+                  <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    onBlur={e => this.publishNotes(artist.user_id, e.target.value)}
+                  >
                     {artist.notes}
                   </textarea>
                   <br />

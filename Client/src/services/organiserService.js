@@ -56,11 +56,18 @@ export class OrganiserService {
     let url = url_base + '/location';
     return axios.post(url, location, config);
   }
-  static inviteArtist(email: string, event_id) {
+  static inviteArtist(email: string, event_id: number) {
     let url = url_base + '/artist/' + event_id;
     return axios.post(url, { email: email }, config);
   }
-  static inviteVolunteer(email: string, event_id, volunteer_type_id: number) {
+
+  // Send email
+  static sendmail(email: string, name: string) {
+    let url = url_base + '/sendmail';
+    return axios.post(url, { email: email, name: name }, config);
+  }
+
+  static inviteVolunteer(email: string, event_id: number, volunteer_type_id: number) {
     let url = url_base + '/volunteer/' + volunteer_type_id + '/' + event_id;
     return axios.post(url, { email: email }, config);
   }
@@ -165,7 +172,7 @@ export class OrganiserService {
     return axios.get(url, config);
   }
 
-  static removeVolunteerFromEvent(event_id, user_id: number) {
+  static removeVolunteerFromEvent(event_id: number, user_id: number) {
     let url = url_base + '/event/' + event_id + '/user/' + user_id;
     return axios.delete(url, config);
   }
@@ -173,7 +180,7 @@ export class OrganiserService {
     let url = url_base + '/volunteer/' + vol_id;
     return axios.delete(url, config);
   }
-  static toggleCancel(event_id) {
+  static toggleCancel(event_id: number) {
     let url = url_base + '/event/' + event_id + '/cancel';
     return axios.put(url, {}, config);
   }

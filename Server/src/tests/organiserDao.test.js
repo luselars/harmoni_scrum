@@ -308,7 +308,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
   it('Get events associated with an organiser', done => {
     function callback(status, data) {
       console.log('Test callback: status=');
-      expect(data.length).toBe(1);
+      expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
     dao.getMyEvents(1, callback);
