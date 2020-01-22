@@ -298,7 +298,7 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log('profile list: ' + this.props.profile_list.toString());
+    console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {
         OrganiserService.getMyEvents()
