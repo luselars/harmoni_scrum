@@ -47,8 +47,9 @@ export class UserService {
   }
 
   static getMyRiders(event_id: number): AxiosPromise<User> {
+    console.log(event_id);
     let url = url_base + '/event/' + event_id + '/riders';
     let token = localStorage.getItem('token');
-    return axios.put<Object>(url, { headers: { 'x-access-token': token } });
+    return axios.get<Object>(url, { headers: { 'x-access-token': token } });
   }
 }
