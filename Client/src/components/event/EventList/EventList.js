@@ -325,7 +325,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   insertEvents(events: Object) {
-    console.log(events);
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
