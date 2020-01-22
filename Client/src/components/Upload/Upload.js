@@ -25,7 +25,7 @@ class Upload extends Component<Props> {
             type="file"
             id="upload"
             name="recfile"
-            onChange={e => this.preview(e)}
+            onChange={e => this.preview()}
           />
           <i className="fa fa-cloud-upload"></i> Bla igjennom...
           <img id="prev" src="" height="200" alt="" />
@@ -45,6 +45,13 @@ class Upload extends Component<Props> {
       },
       false,
     );
+
+    {
+      /*
+    reader.onload = () => {
+      preview.src = reader.result;
+    }*/
+    }
 
     if (file) {
       reader.readAsDataURL(file);
