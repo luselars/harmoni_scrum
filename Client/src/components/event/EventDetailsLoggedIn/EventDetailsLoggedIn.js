@@ -16,6 +16,8 @@ type State = {
   tickets: [],
   pers: [],
   types: [],
+  expandNotes: [],
+  expandStatus: boolean,
 };
 
 type Props = {
@@ -35,6 +37,8 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       tickets: [],
       pers: [],
       types: [],
+      expandNotes: [],
+      expandStatus: false,
     };
 
     {
@@ -82,6 +86,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getMyVolunteers(this.props.match.params.id).then(response => {
       this.setState({ pers: response.data });
     });
+  }
+  getArtistName(artist): string {
+    if (
+      artist.artist_name === '' ||
+      artist.artist_name === null ||
+      artist.artist_name === undefined
+    ) {
+      return 'Ukjent artist (' + artist.email + ')';
+    } else {
+      return artist.artist_name;
+    }
   }
   render() {
     return (
@@ -281,6 +296,66 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
+                      Notater
+                    </th>
+                    {this.state.artists.reduce(
+                      (total, curr) => total + (curr.notes !== null ? 1 : 0),
+                      0,
+                    ) > 0 ? (
+                      <div>
+                        {this.state.artists.map((artist, index) => (
+                          <div>
+                            {artist.notes !== null && artist.notes !== '' ? (
+                              <div>
+                                {artist.notes.length > 45 ? (
+                                  <div>
+                                    {this.state.expandNotes[index] === true ? (
+                                      <td className="text-left">
+                                        {this.getArtistName(artist)}: {artist.notes}{' '}
+                                        <a
+                                          onClick={() => {
+                                            let exp = this.state.expandNotes;
+                                            exp[index] = false;
+                                            this.setState({ expandNotes: exp });
+                                          }}
+                                          style={{ cursor: 'pointer', color: 'blue' }}
+                                        >
+                                          Skjul
+                                        </a>
+                                      </td>
+                                    ) : (
+                                      <td className="text-left">
+                                        {this.getArtistName(artist)}:{' '}
+                                        {artist.notes.substring(0, 50)}{' '}
+                                        <a
+                                          onClick={() => {
+                                            let exp = this.state.expandNotes;
+                                            exp[index] = true;
+                                            this.setState({ expandNotes: exp });
+                                          }}
+                                          style={{ cursor: 'pointer', color: 'blue' }}
+                                        >
+                                          Vis mer...
+                                        </a>
+                                      </td>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <td className="text-left">
+                                    {this.getArtistName(artist)}: {artist.notes}
+                                  </td>
+                                )}
+                              </div>
+                            ) : null}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
                       Billetter:
                     </th>
                     {this.state.tickets.length > 0 ? (
@@ -345,7 +420,37 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </th>
                     {this.state.event.status !== null ? (
                       <div>
-                        <td className="text-left">{this.state.event.status}</td>
+                        {this.state.event.status.length > 45 ? (
+                          <div>
+                            {this.state.expandStatus === true ? (
+                              <td className="text-left">
+                                {this.state.event.status}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandStatus: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.status.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandStatus: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.status}</td>
+                        )}
                       </div>
                     ) : (
                       <div>

@@ -62,9 +62,9 @@ export class OrganiserService {
   }
 
   // Send email
-  static sendmail(email: string, name: string) {
+  static sendmail(email: string, name: string, text: string) {
     let url = url_base + '/sendmail';
-    return axios.post(url, { email: email, name: name }, config);
+    return axios.post(url, { email: email, name: name, text: text }, config);
   }
 
   static inviteVolunteer(email: string, event_id: number, volunteer_type_id: number) {

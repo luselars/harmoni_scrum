@@ -241,7 +241,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.affectedRows).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.postUser('snelle@snell.snell', callback);
+    dao.postUser('snelle@snell.snell', '', '', callback);
   });
   //Create a dummy artist
   it('Create a dummy artist to add an artist to an event', done => {
