@@ -12,18 +12,20 @@ export class PublicService {
   }
 
   static refreshToken() {
-    axios
-      .get(url_base + '/refreshToken', {
-        headers: {
-          'x-access-token': localStorage.getItem('token'),
-        },
-      })
-      .then(response => {
-        localStorage.setItem('token', response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (localStorage.getItem('token') != null) {
+      axios
+        .get(url_base + '/refreshToken', {
+          headers: {
+            'x-access-token': localStorage.getItem('token'),
+          },
+        })
+        .then(response => {
+          localStorage.setItem('token', response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
   static checkEmail(email: string) {
