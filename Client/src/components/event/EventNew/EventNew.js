@@ -7,6 +7,8 @@ import TimeField from 'react-simple-timefield';
 import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
 import { FormControl, FormControlLabel } from '@material-ui/core';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
+import { publicDecrypt } from 'crypto';
 
 type Props = {
   onSelectPage: any,
@@ -48,7 +50,7 @@ class EventNew extends Component<Props, State> {
     return (
       <div>
         <div className="form-row">
-          <div className="col" id="">
+          <div className="col-12" id="">
             <label id="eventnamelabel" for="eventname">
               Tittel
             </label>
@@ -56,6 +58,7 @@ class EventNew extends Component<Props, State> {
               required
               type="text"
               className="form-control"
+              placeholder="Skriv tittel her..."
               id="eventnameinput"
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                 (this.state.event.name = event.target.value)
@@ -69,6 +72,7 @@ class EventNew extends Component<Props, State> {
               id={'eventdesc'}
               rows="4"
               cols="50"
+              placeholder="Skriv beskrivelse her..."
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                 (this.state.event.description = event.target.value)
               }
@@ -78,7 +82,7 @@ class EventNew extends Component<Props, State> {
               Starttidspunkt
             </label>
             <input
-              className="date"
+              className="form-control w-50"
               type="date"
               id="start"
               name="start"
@@ -86,16 +90,23 @@ class EventNew extends Component<Props, State> {
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
-            <TimeField
+            <input
+              className="form-control w-50"
+              type="time"
+              id="start_time"
+              name="start"
+              onChange={() => this.updateTime()}
+            />
+            {/*<TimeField
               id="start_time"
               style={{ width: '100px' }}
               onChange={() => this.updateTime()}
-            />
+            />*/}
             <label id="eventdateend" htmlFor="end">
               Sluttidspunkt
             </label>
             <input
-              className="date"
+              className="form-control w-50"
               type="date"
               id="end"
               name="end"
@@ -103,22 +114,48 @@ class EventNew extends Component<Props, State> {
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
+            <input
+              className="form-control w-50"
+              type="time"
+              id="end_time"
+              name="end"
+              onChange={() => this.updateTime()}
+            />
+            {/*
             <TimeField
               id="end_time"
               style={{ width: '100px' }}
               onChange={() => this.updateTime()}
-            />
+            />*/}
             <label>Status</label>
             <textarea
               className="form-control"
               id="eventstatus"
               rows="1"
               cols="50"
+              placeholder="Skriv status her..."
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
                 (this.state.event.status = event.target.value)
               }
-            ></textarea>
-            <div>
+            />
+            <small id="statusHelp" className="form-text text-muted mb-3">
+              Her kan du skrive status på arrrangementet ditt. Dette ser kun arrangør.
+            </small>
+
+            <BootstrapSwitchButton
+              checked={true}
+              onlabel="Ja"
+              offlabel="Nei"
+              name="public"
+              onstyle="success"
+              offstyle="secondary"
+              width="75"
+              onChange={(checked: boolean) => {
+                this.state.event.is_public = checked;
+              }}
+            />
+            <label>Jeg ønsker at arrangementet skal være offentlig</label>
+            {/*<div>
               <FormControlLabel
                 control={
                   <Switch
@@ -133,15 +170,26 @@ class EventNew extends Component<Props, State> {
                 }
                 label="Jeg ønsker at arrangementet skal være offentlig"
               />
-            </div>
+              </div>*/}
           </div>
         </div>
-        <div>
-          <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
-            Oprett ny. debugknapp
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+
+        <div className="row justify-content-center">
+          <button
+            onClick={() => this.next()}
+            type="button"
+            className="btn btn-success w-50 m-2 "
+            id="nextbtn"
+          >
             Neste
+          </button>
+          <button
+            onClick={() => this.ny()}
+            type="button"
+            className="btn btn-secondary w-50 m-2  "
+            id="nextbtn"
+          >
+            Avbryt??
           </button>
         </div>
       </div>
@@ -156,6 +204,12 @@ class EventNew extends Component<Props, State> {
     //this.setState()(this.state.event.is_public == 1) ? -1 : 1;
     //this.setState({ [e.target.public]: e.target.value});
   };
+
+  changeCheck(e: any) {
+    let value: string = e.target.checked;
+    console.log('value: ' + value);
+    //this.setState({ [name]: value });
+  }
 
   today() {
     var today = new Date();
