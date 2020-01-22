@@ -11,7 +11,13 @@ import { FormControl, FormControlLabel } from '@material-ui/core';
 type Props = {
   onSelectPage: any,
 };
-class EventNew extends Component<Props> {
+
+type State = {
+  event: Event,
+  checked: boolean,
+};
+
+class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     //this.check = createRef();
