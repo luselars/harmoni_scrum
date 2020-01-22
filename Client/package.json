@@ -70,12 +70,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  },
-  "jest": {
-    "runner": "jest-runner-eslint",
-    "displayName": "lint",
-    "testMatch": [
-      "<rootDir>/src/**/*.js"
-    ]
   }
 }

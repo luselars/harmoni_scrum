@@ -6,7 +6,7 @@ import Adapter from 'enzyme-adapter-react-16';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<EventList number={0} />, div);
+  ReactDOM.render(<EventList />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
