@@ -4,8 +4,15 @@
     'reactpaginate';
 }
 
-.pagination > li.active > a {
+.pagination li a {
+  font-size: 30px;
   color: black;
+}
+
+.cancelledtitle {
+  transform: rotate(20deg);
+  font-size: 1.2rem;
+  border-style: solid;
 }
 
 .pagination:hover {
@@ -25,11 +32,6 @@ li.active {
   border-radius: 5px;
 }
 
-#date {
-  border-right-style: solid;
-  border-right-color: rgb(83, 163, 81);
-}
-
 .datenumber {
   font-size: 3vw;
   margin-bottom: -5px;
@@ -46,6 +48,8 @@ li.active {
 #eventinfo {
   line-height: 90%;
   max-width: 60%;
+  border-left-style: solid;
+  border-left-color: rgb(83, 163, 81);
 }
 
 .eventlistp {

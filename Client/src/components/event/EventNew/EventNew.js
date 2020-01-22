@@ -8,13 +8,10 @@ import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
 import { FormControl, FormControlLabel } from '@material-ui/core';
 
-type State = {
-  event: Event,
-  checked: boolean,
+type Props = {
+  onSelectPage: any,
 };
-type Props = {};
-
-class EventNew extends Component<Props, State> {
+class EventNew extends Component<Props> {
   constructor(props: any) {
     super(props);
     //this.check = createRef();
@@ -43,23 +40,92 @@ class EventNew extends Component<Props, State> {
 
   render() {
     return (
-      <div className="card" id="cardnewevent">
-        <div className="createEvent">
-          <h2 className="neweventtitle">Opprett arrangement</h2>
-          {/*<form>*/}
-          <div className="form-row">
-            <div className="col" id="">
-              <label id="eventnamelabel" for="eventname">
-                Tittel
-              </label>
-              <input
-                required
-                type="text"
-                className="form-control"
-                id="eventnameinput"
-                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
-                  (this.state.event.name = event.target.value)
+      <div>
+        <div className="form-row">
+          <div className="col" id="">
+            <label id="eventnamelabel" for="eventname">
+              Tittel
+            </label>
+            <input
+              required
+              type="text"
+              className="form-control"
+              id="eventnameinput"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.name = event.target.value)
+              }
+            />
+            <label id="eventdesclabel" htmlFor="eventdesc">
+              Beskrivelse
+            </label>
+            <textarea
+              className={'form-control'}
+              id={'eventdesc'}
+              rows="4"
+              cols="50"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.description = event.target.value)
+              }
+            ></textarea>
+            {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
+            <label id="eventdatestart" htmlFor="start">
+              Starttidspunkt
+            </label>
+            <input
+              className="date"
+              type="date"
+              id="start"
+              name="start"
+              min={this.today()}
+              max="2023-12-31"
+              onChange={() => this.updateTime()}
+            />
+            <TimeField
+              id="start_time"
+              style={{ width: '100px' }}
+              onChange={() => this.updateTime()}
+            />
+            <label id="eventdateend" htmlFor="end">
+              Sluttidspunkt
+            </label>
+            <input
+              className="date"
+              type="date"
+              id="end"
+              name="end"
+              min={this.today()}
+              max="2023-12-31"
+              onChange={() => this.updateTime()}
+            />
+            <TimeField
+              id="end_time"
+              style={{ width: '100px' }}
+              onChange={() => this.updateTime()}
+            />
+            <label>Status</label>
+            <textarea
+              className="form-control"
+              id="eventstatus"
+              rows="1"
+              cols="50"
+              onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                (this.state.event.status = event.target.value)
+              }
+            ></textarea>
+            <div>
+              <FormControlLabel
+                control={
+                  <Switch
+                    inputRef={this.check}
+                    onChange={event => {
+                      this.state.event.is_public = event.target.checked;
+                    }}
+                    color="primary"
+                    id="eventispublic"
+                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                  />
                 }
+                label="Jeg ønsker at arrangementet skal være offentlig"
               />
               <label id="eventdesclabel" htmlFor="eventdesc">
                 Beskrivelse
@@ -136,15 +202,14 @@ class EventNew extends Component<Props, State> {
               </div>
             </div>
           </div>
-          <div>
-            <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
-              Oprett ny. debugknapp
-            </button>
-            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-              Neste
-            </button>
-          </div>
-          {/*</form>*/}
+        </div>
+        <div>
+          <button onClick={() => this.ny()} className="btn btn-success" id="nextbtn">
+            Oprett ny. debugknapp
+          </button>
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+            Neste
+          </button>
         </div>
       </div>
     );
@@ -214,7 +279,7 @@ class EventNew extends Component<Props, State> {
   // TODO delete
   ny() {
     localStorage.removeItem('curr_event');
-    window.location = '/newevent';
+    window.location = '/editevent';
   }
   next() {
     // TODO validate time input
@@ -238,7 +303,7 @@ class EventNew extends Component<Props, State> {
         if (resp.status === 200) {
           console.log('Arrangement oprettet');
           localStorage.setItem('curr_event', resp.data.insertId);
-          window.location = '/newevent2';
+          this.props.onSelectPage(2);
         } else {
           alert('Kunne ikke oprette arrangement.');
           // TODO bytt ut denne alerten med et komponent.
@@ -249,7 +314,7 @@ class EventNew extends Component<Props, State> {
         console.log(resp);
         if (resp.status === 200) {
           console.log('Arrangement oppdatert');
-          window.location = '/newevent2';
+          this.props.onSelectPage(2);
         } else {
           alert('Kunne ikke oppdatere arrangement.');
           // TODO bytt ut denne alerten med et komponent.

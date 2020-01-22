@@ -1,6 +1,6 @@
 // Get the frontpage events (sorted by sortstring)
 import axios, { AxiosPromise } from 'axios';
-import { Event, Artist } from './modelService';
+import { Event, Artist, TicketType } from './modelService';
 
 const url_base = 'http://localhost:4000/public';
 // axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
@@ -32,6 +32,16 @@ export class PublicService {
   // TODO legg til token
   static getPublicEvent(id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + id;
+    return axios.get(url, {});
+  }
+
+  // Send email
+  static feedback(email: string, feedbacktext: string) {
+    return axios.post(url_base + '/feedback', { email: email, feedback: feedbacktext });
+  }
+
+  static getPublicEventTickets(id: number): AxiosPromise<TicketType[]> {
+    let url = url_base + '/event/' + id + '/tickets';
     return axios.get(url, {});
   }
 

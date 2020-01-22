@@ -11,6 +11,7 @@ module.exports = class OrganiserDao extends Dao {
   getPool() {
     return super.getPool();
   }
+
   getEvent(
     event_id: number,
     organiser_id: number,
@@ -83,6 +84,14 @@ module.exports = class OrganiserDao extends Dao {
         event.end,
         event_id,
       ],
+      callback,
+    );
+  }
+
+  toggleCancel(event_id: number, callback: (status: string, data: Event) => mixed) {
+    super.query(
+      'UPDATE event e SET e.cancel = NOT e.cancel WHERE e.event_id = ?',
+      [event_id],
       callback,
     );
   }
@@ -163,11 +172,13 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
   // Gets the id of the user from token
   getMyId(email: string, callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
     super.query(queryString, [email], callback);
   }
+
   // Get all locations
   getLocation(callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT * FROM location ORDER BY name';
@@ -219,16 +230,19 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT user_id FROM user WHERE email = ?';
     super.query(queryString, [email], callback);
   }
+
   //gets (artist) user id to an email to see if user exists
   getArtistId(user_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString = 'SELECT user_id FROM artist WHERE user_id = ?';
     super.query(queryString, [user_id], callback);
   }
+
   //create dummy user and artist, to add an artist on event.
   postUser(email: string, callback: (status: string, data: Object) => mixed) {
     var queryString = 'INSERT INTO user (email) VALUES(?)';
     super.query(queryString, [email], callback);
   }
+
   postArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString = 'INSERT INTO artist(user_id) VALUES(?)';
     super.query(queryString, [user_id], callback);
@@ -277,7 +291,7 @@ module.exports = class OrganiserDao extends Dao {
   //gets all riders in event
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT rider_id, rider_file, email FROM rider JOIN user USING(user_id) WHERE event_id = ?',
+      'SELECT r.rider_id, r.rider_file, u.email, a.artist_name FROM rider r LEFT JOIN user u USING(user_id) LEFT JOIN artist a USING(user_id) WHERE r.event_id = ?',
       [event_id],
       callback,
     );
@@ -310,6 +324,7 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
+
   // Deletes a rider
   deleteRider(
     event_id: number,
@@ -420,7 +435,7 @@ module.exports = class OrganiserDao extends Dao {
 
   getMyEvents(organiser_id: number, callback) {
     super.query(
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE CURRENT_TIMESTAMP < end AND event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
+      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
       organiser_id,
       callback,
     );

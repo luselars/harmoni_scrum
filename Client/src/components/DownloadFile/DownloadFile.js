@@ -17,14 +17,14 @@ class DownloadFile extends React.Component<Props> {
   render() {
     return (
       <div id="container">
-        <p
+        <span
           style={{ cursor: 'pointer', color: 'blue' }}
           onClick={() => {
             this.downloadEmployeeData();
           }}
         >
           {this.props.fileName}
-        </p>
+        </span>
       </div>
     );
   }
