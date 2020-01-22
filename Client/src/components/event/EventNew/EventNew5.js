@@ -9,6 +9,9 @@ import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 import UploadRider from '../../Upload/UploadRider';
 
+type Props = {
+  onSelectPage: any,
+};
 class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -52,8 +55,6 @@ class EventNew5 extends Component<Props, State> {
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
-        <h2 className="neweventtitle">Opprett arrangement</h2>
-        {/*<form>*/}
         <div className="form-group text-center ml-5 mr-5">
           <p>Legg til ridere for artist: </p>
         </div>
@@ -68,6 +69,7 @@ class EventNew5 extends Component<Props, State> {
                   </textarea>
                   <br />
                   <UploadRider
+                    reload={() => this.handleReload()}
                     accept={'.pdf'}
                     message={'Last opp artist-rider'}
                     artist_id={artist.user_id}
@@ -109,11 +111,15 @@ class EventNew5 extends Component<Props, State> {
       </div>
     );
   }
+  handleReload = () => {
+    console.log('RELOAD');
+    this.componentDidMount();
+  };
   deleteRider(rider_id: number) {
     console.log(rider_id);
     OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
       console.log(r);
-      window.location.reload();
+      this.componentDidMount();
     });
   }
   formatTime() {
@@ -129,10 +135,10 @@ class EventNew5 extends Component<Props, State> {
     }
   }
   back() {
-    window.location = '/newevent4';
+    this.props.onSelectPage(4);
   }
   next() {
-    window.location = '/newevent6';
+    this.props.onSelectPage(6);
   }
 }
 export default EventNew5;

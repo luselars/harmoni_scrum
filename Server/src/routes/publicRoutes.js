@@ -17,6 +17,7 @@ let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
+var nodemailer = require('nodemailer');
 
 let tokenDuration = 18000000;
 
@@ -25,7 +26,8 @@ router.changeDao = function changeDao(publicDao: publicDao) {
 };
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
-function updateToken(token) {
+router.get('/refreshToken', (req: express$Request, res: express$Response) => {
+  let token = req.headers['x-access-token'];
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
       console.log('Token NOT ok');
@@ -36,10 +38,11 @@ function updateToken(token) {
       let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
         expiresIn: tokenDuration,
       });
-      return token;
+      res.status(200);
+      res.send(token);
     }
   });
-}
+});
 
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
@@ -47,12 +50,6 @@ router.get('/file/:id', function(req, res) {
   //console.log('Got a file request');
   //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
-});
-
-// Example 1 - GET /public
-router.get('/', (req: express$Request, res: express$Response) => {
-  console.log('Triggered at /public');
-  res.sendStatus(200);
 });
 
 // Get all public events sorted by a string
@@ -74,6 +71,14 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
 //Get artist on an event, only artist name
 router.get('/event/:id/artist', (req: express$Request, res: express$Response) => {
   dao.getArtistEvent(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+//Get tickets on an event
+router.get('/event/:id/tickets', (req: express$Request, res: express$Response) => {
+  dao.getEventTickets(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -106,10 +111,8 @@ router.post('/login', (req: express$Request, res: express$Response) => {
           res.json({ error: 'Not authorized, check username and password' });
         }
       } else {
-        console.log('organiser');
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
           if (status == '200') {
-            console.log('data ' + data);
             if (data[0] != null) {
               // Callback function that hashes inputed password and compares to hash in DB
               let salt = data[0].salt;
@@ -131,8 +134,41 @@ router.post('/login', (req: express$Request, res: express$Response) => {
                 res.json({ error: 'Not authorized, check username and password' });
               }
             } else {
-              res.status(404);
-              res.json({ error: 'Username not found' });
+              dao.getAdminLoginInfo(req.body.username, (status, data) => {
+                if (status == '200') {
+                  if (data[0] != null) {
+                    // Callback function that hashes inputed password and compares to hash in DB
+                    let salt = data[0].salt;
+                    let hash = bcrypt.hashSync(req.body.password, salt);
+                    if (hash == data[0].hash) {
+                      // Returns a token for autherization if credentials match
+                      console.log('Username and password ok. Admin signed inn');
+                      let token = jwt.sign(
+                        {
+                          username: req.body.username,
+                          type: 'admin',
+                          id: data[0].admin_id,
+                        },
+                        privateKey,
+                        {
+                          expiresIn: tokenDuration,
+                        },
+                      );
+                      res.json({ jwt: token, type: 'admin' });
+                    } else {
+                      console.log('Username and password NOT ok');
+                      res.status(401);
+                      res.json({ error: 'Not authorized, check username and password' });
+                    }
+                  } else {
+                    res.status(404);
+                    res.json({ error: 'Username not found' });
+                  }
+                } else {
+                  res.status(status);
+                  res.json({ error: data });
+                }
+              });
             }
           } else {
             res.status(status);
@@ -140,19 +176,18 @@ router.post('/login', (req: express$Request, res: express$Response) => {
           }
         });
       }
+    } else {
+      res.status(status);
+      res.json({ error: data });
     }
   });
 });
 
 // Register new user/organiser
 router.post('/register', (req: express$Request, res: express$Response) => {
-  let password: string = req.body.password;
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
   req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
-
-  //test
-  console.log(req.body);
   if (req.body.image != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.imageUrl = imageUrl;
@@ -174,6 +209,58 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
   dao.emailExists(req.params.email, (status, data) => {
     res.status(status);
     res.send(data);
+  });
+});
+
+//Send feedback-email
+router.post('/feedback', (req: express$Request, res: express$Response) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  var mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Tilbakemelding mottatt',
+    html:
+      '<h1></h1><p>Vi har mottatt din tilbakemelding og svarer på henvendelsen så fort som mulig. </p><p><b>Din tibakemelding: </b>' +
+      req.body.feedback +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  var mailOptions2 = {
+    from: 'harmoni.scrum@gmail.com',
+    to: 'harmoni.scrum@gmail.com',
+    subject: 'Ny tilbakemelding',
+    html:
+      '<h1>FEEDBACK</h1><p><b>Tibakemelding: </b>' +
+      req.body.feedback +
+      '</p><p><b>Avsender: </b>' +
+      req.body.email +
+      '</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(200);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+  transporter.sendMail(mailOptions2, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(200);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
   });
 });
 

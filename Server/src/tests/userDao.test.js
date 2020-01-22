@@ -36,17 +36,17 @@ it('Edit an existing user', done => {
   let user: User = new User('testuser@testemail.com', 'Jens');
   user.description = 'asdasd';
   user.user_id = 1;
-  dao.editUser(user, callback);
+  dao.editUser(user.user_id, user, callback);
 });
 
-// Adds your account as an artist
-it('Add an artist to event', done => {
+// Adds your account as an artist, artisten skal ikke kunne gjøre dette vel?
+/*it('Add an artist to event', done => {
   function callback(status, data) {
     expect(data.affectedRows).toBeGreaterThanOrEqual(1);
     done();
   }
   dao.linkArtist('testuser@testemail.com', 3, callback);
-});
+});*/
 
 // Deletes your user
 it('Deletes a user', done => {
@@ -60,7 +60,7 @@ it('Deletes a user', done => {
 // Finds all events user is tied to
 it('Finds all events user is tied to', done => {
   function callback(status, data) {
-    expect(data.length).toBe(2);
+    expect(data.length).toBe(1);
     done();
   }
   dao.getUserByEvent(1, callback);
@@ -74,11 +74,11 @@ it('Finds info for the user', done => {
   }
   dao.getUserInfo(1, callback);
 });
-// Gets the id of the logged in user.
-it('Gets id of the logged in user', done => {
+// Gets the id of the logged in user. denne skal utfases siden id er i token.
+/*it('Gets id of the logged in user', done => {
   function callback(status, data) {
     expect(data.length).toBe(1);
     done();
   }
   dao.getMyId('testuser@testemail.com', callback);
-});
+});*/

@@ -14,8 +14,16 @@ module.exports = class PublicDao extends Dao {
   //gets all public events where end date is still in the future
   getPublicEvents(callback) {
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE end > CURRENT_TIMESTAMP AND e.is_public IS TRUE AND (TRUE IN(SELECT o.verified FROM organiser o WHERE o.organiser_id IN(SELECT eo.organiser_id FROM event_organiser eo WHERE eo.event_id = e.event_id)))',
+      'SELECT e.*, l.address, l.name as location_name, l.postcode, v.min_price, v.max_price FROM event e LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN (SELECT et.event_id, MIN(et.price) as min_price, MAX(et.price) as max_price FROM event_ticket et GROUP BY et.event_id) v ON v.event_id = e.event_id WHERE end > now() - INTERVAL 1 month AND e.is_public IS TRUE AND (TRUE IN(SELECT o.verified FROM organiser o WHERE o.organiser_id IN(SELECT eo.organiser_id FROM event_organiser eo WHERE eo.event_id = e.event_id)))',
       [],
+      callback,
+    );
+  }
+
+  getEventTickets(event_id: number, callback) {
+    super.query(
+      'SELECT tt.name, tt.description, et.price, et.amount FROM ticket_type tt LEFT JOIN event_ticket et ON et.ticket_type_id = tt.ticket_type_id WHERE et.event_id = ?',
+      [event_id],
       callback,
     );
   }
@@ -42,7 +50,7 @@ module.exports = class PublicDao extends Dao {
   insertNewUser(state: Object, callback: (status: string, data: Event) => mixed) {
     if (state.organiser) {
       super.query(
-        'INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?)',
+        "INSERT INTO organiser (organiser_email, hash, salt, name, image, tlf, description, address, website) VALUES(?,?,?,?,?,?,?,?,?);INSERT INTO ticket_type (name, description, organiser_id) VALUES ('Ordinær Billett','Vanlig billett',LAST_INSERT_ID()),('Ståbillett','Ståplass',LAST_INSERT_ID()),('Sittebillett','Sitteplass',LAST_INSERT_ID());",
         [
           state.email,
           state.hash,
@@ -86,9 +94,13 @@ module.exports = class PublicDao extends Dao {
     );
   }
 
+  getAdminLoginInfo(email: string, callback: (status: string, data: Object) => mixed) {
+    super.query('Select * from admin WHERE email = ?', email, callback);
+  }
+
   emailExists(email: string, callback) {
     super.query(
-      'SELECT organiser_email as email FROM organiser WHERE organiser_email = ? UNION SELECT email FROM user WHERE email = ?',
+      'SELECT organiser_email as email, "organiser" as type FROM organiser WHERE organiser_email = ? UNION SELECT email, "user" as type FROM user WHERE email = ?',
       [email, email],
       callback,
     );

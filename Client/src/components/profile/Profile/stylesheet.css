@@ -4,8 +4,16 @@
   object-fit: cover;
 }
 
+.profilecard {
+  margin: 0 20%;
+  width: 60&;
+}
+
 @media screen and (max-width: 415px) {
   #profilename {
     font-size: 2rem;
+  }
+  .profilecard {
+    width: 100%;
   }
 }

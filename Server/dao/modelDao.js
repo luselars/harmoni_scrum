@@ -17,6 +17,8 @@ export class Event {
   location_id: number;
   address: string;
   venue: string;
+  max_price: number;
+  min_price: number;
 
   location_name: string;
   postcode: number;
@@ -43,17 +45,24 @@ export class Location {
 
 // Object for sending User
 export class User {
-  constructor(email: string, name: number) {
-    this.email = email;
-    this.name = name;
+  constructor() {
+    this.user_id = null;
+    this.password = null;
+    this.email = null;
+    this.name = null;
+    this.artist_name = null;
+    this.tlf = null;
+    this.image = null;
+    this.description = null;
   }
-
+  user_id: number;
+  password: string;
   email: string;
   name: string;
+  artist_name: string;
   tlf: string;
   image: string;
   description: string;
-  user_id: number;
 }
 
 // Object for sending Artist

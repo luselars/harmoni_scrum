@@ -9,8 +9,11 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   constructor(props: any) {
     super(props);
     this.state = {
-      sortOption: '',
+      sortRadio1: 'Tid ↓',
+      sortRadio2: 'Alfabetisk ↓',
+      sortRadio3: 'Pris ↓',
       status: true,
+      sortAlt: ['', ''],
     };
   }
 
@@ -37,58 +40,42 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                   <h6 className="mb-3 text-success">SORTER</h6>
                 </div>
                 <div className="sortlabel form-check text-left mb-3">
-                  <label className="form-check-label" htmlFor="sortRadio1">
-                    <input
-                      type="radio"
-                      id="sortRadio1"
-                      value="e.start"
-                      checked={this.state.sortOption === 'e.start'}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Tid
-                  </label>
-                  <label className="form-check-label" htmlFor="sortRadio2">
-                    <input
-                      type="radio"
-                      id="sortRadio2"
-                      value="e.name"
-                      checked={e => {
-                        this.setState({ sortOption: e.value });
-                      }}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Alfabetisk
-                  </label>
-                  <label className="form-check-label" htmlFor="sortRadio3">
-                    <input
-                      type="radio"
-                      id="sortRadio3"
-                      value="option3"
-                      checked={this.state.sortOption === 'option3'}
-                      onChange={e => this.handleChangeSort(e)}
-                    ></input>
-                    Størrelse
-                  </label>
+                  <input
+                    type="button"
+                    id="sortRadio1"
+                    value={this.state.sortRadio1}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
+                  <input
+                    type="button"
+                    id="sortRadio2"
+                    value={this.state.sortRadio2}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
+                  <input
+                    type="button"
+                    id="sortRadio3"
+                    value={this.state.sortRadio3}
+                    onClick={e => this.handleChangeSort(e)}
+                  ></input>
                 </div>
                 <div className="filtercategories col border-bottom">
-                  <h6 className="mb-3 text-success">STED</h6>
+                  <h6 className="mb-3 text-success">ALTERNATIVER</h6>
                 </div>
 
                 <div className="form-check text-left mb-3">
-                  <input type="checkbox" class="form-check-input" id="placeCheck1"></input>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="placeCheck1"
+                    value="viewOld"
+                    checked={this.state.sortAlt[0] === 'viewOld'}
+                    onChange={e => this.handleChangeAlt(e)}
+                  ></input>
                   <label className="placecheck form-check-label" for="placeCheck1">
-                    Trondheim Spektrum
-                  </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck2"></input>
-                  <label className="placecheck form-check-label" for="placeCheck2">
-                    Sukkerhuset
-                  </label>
-                  <input type="checkbox" class="form-check-input" id="placeCheck3"></input>
-                  <label className="placecheck form-check-label" for="placeCheck3">
-                    Olavshallen
+                    Se eldre arragementer (1 måned gamle)
                   </label>
                 </div>
-
                 <div className="col filtercategories border-bottom">
                   <h6 className="mb-3 text-success">PRIS</h6>
                 </div>
@@ -99,8 +86,9 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     </span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
+                    onChange={e => this.handleChangeMinPrice(e)}
                     aria-label="Fra"
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
@@ -112,17 +100,12 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     </span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
+                    onChange={e => this.handleChangeMaxPrice(e)}
                     aria-label="Til"
                     aria-describedby="inputGroup-sizing-sm"
                   ></input>
-                </div>
-
-                <div className="col text-center mt-3">
-                  <button type="submit" className="btn btn-success">
-                    Velg
-                  </button>
                 </div>
               </div>
             </Collapse>
@@ -149,10 +132,45 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   handleChangeSort(e: any) {
-    const target = e.target;
-    let value: string = target.value;
-    this.setState({ sortOption: value });
-    this.props.setFilter(value);
+    let value: string = e.target.value;
+    if (value.charAt(value.length - 1) == '↓') {
+      value = value.substring(0, value.length - 1) + '↑';
+      this.setState();
+    } else {
+      value = value.substring(0, value.length - 1) + '↓';
+    }
+    if (e.target.id == 'sortRadio1') {
+      this.setState({ sortRadio1: value });
+    } else if (e.target.id == 'sortRadio2') {
+      this.setState({ sortRadio2: value });
+    } else if (e.target.id == 'sortRadio3') {
+      this.setState({ sortRadio3: value });
+    } else {
+      console.log('Ukjent id: ' + e.target.id);
+    }
+    this.props.handleFilterChange(e.target.value);
+  }
+
+  handleChangeAlt(e: any) {
+    let value: string = e.target.value;
+    if (value == 'viewOld') {
+      let newValue = this.state.sortAlt[0] === '' ? value : '';
+      this.state.sortAlt[0] = newValue;
+    }
+    if (value == 'test') {
+      let newValue = this.state.sortAlt[1] === '' ? value : '';
+      this.state.sortAlt[1] = newValue;
+    }
+    this.props.handleFilterAlternativChange(this.state.sortAlt);
+  }
+
+  handleChangeMinPrice(e: any) {
+    let price = e.target.value;
+    this.props.handleFilterPriceChange(price, 'min');
+  }
+  handleChangeMaxPrice(e: any) {
+    let price = e.target.value;
+    this.props.handleFilterPriceChange(price, 'max');
   }
 
   handleSubmit(event) {

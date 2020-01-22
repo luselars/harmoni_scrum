@@ -4,22 +4,32 @@
     'reactpaginate';
 }
 
-.reactpaginate {
-  font-size: xx-large;
-  display: inline-block;
-  text-align: center;
-  width: 100%;
+.pagination li a {
+  font-size: 30px;
+  color: black;
 }
 
-.pagination > li.active > a {
-  color: #fff;
-  background-color: #218838;
-  border-color: #1e7e34;
+.cancelledtitle {
+  transform: rotate(20deg);
+  font-size: 1.2rem;
+  border-style: solid;
 }
 
-#date {
-  border-right-style: solid;
-  border-right-color: rgb(83, 163, 81);
+.pagination:hover {
+  cursor: pointer;
+}
+
+li.active {
+  background-color: white;
+}
+
+.pagination > li {
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0px 5px 0px 5px;
+  font-size: xx-small;
+  font-family: sans-serif;
+  border-radius: 5px;
 }
 
 .datenumber {
@@ -38,6 +48,8 @@
 #eventinfo {
   line-height: 90%;
   max-width: 60%;
+  border-left-style: solid;
+  border-left-color: rgb(83, 163, 81);
 }
 
 .eventlistp {
@@ -70,7 +82,7 @@ h5 {
 }
 
 @media screen and (max-width: 650px) {
-  #card {
+  .card {
     font-size: 3vw;
     width: 90% !important;
     margin-left: 5% !important;

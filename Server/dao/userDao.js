@@ -45,7 +45,8 @@ module.exports = class UserDao extends Dao {
 
   getUserInfo(user_id: number, callback: (status: string, data: Object) => mixed) {
     console.log(user_id);
-    let queryString = 'SELECT * FROM user WHERE user_id = ?';
+    let queryString =
+      'SELECT u.*, a.artist_name FROM user u LEFT JOIN artist a USING(user_id) WHERE user_id = ?';
     super.query(queryString, [user_id], callback);
   }
 
@@ -54,8 +55,28 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [email], callback);
   }
 
-  getMyEvents(sortMethod: string, callback) {
-    let sort: string = sortMethod;
-    super.query('' + sort, sort, callback);
+  setArtistName(
+    artist_name: string,
+    user_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    let queryString = 'UPDATE artist SET artist_name = ? WHERE user_id = ?';
+    super.query(queryString, [artist_name, user_id], callback);
+  }
+
+  getMyEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
+      [user_id],
+      callback,
+    );
+  }
+
+  getMyRiders(event_id, user_id, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'SELECT * FROM rider WHERE event_id = ? AND user_id = ?',
+      [event_id, user_id],
+      callback,
+    );
   }
 };

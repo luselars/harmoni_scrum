@@ -26,6 +26,7 @@ h6 {
   float: left;
   margin-bottom: 1%;
   margin-top: 1%;
+  margin-bottom: 40%;
 }
 .up {
   transform: rotate(-135deg);
@@ -60,5 +61,8 @@ h6 {
 @media screen and (max-width: 700px) {
   .dropdown {
     visibility: visible;
+  }
+  #filterCard {
+    margin-bottom: 5%;
   }
 }

@@ -1,3 +1,5 @@
+import { string } from 'prop-types';
+
 // Event-model
 export class Event {
   constructor() {
@@ -24,32 +26,26 @@ export class Event {
   address: string;
   location_name: string;
   postcode: number;
-}
-
-// Object for sending Artist
-export class Artist {
-  constructor(user_id: number, artist_name: number) {
-    this.user_id = user_id;
-    this.artist_name = artist_name;
-  }
-  user_id: number;
-  artist_name: string;
-  image: string;
-  description: string;
+  max_price: number;
+  min_price: number;
 }
 
 export class User {
   constructor() {
+    this.user_id = null;
     this.password = null;
     this.email = null;
     this.name = null;
+    this.artist_name = null;
     this.tlf = null;
     this.image = null;
     this.description = null;
   }
+  user_id: number;
   password: string;
   email: string;
   name: string;
+  artist_name: string;
   tlf: string;
   image: string;
   description: string;
@@ -101,4 +97,5 @@ export class TicketType {
   ticket_type_id: number;
   organiser_id: number;
   price: number;
+  amount: number;
 }

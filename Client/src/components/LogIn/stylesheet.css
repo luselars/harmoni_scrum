@@ -1,0 +1,11 @@
+#logincard {
+  margin: 0 20%;
+  width: 60%;
+}
+
+@media screen and (max-width: 670px) {
+  #logincard {
+    margin: 0 5%;
+    width: 90%;
+  }
+}
