@@ -1,6 +1,5 @@
 //@flow
 import { Event, User, Location, Organiser, TicketType } from './modelDao';
-
 const Dao = require('./dao.js');
 
 module.exports = class OrganiserDao extends Dao {
@@ -22,7 +21,7 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [organiser_id, event_id], callback);
   }
 
-  getProfile(organiser_id, callback: (status: string, data: Object) => mixed) {
+  getProfile(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT o.organiser_id, o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_id, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_id) v ON v.organiser_id = o.organiser_id WHERE o.organiser_id = ?';
     super.query(queryString, [organiser_id], callback);

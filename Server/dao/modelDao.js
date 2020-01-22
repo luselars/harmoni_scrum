@@ -24,9 +24,9 @@ export class Event {
   postcode: number;
 
   // Event Location
-  location: Location = null;
+  //location: Location = null;
   // Event Users
-  users: User[] = null;
+  //users: User[] = null;
 }
 
 // Object for sending Location
@@ -40,7 +40,7 @@ export class Location {
   name: string;
   postcode: number;
   address: string;
-  location_id: number = null;
+  location_id: number = 0;
 }
 
 // Object for sending User
@@ -55,19 +55,19 @@ export class User {
     this.image = null;
     this.description = null;
   }
-  user_id: number;
-  password: string;
-  email: string;
-  name: string;
-  artist_name: string;
-  tlf: string;
-  image: string;
-  description: string;
+  user_id: ?number;
+  password: ?string;
+  email: ?string;
+  name: ?string;
+  artist_name: ?string;
+  tlf: ?string;
+  image: ?string;
+  description: ?string;
 }
 
 // Object for sending Artist
 export class Artist {
-  constructor(user_id: number, artist_name: number) {
+  constructor(user_id: number, artist_name: string) {
     this.user_id = user_id;
     this.artist_name = artist_name;
   }
@@ -90,6 +90,8 @@ export class Organiser {
   tlf: string;
   website: string;
   address: string;
+  hash: string;
+  salt: string;
   eventsFinished: number;
   eventsComing: number;
 }
@@ -105,4 +107,5 @@ export class TicketType {
   ticket_type_id: number;
   organiser_id: number;
   price: number;
+  amount: number;
 }

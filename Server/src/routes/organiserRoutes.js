@@ -1,5 +1,7 @@
 // @flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
@@ -74,7 +76,7 @@ router.get('/event/:event_id', (req: express$Request, res: express$Response) => 
 });
 
 // Create new event (and connect it to the organiser)
-router.post('/event', (req: { body: Object }, res: express$Response) => {
+router.post('/event', (req: express$Request, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
     if (status == 200) {
@@ -99,7 +101,7 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 });
 
 // Create new location
-router.post('/location', (req: { body: Object }, res: express$Response) => {
+router.post('/location', (req: express$Request, res: express$Response) => {
   dao.getSingleLocation(req.body.address, (status, data) => {
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
@@ -114,7 +116,7 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 });
 
 // Edit a specific event
-router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
+router.put('/event/:event_id', (req: express$Request, res: express$Response) => {
   if (req.body.image !== '') {
     uploadFunctions.handleFile(req.body.image, function(name) {
       req.body.image = name;
@@ -132,7 +134,7 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
 });
 
 //edit an event artist to add contracts and stuff
-router.put('/artist/:artist_id', (req: { body: Object }, res: express$Response) => {
+router.put('/artist/:artist_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.contract, function(name) {
     req.body.contract = name;
     dao.putEventArtist(
@@ -174,7 +176,7 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
 });
 
 // Adds a rider to the event on a user
-router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
+router.put('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
@@ -185,7 +187,7 @@ router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: expr
 });
 
 // Adds a rider to the event on a user
-router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
+router.post('/event/rider/:event_id/:user_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
@@ -507,7 +509,7 @@ router.get('/tickets', (req: express$Request, res: express$Response) => {
 });
 
 // Create a new ticket type
-router.post('/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/tickets', (req: express$Request, res: express$Response) => {
   dao.postTicketType(req.body, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -515,7 +517,7 @@ router.post('/tickets', (req: { body: Object }, res: express$Response) => {
 });
 
 // Add ticket type to event
-router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/event/:eid/tickets', (req: express$Request, res: express$Response) => {
   dao.postEventTicket(req.body, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -523,7 +525,7 @@ router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response
 });
 
 // Edit a ticket type
-router.put('/tickets/:id', (req: { body: Object }, res: express$Response) => {
+router.put('/tickets/:id', (req: express$Request, res: express$Response) => {
   dao.editTicketType(req.body, req.params.id, (status, data) => {
     res.status(status);
     res.send(data);

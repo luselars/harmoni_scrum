@@ -4,7 +4,7 @@ const fs = require('fs');
 var path = require('path');
 
 let uploadFunctions = {
-  handleFile: function(f: string, callback): string {
+  handleFile: function(f: string, callback): ?string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
     let p = path.join(__dirname + '/../files/');
     /*
@@ -35,7 +35,7 @@ let uploadFunctions = {
       callback(name);
     });
   },
-  base64Decoder: function(file: string): string {
+  base64Decoder: function(file: string): Object {
     let matches = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
 
@@ -45,6 +45,7 @@ let uploadFunctions = {
 
     response.type = matches[1];
     response.data = new Buffer(matches[2], 'base64');
+
     return response;
   },
   createFilePath: function(extension: string): string {
