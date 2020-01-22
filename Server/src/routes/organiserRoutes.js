@@ -2,7 +2,6 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import nodemailer from 'nodemailer';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 //import { decodeBase64Image } from '../uploadHelper';
