@@ -32,7 +32,8 @@ export default class EventDetails extends Component<Props, State> {
     return (
       <div className="card" id="carddetailsevent">
         <div className="imgdiv">
-          {this.state.event.image == undefined ? (
+          {
+              this.state.event.image ? (
             <img
               src={'http://localhost:4000/public/file/' + this.state.event.image}
               className="img-fluid"
