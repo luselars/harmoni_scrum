@@ -129,11 +129,11 @@ export default class EventList extends Component<Props, State> {
     let newEventList = [];
     if (type == 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].min_price >= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
     } else {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].max_price <= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].min_price <= filterChange) newEventList.push(previousEventList[i]);
       }
     }
     this.setState({
@@ -298,6 +298,8 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+    // Gets new token from auth server
+    PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {
