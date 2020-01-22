@@ -22,6 +22,7 @@ import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword'
 import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
+import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -65,6 +66,7 @@ function App() {
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
+          <Route exact path="/editeventartist/:id" component={EventEditArtist} />
           <Route component={NoMatch} />
         </Switch>
       </div>
