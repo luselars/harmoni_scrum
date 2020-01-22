@@ -69,7 +69,7 @@ function App() {
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
-          <Route exact path="/editeventartist/:id" component={EventEditArtist} />
+          <Route exact path="/userevent/edit/:id" component={EventEditArtist} />
           <Route exaxt path="/glemtpassordregisrert" component={ForgottenPasswordRegistered} />
           <Route component={NoMatch} />
         </Switch>
