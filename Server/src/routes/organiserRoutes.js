@@ -244,35 +244,38 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
 
     if (data.length === 0) {
       //lag en dummy user og artist:
-      dao.postUser(req.body.email, (status, data) => {
+      let password = 'EndreMeg';
+      let salt = bcrypt.genSaltSync(10);
+      let hash = bcrypt.hashSync(password, req.body.salt);
+      dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
-        let ud = data;
-        let id = ud.insertId;
-        dao.postArtist(id, (status, data) => {
-          res.status(status);
-          dao.addArtistToEvent(id, req.params.event_id, (status, data) => {
-            res.status(status);
-            res.send(data);
+        let id = data.insertId;
+        dao.postArtist(id, (status2, data2) => {
+          res.status(status2);
+          dao.addArtistToEvent(id, req.params.event_id, (status3, data3) => {
+            res.status(status3);
+            res.send({ message: 'Added new user', password: password });
           });
         });
       });
     } else {
       let start_id = data[0].user_id;
-      //sjekk om artist eksisterer
+      //sjekk om bruker allerede er artist
       console.log(start_id);
-      dao.getArtistId(start_id, (status, data) => {
+      dao.checkArtist(start_id, (status, data) => {
         res.status(status);
         d = data;
         if (data.length === 0) {
+          // Bruker er ikke artist
           dao.postArtist(start_id, (status, data) => {
             res.status(status);
             dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
               res.status(status);
-              res.send(data);
+              res.send({ message: 'Made user artist and added him/her to event', id: start_id });
             });
           });
         } else {
-          //bare legg til artisten
+          // Bruker er artist
           dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
             console.log(status + ' - status');
             if (status == 500) {
@@ -280,7 +283,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
               res.send('Artist already in event');
             } else {
               res.status(status);
-              res.send(data);
+              res.send({ message: 'Added existing artist to event', id: start_id });
             }
           });
         }
