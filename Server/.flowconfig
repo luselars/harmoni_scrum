@@ -1,8 +1,11 @@
 [ignore]
+.*/node_modules/.*
+.*/tests/.*
 
 [include]
 
 [libs]
+./type-def-libs
 
 [lints]
 

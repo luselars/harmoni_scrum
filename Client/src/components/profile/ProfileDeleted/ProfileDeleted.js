@@ -9,7 +9,7 @@ export default class ProfileDeleted extends Component<{}, {}> {
         <div class="card-body bg-light">
           <div class="container bg-light">
             <div class="row justify-content-md-center my-5 align-items-center">
-              <h4>DITT PROFIL ER NÅ SLETTET.</h4>
+              <h4>DIN PROFIL ER NÅ SLETTET.</h4>
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <button
@@ -17,7 +17,7 @@ export default class ProfileDeleted extends Component<{}, {}> {
                 onClick={() => (window.location.href = '/')}
               >
                 {' '}
-                GÅ TIL HOVEDSIDE{' '}
+                GÅ TIL HOVEDSIDEN{' '}
               </button>
             </div>
           </div>

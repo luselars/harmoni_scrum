@@ -1,7 +1,10 @@
 // @flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
 import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
+
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
@@ -27,7 +30,7 @@ router.use('', (req, res, next) => {
         error: err,
       });
     } else {
-      if (decoded.type == 'user') {
+      if (decoded.type === 'user') {
         //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
@@ -74,6 +77,7 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
   });
 });
 
+// TODO: Brukes denne? Virker som en kopi av myevents
 // Retrieve all events that the user is a part of
 router.get('/:id/event', (req: express$Request, res: express$Response) => {
   dao.getUserByEvent(req.params.id, (status, data) => {
@@ -92,12 +96,9 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Get all the events your user account is connected to.
 router.get('/myevents', (req: express$Request, res: express$Response) => {
-  dao.getMyId(req.email, (status, data) => {
+  dao.getMyEvents(req.uid, (status, data) => {
     res.status(status);
-    dao.getMyEvents(data, (status, data2) => {
-      res.status(status);
-      res.send(data2);
-    });
+    res.send(data);
   });
 });
 
@@ -111,6 +112,13 @@ router.post('/event/:id/join', (req: express$Request, res: express$Response) => 
 
 router.put('/artistname', (req: express$Request, res: express$Response) => {
   dao.setArtistName(req.body.artist_name, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+router.get('/event/:id/riders', (req: express$Request, res: express$Response) => {
+  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
