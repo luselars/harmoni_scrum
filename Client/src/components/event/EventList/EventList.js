@@ -11,7 +11,7 @@ import { UserService } from '../../../services/userService';
 import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
-var options = {
+let options = {
   keys: ['name', 'description'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -19,6 +19,21 @@ let events: Event[] = [];
 let status: boolean;
 let event_id: number;
 let eventsPerPage = 7;
+
+type Props = {
+  profile_list: boolean,
+  organiser: boolean,
+  fuse: any,
+};
+
+type State = {
+  events: [],
+  status: boolean,
+  organiser_id: number,
+  organiser: boolean,
+  offset: number,
+  showAllEvents: boolean,
+};
 
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
@@ -114,11 +129,11 @@ export default class EventList extends Component<Props, State> {
     let newEventList = [];
     if (type == 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].min_price >= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
     } else {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].max_price <= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].min_price <= filterChange) newEventList.push(previousEventList[i]);
       }
     }
     this.setState({
@@ -283,9 +298,11 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+    // Gets new token from auth server
+    PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
-      if (this.props.organiser) {
+      if (localStorage.getItem('userType') === 'organiser') {
         OrganiserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);
