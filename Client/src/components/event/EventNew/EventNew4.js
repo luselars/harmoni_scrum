@@ -121,6 +121,15 @@ class EventNew4 extends Component<Props, State> {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);
+            console.log(resp.data);
+            OrganiserService.sendmail(email, this.state.event.name)
+              .then(response => {
+                console.log('Email sent');
+                this.componentDidMount();
+              })
+              .catch(error => {
+                console.log('error sendmail: ' + error);
+              });
             this.componentDidMount();
           })
           .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));

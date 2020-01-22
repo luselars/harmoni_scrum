@@ -1,5 +1,7 @@
 // @flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 import { decodeBase64Image } from '../uploadHelper';
@@ -14,7 +16,9 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
-var nodemailer = require('nodemailer');
+router.changeDao = function changeDao(organiserDao: organiserDao) {
+  dao = organiserDao;
+};
 
 // Middleware for organiser activities
 router.use('', (req, res, next) => {
@@ -74,7 +78,7 @@ router.get('/event/:event_id', (req: express$Request, res: express$Response) => 
 });
 
 // Create new event (and connect it to the organiser)
-router.post('/event', (req: { body: Object }, res: express$Response) => {
+router.post('/event', (req: express$Request, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
     if (status == 200) {
@@ -99,7 +103,7 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 });
 
 // Create new location
-router.post('/location', (req: { body: Object }, res: express$Response) => {
+router.post('/location', (req: express$Request, res: express$Response) => {
   dao.getSingleLocation(req.body.address, (status, data) => {
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
@@ -114,7 +118,7 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 });
 
 // Edit a specific event
-router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
+router.put('/event/:event_id', (req: express$Request, res: express$Response) => {
   if (req.body.image !== '') {
     uploadFunctions.handleFile(req.body.image, function(name) {
       req.body.image = name;
@@ -132,7 +136,7 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
 });
 
 //edit an event artist to add contracts and stuff
-router.put('/artist/:artist_id', (req: { body: Object }, res: express$Response) => {
+router.put('/artist/:artist_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.contract, function(name) {
     req.body.contract = name;
     dao.putEventArtist(
@@ -174,7 +178,7 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
 });
 
 // Adds a rider to the event on a user
-router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
+router.put('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
@@ -185,7 +189,7 @@ router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: expr
 });
 
 // Adds a rider to the event on a user
-router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
+router.post('/event/rider/:event_id/:user_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
@@ -203,6 +207,37 @@ router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: ex
   });
 });
 
+//Send email
+router.post('/sendmail', (req: express$Request, res: express$Response) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  var mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Nytt arrangement',
+    html:
+      '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet ' +
+      req.body.name +
+      '.</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(404);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+});
+
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
@@ -211,35 +246,38 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
 
     if (data.length === 0) {
       //lag en dummy user og artist:
-      dao.postUser(req.body.email, (status, data) => {
+      let password = 'EndreMeg';
+      let salt = bcrypt.genSaltSync(10);
+      let hash = bcrypt.hashSync(password, req.body.salt);
+      dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
-        let ud = data;
-        let id = ud.insertId;
-        dao.postArtist(id, (status, data) => {
-          res.status(status);
-          dao.addArtistToEvent(id, req.params.event_id, (status, data) => {
-            res.status(status);
-            res.send(data);
+        let id = data.insertId;
+        dao.postArtist(id, (status2, data2) => {
+          res.status(status2);
+          dao.addArtistToEvent(id, req.params.event_id, (status3, data3) => {
+            res.status(status3);
+            res.send({ message: 'Added new user', password: password });
           });
         });
       });
     } else {
       let start_id = data[0].user_id;
-      //sjekk om artist eksisterer
+      //sjekk om bruker allerede er artist
       console.log(start_id);
-      dao.getArtistId(start_id, (status, data) => {
+      dao.checkArtist(start_id, (status, data) => {
         res.status(status);
         d = data;
         if (data.length === 0) {
+          // Bruker er ikke artist
           dao.postArtist(start_id, (status, data) => {
             res.status(status);
             dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
               res.status(status);
-              res.send(data);
+              res.send({ message: 'Made user artist and added him/her to event', id: start_id });
             });
           });
         } else {
-          //bare legg til artisten
+          // Bruker er artist
           dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
             console.log(status + ' - status');
             if (status == 500) {
@@ -247,7 +285,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
               res.send('Artist already in event');
             } else {
               res.status(status);
-              res.send(data);
+              res.send({ message: 'Added existing artist to event', id: start_id });
             }
           });
         }
@@ -332,55 +370,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
     res.send(data);
   });
 });
-
-// TODO auth
-// Upload file. If the request is valid the file is moved to the folder files with a new randomised name
-// and the new name is returned to the user.
-// Accepts files with the extensions .pdf, .jpg, .jpeg and .png.
-// There is no validation to see if a file with an extension is actually that type of file.
-// router.post('/file', upload.single('recfile'), async function (req, res) {
-//     // Length of randomly generated name of file
-//     const len = 16;
-//     console.log("File upload request received");
-//     // Check if there is a file present in the request.
-//     if (!req.file) {
-//         res.statusMessage = "Please provide a file.";
-//         return res.sendStatus(401);
-//     }
-//     // Get file extension
-//     let ext = path.extname(req.file.originalname);
-//     // If the extension is valid
-//     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.pdf') {
-//         // Length of random generated name
-//         const len = 16;
-//         let p = __dirname + '/../../files/';
-//         //Create a random number for the image
-//         let str = crypto.randomBytes(Math.ceil(len/2))
-//             .toString('hex') // convert to hexadecimal format
-//             .slice(0,len);
-//         // Check if image exists, if it does: generate a new number.
-//         while (fs.existsSync(p + str + ext)) {
-//             str = crypto.randomBytes(Math.ceil(len/2))
-//                 .toString('hex') // convert to hexadecimal format
-//                 .slice(0,len);
-//         }
-//         console.log(str + ext);
-//         p = p + str + ext;
-//         fs.writeFile(p, req.file.buffer, function (err) {
-//             if (err) throw err;
-//             console.log("File moved to /files");
-//         });
-//         res.status(200);
-//         res.send({"name":str+ext});
-//         // return res.sendStatus(200);
-//     }
-//     // Return 401 if the extension is not supported.
-//     else {
-//         res.statusMessage = "File extension not supported.";
-//         return res.sendStatus(401);
-//     }
-// });
-
 // Lets an organiser look at his profile.
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
   dao.getProfile(req.uid, (status, data) => {
@@ -476,7 +465,7 @@ router.get('/tickets', (req: express$Request, res: express$Response) => {
 });
 
 // Create a new ticket type
-router.post('/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/tickets', (req: express$Request, res: express$Response) => {
   dao.postTicketType(req.body, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -484,7 +473,7 @@ router.post('/tickets', (req: { body: Object }, res: express$Response) => {
 });
 
 // Add ticket type to event
-router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/event/:eid/tickets', (req: express$Request, res: express$Response) => {
   dao.postEventTicket(req.body, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -492,7 +481,7 @@ router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response
 });
 
 // Edit a ticket type
-router.put('/tickets/:id', (req: { body: Object }, res: express$Response) => {
+router.put('/tickets/:id', (req: express$Request, res: express$Response) => {
   dao.editTicketType(req.body, req.params.id, (status, data) => {
     res.status(status);
     res.send(data);

@@ -62,6 +62,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
+        console.log(event);
         this.setState({
           event: event,
           cancel: event.cancel,
@@ -103,7 +104,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div id="myModal2" className="modal">
+        <div id="myModal2" className="modal" role="dialog">
           <div className="modal-content">
             <span className="close2">&times;</span>
             <div className="modalbody">
@@ -120,15 +121,19 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel == 0 ? (
-              <div className="imgdiv">
-                <img
-                  id="EventPicLI"
-                  src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid"
-                  alt="Eventbilde"
-                ></img>
-              </div>
-            ) : (
+              this.state.event.image != null ? (
+                <div className="imgdiv">
+                  <img
+                    id="EventPicLI"
+                    src={'http://localhost:4000/public/file/' + this.state.event.image}
+                    className="img-fluid"
+                    alt="Eventbilde"
+                  ></img>
+                </div>
+              ) : (
+                ''
+              )
+            ) : this.state.event.image != null ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
@@ -136,6 +141,11 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   className="img-fluid cancelimg"
                   alt="Eventbilde"
                 ></img>
+                <div class="centered">AVLYST</div>
+              </div>
+            ) : (
+              <div className="imgdiv">
+                <img id="EventPicLI"></img>
                 <div class="centered">AVLYST</div>
               </div>
             )}
@@ -422,43 +432,60 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   }
   btnclicked(id: string) {
     if (id == 'deleteeventbtn') {
-      var btn = document.getElementById('deleteeventbtn');
-      var modal = document.getElementById('myModal');
-      var span = document.getElementsByClassName('close')[0];
-      var cancel = document.getElementById('cancel');
-      modal.style.display = 'block';
-      span.onclick = function() {
-        modal.style.display = 'none';
-      };
-      cancel.onclick = function() {
-        modal.style.display = 'none';
-      };
+      let btn = document.getElementById('deleteeventbtn');
+      let modal = document.getElementById('myModal');
+      let span = document.getElementsByClassName('close')[0];
+      let cancel = document.getElementById('cancel');
+      //dette er en sjekk for å ikke få Flow(InferError), ikke fjern den hvis det ikke løses på en annen måte/den ikke er et problem
+      if (modal && cancel instanceof HTMLElement) {
+        modal.style.display = 'block';
+        span.onclick = function() {
+          modal.style.display = 'none';
+        };
+        cancel.onclick = function() {
+          modal.style.display = 'none';
+        };
+      }
     } else {
-      var btn = document.getElementById('cancelbtn');
-      var modal = document.getElementById('myModal2');
-      var span = document.getElementsByClassName('close2')[0];
-      var cancel = document.getElementById('cancel2');
-      modal.style.display = 'block';
-      span.onclick = function() {
-        modal.style.display = 'none';
-      };
-      cancel.onclick = function() {
-        modal.style.display = 'none';
-        console.log('heihiii');
-      };
+      let btn = document.getElementById('cancelbtn');
+      let modal = document.getElementById('myModal2');
+      let span = document.getElementsByClassName('close2')[0];
+      let cancel = document.getElementById('cancel2');
+      //dette er en sjekk for å ikke få Flow(InferError), ikke fjern den hvis det ikke løses på en annen måte/den ikke er et problem
+      if (modal && cancel && btn instanceof HTMLElement) {
+        modal.style.display = 'block';
+        span.onclick = function() {
+          modal.style.display = 'none';
+        };
+        cancel.onclick = function() {
+          modal.style.display = 'none';
+          console.log('heihiii');
+        };
+        //la til denne, tror den manglet
+        btn.onclick = function() {
+          modal.style.display = 'none';
+        };
+      }
     }
 
     window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = 'none';
+      if (event.target.className == 'modal') {
+        //modal.style.display = 'none';
+        event.target.style.display = 'none';
       }
-
-      cancel.onclick = function() {
-        modal.style.display = 'none';
-      };
-      window.onclick = function(event) {
-        if (event.target == modal) {
+      {
+        /* ganske sikker på at denne er unødvendig nå, etter at jeg fikset btn.onClick() over her
+      let cancel = document.getElementById('cancel2');
+      if(cancel instanceof HTMLElement) {
+        cancel.onclick = function() {
           modal.style.display = 'none';
+        };
+      }*/
+      }
+      window.onclick = function(event) {
+        if (event.target.className == 'modal') {
+          //modal.style.display = 'none';
+          event.target.style.display = 'none';
         }
       };
     };

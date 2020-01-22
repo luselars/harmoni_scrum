@@ -11,12 +11,19 @@ import { FormControl, FormControlLabel } from '@material-ui/core';
 type Props = {
   onSelectPage: any,
 };
-class EventNew extends Component<Props> {
+
+type State = {
+  event: Event,
+  checked: boolean,
+};
+
+class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.check = createRef();
+    //this.check = createRef();
     this.state = {
       event: new Event(),
+      checked: false,
     };
   }
   componentDidMount(): * {
@@ -31,6 +38,7 @@ class EventNew extends Component<Props> {
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
+        document.getElementById('eventispublic').value = this.state.event.is_public;
         this.insertTime();
       });
     }
@@ -213,6 +221,15 @@ class EventNew extends Component<Props> {
       </div>
     );
   }
+  //TODO fiks
+  handleChange = (event: any) => {
+    //this.setState({checked: ((event.target.checked == 1) ? false : true)});
+    this.state.checked = event.target.checked == 1 ? false : true;
+    //this.state.event.is_public = (event.target.checked == true ? 1 : -1);
+    console.log(this.state.checked);
+    //this.setState()(this.state.event.is_public == 1) ? -1 : 1;
+    //this.setState({ [e.target.public]: e.target.value});
+  };
 
   today() {
     var today = new Date();

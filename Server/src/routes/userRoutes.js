@@ -1,7 +1,10 @@
 // @flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
 import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
+
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
@@ -13,6 +16,10 @@ const upload = require('../uploadHelper');
 
 let router = express.Router();
 
+router.changeDao = function changeDao(userDao: userDao) {
+  dao = userDao;
+};
+
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
@@ -23,7 +30,7 @@ router.use('', (req, res, next) => {
         error: err,
       });
     } else {
-      if (decoded.type == 'user') {
+      if (decoded.type === 'user') {
         //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
@@ -41,7 +48,7 @@ router.use('', (req, res, next) => {
 
 // Edit a specific user
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password.length != 0) {
+  if (req.body.password.length !== 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;

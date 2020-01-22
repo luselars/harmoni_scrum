@@ -17,13 +17,13 @@ const organiserDao = require('../../dao/organiserDao.js');
 const runsqlfile = require('./runsqlfile.js');
 let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
 
-let event = new Event();
+let event = new Event('Mcpearsons nye organfest');
 event.name = 'Mcpearsons nye organfest';
 event.image = 'piano.img';
 event.start = '2008-1-29 14:57:00';
 event.end = '2008-1-29 16:00:00';
 event.status = 'ready to party';
-event.is_public = 1;
+event.is_public = true;
 event.venue = 'Koselig plass';
 event.location_id = 1;
 
@@ -231,7 +231,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.getArtistId(1, callback);
+    dao.checkArtist(1, callback);
   });
 
   //Create a dummy user
@@ -308,7 +308,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
   it('Get events associated with an organiser', done => {
     function callback(status, data) {
       console.log('Test callback: status=');
-      expect(data.length).toBe(1);
+      expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
     dao.getMyEvents(1, callback);

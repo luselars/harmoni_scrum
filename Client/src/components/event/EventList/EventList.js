@@ -11,7 +11,7 @@ import { UserService } from '../../../services/userService';
 import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
-var options = {
+let options = {
   keys: ['name', 'description'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -19,6 +19,21 @@ let events: Event[] = [];
 let status: boolean;
 let event_id: number;
 let eventsPerPage = 7;
+
+type Props = {
+  profile_list: boolean,
+  organiser: boolean,
+  fuse: any,
+};
+
+type State = {
+  events: [],
+  status: boolean,
+  organiser_id: number,
+  organiser: boolean,
+  offset: number,
+  showAllEvents: boolean,
+};
 
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
@@ -31,7 +46,7 @@ export default class EventList extends Component<Props, State> {
       offset: 0,
       showAllEvents: false,
     };
-    this.fuse = new Fuse(this.state.events, options);
+    const fuse = new Fuse(this.state.events, options);
   }
 
   handlePageClick = data => {
@@ -73,7 +88,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   handleFilterChange = filterChange => {
-    console.log('Filter change ' + filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
     this.setState({ sortMethod: filterChange });
     if (sortType === 'Alfabetisk') {
@@ -86,9 +100,6 @@ export default class EventList extends Component<Props, State> {
     if (filterChange.charAt(filterChange.length - 1) == '↑') {
       this.state.events.reverse();
     }
-
-    for (let i = 0; i < this.state.events.length; i++)
-      console.log(this.state.events[i].start.substring(0, 10));
   };
 
   handleFilterAlternativChange = filterChange => {
@@ -118,11 +129,11 @@ export default class EventList extends Component<Props, State> {
     let newEventList = [];
     if (type == 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].min_price >= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
     } else {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].max_price <= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].min_price <= filterChange) newEventList.push(previousEventList[i]);
       }
     }
     this.setState({
@@ -140,14 +151,14 @@ export default class EventList extends Component<Props, State> {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
         <div className="input-group my-3 " id="searchBox">
-          <div class="input-group md-form form-sm form-1 pl-0">
-            <div class="input-group-prepend">
-              <span class="input-group-text purple lighten-3" id="basic-text1">
-                <i class="fa fa-search" aria-hidden="true"></i>
+          <div className="input-group md-form form-sm form-1 pl-0">
+            <div className="input-group-prepend">
+              <span className="input-group-text purple lighten-3" id="basic-text1">
+                <i className="fa fa-search" aria-hidden="true"></i>
               </span>
             </div>
             <input
-              class="form-control my-0 py-1"
+              className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
               placeholder="Search"
@@ -163,7 +174,7 @@ export default class EventList extends Component<Props, State> {
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
-              <div className="card float-left">
+              <div className="card float-right my-2 bg-light p-2" id="cardEvents">
                 <div
                   className="card-body bg-light"
                   onClick={() => {
@@ -186,7 +197,7 @@ export default class EventList extends Component<Props, State> {
                         </div>
                       )}
                       <div id="eventinfo" className="col-8">
-                        <h5 class="eventtitle">{event.name}</h5>
+                        <h5 className="eventtitle">{event.name}</h5>
 
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
@@ -201,7 +212,7 @@ export default class EventList extends Component<Props, State> {
                         {this.state.status ? (
                           event.cancel == 0 ? (
                             <button
-                              className="btn btn-success bg-green"
+                              className="btn btn-success bg-green m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -210,7 +221,7 @@ export default class EventList extends Component<Props, State> {
                             </button>
                           ) : (
                             <button
-                              className="btn btn-secondary bg-green"
+                              className="btn btn-success bg-grey m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -257,23 +268,21 @@ export default class EventList extends Component<Props, State> {
           {this.state.pageCount >= 2 ? (
             <div className="card float-right bg-transparent border-0">
               <div className="card-body bg-transparent">
-                <div className="row justify-content-md-center align-items-center">
-                  <div className="col-12">
-                    <div className="reactpaginate">
-                      <ReactPaginate
-                        previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
-                        nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
-                      />
-                    </div>
+                <div className="col-12">
+                  <div className="reactpaginate">
+                    <ReactPaginate
+                      previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
+                      nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                      breakLabel={'...'}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -287,9 +296,11 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+    // Gets new token from auth server
+    PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
-      if (this.props.organiser) {
+      if (localStorage.getItem('userType') === 'organiser') {
         OrganiserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);
@@ -312,7 +323,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   insertEvents(events: Object) {
-    console.log(events);
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
@@ -341,7 +351,6 @@ export default class EventList extends Component<Props, State> {
     // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
-      console.log(value);
       var searchResults = this.fuse.search(value);
       this.setState({
         events: searchResults,
