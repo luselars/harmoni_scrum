@@ -278,8 +278,8 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getVolunteersByEvent(1,1, callback);
-    dao.getV
+    dao.getVolunteersByEvent(1, 1, callback);
+    dao.getV;
   });
 
   // Editing a single ticket type.

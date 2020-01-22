@@ -10,8 +10,10 @@ type State = {
   users: User[],
 };
 
+type Props = {};
+
 export default class ForgottenPassword extends Component<Props, State> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
