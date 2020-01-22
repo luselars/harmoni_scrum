@@ -35,9 +35,13 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
       res.json({ error: 'Not authorized, log in again' });
     } else {
       //console.log('Token ok: ' + decoded.username + ', Assigning new token');
-      let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
-        expiresIn: tokenDuration,
-      });
+      let token = jwt.sign(
+        { username: decoded.username, type: decoded.type, id: decoded.id },
+        privateKey,
+        {
+          expiresIn: tokenDuration,
+        },
+      );
       res.status(200);
       res.send(token);
     }
@@ -247,7 +251,7 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);
-      res.sendStatus(200);
+      res.sendStatus(404);
     } else {
       console.log('Email sent: ' + info.response);
       res.sendStatus(200);
@@ -256,7 +260,7 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   transporter.sendMail(mailOptions2, function(error, info) {
     if (error) {
       console.log(error);
-      res.sendStatus(200);
+      res.sendStatus(404);
     } else {
       console.log('Email sent: ' + info.response);
       res.sendStatus(200);

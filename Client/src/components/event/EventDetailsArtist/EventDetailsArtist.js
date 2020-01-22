@@ -18,7 +18,7 @@ type Props = {
   match: { params: { id: number } },
 };
 
-export default class EventDetailsLoggedIn extends Component<Props, State> {
+export default class EventDetailsArtist extends Component<> {
   constructor(props: any) {
     super(props);
     this.state = {

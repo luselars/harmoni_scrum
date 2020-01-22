@@ -205,6 +205,37 @@ router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: ex
   });
 });
 
+//Send email
+router.post('/sendmail', (req: express$Request, res: express$Response) => {
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  var mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Nytt arrangement',
+    html:
+      '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet ' +
+      req.body.name +
+      '.</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(404);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+});
+
 // Add artist to owned event
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {

@@ -5,7 +5,15 @@ import { Collapse } from 'react-collapse';
 import './stylesheet.css';
 import { string } from 'prop-types';
 
-export default class Filter extends Component<{}, { sortOption: string, status: boolean }> {
+type State = {
+  sortRadio1: string,
+  sortRadio2: string,
+  sortRadio3: string,
+  status: boolean,
+  sortAlt: [string, string],
+};
+
+export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
