@@ -302,7 +302,7 @@ export default class EventList extends Component<Props, State> {
     PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
-      if (this.props.organiser) {
+      if (localStorage.getItem('userType') === 'organiser') {
         OrganiserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);

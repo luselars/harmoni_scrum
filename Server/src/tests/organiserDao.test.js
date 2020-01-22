@@ -231,7 +231,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.getArtistId(1, callback);
+    dao.checkArtist(1, callback);
   });
 
   //Create a dummy user
