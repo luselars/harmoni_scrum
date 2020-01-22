@@ -8,6 +8,7 @@ import { PublicService } from '../../../services/publicService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type State = {
   event: Event,
@@ -45,7 +46,15 @@ class EventNew4 extends Component<Props, State> {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-row">
-          <p>Legg til artister på arrangementet:</p>
+          <p>
+            Legg til artister på arrangementet:
+            <MoreInfo
+              padding={'5px'}
+              text={
+                'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
+              }
+            />
+          </p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
           <label htmlFor="inputEmail1" id="loginText">

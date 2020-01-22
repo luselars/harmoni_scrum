@@ -7,6 +7,7 @@ import Upload from '../../Upload/Upload.js';
 import FileDropzone from '../../FileDropzone/FileDropzone.js';
 import { OrganiserService } from '../../../services/organiserService.js';
 import { Event } from '../../../services/modelService.js';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 let path = require('path');
 
 type State = {
@@ -46,7 +47,15 @@ class EventNew2 extends Component<Props, State> {
           {/*<form>*/}
           <div class="form-row">
             <div class="col" id="coltitle">
-              <p>Last opp bilde</p>
+              <p>
+                Last opp bilde
+                <MoreInfo
+                  padding={'5px'}
+                  text={
+                    'Last opp et bilde som vises øverst på arrangementet. Godtatte filtyper er .jpg, .png, .jpeg'
+                  }
+                />
+              </p>
               <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
             </div>
           </div>
