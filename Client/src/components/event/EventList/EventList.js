@@ -283,6 +283,8 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+    // Gets new token from auth server
+    PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (this.props.organiser) {

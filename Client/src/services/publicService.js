@@ -11,6 +11,21 @@ export class PublicService {
     return axios.post(url_base + '/login', { username: email, password: password });
   }
 
+  static refreshToken() {
+    axios
+      .get(url_base + '/refreshToken', {
+        headers: {
+          'x-access-token': localStorage.getItem('token'),
+        },
+      })
+      .then(response => {
+        localStorage.setItem('token', response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   static checkEmail(email: string) {
     return axios.get(url_base + '/checkEmail/' + email);
   }
