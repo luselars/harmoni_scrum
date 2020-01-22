@@ -6,12 +6,15 @@ import { AdminService } from '../../services/adminService';
 import './stylesheet.css';
 import { NotAuthorized } from '../NotAuthorized/NotAuthorized';
 
+const { axios, AxiosError } = require('axios');
+
 type State = {
   requests: Organiser[],
+  authorised: boolean,
 };
 
-export default class Admin extends Component<Props, State> {
-  constructor(props) {
+export default class Admin extends Component<{}, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       requests: [],
