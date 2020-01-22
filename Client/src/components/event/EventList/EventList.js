@@ -73,7 +73,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   handleFilterChange = filterChange => {
-    console.log('Filter change ' + filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
     this.setState({ sortMethod: filterChange });
     if (sortType === 'Alfabetisk') {
@@ -86,9 +85,6 @@ export default class EventList extends Component<Props, State> {
     if (filterChange.charAt(filterChange.length - 1) == '↑') {
       this.state.events.reverse();
     }
-
-    for (let i = 0; i < this.state.events.length; i++)
-      console.log(this.state.events[i].start.substring(0, 10));
   };
 
   handleFilterAlternativChange = filterChange => {
@@ -312,7 +308,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   insertEvents(events: Object) {
-    console.log(events);
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
@@ -341,7 +336,6 @@ export default class EventList extends Component<Props, State> {
     // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
-      console.log(value);
       var searchResults = this.fuse.search(value);
       this.setState({
         events: searchResults,
