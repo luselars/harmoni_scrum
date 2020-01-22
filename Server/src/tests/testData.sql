@@ -14,3 +14,4 @@ INSERT INTO event_artist (user_id, event_id) VALUES (1, 1);
 INSERT INTO volunteer_type (name, organiser_id) VALUES ('serf', 1);
 INSERT INTO rider (rider_file, event_id, user_id) VALUES ('testfil.jpeggg', 1, 1);
 INSERT INTO event_volunteer(user_id, event_id, volunteer_type_id) VALUES (1,1,1);
+INSERT INTO admin(email, hash, salt) VALUES ('admin@harmoni.com', '$2a$10$DMmirWNz2wh9WjnGHTCkquLagqBHzjZEVphp0be3KwM1X6suN6cQy', '$2a$10$DMmirWNz2wh9WjnGHTCkqu');
