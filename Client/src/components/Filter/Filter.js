@@ -19,7 +19,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
 
   render() {
     return (
-      <div id="filterCard" class="card">
+      <div id="filterCard" class="card mt-2">
         <div class="card-body bg-light">
           <h5 class="filtertitle">
             FILTER
@@ -73,7 +73,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
                     onChange={e => this.handleChangeAlt(e)}
                   ></input>
                   <label className="placecheck form-check-label" for="placeCheck1">
-                    Se eldre arragementer (1 måned gamle)
+                    Se fullførte arragementer (1 måned gamle)
                   </label>
                 </div>
                 <div className="col filtercategories border-bottom">
@@ -116,7 +116,7 @@ export default class Filter extends Component<{}, { sortOption: string, status: 
   }
 
   componentDidMount() {
-    if (window.screen.availWidth > 500) {
+    if (window.screen.availWidth > 600) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
