@@ -31,9 +31,9 @@ export default class Filter extends Component<{}, State> {
 
   render() {
     return (
-      <div id="filterCard" className="card">
-        <div className="card-body bg-light">
-          <h5 className="filtertitle">
+      <div id="filterCard" class="card mt-2">
+        <div class="card-body bg-light">
+          <h5 class="filtertitle">
             FILTER
             {this.state.status ? (
               <element class="dropdown" onClick={() => this.handleStatus()}>
@@ -128,7 +128,7 @@ export default class Filter extends Component<{}, State> {
   }
 
   componentDidMount() {
-    if (window.screen.availWidth > 500) {
+    if (window.screen.availWidth > 600) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
