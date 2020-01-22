@@ -278,7 +278,8 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getVolunteersByEvent(1, callback);
+    dao.getVolunteersByEvent(1, 1, callback);
+    dao.getV;
   });
 
   // Editing a single ticket type.
@@ -401,8 +402,10 @@ describe('Testing all relevant parts of organiserDAO', () => {
       done();
     }
     let ticket: TicketType = new TicketType('asd');
+    ticket.ticket_type_id = 2;
     ticket.price = 55;
-    dao.postEventTicket(ticket, 1, 1, callback);
+    ticket.amount = 200;
+    dao.postEventTicket(ticket, 1, callback);
   });
 
   // Add a tickettype
@@ -430,7 +433,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
     ticket.price = 55;
     ticket.description = 'asdasd';
     ticket.name = 'asdasd';
-    dao.deleteEventTicket(1, 1, callback);
+    dao.deleteEventTicket(2, 1, callback);
   });
 
   // Delete a ticket type

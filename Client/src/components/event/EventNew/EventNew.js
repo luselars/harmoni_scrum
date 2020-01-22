@@ -11,12 +11,19 @@ import { FormControl, FormControlLabel } from '@material-ui/core';
 type Props = {
   onSelectPage: any,
 };
-class EventNew extends Component<Props> {
+
+type State = {
+  event: Event,
+  checked: boolean,
+};
+
+class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.check = createRef();
+    //this.check = createRef();
     this.state = {
       event: new Event(),
+      checked: false,
     };
   }
   componentDidMount(): * {
@@ -31,6 +38,7 @@ class EventNew extends Component<Props> {
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
+        document.getElementById('eventispublic').value = this.state.event.is_public;
         this.insertTime();
       });
     }
@@ -125,6 +133,79 @@ class EventNew extends Component<Props> {
                 }
                 label="Jeg ønsker at arrangementet skal være offentlig"
               />
+              <label id="eventdesclabel" htmlFor="eventdesc">
+                Beskrivelse
+              </label>
+              <textarea
+                className={'form-control'}
+                id={'eventdesc'}
+                rows="4"
+                cols="50"
+                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                  (this.state.event.description = event.target.value)
+                }
+              ></textarea>
+              {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
+              <label id="eventdatestart" htmlFor="start">
+                Starttidspunkt
+              </label>
+              <input
+                className="date"
+                type="date"
+                id="start"
+                name="start"
+                min={this.today()}
+                max="2023-12-31"
+                onChange={() => this.updateTime()}
+              />
+              <TimeField
+                id="start_time"
+                style={{ width: '100px' }}
+                onChange={() => this.updateTime()}
+              />
+              <label id="eventdateend" htmlFor="end">
+                Sluttidspunkt
+              </label>
+              <input
+                className="date"
+                type="date"
+                id="end"
+                name="end"
+                min={this.today()}
+                max="2023-12-31"
+                onChange={() => this.updateTime()}
+              />
+              <TimeField
+                id="end_time"
+                style={{ width: '100px' }}
+                onChange={() => this.updateTime()}
+              />
+              <label>Status</label>
+              <textarea
+                className="form-control"
+                id="eventstatus"
+                rows="1"
+                cols="50"
+                type="boolean"
+                onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
+                  (this.state.event.status = event.target.value)
+                }
+              ></textarea>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={this.state.checked}
+                      value="checked"
+                      onChange={() => this.handleChange}
+                      color="primary"
+                      id="eventispublic"
+                      inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
+                  }
+                  label="Jeg ønsker at arrangementet skal være offentlig"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -139,6 +220,15 @@ class EventNew extends Component<Props> {
       </div>
     );
   }
+  //TODO fiks
+  handleChange = (event: any) => {
+    //this.setState({checked: ((event.target.checked == 1) ? false : true)});
+    this.state.checked = event.target.checked == 1 ? false : true;
+    //this.state.event.is_public = (event.target.checked == true ? 1 : -1);
+    console.log(this.state.checked);
+    //this.setState()(this.state.event.is_public == 1) ? -1 : 1;
+    //this.setState({ [e.target.public]: e.target.value});
+  };
 
   today() {
     var today = new Date();

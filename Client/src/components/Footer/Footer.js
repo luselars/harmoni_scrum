@@ -11,7 +11,7 @@ function Footer() {
           <div class="col-md-8 col-lg-8">
             <h6 class="text-uppercase mb-4 font-weight-bold ">Kontakt</h6>
             <p>Telefon: +47 123 45 678</p>
-            <p>E-mail: kontakt@harmoni.no</p>
+            <p>E-mail: harmoni.scrum@gmail.com</p>
           </div>
           <div class="col-md-3 col-lg-4 ml-lg-0">
             <div class="text-center text-md-right">
@@ -21,7 +21,7 @@ function Footer() {
                     class="btn btn-success bg-green"
                     onClick={() => (window.location.href = '/feedback')}
                   >
-                    Klageknapp
+                    Gi feedback
                   </button>
                 </li>
               </ul>

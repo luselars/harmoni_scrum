@@ -14,6 +14,8 @@ let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 
 const upload = require('../uploadHelper');
 let router = express.Router();
 
+var nodemailer = require('nodemailer');
+
 // Middleware for organiser activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
@@ -331,15 +333,6 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
   });
 });
 
-// Send an invite email (CHANGE TO POST WITH COMMENTING POSSIBILITY)
-router.get('/sendmail', (req, res) => {
-  console.log('Sender mail');
-  sendInvite('jonas4a@gmail.com', 'event!!!', function(resp) {
-    if (resp) res.sendStatus(200);
-    else res.sendStatus(400);
-  });
-});
-
 // TODO auth
 // Upload file. If the request is valid the file is moved to the folder files with a new randomised name
 // and the new name is returned to the user.
@@ -398,12 +391,12 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
 
 // Lets an organiser change his profile.
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password.length != 0) {
+  if (req.body.password.length !== 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.image != null) {
+  if (req.body.image !== null && req.body.image !== undefined) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editProfile(req.uid, req.body, (status, data) => {

@@ -6,12 +6,16 @@ import './stylesheet.css';
 import { Event } from '../../../services/modelService.js';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
+import { PublicService } from '../../../services/publicService';
 
 type State = {
   event: Event,
   artists: [],
   riders: [],
   cancel: number,
+  tickets: [],
+  pers: [],
+  types: [],
 };
 
 type Props = {
@@ -28,6 +32,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       artists: [],
       riders: [],
       cancel: 0,
+      tickets: [],
+      pers: [],
+      types: [],
     };
 
     {
@@ -41,6 +48,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
   componentDidMount() {
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
+        console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
@@ -62,8 +70,16 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       .catch(error => console.log(error));
 
     OrganiserService.getRiders(this.props.match.params.id).then(res => {
-      console.log(res.data);
       this.setState({ riders: res.data });
+    });
+    PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
+      this.setState({ tickets: response.data });
+    });
+    OrganiserService.getVolunteerType().then(response => {
+      this.setState({ types: response.data });
+    });
+    OrganiserService.getMyVolunteers(this.props.match.params.id).then(response => {
+      this.setState({ pers: response.data });
     });
   }
   render() {
@@ -134,15 +150,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Start:
                     </th>
                     <td className="text-left">
-                      {this.state.event.start
-                        ? this.state.event.start.slice(8, 10) +
-                          '/' +
-                          this.state.event.start.slice(5, 7) +
-                          '/' +
-                          this.state.event.start.slice(0, 4) +
-                          ' - ' +
-                          this.state.event.start.slice(11, 16)
-                        : 'Laster'}
+                      {this.state.event.start ? (
+                        this.state.event.start.slice(8, 10) +
+                        '/' +
+                        this.state.event.start.slice(5, 7) +
+                        '/' +
+                        this.state.event.start.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.start.slice(11, 16)
+                      ) : (
+                        <span>-</span>
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -150,28 +168,200 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Slutt:
                     </th>
                     <td className="text-left">
-                      {this.state.event.end
-                        ? this.state.event.end.slice(8, 10) +
-                          '/' +
-                          this.state.event.end.slice(5, 7) +
-                          '/' +
-                          this.state.event.end.slice(0, 4) +
-                          ' - ' +
-                          this.state.event.end.slice(11, 16)
-                        : 'Laster'}
+                      {this.state.event.end ? (
+                        this.state.event.end.slice(8, 10) +
+                        '/' +
+                        this.state.event.end.slice(5, 7) +
+                        '/' +
+                        this.state.event.end.slice(0, 4) +
+                        ' - ' +
+                        this.state.event.end.slice(11, 16)
+                      ) : (
+                        <span>-</span>
+                      )}
                     </td>
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Beskrivelse:
+                    </th>
+                    {this.state.event.description !== null &&
+                    this.state.event.description !== '' ? (
+                      <td className="text-left">{this.state.event.description}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Lineup:
+                    </th>
+                    {this.state.artists.length === 0 ? (
+                      <td className="text-left">-</td>
+                    ) : (
+                      this.state.artists.map(artist => (
+                        <div>
+                          {artist.artist_name === null ? (
+                            <td className="text-left">Ukjent artist ({artist.email})</td>
+                          ) : (
+                            <td className="text-left">{artist.artist_name}</td>
+                          )}
+                        </div>
+                      ))
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Kontrakter:
+                    </th>
+                    {this.state.artists.reduce(
+                      (total, curr) => total + (curr.contract !== null ? 1 : 0),
+                      0,
+                    ) > 0 ? (
+                      <table>
+                        {this.state.artists.map(artist => (
+                          <div>
+                            {artist.contract === null ? null : (
+                              <div>
+                                <tr>
+                                  {artist.artist_name === null ? (
+                                    <td className="text-left">Ukjent artist ({artist.email}): </td>
+                                  ) : (
+                                    <td className="text-left">{artist.artist_name}: </td>
+                                  )}
+                                  <td className="text-left">
+                                    <DownloadFile fileName={artist.contract} />
+                                  </td>
+                                </tr>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </table>
+                    ) : (
+                      <table>
+                        <td className="text-left">-</td>
+                      </table>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Riders:
+                    </th>
+                    {this.state.riders.length > 0 ? (
+                      <span>
+                        {this.state.riders.map(rider => (
+                          <div>
+                            {rider.artist_name === null ? (
+                              <td className="text-left">Ukjent artist ({rider.email}): </td>
+                            ) : (
+                              <td className="text-left">{rider.artist_name}: </td>
+                            )}
+                            <td>
+                              <DownloadFile fileName={rider.rider_file} />
+                            </td>
+                          </div>
+                        ))}
+                      </span>
+                    ) : (
+                      <div>
+                        <td>-</td>
+                      </div>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Billetter:
+                    </th>
+                    {this.state.tickets.length > 0 ? (
+                      <div>
+                        {this.state.tickets.map(ticket => (
+                          <div>
+                            <td className="text-left">
+                              {ticket.amount} stk. {ticket.name} ({ticket.price} ,-)
+                            </td>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Personell:
+                    </th>
+                    {this.state.pers.length > 0 ? (
+                      <table>
+                        {this.state.types.map(type => (
+                          <div>
+                            {this.state.pers.filter(c => c.volunteer_type === type.name).length >
+                            0 ? (
+                              <div>
+                                <tr>
+                                  <td style={{ fontWeight: 'bold' }} className="text-left">
+                                    {type.name}:
+                                  </td>
+                                </tr>
+                                <tr>
+                                  {this.state.pers
+                                    .filter(c => c.volunteer_type === type.name)
+                                    .map(p => (
+                                      <td className="text-left">{p.email}</td>
+                                    ))}
+                                </tr>
+                              </div>
+                            ) : null}
+                          </div>
+                        ))}
+                      </table>
+                    ) : (
+                      <table>
+                        <td className="text-left">-</td>
+                      </table>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Offentlig:
+                    </th>
+                    <td className="text-left">
+                      {this.state.event.is_public === 1 ? <span>Ja</span> : <span>Nei</span>}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Status:
+                    </th>
+                    {this.state.event.status !== null ? (
+                      <div>
+                        <td className="text-left">{this.state.event.status}</td>
+                      </div>
+                    ) : (
+                      <div>
+                        <td className="text-left">-</td>
+                      </div>
+                    )}
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    <td className="text-left">{this.state.event.venue}</td>
+                    {this.state.event.venue !== '' && this.state.event.venue !== null ? (
+                      <td className="text-left">{this.state.event.venue}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    <td className="text-left">{this.state.event.address}</td>
+                    {this.state.event.address !== null && this.state.event.address !== '' ? (
+                      <td className="text-left">{this.state.event.address}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
                   </tr>
                 </tbody>
               </table>
@@ -193,105 +383,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   allowfullscreen
                 ></iframe>
               )}
-              <table className="table table-borderless">
-                <tbody>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Lineup:
-                    </th>
-                    {this.state.artists.length === null ? (
-                      <td className="text-left">Ingen artister lagt til</td>
-                    ) : (
-                      this.state.artists.map(artist => (
-                        <div>
-                          {artist.artist_name === null ? (
-                            <td className="text-left">Ukjent artist</td>
-                          ) : (
-                            <td className="text-left">{artist.artist_name}</td>
-                          )}
-                        </div>
-                      ))
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Kontrakt:
-                    </th>
-                    {this.state.artists.map(artist => (
-                      <div>
-                        {artist.contract === null ? (
-                          <div>
-                            {artist.artist_name === null ? (
-                              <td className="text-left">Ukjent artist: </td>
-                            ) : (
-                              <td className="text-left">{artist.artist_name}: </td>
-                            )}
-                            <tr>
-                              <td className="text-left">Ingen kontrakt lastet opp</td>
-                            </tr>
-                          </div>
-                        ) : (
-                          <div>
-                            {artist.artist_name === null ? (
-                              <td className="text-left">Ukjent artist: </td>
-                            ) : (
-                              <td className="text-left">{artist.artist_name}: </td>
-                            )}
-                            <tr>
-                              <td calssName="text-left">
-                                <DownloadFile fileName={artist.contract} />
-                              </td>
-                            </tr>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Riders:
-                    </th>
-                    {this.state.riders.length > 0 ? (
-                      <span>
-                        {this.state.riders.map(rider => (
-                          <div>
-                            <td className="text-left">{rider.artist_name}</td>
-                            <td className="text-right">
-                              <DownloadFile fileName={rider.rider_file} />
-                            </td>
-                          </div>
-                        ))}
-                      </span>
-                    ) : (
-                      <div>
-                        <td>Ingen ridere lagt til</td>
-                      </div>
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Offentlig:
-                    </th>
-                    <td className="text-left">
-                      {this.state.event.is_public === 1 ? <span>Ja</span> : <span>Nei</span>}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Status:
-                    </th>
-                    {this.state.event.status !== null ? (
-                      <div>
-                        <td className="text-left">{this.state.event.status}</td>
-                      </div>
-                    ) : (
-                      <div>
-                        <td className="text-left">Ingen status satt</td>
-                      </div>
-                    )}
-                  </tr>
-                </tbody>
-              </table>
               <button
                 className="btn btn-success mx-auto d-block m-2"
                 id="editeventbtn"
