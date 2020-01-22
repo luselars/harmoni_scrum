@@ -9,7 +9,8 @@ import Footer from './components/Footer/Footer';
 import ProfileNew from './components/profile/ProfileNew/ProfileNew';
 import EventNew from './components/event/EventNew/EventNew';
 import EventDetails from './components/event/EventDetails/EventDetails';
-import EventDetailsLoggedIn from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
+import EventDetailsLoggedInUser from './components/event/EventDetailsArtist/EventDetailsArtist';
+import EventDetailsLoggedInOrganiser from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
 import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import ProfileOrganiser from './components/profile/Profile/Profile';
@@ -59,7 +60,8 @@ function App() {
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
           <Route exact path="/events/:id" component={LoggedIn} />
-          <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
+          <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
+          <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />
           <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />

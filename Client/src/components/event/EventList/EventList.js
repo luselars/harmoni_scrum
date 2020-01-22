@@ -178,8 +178,10 @@ export default class EventList extends Component<Props, State> {
                 <div
                   className="card-body bg-light"
                   onClick={() => {
-                    if (this.props.profile_list)
+                    if (localStorage.getItem('userType') === 'organiser')
                       window.location.href = '/orgevent/' + event.event_id;
+                    else if (this.props.profile_list)
+                      window.location.href = '/userevent/' + event.event_id;
                     else window.location.href = '/event/' + event.event_id;
                   }}
                   style={{ cursor: 'pointer' }}
@@ -234,8 +236,10 @@ export default class EventList extends Component<Props, State> {
                             className="btn btn-success bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (this.props.profile_list)
+                              if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
+                              else if (this.props.profile_list)
+                                window.location.href = '/userevent/' + event.event_id;
                               else window.location.href = '/event/' + event.event_id;
                             }}
                           >
@@ -247,8 +251,10 @@ export default class EventList extends Component<Props, State> {
                             className="btn btn-secondary bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (this.props.profile_list)
+                              if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
+                              else if (this.props.profile_list)
+                                window.location.href = '/userevent/' + event.event_id;
                               else window.location.href = '/event/' + event.event_id;
                             }}
                           >
@@ -300,6 +306,7 @@ export default class EventList extends Component<Props, State> {
   componentDidMount() {
     // Gets new token from auth server
     PublicService.refreshToken();
+
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (localStorage.getItem('userType') === 'organiser') {
