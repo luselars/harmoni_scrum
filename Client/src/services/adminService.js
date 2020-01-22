@@ -19,6 +19,6 @@ export class AdminService {
 
   // Verify an account
   static verify(id) {
-    return axios.put(url_base + '/unverified/' + id, config);
+    return axios.put(url_base + '/unverified/' + id, [], config);
   }
 }
