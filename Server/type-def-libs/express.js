@@ -1,3 +1,3 @@
 declare module 'express' {
-    declare module.exports: any;
+  declare module.exports: any;
 }

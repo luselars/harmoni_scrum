@@ -1,6 +1,7 @@
 import chai from 'chai';
 import http from 'chai-http';
 import app from '../server';
+import { User } from '../../dao/modelDao';
 
 chai.use(http);
 const { expect } = chai;

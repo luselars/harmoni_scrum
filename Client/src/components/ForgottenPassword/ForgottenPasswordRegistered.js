@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-export default class ForgottenPasswordRegistered extends Component<Props, State> {
+export default class ForgottenPasswordRegistered extends Component<{}, {}> {
   render() {
     return (
       <div className="card profilecard container bg-light p-2 text-center p-5">
