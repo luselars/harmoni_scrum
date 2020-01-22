@@ -7,8 +7,8 @@ INSERT INTO organiser (organiser_email, name, hash, salt, verified) VALUES ('ema
 INSERT INTO event_organiser (organiser_id, event_id) VALUES (1,1);
 INSERT INTO ticket_type (name, description, organiser_id) VALUES ('ticket 1', 'the number 1 ticket', 1),('ticket 2','the second ticket',1);
 INSERT INTO event_ticket (event_id, ticket_type_id) VALUES (3,1),(3,2);
-INSERT INTO user (email) VALUES ('testuser@testemail.com');
-INSERT INTO user (email) VALUES ('test@test.com');
+INSERT INTO user (email, hash, salt) VALUES ('testuser@testemail.com', '$2a$10$DMmirWNz2wh9WjnGHTCkquLagqBHzjZEVphp0be3KwM1X6suN6cQy', '$2a$10$DMmirWNz2wh9WjnGHTCkqu');
+INSERT INTO user (email, hash, salt) VALUES ('test@test.com', '$2a$10$DMmirWNz2wh9WjnGHTCkquLagqBHzjZEVphp0be3KwM1X6suN6cQy', '$2a$10$DMmirWNz2wh9WjnGHTCkqu');
 INSERT INTO artist (user_id) VALUES (1);
 INSERT INTO event_artist (user_id, event_id) VALUES (1, 1);
 INSERT INTO volunteer_type (name, organiser_id) VALUES ('serf', 1);
