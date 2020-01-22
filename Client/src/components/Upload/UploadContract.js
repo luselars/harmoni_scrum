@@ -38,7 +38,7 @@ class UploadContract extends Component<Props, State> {
               this.upload(e.target);
             }}
           />
-          <i className="fa fa-cloud-upload"></i> {this.props.message}
+          <i className="fa fa-cloud-upload" /> {this.props.message}
         </label>
       </div>
     );

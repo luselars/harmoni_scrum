@@ -36,7 +36,7 @@ let uploadFunctions = {
     });
   },
   base64Decoder: function(file: string): Object {
-    let matches = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    let matches: any = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
 
     if (matches.length !== 3) {
