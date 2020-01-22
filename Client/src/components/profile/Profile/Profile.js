@@ -28,9 +28,9 @@ export default class ProfileOrganiser extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="card profilecard container bg-light p-2">
-        <div className="row justify-content-md-center align-items-center pb-4">
-          <div className="col-md-4 text-center">
+      <div className="card profilecard container bg-light">
+        <div className="row justify-content-md-center align-items-center">
+          <div className="col-md-6 text-center mt-4">
             <img
               src={
                 this.state.userType.image
@@ -98,14 +98,14 @@ export default class ProfileOrganiser extends Component<Props, State> {
             </table>
             {localStorage.getItem('userType') == 'organiser' ? (
               <button
-                className="btn btn-success bg-green mb-4 mt-4"
+                className="btn btn-success w-75 m-3"
                 onClick={() => (window.location.href = '/editprofile/organiser')}
               >
                 REDIGER PROFIL
               </button>
             ) : (
               <button
-                className="btn btn-success bg-green mb-4 mt-4"
+                className="btn btn-success w-75 m-3"
                 onClick={() => (window.location.href = '/editprofile/user')}
               >
                 REDIGER PROFIL
@@ -114,11 +114,11 @@ export default class ProfileOrganiser extends Component<Props, State> {
           </div>
         </div>
         {localStorage.getItem('userType') == 'organiser' || this.state.artist ? (
-          <div className="row justify-content-md-center align-items-center border-top pt-5">
-            <div className="col-md-4 text-center pb-4">
+          <div className="row justify-content-md-center align-items-center border-top py-5 px-6">
+            <div className="col-md-6 text-center pb-4">
               {localStorage.getItem('userType') == 'organiser' ? (
                 <button
-                  className="btn btn-success bg-green mb-4"
+                  className="btn btn-success w-75 m-3"
                   onClick={() => {
                     localStorage.removeItem('curr_event');
                     window.location.href = '/newevent';
@@ -127,18 +127,18 @@ export default class ProfileOrganiser extends Component<Props, State> {
                   OPPRETT ARRANGEMENT
                 </button>
               ) : (
-                <div></div>
+                <br></br>
               )}
               {this.state.artist ? (
                 <button
-                  className="btn btn-success bg-green"
+                  className="btn btn-success w-75  m-3"
                   onClick={() => (window.location.href = '/events/' + this.state.userType.user_id)}
                 >
                   SE MINE ARRANGEMENTER
                 </button>
               ) : (
                 <button
-                  className="btn btn-success bg-green"
+                  className="btn btn-success w-75  m-3"
                   onClick={() =>
                     (window.location.href = '/events/' + this.state.userType.organiser_id)
                   }
