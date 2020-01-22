@@ -62,12 +62,14 @@ class ProfileEditUser extends Component<{}, State> {
               <img
                 src="http://localhost:4000/public/file/profile.png"
                 class="img rounded-circle w-50 mx-auto d-block"
+                id="picture"
                 alt="Profilbilde"
               />
             ) : (
               <img
                 src={'http://localhost:4000/public/file/' + this.state.image}
                 class="img rounded-circle w-50 mx-auto d-block"
+                id="picture"
                 alt="Profilbilde"
               />
             )}
@@ -174,7 +176,7 @@ class ProfileEditUser extends Component<{}, State> {
               value="Lagre"
             ></input>
             <a href="/profile">
-              <button type="button" class="btn btn-success w-50 mx-auto d-block m-2">
+              <button type="button" class="btn btn-secondary w-50 mx-auto d-block m-2">
                 Tilbake
               </button>
             </a>

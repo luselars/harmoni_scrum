@@ -8,6 +8,7 @@ import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
 import UploadRider from '../../Upload/UploadRider';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type Props = {
   onSelectPage: any,
@@ -56,13 +57,19 @@ class EventNew5 extends Component<Props, State> {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-group text-center ml-5 mr-5">
-          <p>Legg til ridere for artist: </p>
+          <p>
+            Legg til ridere og notater for artist
+            <MoreInfo
+              padding={'5px'}
+              text={'Ridere og notater vil vises for artisene de gjelder.'}
+            />
+          </p>
         </div>
         {this.state.artists.length > 0 ? (
           <div className="form-group text-center ml-5 mr-5">
             {this.state.artists.map(artist => (
               <div>
-                <p>Notes for {artist.email}</p>
+                <p>Notater for {artist.email}</p>
                 <div>
                   <textarea
                     class="form-control"
@@ -76,7 +83,7 @@ class EventNew5 extends Component<Props, State> {
                   <UploadRider
                     reload={() => this.handleReload()}
                     accept={'.pdf'}
-                    message={'Last opp artist-rider'}
+                    message={'Last opp rider'}
                     artist_id={artist.user_id}
                     event_id={this.state.event.event_id}
                   />

@@ -8,6 +8,7 @@ import { PublicService } from '../../../services/publicService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import UploadContract from '../../Upload/UploadContract';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type State = {
   event: Event,
@@ -45,7 +46,15 @@ class EventNew4 extends Component<Props, State> {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-row">
-          <p>Legg til artister på arrangementet:</p>
+          <p>
+            Legg til artister på arrangementet:
+            <MoreInfo
+              padding={'5px'}
+              text={
+                'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
+              }
+            />
+          </p>
         </div>
         <div className="form-group text-center ml-5 mr-5">
           <label htmlFor="inputEmail1" id="loginText">
@@ -121,8 +130,21 @@ class EventNew4 extends Component<Props, State> {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);
-            console.log(resp.data);
-            OrganiserService.sendmail(email, this.state.event.name)
+            console.log('RESP DATA MESSAGE: ' + resp.data.message);
+            let text = '';
+            if (resp.data.message == 'Added new user') {
+              text =
+                'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
+                email +
+                '</p><p><b>Passord: <b>' +
+                resp.data.password;
+            } else if (resp.data.message == 'Made user artist and added him/her to event') {
+              text =
+                'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
+            } else {
+              text = 'Logg inn på Harmoni for å se flere detaljer.';
+            }
+            OrganiserService.sendmail(email, this.state.event.name, text)
               .then(response => {
                 console.log('Email sent');
                 this.componentDidMount();
@@ -130,6 +152,7 @@ class EventNew4 extends Component<Props, State> {
               .catch(error => {
                 console.log('error sendmail: ' + error);
               });
+
             this.componentDidMount();
           })
           .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
