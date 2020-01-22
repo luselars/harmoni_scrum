@@ -231,7 +231,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
-    dao.getArtistId(1, callback);
+    dao.checkArtist(1, callback);
   });
 
   //Create a dummy user
@@ -278,8 +278,8 @@ describe('Testing all relevant parts of organiserDAO', () => {
       expect(data.length).toBe(1);
       done();
     }
-    dao.getVolunteersByEvent(1,1, callback);
-    dao.getV
+    dao.getVolunteersByEvent(1, 1, callback);
+    dao.getV;
   });
 
   // Editing a single ticket type.
@@ -308,7 +308,7 @@ describe('Testing all relevant parts of organiserDAO', () => {
   it('Get events associated with an organiser', done => {
     function callback(status, data) {
       console.log('Test callback: status=');
-      expect(data.length).toBe(1);
+      expect(data.length).toBeGreaterThanOrEqual(1);
       done();
     }
     dao.getMyEvents(1, callback);

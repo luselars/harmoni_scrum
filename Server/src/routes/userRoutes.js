@@ -13,6 +13,10 @@ const upload = require('../uploadHelper');
 
 let router = express.Router();
 
+router.changeDao = function changeDao(userDao: userDao) {
+  dao = userDao;
+};
+
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
@@ -41,7 +45,7 @@ router.use('', (req, res, next) => {
 
 // Edit a specific user
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
-  if (req.body.password.length != 0) {
+  if (req.body.password.length !== 0) {
     req.body.salt = bcrypt.genSaltSync(10);
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
@@ -106,7 +110,7 @@ router.post('/event/:id/join', (req: express$Request, res: express$Response) => 
 });
 
 router.put('/artistname', (req: express$Request, res: express$Response) => {
-  dao.setArtistName(req.body.artist_name, req.uid,(status, data) => {
+  dao.setArtistName(req.body.artist_name, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });

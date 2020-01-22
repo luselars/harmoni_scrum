@@ -11,6 +11,23 @@ export class PublicService {
     return axios.post(url_base + '/login', { username: email, password: password });
   }
 
+  static refreshToken() {
+    if (localStorage.getItem('token') != null) {
+      axios
+        .get(url_base + '/refreshToken', {
+          headers: {
+            'x-access-token': localStorage.getItem('token'),
+          },
+        })
+        .then(response => {
+          localStorage.setItem('token', response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
+
   static checkEmail(email: string) {
     return axios.get(url_base + '/checkEmail/' + email);
   }
@@ -38,6 +55,11 @@ export class PublicService {
   // Send email
   static feedback(email: string, feedbacktext: string) {
     return axios.post(url_base + '/feedback', { email: email, feedback: feedbacktext });
+  }
+
+  // Nytt passord
+  static newPassword(email: string) {
+    return axios.post(url_base + '/newpassword', { email: email });
   }
 
   static getPublicEventTickets(id: number): AxiosPromise<TicketType[]> {

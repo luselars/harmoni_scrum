@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `volunteer_type`;
 DROP TABLE IF EXISTS `ticket_type`;
 DROP TABLE IF EXISTS `organiser`;
+DROP TABLE IF EXISTS `admin`;
 
 
 CREATE TABLE IF NOT EXISTS `user`(
@@ -56,10 +57,11 @@ CREATE TABLE IF NOT EXISTS `event`(
   `image` VARCHAR(200) NULL DEFAULT NULL,
   `start` DATETIME NULL DEFAULT NULL,
   `status` TEXT NULL DEFAULT NULL,
-  `is_public` TINYINT(4) NOT NULL DEFAULT '0',
+  `is_public` TINYINT(1) NOT NULL DEFAULT '0',
   `location_id` INT(11) NULL DEFAULT NULL,
   `venue` VARCHAR(60) NULL DEFAULT NULL,
   `end` DATETIME NULL DEFAULT NULL,
+  `cancel` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`),
   INDEX `fk_event_location_idx` (`location_id` ASC) ,
   CONSTRAINT `fk_event_location`
@@ -246,5 +248,17 @@ CREATE TABLE IF NOT EXISTS `schedule` (
     REFERENCES `event_artist` (`event_id` , `user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `admin_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `hash` VARCHAR(60) NULL DEFAULT NULL,
+  `salt` VARCHAR(30) NULL DEFAULT NULL,
+  PRIMARY KEY (`admin_id`),
+  UNIQUE INDEX `email` (`email` ASC)
+  )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
