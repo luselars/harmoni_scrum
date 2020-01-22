@@ -172,12 +172,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-  // Gets the id of the user from token
-  getMyId(email: string, callback: (status: string, data: Object) => mixed) {
-    let queryString = 'SELECT organiser_id FROM organiser WHERE organiser_email = ?';
-    super.query(queryString, [email], callback);
-  }
-
   // Get all locations
   getLocation(callback: (status: string, data: Object) => mixed) {
     let queryString = 'SELECT * FROM location ORDER BY name';

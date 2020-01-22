@@ -50,11 +50,6 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [user_id], callback);
   }
 
-  getMyId(email: string, callback: (status: string, data: Object) => mixed) {
-    let queryString = 'SELECT user_id FROM user WHERE email = ?';
-    super.query(queryString, [email], callback);
-  }
-
   setArtistName(
     artist_name: string,
     user_id: number,
