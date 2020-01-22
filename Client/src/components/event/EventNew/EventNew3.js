@@ -78,87 +78,85 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div className="card" id="cardnewevent">
-        <div className="createEvent">
-          {/*<form>*/}
-          <div className="form-row">
-            <p id="locationtitle">Velg sted</p>
-            <iframe
-              id="map"
-              width="100%"
-              height="300px"
-              frameborder="0"
-              src={
-                'https://www.google.com/maps/embed/v1/place?q=' +
-                this.state.location_addr +
-                ',+' +
-                this.state.location_nr +
-                '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
-              }
-              allowfullscreen
-            ></iframe>
-            <Autocomplete
-              id="search_name"
-              style={{ width: '800px' }}
-              freeSolo
-              onChange={(event, value) => this.updateForm(0, value)}
-              value={this.state.location_name}
-              options={this.state.locations.map(option => option.name)}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  inputRef={this.name}
-                  value={this.state.location_name}
-                  label="Stedsnavn"
-                  onChange={() => {
-                    this.setState({ location_name: this.name.current.value });
-                  }}
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                />
-              )}
-            />
-            <Autocomplete
-              id="search_address"
-              style={{ width: '800px' }}
-              freeSolo
-              onChange={(event, value) => this.updateForm(1, value)}
-              options={this.state.locations.map(option => option.address)}
-              value={this.state.location_addr}
-              renderInput={params => (
-                <TextField
-                  {...params}
-                  inputRef={this.addr}
-                  value={this.state.location_addr}
-                  onChange={() => {
-                    {
-                      this.setState({ location_addr: this.addr.current.value });
-                    }
-                  }}
-                  label="Stedsaddresse"
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                />
-              )}
-            />
-          </div>
-
-          <label htmlFor="postcode">Postkode:</label>
-          <input id="postcode" type="text" />
-          <label htmlFor="postcode">Scene:</label>
-          <input id="venue" type="text" />
-          <div>
-            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-              Tilbake
-            </button>
-            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-              Neste
-            </button>
-          </div>
-          {/*</form>*/}
+      <div className="createEvent">
+        {/*<form>*/}
+        <div className="form-row">
+          <p id="locationtitle">Velg sted</p>
+          <iframe
+            id="map"
+            width="100%"
+            height="300px"
+            frameborder="0"
+            src={
+              'https://www.google.com/maps/embed/v1/place?q=' +
+              this.state.location_addr +
+              ',+' +
+              this.state.location_nr +
+              '&key=AIzaSyC-75BBbNQpdG9lO2JararmVY5ps_xDAdk'
+            }
+            allowfullscreen
+          ></iframe>
+          <Autocomplete
+            id="search_name"
+            style={{ width: '800px' }}
+            freeSolo
+            onChange={(event, value) => this.updateForm(0, value)}
+            value={this.state.location_name}
+            options={this.state.locations.map(option => option.name)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                inputRef={this.name}
+                value={this.state.location_name}
+                label="Stedsnavn"
+                onChange={() => {
+                  this.setState({ location_name: this.name.current.value });
+                }}
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
+          <Autocomplete
+            id="search_address"
+            style={{ width: '800px' }}
+            freeSolo
+            onChange={(event, value) => this.updateForm(1, value)}
+            options={this.state.locations.map(option => option.address)}
+            value={this.state.location_addr}
+            renderInput={params => (
+              <TextField
+                {...params}
+                inputRef={this.addr}
+                value={this.state.location_addr}
+                onChange={() => {
+                  {
+                    this.setState({ location_addr: this.addr.current.value });
+                  }
+                }}
+                label="Stedsaddresse"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
         </div>
+
+        <label htmlFor="postcode">Postkode:</label>
+        <input id="postcode" type="text" />
+        <label htmlFor="postcode">Scene:</label>
+        <input id="venue" type="text" />
+        <div>
+          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
+            Tilbake
+          </button>
+          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+            Neste
+          </button>
+        </div>
+        {/*</form>*/}
       </div>
     );
   }
