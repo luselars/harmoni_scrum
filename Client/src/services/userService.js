@@ -28,9 +28,20 @@ export class UserService {
     return axios.get(url, config);
   }
 
-  static getEvent(): AxiosPromise<Event> {
-    let url = url_base + '/myevent';
+  static getEvent(event_id: number): AxiosPromise<Event> {
+    let url = url_base + '/myevents/' + event_id;
     let token = localStorage.getItem('token');
+    return axios.get(url, config);
+  }
+
+  static getArtists(event_id: number): AxiosPromise<Artist[]> {
+    let url = url_base + '/artist/' + event_id;
+    return axios.get(url, config);
+  }
+
+  // Get all riders on an event
+  static getRiders(event_id: number) {
+    let url = url_base + '/event/rider/' + event_id;
     return axios.get(url, config);
   }
 

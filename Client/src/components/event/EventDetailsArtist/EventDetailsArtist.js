@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService.js';
-import { OrganiserService } from '../../../services/organiserService';
+import { UserService } from '../../../services/userService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import { PublicService } from '../../../services/publicService';
 
@@ -45,20 +45,16 @@ export default class EventDetailsArtist extends Component<Props, State> {
     }
   }
   componentDidMount() {
-    OrganiserService.getArtists(this.props.match.params.id)
+    UserService.getArtists(this.props.match.params.id)
       .then(res => {
         console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
-        if (error == 'Error: Request failed with status code 404') {
-          window.location = '/404';
-        } else {
-          alert(error);
-          window.location = '/404';
-        }
+        alert(error);
+        //window.location = '/404';
       });
-    OrganiserService.getEvent(this.props.match.params.id)
+    UserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
         console.log(event);
@@ -68,8 +64,8 @@ export default class EventDetailsArtist extends Component<Props, State> {
         });
       })
       .catch(error => console.log(error));
-
-    OrganiserService.getRiders(this.props.match.params.id).then(res => {
+    UserService.getRiders(this.props.match.params.id).then(res => {
+      console.log(res.data);
       this.setState({ riders: res.data });
     });
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
@@ -485,7 +481,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
   }
 
   cancel() {
-    OrganiserService.toggleCancel(this.state.event.event_id).then(response => {
+    UserService.toggleCancel(this.state.event.event_id).then(response => {
       window.location = '/orgevent/' + this.state.event.event_id;
       console.log('done');
       console.log(this.state.event.cancel);
@@ -497,7 +493,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
     window.location = '/editevent';
   }
   delete() {
-    OrganiserService.deleteEvent(this.props.match.params.id)
+    UserService.deleteEvent(this.props.match.params.id)
       .then(response => {
         window.location = '/eventdeleted';
       })
