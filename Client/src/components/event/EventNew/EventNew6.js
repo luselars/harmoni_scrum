@@ -7,6 +7,7 @@ import { TicketType, Artist, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type State = {
   event: Event,
@@ -65,7 +66,15 @@ class EventNew6 extends Component<Props, State> {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-group text-center ml-5 mr-5">
-          <p>Legg til billett-typer: </p>
+          <p>
+            Legg til billetter:
+            <MoreInfo
+              padding={'5px'}
+              text={
+                'Legg til billetter med antall og pris på arrangementet. For å legge til en billett må det velges en av billett-typene knyttet til kontoen din. Nye billett-typer kan oprettes og slettes i feltet under, og vil være lagret til videre arrangementer.'
+              }
+            />
+          </p>
         </div>
         <div>
           <p>Opprett billett:</p>
@@ -103,10 +112,10 @@ class EventNew6 extends Component<Props, State> {
             type="number"
             placeholder={'antall'}
           />
-          <button onClick={() => this.addTicketToEvent()}>Legg til</button>
-          <button onClick={() => this.deleteTicket()}>Slett billett</button>
+          <button onClick={() => this.addTicketToEvent()}>Legg til i arrangement</button>
+          <button onClick={() => this.deleteTicket()}>Slett billettype</button>
           <div>
-            <p>Mine billetter:</p>
+            <p>Billetter lagt til:</p>
             {this.state.event_tickets.length > 0 ? (
               <span>
                 {this.state.event_tickets.map(ticket => (

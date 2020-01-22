@@ -50,11 +50,6 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [user_id], callback);
   }
 
-  getMyId(email: string, callback: (status: string, data: Object) => mixed) {
-    let queryString = 'SELECT user_id FROM user WHERE email = ?';
-    super.query(queryString, [email], callback);
-  }
-
   setArtistName(
     artist_name: string,
     user_id: number,
@@ -74,7 +69,7 @@ module.exports = class UserDao extends Dao {
 
   getMyRiders(event_id, user_id, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT * FROM rider WHERE event_id = ? AND user_id = ?',
+      'SELECT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.user_id = r.user_id WHERE ea.event_id = ? AND ea.user_id = ?',
       [event_id, user_id],
       callback,
     );

@@ -1,8 +1,11 @@
 // @flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
+import nodemailer from 'nodemailer';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
-import { decodeBase64Image } from '../uploadHelper';
+//import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
 let bcrypt = require('bcryptjs');
 const tokenDecoder = require('./tokenDecoder');
@@ -30,7 +33,7 @@ router.use('', (req, res, next) => {
         error: err,
       });
     } else {
-      if (decoded.type == 'organiser') {
+      if (decoded.type === 'organiser') {
         //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;
@@ -51,7 +54,7 @@ router.param('event_id', function(req, res, next, event_id) {
   dao.organiserOwnsEvent(req.params.event_id, req.uid, (status, data) => {
     console.log(status);
     console.log(data);
-    if (data.length == 0) {
+    if (data.length === 0) {
       res.status(404);
       res.send({ error: 'Arragementet eksiterer ikke' });
     } else {
@@ -71,17 +74,16 @@ router.get('/artist/:event_id', (req: express$Request, res: express$Response) =>
 // Find a specific event by id (with your organiser id)
 router.get('/event/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEvent(req.params.event_id, req.uid, (status, data) => {
-    console.log(data[0]);
     res.status(status);
     res.send(data[0]);
   });
 });
 
 // Create new event (and connect it to the organiser)
-router.post('/event', (req: { body: Object }, res: express$Response) => {
+router.post('/event', (req: express$Request, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
-    if (status == 200) {
+    if (status === 200) {
       dao.postEventOrganiser(data.insertId, req.uid, (status, data) => {
         res.status(status);
         res.send(d);
@@ -103,7 +105,7 @@ router.get('/location', (req: express$Request, res: express$Response) => {
 });
 
 // Create new location
-router.post('/location', (req: { body: Object }, res: express$Response) => {
+router.post('/location', (req: express$Request, res: express$Response) => {
   dao.getSingleLocation(req.body.address, (status, data) => {
     if (data.length === 0) {
       dao.postLocation(req.body, (status, data) => {
@@ -118,7 +120,7 @@ router.post('/location', (req: { body: Object }, res: express$Response) => {
 });
 
 // Edit a specific event
-router.put('/event/:event_id', (req: { body: Object }, res: express$Response) => {
+router.put('/event/:event_id', (req: express$Request, res: express$Response) => {
   if (req.body.image !== '') {
     uploadFunctions.handleFile(req.body.image, function(name) {
       req.body.image = name;
@@ -136,7 +138,7 @@ router.put('/event/:event_id', (req: { body: Object }, res: express$Response) =>
 });
 
 //edit an event artist to add contracts and stuff
-router.put('/artist/:artist_id', (req: { body: Object }, res: express$Response) => {
+router.put('/artist/:artist_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.contract, function(name) {
     req.body.contract = name;
     dao.putEventArtist(
@@ -178,7 +180,7 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
 });
 
 // Adds a rider to the event on a user
-router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: express$Response) => {
+router.put('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.editRider(req.body.rider_file, req.params.event_id, req.params.rider_id, (status, data) => {
@@ -189,7 +191,7 @@ router.put('/event/rider/:event_id/:rider_id', (req: { body: string }, res: expr
 });
 
 // Adds a rider to the event on a user
-router.post('/event/rider/:event_id/:user_id', (req: { body: string }, res: express$Response) => {
+router.post('/event/rider/:event_id/:user_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
     dao.postRider(req.body.rider_file, req.params.event_id, req.params.user_id, (status, data) => {
@@ -282,7 +284,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
           // Bruker er artist
           dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
             console.log(status + ' - status');
-            if (status == 500) {
+            if (status === 500) {
               res.status(400);
               res.send('Artist already in event');
             } else {
@@ -304,7 +306,10 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
 
     if (data.length === 0) {
       //lag en dummy user og artist:
-      dao.postUser(req.body.email, (status, data) => {
+      let password = 'EndreMeg';
+      let salt = bcrypt.genSaltSync(10);
+      let hash = bcrypt.hashSync(password, req.body.salt);
+      dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
         let ud = data;
         let id = ud.insertId;
@@ -320,7 +325,7 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
       //sjekk om artist eksisterer
       console.log(start_id);
       dao.addVolunteerToEvent(start_id, req.params.event_id, req.params.vid, (status, data) => {
-        if (status == 500) {
+        if (status === 500) {
           res.status(400);
           res.send('Staff already in event');
         } else {
@@ -354,14 +359,6 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
     res.status(status);
     res.send(data2);
   });
-  /*
-  dao.getMyId(req.email, (status, data) => {
-    res.status(status);
-    dao.getMyEvents(data, (status, data2) => {
-      res.status(status);
-      res.send(data2);
-    });
-  });*/
 });
 
 // TODO: Flytt til public?
@@ -467,7 +464,7 @@ router.get('/tickets', (req: express$Request, res: express$Response) => {
 });
 
 // Create a new ticket type
-router.post('/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/tickets', (req: express$Request, res: express$Response) => {
   dao.postTicketType(req.body, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -475,7 +472,7 @@ router.post('/tickets', (req: { body: Object }, res: express$Response) => {
 });
 
 // Add ticket type to event
-router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response) => {
+router.post('/event/:eid/tickets', (req: express$Request, res: express$Response) => {
   dao.postEventTicket(req.body, req.params.eid, (status, data) => {
     res.status(status);
     res.send(data);
@@ -483,7 +480,7 @@ router.post('/event/:eid/tickets', (req: { body: Object }, res: express$Response
 });
 
 // Edit a ticket type
-router.put('/tickets/:id', (req: { body: Object }, res: express$Response) => {
+router.put('/tickets/:id', (req: express$Request, res: express$Response) => {
   dao.editTicketType(req.body, req.params.id, (status, data) => {
     res.status(status);
     res.send(data);

@@ -7,6 +7,7 @@ import TimeField from 'react-simple-timefield';
 import { OrganiserService } from '../../../services/organiserService.js';
 import Switch from '@material-ui/core/Switch';
 import { FormControl, FormControlLabel } from '@material-ui/core';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type Props = {
   onSelectPage: any,
@@ -51,6 +52,12 @@ class EventNew extends Component<Props, State> {
           <div className="col" id="">
             <label id="eventnamelabel" for="eventname">
               Tittel
+              <MoreInfo
+                padding={'5px'}
+                text={
+                  'Tittelen på arrangementet. Tittelen vises for ale om arrangementet er satt som offentlig.'
+                }
+              />
             </label>
             <input
               required
@@ -63,6 +70,12 @@ class EventNew extends Component<Props, State> {
             />
             <label id="eventdesclabel" htmlFor="eventdesc">
               Beskrivelse
+              <MoreInfo
+                padding={'5px'}
+                text={
+                  'Beskrivelse av arrangementet. Beskrivelsen vises for alle om arrangementet er satt som offentlig.'
+                }
+              />
             </label>
             <textarea
               className={'form-control'}
@@ -108,7 +121,15 @@ class EventNew extends Component<Props, State> {
               style={{ width: '100px' }}
               onChange={() => this.updateTime()}
             />
-            <label>Status</label>
+            <label>
+              Privat status
+              <MoreInfo
+                padding={'5px'}
+                text={
+                  'Status på arrangementet. Status vises kun til artister og personell knyttet til arrangementet.'
+                }
+              />
+            </label>
             <textarea
               className="form-control"
               id="eventstatus"
@@ -132,6 +153,12 @@ class EventNew extends Component<Props, State> {
                   />
                 }
                 label="Jeg ønsker at arrangementet skal være offentlig"
+              />
+              <MoreInfo
+                padding={'0px'}
+                text={
+                  'Velg om arrangementet kan vises til alle. Hvis arrangementet er offentlig vil tittel, beskrivelse, sted, tidspunkt, artister og bilde gjøres tilgjengelig for alle.'
+                }
               />
             </div>
           </div>

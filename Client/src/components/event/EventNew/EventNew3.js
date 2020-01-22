@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { OrganiserService } from '../../../services/organiserService';
 import { Location } from '../../../services/modelService';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 {
   /*
@@ -146,7 +147,13 @@ class EventNew3 extends Component<Props> {
 
         <label htmlFor="postcode">Postkode:</label>
         <input id="postcode" type="text" />
-        <label htmlFor="postcode">Scene:</label>
+        <label htmlFor="postcode">
+          Scene:
+          <MoreInfo
+            padding={'5px'}
+            text={'Om du vil kan du spesifisere hvilken scene arrangementet foregår på.'}
+          />
+        </label>
         <input id="venue" type="text" />
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
@@ -216,6 +223,7 @@ class EventNew3 extends Component<Props> {
       console.log(resp.data);
       if (resp.status === 200) {
         this.state.event.location_id = resp.data.location_id;
+        this.state.event.venue = venue;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
           console.log(this);

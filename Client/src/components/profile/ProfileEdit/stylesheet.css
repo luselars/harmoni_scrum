@@ -21,6 +21,12 @@
   object-fit: cover;
 }
 
+#profilepic {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+}
+
 @media screen and (max-width: 1000px) {
   .grid-container {
     grid-template-areas:
