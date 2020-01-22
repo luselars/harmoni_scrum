@@ -35,11 +35,11 @@ h6 {
   -webkit-transform: rotate(45deg);
 }
 .arrow {
-  border: solid green;
+  border: solid rgb(37, 155, 34);
   border-width: 0 6px 6px 0;
   display: inline-block;
   padding: 6px;
-  margin: 0 20px;
+  margin: 0 18px;
   margin-top: -20px;
 }
 
@@ -55,7 +55,7 @@ h6 {
   margin-top: 1px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 850px) {
   .dropdown {
   }
   #filterCard {

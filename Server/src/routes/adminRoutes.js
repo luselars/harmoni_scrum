@@ -1,5 +1,7 @@
 //@flow
 import express from 'express';
+import express$Request from 'express';
+import express$Response from 'express';
 let bcrypt = require('bcryptjs');
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');

@@ -19,6 +19,7 @@ import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
+import ForgottenPasswordRegistered from './components/ForgottenPassword/ForgottenPasswordRegistered';
 import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
@@ -67,6 +68,7 @@ function App() {
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
           <Route exact path="/editeventartist/:id" component={EventEditArtist} />
+          <Route exaxt path="/glemtpassordregisrert" component={ForgottenPasswordRegistered} />
           <Route component={NoMatch} />
         </Switch>
       </div>

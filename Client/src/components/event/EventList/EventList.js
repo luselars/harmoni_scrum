@@ -46,7 +46,7 @@ export default class EventList extends Component<Props, State> {
       offset: 0,
       showAllEvents: false,
     };
-    this.fuse = new Fuse(this.state.events, options);
+    const fuse = new Fuse(this.state.events, options);
   }
 
   handlePageClick = data => {
