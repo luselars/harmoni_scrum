@@ -68,7 +68,7 @@ class EventNew7 extends Component<Props, State> {
           <button onClick={() => this.createType()}>Opprett personelltype</button>
         </div>
         <div>
-          <p>Slett personelltyper</p>
+          <p>Slett personelltyper:</p>
           <Autocomplete
             onChange={(e, value) => {
               this.state.delete = value;

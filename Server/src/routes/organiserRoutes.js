@@ -2,7 +2,6 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import nodemailer from 'nodemailer';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
 //import { decodeBase64Image } from '../uploadHelper';
@@ -10,6 +9,8 @@ import uploadFunctions from '../uploadHelper';
 let bcrypt = require('bcryptjs');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
+
+var nodemailer = require('nodemailer');
 
 const organiserDao = require('../../dao/organiserDao.js');
 let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
@@ -224,7 +225,9 @@ router.post('/sendmail', (req: express$Request, res: express$Response) => {
     html:
       '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet ' +
       req.body.name +
-      '.</p><p>Mvh.<br>Alle oss i harmoni</p>',
+      '. ' +
+      req.body.text +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
 
   transporter.sendMail(mailOptions, function(error, info) {
@@ -248,7 +251,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
       //lag en dummy user og artist:
       let password = 'EndreMeg';
       let salt = bcrypt.genSaltSync(10);
-      let hash = bcrypt.hashSync(password, req.body.salt);
+      let hash = bcrypt.hashSync(password, salt);
       dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
         let id = data.insertId;
