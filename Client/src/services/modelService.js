@@ -99,3 +99,5 @@ export class TicketType {
   price: number;
   amount: number;
 }
+
+// TODO: Legg til rider

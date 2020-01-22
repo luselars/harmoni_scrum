@@ -54,6 +54,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
         alert(error);
         //window.location = '/404';
       });
+
     UserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
@@ -64,10 +65,12 @@ export default class EventDetailsArtist extends Component<Props, State> {
         });
       })
       .catch(error => console.log(error));
-    UserService.getRiders(this.props.match.params.id).then(res => {
+
+    /*UserService.getRiders(this.props.match.params.id).then(res => {
       console.log(res.data);
       this.setState({ riders: res.data });
-    });
+    });*/
+
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
       this.setState({ tickets: response.data });
     });
