@@ -32,8 +32,7 @@ export default class EventDetails extends Component<Props, State> {
     return (
       <div className="card" id="carddetailsevent">
         <div className="imgdiv">
-          {
-              this.state.event.image ? (
+          {this.state.event.image ? (
             <img
               src={'http://localhost:4000/public/file/' + this.state.event.image}
               className="img-fluid"
@@ -128,7 +127,7 @@ export default class EventDetails extends Component<Props, State> {
         } else {
           this.setState({ location_name: event.location_name });
         }
-        if (this.state.eventvenue == null) {
+        if (this.state.event.eventvenue == null) {
           console.log('Hallo');
           this.setState({ venue: '' });
           console.log('Venue: ' + this.state.venue.length);
