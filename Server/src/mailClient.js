@@ -13,7 +13,7 @@ let transporter = nodemailer.createTransport({
 /*
 For å sende mail til noen må addressene være forhåndsgodkjente, fordi vi ikke betaler for noen service. RIP
  */
-export function sendInvite(receiver: string, eventName: string): boolean {
+export function sendInvite(receiver: string, eventName: string): ?boolean {
   let mailOptions = {
     from: sender,
     to: receiver,

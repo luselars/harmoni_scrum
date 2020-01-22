@@ -4,7 +4,7 @@ const fs = require('fs');
 var path = require('path');
 
 let uploadFunctions = {
-  handleFile: function(f: string, callback): ?string {
+  handleFile: function(f: string, callback: Object): ?string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
     let p = path.join(__dirname + '/../files/');
     /*
