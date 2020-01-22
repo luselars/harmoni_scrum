@@ -46,7 +46,7 @@ export default class EventList extends Component<Props, State> {
       offset: 0,
       showAllEvents: false,
     };
-    this.fuse = new Fuse(this.state.events, options);
+    const fuse = new Fuse(this.state.events, options);
   }
 
   handlePageClick = data => {
@@ -174,12 +174,14 @@ export default class EventList extends Component<Props, State> {
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
-              <div className="card float-left">
+              <div className="card float-right my-2 bg-light p-2" id="cardEvents">
                 <div
                   className="card-body bg-light"
                   onClick={() => {
-                    if (this.props.profile_list)
+                    if (localStorage.getItem('userType') === 'organiser')
                       window.location.href = '/orgevent/' + event.event_id;
+                    else if (this.props.profile_list)
+                      window.location.href = '/userevent/' + event.event_id;
                     else window.location.href = '/event/' + event.event_id;
                   }}
                   style={{ cursor: 'pointer' }}
@@ -212,7 +214,7 @@ export default class EventList extends Component<Props, State> {
                         {this.state.status ? (
                           event.cancel == 0 ? (
                             <button
-                              className="btn btn-success bg-green"
+                              className="btn btn-success bg-green m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -221,7 +223,7 @@ export default class EventList extends Component<Props, State> {
                             </button>
                           ) : (
                             <button
-                              className="btn btn-secondary bg-green"
+                              className="btn btn-success bg-grey m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -234,8 +236,10 @@ export default class EventList extends Component<Props, State> {
                             className="btn btn-success bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (this.props.profile_list)
+                              if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
+                              else if (this.props.profile_list)
+                                window.location.href = '/userevent/' + event.event_id;
                               else window.location.href = '/event/' + event.event_id;
                             }}
                           >
@@ -247,8 +251,10 @@ export default class EventList extends Component<Props, State> {
                             className="btn btn-secondary bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (this.props.profile_list)
+                              if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
+                              else if (this.props.profile_list)
+                                window.location.href = '/userevent/' + event.event_id;
                               else window.location.href = '/event/' + event.event_id;
                             }}
                           >
@@ -268,23 +274,21 @@ export default class EventList extends Component<Props, State> {
           {this.state.pageCount >= 2 ? (
             <div className="card float-right bg-transparent border-0">
               <div className="card-body bg-transparent">
-                <div className="row justify-content-md-center align-items-center">
-                  <div className="col-12">
-                    <div className="reactpaginate">
-                      <ReactPaginate
-                        previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
-                        nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
-                      />
-                    </div>
+                <div className="col-12">
+                  <div className="reactpaginate">
+                    <ReactPaginate
+                      previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
+                      nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                      breakLabel={'...'}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -300,6 +304,7 @@ export default class EventList extends Component<Props, State> {
   componentDidMount() {
     // Gets new token from auth server
     PublicService.refreshToken();
+
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (localStorage.getItem('userType') === 'organiser') {

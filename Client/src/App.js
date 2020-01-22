@@ -9,7 +9,8 @@ import Footer from './components/Footer/Footer';
 import ProfileNew from './components/profile/ProfileNew/ProfileNew';
 import EventNew from './components/event/EventNew/EventNew';
 import EventDetails from './components/event/EventDetails/EventDetails';
-import EventDetailsLoggedIn from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
+import EventDetailsLoggedInUser from './components/event/EventDetailsArtist/EventDetailsArtist';
+import EventDetailsLoggedInOrganiser from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
 import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import ProfileOrganiser from './components/profile/Profile/Profile';
@@ -19,9 +20,11 @@ import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
+import ForgottenPasswordRegistered from './components/ForgottenPassword/ForgottenPasswordRegistered';
 import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
+import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
@@ -59,12 +62,15 @@ function App() {
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
           <Route exact path="/events/:id" component={LoggedIn} />
-          <Route exact path="/orgevent/:id" component={EventDetailsLoggedIn} />
+          <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
+          <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />
           <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
           <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
+          <Route exact path="/editeventartist/:id" component={EventEditArtist} />
+          <Route exaxt path="/glemtpassordregisrert" component={ForgottenPasswordRegistered} />
           <Route component={NoMatch} />
         </Switch>
       </div>

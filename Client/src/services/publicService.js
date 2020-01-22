@@ -57,6 +57,11 @@ export class PublicService {
     return axios.post(url_base + '/feedback', { email: email, feedback: feedbacktext });
   }
 
+  // Nytt passord
+  static newPassword(email: string) {
+    return axios.post(url_base + '/newpassword', { email: email });
+  }
+
   static getPublicEventTickets(id: number): AxiosPromise<TicketType[]> {
     let url = url_base + '/event/' + id + '/tickets';
     return axios.get(url, {});

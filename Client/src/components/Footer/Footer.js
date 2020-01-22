@@ -5,7 +5,7 @@ import './stylesheet.css';
 
 function Footer() {
   return (
-    <footer id="footer" className="page-footer font-small mdb-color bg-dark pt-4 text-light">
+    <footer id="footer" className="page-footer font-small mdb-color bg-dark pt-4 text-light mt-3">
       <div className="container text-center text-md-left">
         <div className="row d-flex align-items-center">
           <div className="col-md-8 col-lg-8">

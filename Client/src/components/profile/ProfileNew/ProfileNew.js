@@ -48,7 +48,7 @@ export default class ProfileNew extends Component<
 
   render() {
     return (
-      <div id="profileOrganiserCard" className="card ">
+      <div id="profileOrganiserCard" className="card mb-4">
         <div className="card-body bg-light">
           <form onSubmit={e => this.post(e)}>
             <h2 className="display-4 text-uppercase text-center m-4 border-bottom">REGISTRER</h2>
@@ -252,7 +252,7 @@ export default class ProfileNew extends Component<
                 required
               ></input>
               <label class="form-check-label" for="check2">
-                Jeg godkjenner deres vilkår
+                Jeg godkjenner vilkårene
               </label>
             </div>
             <button type="submit" className="btn btn-success m-3 w-25 text-">

@@ -2,7 +2,9 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-export class NotAuthorized extends Component<State, Props> {
+// TODO denne komponenten kan alternativt (hvis den skal brukes litt oftere) legges inn som redirect direkte på Route på App.js og bare legges som en funksjon på App.js
+
+export class NotAuthorized extends Component<{}, {}> {
   constructor(props: any) {
     super(props);
   }

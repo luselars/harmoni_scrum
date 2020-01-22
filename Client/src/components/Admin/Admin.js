@@ -63,6 +63,7 @@ export default class Admin extends Component<{}, State> {
   componentDidMount() {
     AdminService.getUnverifed()
       .then(res => {
+        this.setState({ authorised: true });
         console.log(res.status);
         let requests: any = res.data;
         console.log(requests + ' ');
