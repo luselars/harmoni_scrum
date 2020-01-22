@@ -98,12 +98,81 @@ describe('Testing methods in public dao', () => {
     dao.insertNewUser(state, callback);
   });
 
-  it('checks to see if an email exists', done => {
+  it('checks to see if an organiser email exists', done => {
     function callback(status, data) {
       expect(data.length).toBe(1);
       done();
     }
-    let email = 'newtestorganiser@email.test';
+    let email: string = 'newtestorganiser@email.test';
     dao.emailExists(email, callback);
+  });
+
+  it('checks to see if a user email exists', done => {
+    function callback(status, data) {
+      expect(data.length).toBe(1);
+      done();
+    }
+    let email: string = 'test@test.com';
+    dao.emailExists(email, callback);
+  });
+
+  it("checks to see if data is returned when an email that doesn't exist is checked", done => {
+    function callback(status, data) {
+      expect(data.length).toBe(0);
+      done();
+    }
+    let email: string = 'yasoyaso@email.test';
+    dao.emailExists(email, callback);
+  });
+
+  it('Trying to get info from organiser by email:', done => {
+    function callback(status, data) {
+      expect(data.length).toBe(1);
+      done();
+    }
+    let email: string = 'email@organisation.com';
+    dao.getOrganiserLoginInfo(email, callback);
+  });
+  it("Trying to login as organiser which doesn't exist:", done => {
+    function callback(status, data) {
+      expect(data.length).toBe(0);
+      done();
+    }
+    let email: string = 'notorganiser';
+    dao.getOrganiserLoginInfo(email, callback);
+  });
+
+  it('Trying to get info from user by email:', done => {
+    function callback(status, data) {
+      expect(data.length).toBe(1);
+      done();
+    }
+    let email: string = 'test@test.com';
+    dao.getUserLoginInfo(email, callback);
+  });
+  it("Trying to login as user which doesn't exist:", done => {
+    function callback(status, data) {
+      expect(data.length).toBe(0);
+      done();
+    }
+    let email: string = 'notuser';
+    dao.getUserLoginInfo(email, callback);
+  });
+
+  it('Trying to get info from admin by email:', done => {
+    function callback(status, data) {
+      expect(data.length).toBe(1);
+      done();
+    }
+    let email: string = 'admin@harmoni.com';
+    dao.getAdminLoginInfo(email, callback);
+  });
+  it("Trying to login as admin which doesn't exist:", done => {
+    function callback(status, data) {
+      expect(data.length).toBe(0);
+      done();
+    }
+    let email: string = 'notadmin';
+    dao.getAdminLoginInfo(email, callback);
   });
 });
