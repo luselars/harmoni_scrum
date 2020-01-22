@@ -102,6 +102,31 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
   });
 });
 
+//Get riders for event
+router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
+  dao.getMyRiders(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// TODO: Verify Artist relation to event
+// Get event artists with contract and stuff
+router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
+  dao.getEventArtist(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Get a spesific event.
+router.get('/myevents/:event_id', (req: express$Request, res: express$Response) => {
+  dao.getMyEvent(req.params.event_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 // Lets an organiser change his profile.
 router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
   dao.linkArtist(req.email, req.params.id, (status, data) => {
@@ -117,11 +142,13 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
   });
 });
 
-router.get('/event/:id/riders', (req: express$Request, res: express$Response) => {
-  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
+router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
+  res.status(200);
+  res.send('fake');
+  /*dao.getRiders(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
-  });
+  });*/
 });
 
 module.exports = router;
