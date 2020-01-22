@@ -11,7 +11,7 @@ import { UserService } from '../../../services/userService';
 import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
-var options = {
+let options = {
   keys: ['name', 'description'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -19,6 +19,21 @@ let events: Event[] = [];
 let status: boolean;
 let event_id: number;
 let eventsPerPage = 7;
+
+type Props = {
+  profile_list: boolean,
+  organiser: boolean,
+  fuse: any,
+};
+
+type State = {
+  events: [],
+  status: boolean,
+  organiser_id: number,
+  organiser: boolean,
+  offset: number,
+  showAllEvents: boolean,
+};
 
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
