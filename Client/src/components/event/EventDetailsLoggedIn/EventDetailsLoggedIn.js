@@ -120,15 +120,19 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel == 0 ? (
-              <div className="imgdiv">
-                <img
-                  id="EventPicLI"
-                  src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid"
-                  alt="Eventbilde"
-                ></img>
-              </div>
-            ) : (
+              this.state.event.image == undefined ? (
+                <div className="imgdiv">
+                  <img
+                    id="EventPicLI"
+                    src={'http://localhost:4000/public/file/' + this.state.event.image}
+                    className="img-fluid"
+                    alt="Eventbilde"
+                  ></img>
+                </div>
+              ) : (
+                ''
+              )
+            ) : this.state.event.image == undefined ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
@@ -136,6 +140,11 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   className="img-fluid cancelimg"
                   alt="Eventbilde"
                 ></img>
+                <div class="centered">AVLYST</div>
+              </div>
+            ) : (
+              <div className="imgdiv">
+                <img id="EventPicLI"></img>
                 <div class="centered">AVLYST</div>
               </div>
             )}
