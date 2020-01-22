@@ -114,11 +114,11 @@ export default class EventList extends Component<Props, State> {
     let newEventList = [];
     if (type == 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].min_price >= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
     } else {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].max_price <= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].min_price <= filterChange) newEventList.push(previousEventList[i]);
       }
     }
     this.setState({
@@ -308,6 +308,7 @@ export default class EventList extends Component<Props, State> {
   }
 
   insertEvents(events: Object) {
+    console.log(events);
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
