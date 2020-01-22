@@ -268,4 +268,35 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   });
 });
 
+//Send ned password
+router.post('/newpassword', (req: express$Request, res: express$Response) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  let mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Nytt Passord',
+    html:
+      '<h1></h1><p>Vi har tilbakestilt ditt gamle passord til et midlertidig passord. Vennligst logg inn og endre dette så fort som mulig.</p>' +
+      '<p><b>Ditt nye passord: <b>' +
+      '12344</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(404);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+});
+
 module.exports = router;
