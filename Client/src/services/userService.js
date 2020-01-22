@@ -33,4 +33,10 @@ export class UserService {
     let token = localStorage.getItem('token');
     return axios.put<Object>(url, { artist_name }, { headers: { 'x-access-token': token } });
   }
+
+  static getMyRiders(event_id: number): AxiosPromise<User> {
+    let url = url_base + '/event/' + event_id + '/riders';
+    let token = localStorage.getItem('token');
+    return axios.put<Object>(url, { headers: { 'x-access-token': token } });
+  }
 }

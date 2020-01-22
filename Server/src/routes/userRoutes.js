@@ -119,4 +119,11 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
   });
 });
 
+router.get('/event/:id/riders', (req: express$Request, res: express$Response) => {
+  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 module.exports = router;
