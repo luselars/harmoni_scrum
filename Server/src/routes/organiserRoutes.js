@@ -8,6 +8,8 @@ let bcrypt = require('bcryptjs');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
 
+var nodemailer = require('nodemailer');
+
 const organiserDao = require('../../dao/organiserDao.js');
 let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
 
@@ -222,7 +224,9 @@ router.post('/sendmail', (req: express$Request, res: express$Response) => {
     html:
       '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet ' +
       req.body.name +
-      '.</p><p>Mvh.<br>Alle oss i harmoni</p>',
+      '. ' +
+      req.body.text +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
 
   transporter.sendMail(mailOptions, function(error, info) {
