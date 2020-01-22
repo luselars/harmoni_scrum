@@ -230,7 +230,7 @@ class ProfileEdit extends Component<{}, State> {
               value="Lagre"
             ></input>
             <a href="/profile">
-              <button type="button" class="btn btn-success w-50 mx-auto d-block m-2">
+              <button type="button" class="btn btn-secondary w-50 mx-auto d-block m-2">
                 Tilbake
               </button>
             </a>
