@@ -129,11 +129,11 @@ export default class EventList extends Component<Props, State> {
     let newEventList = [];
     if (type == 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].min_price >= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
     } else {
       for (var i = 0; i < previousEventList.length; i++) {
-        if (previousEventList[i].max_price <= filterChange) newEventList.push(previousEventList[i]);
+        if (previousEventList[i].min_price <= filterChange) newEventList.push(previousEventList[i]);
       }
     }
     this.setState({
@@ -174,7 +174,7 @@ export default class EventList extends Component<Props, State> {
         <div>
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
-              <div className="card float-left">
+              <div className="card float-right my-2 bg-light p-2" id="cardEvents">
                 <div
                   className="card-body bg-light"
                   onClick={() => {
@@ -212,7 +212,7 @@ export default class EventList extends Component<Props, State> {
                         {this.state.status ? (
                           event.cancel == 0 ? (
                             <button
-                              className="btn btn-success bg-green"
+                              className="btn btn-success bg-green m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -221,7 +221,7 @@ export default class EventList extends Component<Props, State> {
                             </button>
                           ) : (
                             <button
-                              className="btn btn-secondary bg-green"
+                              className="btn btn-success bg-grey m-2"
                               id="moreinfo"
                               onClick={() => (window.location.href = '/event/' + event.event_id)}
                             >
@@ -268,23 +268,21 @@ export default class EventList extends Component<Props, State> {
           {this.state.pageCount >= 2 ? (
             <div className="card float-right bg-transparent border-0">
               <div className="card-body bg-transparent">
-                <div className="row justify-content-md-center align-items-center">
-                  <div className="col-12">
-                    <div className="reactpaginate">
-                      <ReactPaginate
-                        previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
-                        nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
-                        breakLabel={'...'}
-                        breakClassName={'break-me'}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={'pagination'}
-                        subContainerClassName={'pages pagination'}
-                        activeClassName={'active'}
-                      />
-                    </div>
+                <div className="col-12">
+                  <div className="reactpaginate">
+                    <ReactPaginate
+                      previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
+                      nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                      breakLabel={'...'}
+                      breakClassName={'break-me'}
+                      pageCount={this.state.pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={this.handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                    />
                   </div>
                 </div>
               </div>
@@ -298,9 +296,11 @@ export default class EventList extends Component<Props, State> {
   }
 
   componentDidMount() {
+    // Gets new token from auth server
+    PublicService.refreshToken();
     console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
-      if (this.props.organiser) {
+      if (localStorage.getItem('userType') === 'organiser') {
         OrganiserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);

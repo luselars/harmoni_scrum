@@ -16,6 +16,10 @@ const upload = require('../uploadHelper');
 
 let router = express.Router();
 
+router.changeDao = function changeDao(userDao: userDao) {
+  dao = userDao;
+};
+
 // Middleware for organiser activities BRUK DENNE FOR USER OGSÅ
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];

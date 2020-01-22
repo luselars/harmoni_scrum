@@ -13,12 +13,13 @@
   color: black;
   font-family: sans-serif;
   font-size: 4rem;
+  min-height: 200px;
 }
 
 .centered {
   position: absolute;
-  top: 35%;
-  left: 33%;
+  top: 30%;
+  left: 30%;
   transform: translate(-30%, -50%);
   transform: rotate(15deg);
   border-style: solid;
@@ -99,7 +100,9 @@
   .imgdiv {
     font-size: 2rem;
   }
-
+  .img-fluid {
+    height: 200px;
+  }
   #editeventbtn,
   #cancelbtn,
   #deleteeventbtn {

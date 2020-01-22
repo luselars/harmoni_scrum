@@ -12,6 +12,7 @@
 .cancelledtitle {
   transform: rotate(20deg);
   font-size: 1.2rem;
+  margin-left: -15px;
   border-style: solid;
 }
 
@@ -81,7 +82,11 @@ h5 {
   width: 100%;
 }
 
-@media screen and (max-width: 650px) {
+#cardEvents {
+  margin-right: 10%;
+}
+
+@media screen and (max-width: 850px) {
   .card {
     font-size: 3vw;
     width: 90% !important;
@@ -89,6 +94,9 @@ h5 {
     margin-right: 5% !important;
     margin-bottom: 1%;
     margin-top: 1%;
+  }
+  #cardEvents {
+    margin-right: 5%;
   }
   .datemonth {
     font-size: 5vw;

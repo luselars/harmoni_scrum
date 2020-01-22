@@ -37,9 +37,13 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
       res.json({ error: 'Not authorized, log in again' });
     } else {
       //console.log('Token ok: ' + decoded.username + ', Assigning new token');
-      let token = jwt.sign({ username: decoded.username, type: decoded.type }, privateKey, {
-        expiresIn: tokenDuration,
-      });
+      let token = jwt.sign(
+        { username: decoded.username, type: decoded.type, id: decoded.id },
+        privateKey,
+        {
+          expiresIn: tokenDuration,
+        },
+      );
       res.status(200);
       res.send(token);
     }
@@ -90,12 +94,12 @@ router.get('/event/:id/tickets', (req: express$Request, res: express$Response) =
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
-    if (status == '200') {
+    if (status === '200') {
       if (data[0] != null) {
         // Callback function that hashes inputed password and compares to hash in DB
         let salt = data[0].salt;
         let hash = bcrypt.hashSync(req.body.password, salt);
-        if (hash == data[0].hash) {
+        if (hash === data[0].hash) {
           // Returns a token for autherization if credentials match
           console.log('Username and password ok');
           let token = jwt.sign(
@@ -114,12 +118,12 @@ router.post('/login', (req: express$Request, res: express$Response) => {
         }
       } else {
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
-          if (status == '200') {
+          if (status === '200') {
             if (data[0] != null) {
               // Callback function that hashes inputed password and compares to hash in DB
               let salt = data[0].salt;
               let hash = bcrypt.hashSync(req.body.password, salt);
-              if (hash == data[0].hash) {
+              if (hash === data[0].hash) {
                 // Returns a token for autherization if credentials match
                 console.log('Username and password ok');
                 let token = jwt.sign(
@@ -137,12 +141,12 @@ router.post('/login', (req: express$Request, res: express$Response) => {
               }
             } else {
               dao.getAdminLoginInfo(req.body.username, (status, data) => {
-                if (status == '200') {
+                if (status === '200') {
                   if (data[0] != null) {
                     // Callback function that hashes inputed password and compares to hash in DB
                     let salt = data[0].salt;
                     let hash = bcrypt.hashSync(req.body.password, salt);
-                    if (hash == data[0].hash) {
+                    if (hash === data[0].hash) {
                       // Returns a token for autherization if credentials match
                       console.log('Username and password ok. Admin signed inn');
                       let token = jwt.sign(
@@ -216,7 +220,7 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
 
 //Send feedback-email
 router.post('/feedback', (req: express$Request, res: express$Response) => {
-  var transporter = nodemailer.createTransport({
+  let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'harmoni.scrum@gmail.com',
@@ -224,7 +228,7 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
     },
   });
 
-  var mailOptions = {
+  let mailOptions = {
     from: 'harmoni.scrum@gmail.com',
     to: req.body.email,
     subject: 'Tilbakemelding mottatt',
@@ -256,6 +260,37 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
     }
   });
   transporter.sendMail(mailOptions2, function(error, info) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(404);
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
+    }
+  });
+});
+
+//Send ned password
+router.post('/newpassword', (req: express$Request, res: express$Response) => {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'harmoni.scrum@gmail.com',
+      pass: 'scrum2team',
+    },
+  });
+
+  let mailOptions = {
+    from: 'harmoni.scrum@gmail.com',
+    to: req.body.email,
+    subject: 'Nytt Passord',
+    html:
+      '<h1></h1><p>Vi har tilbakestilt ditt gamle passord til et midlertidig passord. Vennligst logg inn og endre dette så fort som mulig.</p>' +
+      '<p><b>Ditt nye passord: <b>' +
+      '12344</p><p>Mvh.<br>Alle oss i harmoni</p>',
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);
       res.sendStatus(404);
