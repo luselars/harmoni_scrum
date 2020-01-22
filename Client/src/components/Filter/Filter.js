@@ -13,6 +13,10 @@ type State = {
   sortAlt: [string, string],
 };
 
+// TODO
+// Når filteret er sortert på pris, og så endrer de andre faktorene seg beholder filteret prissortering.
+// Når en trykker tilbake fra et arrangement burde sortering være lik som før en trykker på det.
+// Når en trykker tilbake fra et arrangement burde en routes til riktig sidetall på sorteringen som brukeren var på.
 export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
