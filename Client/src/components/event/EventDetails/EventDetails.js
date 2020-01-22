@@ -70,6 +70,8 @@ export default class EventDetails extends Component<Props, State> {
                     ? this.state.venue
                     : this.state.venue.length == 0 && this.state.location_name.length != 0
                     ? this.state.location_name
+                    : this.state.venue.length == 0 && this.state.location_name.length == 0
+                    ? 'Kommer snart'
                     : this.state.location_name + ', ' + this.state.venue}
                 </td>
               </tr>
@@ -118,12 +120,24 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
-        console.log(res.data[0]);
-        this.setState({ event: event, location_name: event.location_name, venue: event.venue });
+        if (this.state.event.location_name == null) {
+          console.log('Hei');
+          this.setState({ location_name: '' });
+          console.log('Name: ' + this.state.location_name.length);
+        } else {
+          this.setState({ location_name: event.location_name });
+        }
+        if (this.state.eventvenue == null) {
+          console.log('Hallo');
+          this.setState({ venue: '' });
+          console.log('Venue: ' + this.state.venue.length);
+        } else {
+          this.setState({ venue: event.venue });
+        }
+        this.setState({ event: event });
 
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {
           let artist: any = res.data;
-          console.log(res.data);
           this.setState({ artist: artist });
         });
       })
