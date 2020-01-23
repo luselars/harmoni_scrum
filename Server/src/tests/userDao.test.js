@@ -69,7 +69,7 @@ it('Finds all events user is tied to', done => {
     expect(data.length).toBe(1);
     done();
   }
-  dao.getUserByEvent(1, callback);
+  dao.getUserEvents(1, callback);
 });
 
 // Finds info for the user by id

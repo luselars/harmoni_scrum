@@ -57,8 +57,6 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
-  //console.log('Got a file request');
-  //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });
 
@@ -193,7 +191,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Register new user/organiser
+// Register new user or organiser with a sent in form.
 router.post('/register', (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
@@ -214,7 +212,7 @@ router.post('/register', (req: express$Request, res: express$Response) => {
   }
 });
 
-// Check if email is in DB
+// Check if email is in database.
 router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
   dao.emailExists(req.params.email, (status, data) => {
     console.log(data);
@@ -223,7 +221,7 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
   });
 });
 
-//Send feedback-email
+// Send feedback-email to administrator account.
 router.post('/feedback', (req: express$Request, res: express$Response) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -275,7 +273,7 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   });
 });
 
-//Send new password
+// Send new password to a specific email. (user forgot password)
 router.post('/newpassword', (req: express$Request, res: express$Response) => {
   let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
   let password = rand.toString();
