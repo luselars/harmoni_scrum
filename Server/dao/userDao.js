@@ -107,7 +107,7 @@ module.exports = class UserDao extends Dao {
     super.query(
         'INSERT INTO rider (user_id, event_id, rider_file) VALUES (?,?,?)',
         [user_id, event_id, rider_file], callback
-    )
+    );
   }
 
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {

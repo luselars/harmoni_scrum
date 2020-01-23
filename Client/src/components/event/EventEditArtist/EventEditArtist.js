@@ -23,17 +23,19 @@ class EventNew5 extends Component<Props, State> {
     };
   }
   componentDidMount() {
-    PublicService.getPublicEvent(this.props.match.params.id).then(response => {
+    UserService.getEvent(this.props.match.params.id).then(response => {
       let data = response.data;
       this.setState({ event: data });
+      console.log(data);
       UserService.getMyProfile().then(resp => {
         this.setState({ artist: resp.data });
         console.log(this.state.artist);
+        UserService.getMyRiders(this.props.match.params.id).then(resp => {
+          this.setState({ riders: resp.data });
+          console.log(this.state.riders);
+        });
       });
-      UserService.getMyRiders(data.event_id).then(resp => {
-        this.setState({ riders: resp.data });
-        console.log(this.state.riders);
-      });
+
     });
 
     /*publishNotes(artist_id: number, notes: string) {
@@ -49,6 +51,7 @@ class EventNew5 extends Component<Props, State> {
     }*/
   }
   render() {
+    console.log(this.state.event);
     return (
       <div className="card createEvent" id="cardnewevent">
         <div className="form-group text-center ml-5 mr-5">
@@ -72,8 +75,9 @@ class EventNew5 extends Component<Props, State> {
                 accept={'.pdf'}
                 message={'Last opp artist-rider'}
                 artist_id={this.state.artist.user_id}
-                event_id={this.state.event.event_id}
+                event_id={this.props.match.params.id}
                 organiser={false}
+
               />
             </div>
             <br />
@@ -101,13 +105,13 @@ class EventNew5 extends Component<Props, State> {
     console.log('RELOAD');
     this.componentDidMount();
   };
-  /*deleteRider(rider_id: number) {
+  deleteRider(rider_id: number) {
     console.log(rider_id);
-    OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
+    UserService.deleteRider(this.props.match.params.id, rider_id).then(r => {
       console.log(r);
       this.componentDidMount();
     });
-  }*/
+  }
 
   edit() {
     console.log('Jeg er her');

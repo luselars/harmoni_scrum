@@ -1,8 +1,8 @@
 //@flow
 import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
-import { Artist } from '../../services/modelService';
 import { UserService } from '../../services/userService';
+import { Artist } from '../../services/modelService';
 
 let path = require('path');
 
@@ -62,6 +62,9 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
+
+
+        console.log(that.props.organiser);
         // send here
         if (that.props.organiser) {
           OrganiserService.postRider(reader.result, ev_id, artist_id)
