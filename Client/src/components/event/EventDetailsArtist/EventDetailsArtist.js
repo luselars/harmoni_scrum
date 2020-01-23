@@ -67,7 +67,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
   render() {
     return (
       <div>
-        <div className="card" id="carddetailsevent">
+        <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel == 0 ? (
               this.state.event.image != null ? (
@@ -246,48 +246,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                       <td className="text-left">-</td>
                     )}
                   </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Personell:
-                    </th>
-                    {this.state.pers.length > 0 ? (
-                      <table>
-                        {this.state.types.map(type => (
-                          <div>
-                            {this.state.pers.filter(c => c.volunteer_type === type.name).length >
-                            0 ? (
-                              <div>
-                                <tr>
-                                  <td style={{ fontWeight: 'bold' }} className="text-left">
-                                    {type.name}:
-                                  </td>
-                                </tr>
-                                <tr>
-                                  {this.state.pers
-                                    .filter(c => c.volunteer_type === type.name)
-                                    .map(p => (
-                                      <td className="text-left">{p.email}</td>
-                                    ))}
-                                </tr>
-                              </div>
-                            ) : null}
-                          </div>
-                        ))}
-                      </table>
-                    ) : (
-                      <table>
-                        <td className="text-left">-</td>
-                      </table>
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Offentlig:
-                    </th>
-                    <td className="text-left">
-                      {this.state.event.is_public === 1 ? <span>Ja</span> : <span>Nei</span>}
-                    </td>
-                  </tr>
+
                   <tr>
                     <th className="text-right" scope="row">
                       Sted:
