@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
 import { UserService } from '../../services/userService';
 import { Artist } from '../../services/modelService';
+import { UserService } from '../../services/userService';
 
 let path = require('path');
 
@@ -12,7 +13,11 @@ type Props = {
   artist_id: number,
   event_id: number,
   reload: any,
+<<<<<<< HEAD
   artist: boolean,
+=======
+  organiser: boolean,
+>>>>>>> c67259d882c02f665429e0a8f492c6538803eb61
 };
 type State = {
   value: any,
@@ -62,6 +67,7 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
+<<<<<<< HEAD
         // send here, has to do different for artist and organiser because of backend authentication
         if(this.props.artist) {
           UserService.postRider(reader.result, ev_id, artist_id)
@@ -93,6 +99,36 @@ class UploadRider extends Component<Props, State> {
         }
 
 
+=======
+        // send here
+        if (that.props.organiser) {
+          OrganiserService.postRider(reader.result, ev_id, artist_id)
+            .then(resp => {
+              console.log(resp);
+              if (resp.status === 200) {
+                console.log('Rider lastet opp.');
+                element.files = null;
+                that.props.reload();
+              } else {
+                alert('Kunne ikke laste opp rider.');
+              }
+            })
+            .catch(error => console.log(error));
+        } else {
+          UserService.postRider(reader.result, ev_id)
+            .then(resp => {
+              console.log(resp);
+              if (resp.status === 200) {
+                console.log('Rider lastet opp.');
+                element.files = null;
+                that.props.reload();
+              } else {
+                alert('Kunne ikke laste opp rider.');
+              }
+            })
+            .catch(error => console.log(error));
+        }
+>>>>>>> c67259d882c02f665429e0a8f492c6538803eb61
       },
       false,
     );
