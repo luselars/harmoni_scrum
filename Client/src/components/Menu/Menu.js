@@ -55,7 +55,11 @@ export default class Menu extends Component<{}, { status: boolean }> {
               <span className="sr-only"></span>
             </a>
 
-            <a className="nav-link text-light" id="profileButton" href="/profile">
+            <a
+              className="nav-link text-light"
+              id="profileButton"
+              href={localStorage.getItem('userType') === 'user' ? '/profile/user' : '/profile'}
+            >
               Profil <i className="fa fa-user fa-lg"></i>
               <span className="sr-only"></span>
             </a>
