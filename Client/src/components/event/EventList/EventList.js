@@ -351,7 +351,7 @@ export default class EventList extends Component<Props, State> {
       if (time > jsDate.getTime()) {
         events.data[i].old = true;
         oldEvents.push(events.data[i]);
-      } else if (events.data[i].cancel == 1) {
+      } else if (events.data[i].cancel === 1) {
         events.data[i].old = false;
         canceledEvents.push(events.data[i]);
       } else {
