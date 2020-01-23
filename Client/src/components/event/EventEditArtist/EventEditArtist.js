@@ -11,7 +11,13 @@ import UploadRider from '../../Upload/UploadRider';
 import { UserService } from '../../../services/userService';
 
 type Props = {
-  onSelectPage: any,
+  match: { params: { id: number } },
+  onSelectedPage: any,
+};
+type State = {
+  event: Event,
+  artist: User,
+  riders: [],
 };
 class EventEditArtist extends Component<Props, State> {
   constructor(props: any) {
