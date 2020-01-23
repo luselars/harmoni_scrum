@@ -50,7 +50,7 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Get all unverified
+// Get all unverified organisers
 router.get('/unverified', (req: express$Request, res: express$Response) => {
   dao.getUnverified((status, data) => {
     res.status(status);
@@ -58,15 +58,12 @@ router.get('/unverified', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Change verification status of this organiser
+// Change verification status of organiser by id.
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
   dao.verifyOrganiser(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
-
-//TODO authorization.
-// only admin should be able to use this
 
 module.exports = router;

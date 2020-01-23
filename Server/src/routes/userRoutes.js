@@ -86,7 +86,7 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
 // TODO: Brukes denne? Virker som en kopi av myevents
 // Retrieve all events that the user is a part of
 router.get('/:id/event', (req: express$Request, res: express$Response) => {
-  dao.getUserByEvent(req.params.id, (status, data) => {
+  dao.getUserEvents(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -115,7 +115,6 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
     res.send(data);
   });
 });
-
 
 // Get event artists without contract and stuff
 router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
