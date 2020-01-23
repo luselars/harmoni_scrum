@@ -10,7 +10,7 @@ import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
 let options = {
-  keys: ['name', 'description'],
+  keys: ['name', 'location_name'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 
@@ -51,6 +51,7 @@ export default class EventList extends Component<Props, State> {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.eventsPerPage);
     this.setState({ offset: offset });
+    localStorage.setItem('page', selected);
   };
 
   compareAlphabetically(a, b) {
@@ -86,6 +87,7 @@ export default class EventList extends Component<Props, State> {
   }
 
   handleFilterChange = filterChange => {
+    localStorage.setItem('sortType', filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
     this.setState({ sortMethod: filterChange });
     if (sortType === 'Alfabetisk') {
@@ -105,13 +107,17 @@ export default class EventList extends Component<Props, State> {
     console.log(filterChange);
     if (filterChange[0] === 'viewOld') {
       this.state.viewOld = true;
+      localStorage.setItem('viewOld', 'true');
     } else {
       this.state.viewOld = false;
+      localStorage.setItem('viewOld', 'false');
     }
     if (filterChange[1] === 'viewCanceled') {
       this.state.viewCanceled = true;
+      localStorage.setItem('viewCanceled', 'true');
     } else {
       this.state.viewCanceled = false;
+      localStorage.setItem('viewCanceled', 'false');
     }
     var tempEvents = [...this.state.upcommingEvents];
     if (this.state.viewOld)
