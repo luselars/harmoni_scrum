@@ -276,14 +276,17 @@ router.post('/newpassword', (req: express$Request, res: express$Response) => {
   let password = 'EndreMeg';
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
-
-  //TODO legg inn nytt passord i public dao
-  //Få med type som feks 'organiser' og if setning for hvilken dao som skal brukes
-  //LYKKE TIL
+  console.log('TYPE:' + req.body.type);
   if (req.body.type == 'organiser') {
-    //DAO ENDRE PASSORD FOR ORGANISER TIL password
+    dao.editPasswordOrg(hash, salt, req.body.email, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
   } else {
-    //DAO ENDRE PASSORD FOR USER TIL password
+    dao.editPasswordUser(hash, salt, req.body.email, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
   }
 
   let transporter = nodemailer.createTransport({
@@ -300,7 +303,7 @@ router.post('/newpassword', (req: express$Request, res: express$Response) => {
     subject: 'Nytt Passord',
     html:
       '<h1></h1><p>Vi har tilbakestilt ditt gamle passord til et midlertidig passord. Vennligst logg inn og endre dette så fort som mulig.</p>' +
-      '<p><b>Ditt nye passord: <b>' +
+      '<p><b>Ditt nye passord: </b>' +
       password +
       '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
