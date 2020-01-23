@@ -28,7 +28,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="card profilecard container bg-light">
+      <div className="card profilecard container bg-light mb-4">
         <div className="row justify-content-md-center align-items-center">
           <div className="col-md-6 text-center mt-4">
             <img
@@ -170,9 +170,10 @@ export default class ProfileOrganiser extends Component<Props, State> {
                       ? ' ingen fullførte arrangement'
                       : ' ' +
                         this.state.userType.eventsFinished +
+                        ' fullførte' +
                         (this.state.userType.eventsFinished > 1
-                          ? ' fullførte arrangementer'
-                          : ' fullførte arrangement')}
+                          ? ' arrangementer'
+                          : ' arrangement')}
                   </p>
                 </div>
               )}
@@ -189,7 +190,8 @@ export default class ProfileOrganiser extends Component<Props, State> {
     if (localStorage.getItem('userType') == 'user') {
       UserService.getMyProfile()
         .then(res => {
-          let user: User = res.data[0];
+          let user: User = res.data;
+          console.log(user);
           this.setState({
             userType: user,
             email: user.email,
