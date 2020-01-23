@@ -190,7 +190,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
     if (localStorage.getItem('userType') == 'user') {
       UserService.getMyProfile()
         .then(res => {
-          let user: User = res.data;
+          let user: User = res.data[0];
           console.log(user);
           this.setState({
             userType: user,
