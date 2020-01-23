@@ -73,6 +73,8 @@ class EventNew5 extends Component<Props, State> {
                 message={'Last opp artist-rider'}
                 artist_id={this.state.artist.user_id}
                 event_id={this.state.event.event_id}
+                organiser={false}
+
               />
             </div>
             <br />

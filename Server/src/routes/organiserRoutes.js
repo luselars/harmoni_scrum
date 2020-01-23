@@ -51,8 +51,6 @@ router.use('', (req, res, next) => {
 // Checks organiser of event id for authorization
 router.param('event_id', function(req, res, next, event_id) {
   dao.organiserOwnsEvent(req.params.event_id, req.uid, (status, data) => {
-    console.log(status);
-    console.log(data);
     if (data.length === 0) {
       res.status(404);
       res.send({ error: 'Arragementet eksiterer ikke' });
@@ -82,13 +80,12 @@ router.get('/event/:event_id', (req: express$Request, res: express$Response) => 
 router.post('/event', (req: express$Request, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
     let d = data;
-    if (status === 200) {
+    if (Number(status) === 200) {
       dao.postEventOrganiser(data.insertId, req.uid, (status, data) => {
         res.status(status);
         res.send(d);
       });
     } else {
-      console.log(data);
       res.status(status);
       res.send(data);
     }
@@ -284,7 +281,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
           // Bruker er artist
           dao.addArtistToEvent(start_id, req.params.event_id, (status, data) => {
             console.log(status + ' - status');
-            if (status === 500) {
+            if (Number(status) === 500) {
               res.status(400);
               res.send('Artist already in event');
             } else {
@@ -325,7 +322,7 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
       //sjekk om artist eksisterer
       console.log(start_id);
       dao.addVolunteerToEvent(start_id, req.params.event_id, req.params.vid, (status, data) => {
-        if (status === 500) {
+        if (Number(status) === 500) {
           res.status(400);
           res.send('Staff already in event');
         } else {
