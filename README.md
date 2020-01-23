@@ -11,7 +11,7 @@ npm start
 
 ## Running the server: 
 The server-code requires a mysql-database to run.
-Change the credentials in Server/src/config.js to the mysql database of your choice.
+Change the credentials in Server/src/config/dbCredentials.js to the mysql database of your choice.
 
  From the top-level repository folder:
 
