@@ -2,18 +2,20 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import mysql from 'mysql';
-import { sendInvite } from '../mailClient';
-import { User, Organiser } from '../../dao/modelDao';
 import uploadFunctions from '../uploadHelper';
-
+import { productionDatabase } from '../config/dbCredentials';
 var path = require('path');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let app = express();
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new publicDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
