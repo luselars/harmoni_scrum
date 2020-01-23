@@ -54,7 +54,7 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
         if (response.data.length == 0) {
           alert('Ingen bruker er knyttet til eposten.');
         } else {
-          PublicService.newPassword(this.state.email, response.data.type)
+          PublicService.newPassword(this.state.email, response.data[0].type)
             .then(response => {
               console.log('Email sent');
               window.location = '/glemtpassordregisrert';
