@@ -42,32 +42,31 @@ class EventNew2 extends Component<Props, State> {
 
   render() {
     return (
-      <div class="card" id="cardnewevent">
-        <div class="createEvent">
-          {/*<form>*/}
-          <div class="form-row">
-            <div class="col" id="coltitle">
-              <p>
-                Last opp bilde
-                <MoreInfo
-                  padding={'5px'}
-                  text={
-                    'Last opp et bilde som vises øverst på arrangementet. Godtatte filtyper er .jpg, .png, .jpeg'
-                  }
-                />
-              </p>
-              <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
-            </div>
+      <div class="form-row">
+        <div class="col-12 text-center">
+          <label>
+            Last opp bilde
+            <MoreInfo
+              padding={'5px'}
+              text={
+                'Last opp et bilde som vises øverst på arrangementet. Godtatte filtyper er .jpg, .png, .jpeg'
+              }
+            />
+          </label>
+          <small id="imageUploadOptional" className="form-text text-muted mb-2">
+            Valgfritt
+          </small>
+          <div className="text-center">
+            <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
           </div>
-          <div>
-            <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
-              Tilbake
-            </button>
-            <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
-              Neste
-            </button>
-          </div>
-          {/*</form>*/}
+        </div>
+        <div>
+          <button onClick={() => this.back()} class="btn btn-success" id="backbtn">
+            Tilbake
+          </button>
+          <button onClick={() => this.next()} class="btn btn-success" id="nextbtn">
+            Neste
+          </button>
         </div>
       </div>
     );

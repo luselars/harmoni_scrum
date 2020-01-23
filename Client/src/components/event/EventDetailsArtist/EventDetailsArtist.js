@@ -67,7 +67,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
   render() {
     return (
       <div>
-        <div className="card" id="carddetailsevent">
+        <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel == 0 ? (
               this.state.event.image != null ? (

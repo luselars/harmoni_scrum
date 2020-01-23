@@ -68,7 +68,7 @@ class EventNew extends Component<Props, State> {
             <input
               required
               type="text"
-              className="form-control"
+              className="form-control mb-4"
               placeholder="Skriv tittel her..."
               id="eventnameinput"
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
@@ -85,7 +85,7 @@ class EventNew extends Component<Props, State> {
               />
             </label>
             <textarea
-              className={'form-control'}
+              className={'form-control mb-4'}
               id={'eventdesc'}
               rows="4"
               cols="50"
@@ -98,6 +98,9 @@ class EventNew extends Component<Props, State> {
             <label id="eventdatestart" htmlFor="start">
               Starttidspunkt
             </label>
+            <small id="startDateOptional" className="form-text text-muted mb-2">
+              Kan endres senere
+            </small>
             <input
               className="form-control w-50"
               type="date"
@@ -109,7 +112,7 @@ class EventNew extends Component<Props, State> {
               onChange={() => this.updateTime()}
             />
             <input
-              className="form-control w-50"
+              className="form-control w-50 mb-4"
               type="time"
               id="start_time"
               name="start"
@@ -117,9 +120,6 @@ class EventNew extends Component<Props, State> {
               defaultValue={this.currentTime()}
               onChange={() => this.updateTime()}
             />
-            <small id="startDateOptional" className="form-text text-muted mb-3">
-              Kan endres senere
-            </small>
             {/*<TimeField
               id="start_time"
               style={{ width: '100px' }}
@@ -128,6 +128,9 @@ class EventNew extends Component<Props, State> {
             <label id="eventdateend" htmlFor="end">
               Sluttidspunkt
             </label>
+            <small id="startDateOptional" className="form-text text-muted mb-2">
+              Kan endres senere
+            </small>
             <input
               className="form-control w-50"
               type="date"
@@ -139,15 +142,12 @@ class EventNew extends Component<Props, State> {
             />
 
             <input
-              className="form-control w-50"
+              className="form-control w-50 mb-4"
               type="time"
               id="end_time"
               name="end"
               onChange={() => this.updateTime()}
             />
-            <small id="startDateOptional" className="form-text text-muted mb-3">
-              Kan endres senere
-            </small>
             {/*
             <TimeField
               id="end_time"
@@ -163,8 +163,11 @@ class EventNew extends Component<Props, State> {
                 }
               />
             </label>
+            <small id="statusOptional" className="form-text text-muted mb-2">
+              Valgfritt
+            </small>
             <textarea
-              className="form-control"
+              className="form-control mb-4"
               id="eventstatus"
               rows="1"
               cols="50"
@@ -173,9 +176,6 @@ class EventNew extends Component<Props, State> {
                 (this.state.event.status = event.target.value)
               }
             />
-            <small id="statusOptional" className="form-text text-muted mb-3">
-              Valgfritt
-            </small>
 
             <BootstrapSwitchButton
               ref="public"

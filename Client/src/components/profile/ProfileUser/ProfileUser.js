@@ -75,11 +75,10 @@ export default class ProfileUser extends Component<{}, State> {
                       Du har
                       {this.state.user.eventsFinished == 0
                         ? ' ingen fullførte arrangement'
-                        : +' ' +
+                        : ' ' +
                           this.state.user.eventsFinished +
-                          (this.state.user.eventsFinished > 1
-                            ? ' fullførte arrangementer'
-                            : ' fullførte arrangement')}
+                          ' fullførte ' +
+                          (this.state.user.eventsFinished > 1 ? ' arrangementer' : ' arrangement')}
                     </p>
                     <button
                       className="btn btn-success bg-green"

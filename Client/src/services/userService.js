@@ -35,7 +35,7 @@ export class UserService {
     return axios.get(url, config);
   }
 
-  // Get all riders on an event
+
   static getRiders(event_id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + event_id + '/riders';
     return axios.get(url, config);
@@ -50,7 +50,7 @@ export class UserService {
     let url = url_base + '/artistname';
     return axios.put<Object>(url, { artist_name }, config);
   }
-
+  // Get all riders on an event
   static getMyRiders(event_id: number): AxiosPromise<Rider> {
     let url = url_base + '/event/rider/' + event_id;
     return axios.get<Object>(url, config);
@@ -60,4 +60,10 @@ export class UserService {
     let url = url_base + '/event/' + event_id + '/riders';
     return axios.post(url, { rider_file }, config);
   }
+
+  static deleteRider(rider_id: number) {
+    let url = url_base + '/rider/' + rider_id;
+    return axios.delete(url, config);
+  }
+
 }

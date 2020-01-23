@@ -149,6 +149,13 @@ router.get('/event/:event_id/riders', (req: express$Request, res: express$Respon
   });
 });
 
+router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.rider_id, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
 router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;

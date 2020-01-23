@@ -45,8 +45,14 @@ module.exports = class UserDao extends Dao {
 
   getUserInfo(user_id: number, callback: (status: string, data: Object) => mixed) {
     console.log(user_id);
-    let queryString =
-      'SELECT u.*, a.artist_name FROM user u LEFT JOIN artist a USING(user_id) WHERE user_id = ?';
+    let queryString = `SELECT u.user_id, u.email, u.name, u.image, u.description, u.tlf, v.eventsFinished, v.eventsComing 
+      FROM user u
+      LEFT JOIN (SELECT ea.user_id, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, 
+      COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing 
+      FROM event e 
+      LEFT JOIN event_artist ea USING(event_id)
+      GROUP BY ea.user_id) v USING(user_id) 
+      WHERE u.user_id = ?`;
     super.query(queryString, [user_id], callback);
   }
 
@@ -103,6 +109,17 @@ module.exports = class UserDao extends Dao {
         [user_id, event_id, rider_file], callback
     );
   }
+
+  deleteRider(
+      rider_id: number,
+      user_id: number,
+      callback: (status: string, data: Object)=> mixed) {
+    super.query(
+       'DELETE FROM rider WHERE rider_id = ? AND user_id = ?',
+       [rider_id, user_id], callback
+    );
+  }
+
 
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
