@@ -28,17 +28,30 @@
 
 #eventButton {
   margin-left: 0;
-  margin-right: -15px;
+  margin-right: -10px;
 }
 
 .loginGroup {
   display: contents;
 }
 
-@media screen and (max-width: 415px) {
-  #loginButton,
-  #profileButton,
-  #homeButton #eventButton {
-    padding-left: 5px;
+@media screen and (max-width: 600px) {
+  #navbarSupportedContent {
+    display: none;
+  }
+  .navbar-toggler {
+    display: contents;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .navbar-toggler {
+    display: none;
+  }
+  #navbarSupportedContent {
+    display: contents !important;
+  }
+  .loginGroup {
+    display: contents !important;
   }
 }

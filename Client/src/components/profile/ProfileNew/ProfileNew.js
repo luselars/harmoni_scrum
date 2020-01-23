@@ -4,7 +4,6 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
-import { OrganiserService } from '../../../services/organiserService';
 let path = require('path');
 
 export default class ProfileNew extends Component<
@@ -160,6 +159,7 @@ export default class ProfileNew extends Component<
             {this.state.organiser ? (
               <div className="ml-5 mr-5" id="addressForm">
                 <iframe
+                  title="Google maps"
                   id="map"
                   width="100%"
                   height="300px"
@@ -279,9 +279,9 @@ export default class ProfileNew extends Component<
     this.setState({
       address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
     });
-    if (this.state.password == this.state.passwordConfirmation) {
+    if (this.state.password === this.state.passwordConfirmation) {
       PublicService.checkEmail(this.state.email).then(res => {
-        if (res.data.length == 0) {
+        if (res.data.length === 0) {
           // Image
           let element = document.getElementById('upload');
           if (element.value !== '') {

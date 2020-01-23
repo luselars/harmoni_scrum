@@ -13,7 +13,7 @@ module.exports = class UserDao extends Dao {
   editUser(user_id: number, user: User, callback: (status: string, data: Object) => mixed) {
     var password = '';
 
-    if (user.hash != null) {
+    if (user.hash !== null) {
       password = ", hash = '" + user.hash + "', salt = '" + user.salt + "'";
     }
 
@@ -47,8 +47,8 @@ module.exports = class UserDao extends Dao {
     console.log(user_id);
     let queryString = `SELECT u.user_id, u.email, u.name, u.image, u.description, u.tlf, v.eventsFinished, v.eventsComing 
       FROM user u
-      LEFT JOIN (SELECT ea.user_id, COUNT(IF(e.start <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, 
-      COUNT(IF(e.start > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing 
+      LEFT JOIN (SELECT ea.user_id, COUNT(IF(e.end <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, 
+      COUNT(IF(e.end > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing 
       FROM event e 
       LEFT JOIN event_artist ea USING(event_id)
       GROUP BY ea.user_id) v USING(user_id) 
@@ -73,10 +73,10 @@ module.exports = class UserDao extends Dao {
     );
   }
 
-  getMyEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
+  getMyEvent(user_id: number, event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE e.event_id = ?'; // eo.organiser_id = ? AND TODO: ADD artist id check
-    super.query(queryString, [event_id], callback);
+      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?'; // eo.organiser_id = ? AND TODO: ADD artist id check
+    super.query(queryString, [user_id, event_id], callback);
   }
 
   getMyRiders(
@@ -85,7 +85,7 @@ module.exports = class UserDao extends Dao {
     callback: (status: string, data: Object) => mixed,
   ) {
     super.query(
-      'SELECT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.user_id = r.user_id WHERE ea.event_id = ? AND ea.user_id = ?',
+      'SELECT DISTINCT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.event_id = r.event_id AND ea.user_id = r.user_id WHERE ea.event_id = ? AND r.user_id = ?',
       [event_id, user_id],
       callback,
     );
@@ -100,30 +100,43 @@ module.exports = class UserDao extends Dao {
   }
 
   postRiders(
-      user_id: number,
-      event_id: number,
-      rider_file: string,
-      callback: (status: string, data: Object) => mixed) {
+    user_id: number,
+    event_id: number,
+    rider_file: string,
+    callback: (status: string, data: Object) => mixed,
+  ) {
     super.query(
-        'INSERT INTO rider (user_id, event_id, rider_file) VALUES (?,?,?)',
-        [user_id, event_id, rider_file], callback
+      'INSERT INTO rider (user_id, event_id, rider_file) VALUES (?,?,?)',
+      [user_id, event_id, rider_file],
+      callback,
     );
   }
 
   deleteRider(
-      rider_id: number,
-      user_id: number,
-      callback: (status: string, data: Object)=> mixed) {
+    rider_id: number,
+    user_id: number,
+    callback: (status: string, data: Object) => mixed,
+  ) {
     super.query(
-       'DELETE FROM rider WHERE rider_id = ? AND user_id = ?',
-       [rider_id, user_id], callback
+      'DELETE FROM rider WHERE rider_id = ? AND user_id = ?',
+      [rider_id, user_id],
+      callback,
     );
   }
 
-
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT u.email, a.user_id, a.artist_name, ea.contract, ea.notes FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
+      'SELECT u.email, a.user_id, a.artist_name FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
     super.query(queryString, [event_id], callback);
+  }
+
+  putEventArtist(
+    event_id: number,
+    user_id: number,
+    notes: string,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
+    super.query(queryString, [notes, user_id, event_id], callback);
   }
 };

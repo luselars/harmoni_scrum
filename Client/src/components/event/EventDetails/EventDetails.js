@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Event, Artist } from '../../../services/modelService';
-import { OrganiserService } from '../../../services/organiserService';
 import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
@@ -85,17 +84,17 @@ export default class EventDetails extends Component<Props, State> {
               <tr>
                 <th className="hoyre text-right">Sted:</th>
                 <td className="venstre text-left">
-                  {this.state.location_name.length == 0 && this.state.venue.length != 0
+                  {this.state.location_name.length === 0 && this.state.venue.length !== 0
                     ? this.state.venue
-                    : this.state.venue.length == 0 && this.state.location_name.length != 0
+                    : this.state.venue.length === 0 && this.state.location_name.length !== 0
                     ? this.state.location_name
-                    : this.state.venue.length == 0 && this.state.location_name.length == 0
+                    : this.state.venue.length === 0 && this.state.location_name.length === 0
                     ? 'Kommer snart'
                     : this.state.location_name + ', ' + this.state.venue}
                 </td>
               </tr>
               <tr>
-                {this.state.artist.length == 0 ? (
+                {this.state.artist.length === 0 ? (
                   <p></p>
                 ) : (
                   <th className="hoyre text-right">Lineup:</th>
@@ -106,10 +105,11 @@ export default class EventDetails extends Component<Props, State> {
               </tr>
             </tbody>
           </table>
-          {this.state.event.address == null ? (
+          {this.state.event.address === null ? (
             <></>
           ) : (
             <iframe
+              title="Google maps"
               id="map"
               width="100%"
               height="300px"
@@ -147,7 +147,7 @@ export default class EventDetails extends Component<Props, State> {
         } else {
           this.setState({ location_name: event.location_name });
         }
-        if (this.state.event.eventvenue == null) {
+        if (this.state.event.eventvenue === null) {
           this.setState({ venue: '' });
           console.log('Venue: ' + this.state.venue.length);
         } else {

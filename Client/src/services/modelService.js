@@ -1,5 +1,3 @@
-import { string } from 'prop-types';
-
 // Event-model
 export class Event {
   constructor() {
@@ -28,6 +26,8 @@ export class Event {
   postcode: number;
   max_price: number;
   min_price: number;
+  contract: string;
+  notes: string;
 }
 
 export class User {

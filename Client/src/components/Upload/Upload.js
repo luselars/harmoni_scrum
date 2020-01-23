@@ -3,7 +3,7 @@ import React from 'react';
 import { Component } from 'react';
 import FormData from 'form-data';
 import { UserService } from '../../services/userService.js';
-import { string } from 'prop-types';
+//import { string } from 'prop-types';
 import { OrganiserService } from '../../services/organiserService';
 let path = require('path');
 
@@ -18,6 +18,7 @@ class Upload extends Component<Props> {
   render() {
     return (
       <div>
+        <img id="prev" src="" height="200" alt="" />
         <label className="custom-file-upload" style={{ cursor: 'pointer' }}>
           <input
             style={{ display: 'none' }}
@@ -28,7 +29,6 @@ class Upload extends Component<Props> {
             onChange={e => this.preview()}
           />
           <i className="fa fa-cloud-upload"></i> Bla igjennom...
-          <img id="prev" src="" height="200" alt="" />
         </label>
       </div>
     );

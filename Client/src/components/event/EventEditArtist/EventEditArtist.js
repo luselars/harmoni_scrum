@@ -2,7 +2,6 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import { User, Event } from '../../../services/modelService';
 import { PublicService } from '../../../services/publicService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
@@ -35,7 +34,6 @@ class EventNew5 extends Component<Props, State> {
           console.log(this.state.riders);
         });
       });
-
     });
 
     /*publishNotes(artist_id: number, notes: string) {
@@ -77,7 +75,6 @@ class EventNew5 extends Component<Props, State> {
                 artist_id={this.state.artist.user_id}
                 event_id={this.props.match.params.id}
                 organiser={false}
-
               />
             </div>
             <br />
@@ -109,7 +106,7 @@ class EventNew5 extends Component<Props, State> {
     console.log(rider_id);
     UserService.deleteRider(rider_id).then(r => {
       console.log(r);
-      console.log("sletta du en rider?");
+      console.log('sletta du en rider?');
       this.componentDidMount();
     });
   }

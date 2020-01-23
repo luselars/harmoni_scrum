@@ -69,14 +69,12 @@ export default class LogIn extends Component<{}, { email: string, password: stri
 
   changeEmail(e: any) {
     const target = e.target;
-    let name: string = target.name;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
   changePassword(e: any) {
     const target = e.target;
-    let name: string = target.name;
     let value: string = target.value;
     this.setState({ password: value });
   }
