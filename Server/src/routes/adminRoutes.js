@@ -2,13 +2,18 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
+import { productionDatabase } from '../config/dbCredentials';
 let bcrypt = require('bcryptjs');
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
-
 const adminDao = require('../../dao/adminDao.js');
-let dao = new adminDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new adminDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 let router = express.Router();
 
 // Middleware for admin activities

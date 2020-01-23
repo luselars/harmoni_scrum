@@ -104,7 +104,7 @@ export default class Filter extends Component<{}, State> {
                     onChange={e => this.handleChangeAlt(e)}
                   ></input>
                   <label className="placecheck form-check-label" for="placeCheck2">
-                    Se avlyste arragementer
+                    Avlyste arragementer
                   </label>
                 </div>
                 <div className="col filtercategories border-bottom">
@@ -113,23 +113,19 @@ export default class Filter extends Component<{}, State> {
                 <div className="input-group pricegroup my-3 " id="searchBox2">
                   <div class="input-group md-form form-sm form-1 pl-0">
                     <div class="input-group-prepend">
-                      <span
-                        onClick={() => this.post()}
-                        class="input-group-text purple lighten-3"
-                        id="basic-text1"
-                      >
+                      <span class="input-group-text purple lighten-3" id="basic-text1">
                         <link
                           rel="stylesheet"
                           href="path/to/font-awesome/css/font-awesome.min.css"
                         ></link>
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        Fra
                       </span>
                     </div>
                     <input
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
                       type="text"
-                      placeholder="Fra"
+                      placeholder="Søk..."
                       aria-label="Search"
                     />
                   </div>
@@ -137,23 +133,19 @@ export default class Filter extends Component<{}, State> {
                 <div className="input-group pricegroup my-3 " id="searchBox2">
                   <div class="input-group md-form form-sm form-1 pl-0">
                     <div class="input-group-prepend">
-                      <span
-                        onClick={() => this.post()}
-                        class="input-group-text purple lighten-3"
-                        id="basic-text1"
-                      >
+                      <span class="input-group-text purple lighten-3" id="basic-text1">
                         <link
                           rel="stylesheet"
                           href="path/to/font-awesome/css/font-awesome.min.css"
                         ></link>
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        Til
                       </span>
                     </div>
                     <input
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
                       type="text"
-                      placeholder="Til"
+                      placeholder="Søk..."
                       aria-label="Search"
                     />
                   </div>
@@ -167,6 +159,7 @@ export default class Filter extends Component<{}, State> {
   }
 
   componentDidMount() {
+    console.log(window.screen.availWidth);
     if (window.screen.availWidth > 600) {
       this.setState({ status: true });
     } else {

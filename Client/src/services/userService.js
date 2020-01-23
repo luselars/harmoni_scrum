@@ -30,7 +30,7 @@ export class UserService {
     return axios.get(url, config);
   }
 
-  static getArtists(event_id: number): AxiosPromise<Artist[]> {
+  static getArtists(event_id: number): AxiosPromise<User[]> {
     let url = url_base + '/artist/' + event_id;
     return axios.get(url, config);
   }
@@ -50,7 +50,7 @@ export class UserService {
     return axios.put<Object>(url, { artist_name }, config);
   }
   // Get all riders on an event
-  static getMyRiders(event_id: number): AxiosPromise<Rider> {
+  static getMyRiders(event_id: number): AxiosPromise<Object[]> {
     let url = url_base + '/event/' + +event_id + '/riders';
     return axios.get<Object>(url, config);
   }

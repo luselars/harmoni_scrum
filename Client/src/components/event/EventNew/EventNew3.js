@@ -39,7 +39,7 @@ class EventNew3 extends Component<Props> {
   }
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
-    if (localStorage.getItem('curr_event') != null) {
+    if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
@@ -52,7 +52,7 @@ class EventNew3 extends Component<Props> {
           this.setState({ locations: response.data });
           console.log(this.state.locations);
           this.setState({ location_nr: document.getElementById('postcode').value });
-          if (data.location_id != null) {
+          if (data.location_id !== null) {
             let locData = new Location();
             for (let i = 0; i < response.data.length; i++) {
               if (response.data[i].location_id === data.location_id) {
@@ -98,7 +98,8 @@ class EventNew3 extends Component<Props> {
           <label>Velg sted</label>
           <Autocomplete
             id="search_name"
-            style={{ width: '800px' }}
+            style={{ width: '100%' }}
+            freeSolo
             onChange={(event, value) => this.updateForm(0, value)}
             value={this.state.location_name}
             options={this.state.locations.map(option => option.name)}
@@ -112,14 +113,15 @@ class EventNew3 extends Component<Props> {
                   this.setState({ location_name: this.name.current.value });
                 }}
                 margin="normal"
-                color="secondary"
+                variant="outlined"
                 fullWidth
               />
             )}
           />
           <Autocomplete
             id="search_address"
-            style={{ width: '800px' }}
+            style={{ width: '100%' }}
+            freeSolo
             onChange={(event, value) => this.updateForm(1, value)}
             options={this.state.locations.map(option => option.address)}
             value={this.state.location_addr}
@@ -133,9 +135,10 @@ class EventNew3 extends Component<Props> {
                     this.setState({ location_addr: this.addr.current.value });
                   }
                 }}
-                label="Stedsaddresse"
-                margin="normal"
-                color="secondary"
+                label="Adresse"
+                margin="narrow"
+                padding="narrow"
+                variant="outlined"
                 fullWidth
               />
             )}
@@ -143,7 +146,7 @@ class EventNew3 extends Component<Props> {
         </div>
 
         <label htmlFor="postcode">Postkode:</label>
-        <input id="postcode" type="text" />
+        <input className="form-control w-50" id="postcode" type="text" />
         <label htmlFor="postcode">
           Scene:
           <MoreInfo
@@ -151,7 +154,11 @@ class EventNew3 extends Component<Props> {
             text={'Om du vil kan du spesifisere hvilken scene arrangementet foregår på.'}
           />
         </label>
-        <input id="venue" type="text" />
+        <small id="sceneOptional" className="form-text text-muted mb-2">
+          Valgfritt
+        </small>
+        <input className="form-control w-50" id="venue" type="text" />
+
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake

@@ -2,11 +2,17 @@ import chai from 'chai';
 import http from 'chai-http';
 import app from '../server';
 import { User } from '../../dao/modelDao';
+import { testDatabase } from '../config/dbCredentials';
 
 chai.use(http);
 const { expect } = chai;
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+let dao = new publicDao(
+  testDatabase.url,
+  testDatabase.user,
+  testDatabase.password,
+  testDatabase.database,
+);
 const runsqlfile = require('./runsqlfile.js');
 let publicRoutes = require('../routes/publicRoutes');
 publicRoutes.changeDao(dao);

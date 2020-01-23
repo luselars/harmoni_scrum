@@ -11,9 +11,15 @@ event.event_id = 2;
 */
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
+import { testDatabase } from '../config/dbCredentials';
 //import {Artist} from "../../../Client/src/services/modelService";
 const adminDao = require('../../dao/adminDao.js');
-let dao = new adminDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+let dao = new adminDao(
+  testDatabase.url,
+  testDatabase.user,
+  testDatabase.password,
+  testDatabase.database,
+);
 const runsqlfile = require('./runsqlfile.js');
 
 class State {

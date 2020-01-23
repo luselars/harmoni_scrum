@@ -4,6 +4,7 @@ import express$Request from 'express';
 import express$Response from 'express';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
+import { productionDatabase } from '../config/dbCredentials';
 //import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
 let bcrypt = require('bcryptjs');
@@ -13,7 +14,12 @@ let td = new tokenDecoder();
 var nodemailer = require('nodemailer');
 
 const organiserDao = require('../../dao/organiserDao.js');
-let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new organiserDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 
 const upload = require('../uploadHelper');
 let router = express.Router();
