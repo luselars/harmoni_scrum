@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
 import { Artist } from '../../services/modelService';
+import { UserService } from '../../services/userService';
 
 let path = require('path');
 
@@ -11,6 +12,7 @@ type Props = {
   artist_id: number,
   event_id: number,
   reload: any,
+  organiser: boolean,
 };
 type State = {
   value: any,
@@ -61,18 +63,22 @@ class UploadRider extends Component<Props, State> {
       'load',
       function() {
         // send here
-        OrganiserService.postRider(reader.result, ev_id, artist_id)
-          .then(resp => {
-            console.log(resp);
-            if (resp.status === 200) {
-              console.log('Rider lastet opp.');
-              element.files = null;
-              that.props.reload();
-            } else {
-              alert('Kunne ikke laste opp rider.');
-            }
-          })
-          .catch(error => console.log(error));
+        if (that.props.organiser) {
+          OrganiserService.postRider(reader.result, ev_id, artist_id)
+            .then(resp => {
+              console.log(resp);
+              if (resp.status === 200) {
+                console.log('Rider lastet opp.');
+                element.files = null;
+                that.props.reload();
+              } else {
+                alert('Kunne ikke laste opp rider.');
+              }
+            })
+            .catch(error => console.log(error));
+        } else {
+          // TODO legg til post for artist her
+        }
       },
       false,
     );

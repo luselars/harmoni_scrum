@@ -81,6 +81,7 @@ class EventNew5 extends Component<Props, State> {
                   </textarea>
                   <br />
                   <UploadRider
+                    organiser={true}
                     reload={() => this.handleReload()}
                     accept={'.pdf'}
                     message={'Last opp rider'}
