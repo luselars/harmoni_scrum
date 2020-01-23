@@ -125,7 +125,7 @@ export default class EventList extends Component<Props, State> {
       events: tempEvents,
       pageCount: Math.ceil(tempEvents.length / this.state.eventsPerPage),
     });
-    this.fuse = new Fuse(this.state.tempEvents, options);
+    this.fuse = new Fuse(tempEvents, options);
   };
 
   handleFilterPriceChange = (filterChange, type) => {
