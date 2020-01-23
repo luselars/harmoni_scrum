@@ -62,37 +62,9 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
-        // send here, has to do different for artist and organiser because of backend authentication
-        if(this.props.artist) {
-          UserService.postRider(reader.result, ev_id, artist_id)
-              .then(resp => {
-                console.log(resp);
-                if (resp.status === 200) {
-                  console.log('Rider lastet opp.');
-                  element.files = null;
-                  that.props.reload();
-                } else {
-                  alert('Kunne ikke laste opp rider.');
-                }
-              })
-              .catch(error => console.log(error));
-        }
-        else {
-          OrganiserService.postRider(reader.result, ev_id, artist_id)
-              .then(resp => {
-                console.log(resp);
-                if (resp.status === 200) {
-                  console.log('Rider lastet opp.');
-                  element.files = null;
-                  that.props.reload();
-                } else {
-                  alert('Kunne ikke laste opp rider.');
-                }
-              })
-              .catch(error => console.log(error));
-        }
 
 
+        console.log(that.props.organiser);
         // send here
         if (that.props.organiser) {
           OrganiserService.postRider(reader.result, ev_id, artist_id)
