@@ -166,4 +166,12 @@ router.post('/event/:event_id/riders', (req: express$Request, res: express$Respo
   });
 });
 
+
+router.put('/event/:event_id/notes', (req: express$Request, res: express$Response) => {
+  dao.putEventArtist(req.params.event_id, req.uid, req.body.notes, (status, data)=>{
+    res.status(status);
+    res.send(data);
+  });
+});
+
 module.exports = router;

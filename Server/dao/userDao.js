@@ -130,5 +130,14 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
+  putEventArtist(
+      event_id: number,
+      user_id: number,
+      notes: string,
+      callback: (status: string, data: Object)=> mixed
+  ){
+    var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
+    super.query(queryString, [notes, user_id, event_id], callback);
+  }
 
 };

@@ -66,4 +66,9 @@ export class UserService {
     return axios.delete(url, config);
   }
 
+  static putNotes(notes: string, event_id: number) {
+    let url = url_base + '/event/' + event_id + '/notes';
+    return axios.put(url, {notes}, config);
+  }
+
 }
