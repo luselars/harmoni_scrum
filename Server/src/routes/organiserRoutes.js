@@ -253,9 +253,10 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
 
     if (data.length === 0) {
       //lag en dummy user og artist:
-      let password = 'EndreMeg';
+      let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
+      let password = rand.toString();
       let salt = bcrypt.genSaltSync(10);
-      let hash = bcrypt.hashSync(password, req.body.salt);
+      let hash = bcrypt.hashSync(password, salt);
       dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
         let id = data.insertId;

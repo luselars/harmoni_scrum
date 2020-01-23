@@ -105,4 +105,19 @@ module.exports = class PublicDao extends Dao {
       callback,
     );
   }
+
+  editPasswordOrg(hash: string, salt: string, email: string, callback) {
+    super.query(
+      'UPDATE organiser SET hash = ?, salt = ? WHERE organiser_email = ?',
+      [hash, salt, email],
+      callback,
+    );
+  }
+  editPasswordUser(hash: string, salt: string, email: string, callback) {
+    super.query(
+      'UPDATE user SET hash = ?, salt = ? WHERE email = ?',
+      [hash, salt, email],
+      callback,
+    );
+  }
 };

@@ -213,6 +213,7 @@ router.post('/register', (req: express$Request, res: express$Response) => {
 // Check if email is in DB
 router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
   dao.emailExists(req.params.email, (status, data) => {
+    console.log(data);
     res.status(status);
     res.send(data);
   });
@@ -270,8 +271,25 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   });
 });
 
-//Send ned password
+//Send new password
 router.post('/newpassword', (req: express$Request, res: express$Response) => {
+  let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
+  let password = rand.toString();
+  let salt = bcrypt.genSaltSync(10);
+  let hash = bcrypt.hashSync(password, salt);
+  console.log('TYPE:' + req.body.type);
+  if (req.body.type == 'organiser') {
+    dao.editPasswordOrg(hash, salt, req.body.email, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  } else {
+    dao.editPasswordUser(hash, salt, req.body.email, (status, data) => {
+      res.status(status);
+      res.send(data);
+    });
+  }
+
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -286,8 +304,9 @@ router.post('/newpassword', (req: express$Request, res: express$Response) => {
     subject: 'Nytt Passord',
     html:
       '<h1></h1><p>Vi har tilbakestilt ditt gamle passord til et midlertidig passord. Vennligst logg inn og endre dette så fort som mulig.</p>' +
-      '<p><b>Ditt nye passord: <b>' +
-      '12344</p><p>Mvh.<br>Alle oss i harmoni</p>',
+      '<p><b>Ditt nye passord: </b>' +
+      password +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
 
   transporter.sendMail(mailOptions, function(error, info) {

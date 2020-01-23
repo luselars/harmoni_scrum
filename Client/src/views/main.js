@@ -13,7 +13,7 @@ export default class Main extends Component<{}, State> {
   render() {
     return (
       <div className="main">
-        <EventList />
+        <EventList profile_list={false} />
       </div>
     );
   }

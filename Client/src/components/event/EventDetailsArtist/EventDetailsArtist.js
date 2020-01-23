@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService.js';
-import { OrganiserService } from '../../../services/organiserService';
+import { UserService } from '../../../services/userService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
 import { PublicService } from '../../../services/publicService';
 
@@ -21,8 +21,6 @@ type Props = {
   match: { params: { id: number } },
 };
 
-//<{match: { params: {id: number}}},{props: {event: Event, artists: [], riders: []}}>
-
 export default class EventDetailsArtist extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -35,33 +33,21 @@ export default class EventDetailsArtist extends Component<Props, State> {
       pers: [],
       types: [],
     };
-
-    {
-      /*this.state = {
-      event: new Event(),
-      artists: [],
-      riders: [],
-    };*/
-    }
   }
   componentDidMount() {
-    OrganiserService.getArtists(this.props.match.params.id)
+    UserService.getArtists(this.props.match.params.id)
       .then(res => {
         console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
-        if (error == 'Error: Request failed with status code 404') {
-          window.location = '/404';
-        } else {
-          alert(error);
-          window.location = '/404';
-        }
+        alert(error);
+        //window.location = '/404';
       });
-    OrganiserService.getEvent(this.props.match.params.id)
+
+    UserService.getEvent(this.props.match.params.id)
       .then(res => {
-        let event: any = res.data;
-        console.log(event);
+        let event: any = res.data[0];
         this.setState({
           event: event,
           cancel: event.cancel,
@@ -69,9 +55,11 @@ export default class EventDetailsArtist extends Component<Props, State> {
       })
       .catch(error => console.log(error));
 
-    OrganiserService.getRiders(this.props.match.params.id).then(res => {
+    /*UserService.getRiders(this.props.match.params.id).then(res => {
+      console.log(res.data);
       this.setState({ riders: res.data });
-    });
+    });*/
+
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
       this.setState({ tickets: response.data });
     });
@@ -79,38 +67,6 @@ export default class EventDetailsArtist extends Component<Props, State> {
   render() {
     return (
       <div>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        ></link>
-        <div id="myModal" className="modal" role="dialog" aria-hidden="true">
-          <div className="modal-content">
-            <span className="close">&times;</span>
-            <div className="modalbody">
-              <p className="border-bottom">Vil du slette arrangementet?</p>
-              <button className="btn btn-success modalbtn" id="cancel">
-                Avbryt
-              </button>
-              <button className="btn btn-secondary modalbtn" onClick={() => this.delete()}>
-                Slett
-              </button>
-            </div>
-          </div>
-        </div>
-        <div id="myModal2" className="modal" role="dialog">
-          <div className="modal-content">
-            <span className="close2">&times;</span>
-            <div className="modalbody">
-              <p className="border-bottom">Vil du avlyse arrangementet?</p>
-              <button className="btn btn-success modalbtn" id="cancel2">
-                Avbryt
-              </button>
-              <button className="btn btn-secondary modalbtn" onClick={() => this.cancel()}>
-                Avlys
-              </button>
-            </div>
-          </div>
-        </div>
         <div className="card" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel == 0 ? (
@@ -334,20 +290,6 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
-                      Status:
-                    </th>
-                    {this.state.event.status !== null ? (
-                      <div>
-                        <td className="text-left">{this.state.event.status}</td>
-                      </div>
-                    ) : (
-                      <div>
-                        <td className="text-left">-</td>
-                      </div>
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
                       Sted:
                     </th>
                     {this.state.event.venue !== '' && this.state.event.venue !== null ? (
@@ -391,31 +333,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                 id="editeventbtn"
                 onClick={() => this.edit()}
               >
-                Endre
-              </button>
-              {this.state.event.cancel == 0 ? (
-                <button
-                  className="btn btn-secondary mx-auto d-block m-2"
-                  id="cancelbtn"
-                  onClick={() => this.btnclicked('cancelbtn')}
-                >
-                  Avlys
-                </button>
-              ) : (
-                <button
-                  className="btn btn-secondary mx-auto d-block m-2"
-                  id="cancelbtn"
-                  onClick={() => this.cancel()}
-                >
-                  Gjenopprett
-                </button>
-              )}
-              <button
-                className="btn btn-secondary mx-auto d-block m-2"
-                id="deleteeventbtn"
-                onClick={() => this.btnclicked('deleteeventbtn')}
-              >
-                <i className="fa fa-trash" aria-hidden="true"></i> Slett
+                Endre riders
               </button>
             </div>
           </div>
@@ -423,84 +341,8 @@ export default class EventDetailsArtist extends Component<Props, State> {
       </div>
     );
   }
-  btnclicked(id: string) {
-    if (id == 'deleteeventbtn') {
-      let btn = document.getElementById('deleteeventbtn');
-      let modal = document.getElementById('myModal');
-      let span = document.getElementsByClassName('close')[0];
-      let cancel = document.getElementById('cancel');
-      //dette er en sjekk for å ikke få Flow(InferError), ikke fjern den hvis det ikke løses på en annen måte/den ikke er et problem
-      if (modal && cancel instanceof HTMLElement) {
-        modal.style.display = 'block';
-        span.onclick = function() {
-          modal.style.display = 'none';
-        };
-        cancel.onclick = function() {
-          modal.style.display = 'none';
-        };
-      }
-    } else {
-      let btn = document.getElementById('cancelbtn');
-      let modal = document.getElementById('myModal2');
-      let span = document.getElementsByClassName('close2')[0];
-      let cancel = document.getElementById('cancel2');
-      //dette er en sjekk for å ikke få Flow(InferError), ikke fjern den hvis det ikke løses på en annen måte/den ikke er et problem
-      if (modal && cancel && btn instanceof HTMLElement) {
-        modal.style.display = 'block';
-        span.onclick = function() {
-          modal.style.display = 'none';
-        };
-        cancel.onclick = function() {
-          modal.style.display = 'none';
-          console.log('heihiii');
-        };
-        //la til denne, tror den manglet
-        btn.onclick = function() {
-          modal.style.display = 'none';
-        };
-      }
-    }
-
-    window.onclick = function(event) {
-      if (event.target.className == 'modal') {
-        //modal.style.display = 'none';
-        event.target.style.display = 'none';
-      }
-      {
-        /* ganske sikker på at denne er unødvendig nå, etter at jeg fikset btn.onClick() over her
-      let cancel = document.getElementById('cancel2');
-      if(cancel instanceof HTMLElement) {
-        cancel.onclick = function() {
-          modal.style.display = 'none';
-        };
-      }*/
-      }
-      window.onclick = function(event) {
-        if (event.target.className == 'modal') {
-          //modal.style.display = 'none';
-          event.target.style.display = 'none';
-        }
-      };
-    };
-  }
-
-  cancel() {
-    OrganiserService.toggleCancel(this.state.event.event_id).then(response => {
-      window.location = '/orgevent/' + this.state.event.event_id;
-      console.log('done');
-      console.log(this.state.event.cancel);
-    });
-  }
 
   edit() {
-    localStorage.setItem('curr_event', this.state.event.event_id);
-    window.location = '/editevent';
-  }
-  delete() {
-    OrganiserService.deleteEvent(this.props.match.params.id)
-      .then(response => {
-        window.location = '/eventdeleted';
-      })
-      .catch(error => console.error(error));
+    window.location.href = '/userevent/edit/' + this.props.match.params.id;
   }
 }
