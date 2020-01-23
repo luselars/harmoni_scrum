@@ -23,7 +23,6 @@ type State = {
 class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-    //this.check = createRef();
     this.state = {
       event: new Event(),
       checked: false,
@@ -41,7 +40,7 @@ class EventNew extends Component<Props, State> {
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
-        document.getElementById('eventispublic').value = this.state.event.is_public;
+        // TODO olava fiks så switch oppdateres.
         this.insertTime();
       });
     }
@@ -165,6 +164,7 @@ class EventNew extends Component<Props, State> {
             </small>
 
             <BootstrapSwitchButton
+              ref="public"
               checked={true}
               onlabel="Ja"
               offlabel="Nei"
