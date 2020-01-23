@@ -34,6 +34,11 @@ type State = {
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
+    let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
+    let sortAlt = ['', ''];
+    if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
+    if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+
     this.state = {
       events: [],
       oldEvents: [],
@@ -43,6 +48,8 @@ export default class EventList extends Component<Props, State> {
       organiser: organiser,
       offset: 0,
       eventsPerPage: 7,
+      sortType: sortType,
+      sortAlt: sortAlt,
     };
     const fuse = new Fuse(this.state.events, options);
   }
@@ -300,6 +307,11 @@ export default class EventList extends Component<Props, State> {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
+                      initialPage={
+                        localStorage.getItem('page') != null
+                          ? parseInt(localStorage.getItem('page'))
+                          : 0
+                      }
                     />
                   </div>
                 </div>
@@ -369,6 +381,13 @@ export default class EventList extends Component<Props, State> {
       pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(upcommingEvents, options);
+    this.getFilterStateFromLocalStorage();
+  }
+
+  getFilterStateFromLocalStorage() {
+    console.log(this.state.events);
+    this.handleFilterChange(this.state.sortType);
+    this.handleFilterAlternativChange(this.state.sortAlt);
   }
 
   search(event) {
