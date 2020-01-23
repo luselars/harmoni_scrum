@@ -51,8 +51,6 @@ router.use('', (req, res, next) => {
 // Checks organiser of event id for authorization
 router.param('event_id', function(req, res, next, event_id) {
   dao.organiserOwnsEvent(req.params.event_id, req.uid, (status, data) => {
-    console.log(status);
-    console.log(data);
     if (data.length === 0) {
       res.status(404);
       res.send({ error: 'Arragementet eksiterer ikke' });
@@ -81,14 +79,9 @@ router.get('/event/:event_id', (req: express$Request, res: express$Response) => 
 // Create new event (and connect it to the organiser)
 router.post('/event', (req: express$Request, res: express$Response) => {
   dao.postEvent(req.body, (status, data) => {
-    console.log(status);
-    console.log(data);
     let d = data;
     if (Number(status) === 200) {
       dao.postEventOrganiser(data.insertId, req.uid, (status, data) => {
-        console.log('Debug:');
-        console.log(req.uid);
-        console.log(data);
         res.status(status);
         res.send(d);
       });
