@@ -104,6 +104,17 @@ module.exports = class UserDao extends Dao {
     );
   }
 
+  deleteRider(
+      rider_id: number,
+      user_id: number,
+      callback: (status: string, data: Object)=> mixed) {
+    super.query(
+       'DELETE FROM rider WHERE rider_id = ? AND user_id = ?',
+       [rider_id, user_id], callback
+    );
+  }
+
+
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT u.email, a.user_id, a.artist_name, ea.contract, ea.notes FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
