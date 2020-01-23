@@ -104,7 +104,7 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
 
 //Get riders for event
 router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
-  dao.getMyRiders(req.params.event_id, (status, data) => {
+  dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -150,9 +150,12 @@ router.get('/event/:event_id/riders', (req: express$Request, res: express$Respon
 });
 
 router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
-  dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
-    res.status(status);
-    res.send(data);
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
+      res.status(status);
+      res.send(data);
+    });
   });
 });
 
