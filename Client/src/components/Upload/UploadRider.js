@@ -77,7 +77,18 @@ class UploadRider extends Component<Props, State> {
             })
             .catch(error => console.log(error));
         } else {
-          // TODO legg til post for artist her
+          UserService.postRider(reader.result, ev_id)
+            .then(resp => {
+              console.log(resp);
+              if (resp.status === 200) {
+                console.log('Rider lastet opp.');
+                element.files = null;
+                that.props.reload();
+              } else {
+                alert('Kunne ikke laste opp rider.');
+              }
+            })
+            .catch(error => console.log(error));
         }
       },
       false,
