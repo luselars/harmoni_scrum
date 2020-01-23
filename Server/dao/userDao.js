@@ -13,7 +13,7 @@ module.exports = class UserDao extends Dao {
   editUser(user_id: number, user: User, callback: (status: string, data: Object) => mixed) {
     var password = '';
 
-    if (user.hash !== null) {
+    if (user.hash != null) {
       password = ", hash = '" + user.hash + "', salt = '" + user.salt + "'";
     }
 

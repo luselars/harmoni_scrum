@@ -136,7 +136,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel === 0 ? (
-              this.state.event.image !== null ? (
+              this.state.event.image != null ? (
                 <div className="imgdiv">
                   <img
                     id="EventPicLI"
@@ -155,7 +155,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   ></img>
                 </div>
               )
-            ) : this.state.event.image !== null ? (
+            ) : this.state.event.image != null ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
@@ -217,8 +217,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Beskrivelse:
                     </th>
-                    {this.state.event.description !== null &&
-                    this.state.event.description !== '' ? (
+                    {this.state.event.description != null && this.state.event.description !== '' ? (
                       <td className="text-left">{this.state.event.description}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -247,7 +246,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Kontrakter:
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.contract !== null ? 1 : 0),
+                      (total, curr) => total + (curr.contract != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <table>
@@ -308,13 +307,13 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Notater
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.notes !== null ? 1 : 0),
+                      (total, curr) => total + (curr.notes != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <div>
                         {this.state.artists.map((artist, index) => (
                           <div>
-                            {artist.notes !== null && artist.notes !== '' ? (
+                            {artist.notes != null && artist.notes !== '' ? (
                               <div>
                                 {artist.notes.length > 45 ? (
                                   <div>
@@ -427,7 +426,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Status:
                     </th>
-                    {this.state.event.status !== null ? (
+                    {this.state.event.status != null ? (
                       <div>
                         {this.state.event.status.length > 45 ? (
                           <div>
@@ -471,7 +470,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    {this.state.event.venue !== '' && this.state.event.venue !== null ? (
+                    {this.state.event.venue !== '' && this.state.event.venue != null ? (
                       <td className="text-left">{this.state.event.venue}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -481,7 +480,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    {this.state.event.address !== null && this.state.event.address !== '' ? (
+                    {this.state.event.address != null && this.state.event.address !== '' ? (
                       <td className="text-left">{this.state.event.address}</td>
                     ) : (
                       <td className="text-left">-</td>

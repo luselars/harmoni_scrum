@@ -196,7 +196,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
             userType: user,
             email: user.email,
           });
-          if (user.artist_name !== null) {
+          if (user.artist_name != null) {
             this.setState({ artist: true });
             console.log(this.state.user.artist_name);
           }

@@ -262,7 +262,7 @@ class ProfileEdit extends Component<{}, State> {
         tlf: organiser.tlf,
       });
       mail = this.state.organiser_email;
-      if (this.state.image !== null) imagePrev = this.state.image;
+      if (this.state.image != null) imagePrev = this.state.image;
       var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);

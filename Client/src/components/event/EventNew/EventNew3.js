@@ -39,7 +39,7 @@ class EventNew3 extends Component<Props> {
   }
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
-    if (localStorage.getItem('curr_event') !== null) {
+    if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
@@ -52,7 +52,7 @@ class EventNew3 extends Component<Props> {
           this.setState({ locations: response.data });
           console.log(this.state.locations);
           this.setState({ location_nr: document.getElementById('postcode').value });
-          if (data.location_id !== null) {
+          if (data.location_id != null) {
             let locData = new Location();
             for (let i = 0; i < response.data.length; i++) {
               if (response.data[i].location_id === data.location_id) {
@@ -168,7 +168,7 @@ class EventNew3 extends Component<Props> {
     );
   }
   updateForm(w, val) {
-    if (w === 0 && val !== null && val !== '') {
+    if (w === 0 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].name === val) {
           let a = this.state.locations[i].address;
@@ -177,7 +177,7 @@ class EventNew3 extends Component<Props> {
         }
       }
     }
-    if (w === 1 && val !== null && val !== '') {
+    if (w === 1 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].address === val) {
           let a = this.state.locations[i].name;
@@ -190,12 +190,12 @@ class EventNew3 extends Component<Props> {
 
   //TODO do not mutate state directly. use setState()
   formatTime() {
-    if (this.state.event.start !== null) {
+    if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
       this.state.event.start = d + ' ' + h + ':00';
     }
-    if (this.state.event.end !== null) {
+    if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
       this.state.event.end = d + ' ' + h + ':00';
