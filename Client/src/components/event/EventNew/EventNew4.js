@@ -73,7 +73,7 @@ class EventNew4 extends Component<Props, State> {
               </button>
             </div>
             {this.state.artists.length > 0 ? (
-              <table class="table table-striped">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">Artist</th>

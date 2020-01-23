@@ -25,7 +25,7 @@ type Props = {
 };
 //TODO add postcode
 class EventNew3 extends Component<Props> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.name = React.createRef();
     this.addr = React.createRef();
@@ -170,7 +170,7 @@ class EventNew3 extends Component<Props> {
       </div>
     );
   }
-  updateForm(w, val) {
+  updateForm(w: number, val: any) {
     if (w === 0 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].name === val) {
