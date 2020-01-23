@@ -265,7 +265,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       </table>
                     ) : (
                       <table>
-                        <td className="text-left">-</td>
+                        <tr>
+                          <td className="text-left">-</td>
+                        </tr>
                       </table>
                     )}
                   </tr>
