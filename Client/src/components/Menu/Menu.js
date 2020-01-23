@@ -41,7 +41,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
               Hjem <i className="fa fa-home fa-lg"></i>
               <span className="sr-only"></span>
             </a>
-            <a className="nav-link text-light text-right" id="loginButton" href="/login">
+            <a className="nav-link text-light" id="loginButton" href="/login">
               Logg inn{' '}
               <i className="fa fa-sign-in fa-lg" style={{ color: 'white' }} aria-hidden="true"></i>
               <span className="sr-only"></span>
