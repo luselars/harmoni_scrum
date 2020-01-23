@@ -56,7 +56,7 @@ export class UserService {
     return axios.get<Object>(url, config);
   }
 
-  static postRider(event_id: number, rider_file: string) {
+  static postRider(rider_file: string, event_id: number) {
     let url = url_base + '/event/' + event_id + '/riders';
     return axios.post(url, { rider_file }, config);
   }
