@@ -55,7 +55,7 @@ class EventNew2 extends Component<Props, State> {
             <small id="imageUploadOptional" className="form-text text-muted mb-2">
               Valgfritt
             </small>
-            <div className="text-center m-3">
+            <div className="">
               <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
             </div>
           </div>

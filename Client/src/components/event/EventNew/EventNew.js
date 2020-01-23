@@ -49,7 +49,7 @@ class EventNew extends Component<Props, State> {
     return (
       <div>
         <div className="form-row">
-          <div className="col-12" id="">
+          <div className="col-12">
             <label id="eventnamelabel" for="eventname">
               Tittel
               <MoreInfo
