@@ -1,6 +1,7 @@
 //@flow
 import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
+import { UserService } from '../../services/userService';
 import { Artist } from '../../services/modelService';
 
 let path = require('path');
@@ -11,6 +12,7 @@ type Props = {
   artist_id: number,
   event_id: number,
   reload: any,
+  artist: boolean,
 };
 type State = {
   value: any,
@@ -60,19 +62,37 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
-        // send here
-        OrganiserService.postRider(reader.result, ev_id, artist_id)
-          .then(resp => {
-            console.log(resp);
-            if (resp.status === 200) {
-              console.log('Rider lastet opp.');
-              element.files = null;
-              that.props.reload();
-            } else {
-              alert('Kunne ikke laste opp rider.');
-            }
-          })
-          .catch(error => console.log(error));
+        // send here, has to do different for artist and organiser because of backend authentication
+        if(this.props.artist) {
+          UserService.postRider(reader.result, ev_id, artist_id)
+              .then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                  console.log('Rider lastet opp.');
+                  element.files = null;
+                  that.props.reload();
+                } else {
+                  alert('Kunne ikke laste opp rider.');
+                }
+              })
+              .catch(error => console.log(error));
+        }
+        else {
+          OrganiserService.postRider(reader.result, ev_id, artist_id)
+              .then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                  console.log('Rider lastet opp.');
+                  element.files = null;
+                  that.props.reload();
+                } else {
+                  alert('Kunne ikke laste opp rider.');
+                }
+              })
+              .catch(error => console.log(error));
+        }
+
+
       },
       false,
     );
