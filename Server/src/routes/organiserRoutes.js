@@ -121,7 +121,7 @@ router.post('/location', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Edit a specific event
+// Edit a specific event by event_id
 router.put('/event/:event_id', (req: express$Request, res: express$Response) => {
   if (req.body.image !== '') {
     uploadFunctions.handleFile(req.body.image, function(name) {
@@ -157,7 +157,7 @@ router.put('/artist/:artist_id', (req: express$Request, res: express$Response) =
   });
 });
 
-// Delete single event
+// Delete single event by event_id
 router.delete('/event/:event_id', (req: express$Request, res: express$Response) => {
   dao.deleteEvent(req.params.event_id, (status, data) => {
     res.status(status);
@@ -165,7 +165,7 @@ router.delete('/event/:event_id', (req: express$Request, res: express$Response) 
   });
 });
 
-// Get artist
+// Get artists on an event, is not currently used
 router.get('/artist', (req: express$Request, res: express$Response) => {
   dao.getArtist(req.body, (status, data) => {
     res.status(status);
@@ -181,7 +181,7 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
   });
 });
 
-// Adds a rider to the event on a user
+// updates a given rider on given event
 router.put('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
@@ -192,7 +192,7 @@ router.put('/event/rider/:event_id/:rider_id', (req: express$Request, res: expre
   });
 });
 
-// Adds a rider to the event on a user
+// Adds a rider to given event on logged on user
 router.post('/event/rider/:event_id/:user_id', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
@@ -203,7 +203,7 @@ router.post('/event/rider/:event_id/:user_id', (req: express$Request, res: expre
   });
 });
 
-// Delete a single rider
+// Delete a single rider by rider_id
 router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: express$Response) => {
   dao.deleteRider(req.params.event_id, req.params.rider_id, (status, data) => {
     res.status(status);
@@ -211,7 +211,7 @@ router.delete('/event/rider/:event_id/:rider_id', (req: express$Request, res: ex
   });
 });
 
-//Send email
+//Send email from company email
 router.post('/sendmail', (req: express$Request, res: express$Response) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -233,6 +233,7 @@ router.post('/sendmail', (req: express$Request, res: express$Response) => {
       '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
 
+  //sends an email
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);
@@ -244,7 +245,7 @@ router.post('/sendmail', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Add artist to owned event
+// Add artist to owned event using his/hers email
 router.post('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
@@ -301,7 +302,7 @@ router.post('/artist/:event_id', (req: express$Request, res: express$Response) =
   });
 });
 
-//adds volunteer to event, here we go again 413
+//adds volunteer to event using his/hers email, makes dummy account if the person does not already have one
 router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Response) => {
   dao.getUserId(req.body.email, (status, data) => {
     res.status(status);
@@ -365,7 +366,6 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
   });
 });
 
-// TODO: Flytt til public?
 // Get ticket-types for a single event
 router.get('/event/:event_id/tickets', (req: express$Request, res: express$Response) => {
   dao.getEventTickets(req.params.event_id, (status, data) => {
@@ -373,6 +373,7 @@ router.get('/event/:event_id/tickets', (req: express$Request, res: express$Respo
     res.send(data);
   });
 });
+
 // Lets an organiser look at his profile.
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
   dao.getProfile(req.uid, (status, data) => {
@@ -404,6 +405,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
   }
 });
 
+//Updates whether event is cancel or not, changing a bool in database
 router.put('/event/:event_id/cancel', (req: express$Request, res: express$Response) => {
   dao.toggleCancel(req.params.event_id, (status, data) => {
     res.status(status);
