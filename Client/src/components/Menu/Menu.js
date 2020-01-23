@@ -13,6 +13,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
     super(props);
     this.state = {
       status: localStorage.getItem('token') === null,
+      show: true,
     };
   }
 
@@ -44,34 +45,62 @@ export default class Menu extends Component<{}, { status: boolean }> {
             </a>
           </form>
         ) : (
-          <form className="loginGroup">
-            <a className="nav-link text-light text-right" id="eventButton" href="/newevent">
-              Opprett arrangement
-              <span className="sr-only"></span>
-            </a>
-
-            <a className="nav-link text-light" id="homeButton" href="/">
-              Hjem <i className="fa fa-home fa-lg"></i>
-              <span className="sr-only"></span>
-            </a>
-
-            <a className="nav-link text-light" id="profileButton" href="/profile">
-              Profil <i className="fa fa-user fa-lg"></i>
-              <span className="sr-only"></span>
-            </a>
-            <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
-              Logg ut{' '}
-              <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} aria-hidden="true"></i>
-              <span className="sr-only"></span>
-            </a>
-          </form>
+          <div className="loginGroup" id="navbarContent">
+            <button class="navbar-toggler" type="button" onClick={() => this.collapse()}>
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <form id="navbarSupportedContent">
+              <a className="nav-link text-light" id="homeButton" href="/">
+                Hjem <i className="fa fa-home fa-lg"></i>
+                <span className="sr-only"></span>
+              </a>
+              <a className="nav-link text-light" id="eventButton" href="/newevent">
+                Opprett arrangement <i className="fa fa-plus-square fa-lg"></i>
+                <span className="sr-only"></span>
+              </a>
+              <a className="nav-link text-light" id="profileButton" href="/profile">
+                Profil <i className="fa fa-user fa-lg"></i>
+                <span className="sr-only"></span>
+              </a>
+              <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
+                Logg ut{' '}
+                <i
+                  className="fa fa-sign-out fa-lg"
+                  style={{ color: 'white' }}
+                  aria-hidden="true"
+                ></i>
+                <span className="sr-only"></span>
+              </a>
+            </form>
+          </div>
         )}
       </nav>
     );
+  }
+
+  componentDidMount() {
+    if (window.screen.availWidth > 600) {
+      this.setState({ show: true });
+    } else {
+      this.setState({ show: false });
+    }
   }
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('userType');
     window.location.href = '/';
+  }
+  collapse() {
+    let x = document.getElementById('navbarSupportedContent');
+    let y = document.getElementById('navbarContent');
+    if (this.state.show) {
+      y.style.display = 'block';
+      x.style.display = 'block';
+      this.setState({ show: false });
+    } else {
+      x.style.display = 'none';
+      y.style.display = 'contents';
+      this.setState({ show: true });
+    }
   }
 }
