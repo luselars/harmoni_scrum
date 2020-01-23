@@ -94,6 +94,7 @@ export default class EventDetails extends Component<Props, State> {
                 </td>
               </tr>
               {this.state.venue !== null &&
+              this.state.venue !== '' &&
               this.state.venue !== undefined &&
               this.state.event.location_name !== null &&
               this.state.event.location_name !== undefined ? (
