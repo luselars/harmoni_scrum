@@ -107,8 +107,9 @@ class EventNew5 extends Component<Props, State> {
   };
   deleteRider(rider_id: number) {
     console.log(rider_id);
-    UserService.deleteRider(this.props.match.params.id, rider_id).then(r => {
+    UserService.deleteRider(rider_id).then(r => {
       console.log(r);
+      console.log("sletta du en rider?");
       this.componentDidMount();
     });
   }
