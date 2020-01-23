@@ -6,11 +6,11 @@ module.exports = class OrganiserDao extends Dao {
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
   }
-
+  // Get the pool
   getPool() {
     return super.getPool();
   }
-
+  // Get an event by event id and check if organiser is connected to it (decides whether the object is sent back).
   getEvent(
     event_id: number,
     organiser_id: number,
@@ -20,13 +20,13 @@ module.exports = class OrganiserDao extends Dao {
       'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE eo.organiser_id = ? AND e.event_id = ?';
     super.query(queryString, [organiser_id, event_id], callback);
   }
-
+  // Get the logged in profile's information.
   getProfile(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT o.organiser_id, o.organiser_email, o.name, o.image, o.description, o.tlf, o.website, o.address, v.eventsFinished, v.eventsComing FROM organiser o LEFT JOIN (SELECT eo.organiser_id, COUNT(IF(e.end <= CURRENT_TIMESTAMP, 1, NULL)) AS eventsFinished, COUNT(IF(e.end > CURRENT_TIMESTAMP, 1, NULL)) AS eventsComing FROM event e LEFT JOIN event_organiser eo ON eo.event_id = e.event_id GROUP BY eo.organiser_id) v ON v.organiser_id = o.organiser_id WHERE o.organiser_id = ?';
     super.query(queryString, [organiser_id], callback);
   }
-
+  // Edit the logged in profile's information.
   editProfile(
     organiser_id: number,
     organiser: Organiser,
@@ -58,7 +58,7 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-  // check if organiser owns event
+  // Check if organiser owns event
   organiserOwnsEvent(
     event_id: number,
     organiser_id: string,
@@ -67,7 +67,7 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT 1 FROM event_organiser WHERE event_id = ? AND organiser_id = ?';
     super.query(queryString, [event_id, organiser_id], callback);
   }
-
+  // Edit an event by sending in the new information and event id.
   editEvent(event: Event, event_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE event SET name=?,image=?,description=?,start=?,status=?,is_public=?,location_id=?, venue=?, end=? WHERE event_id=?',
@@ -86,7 +86,7 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
-
+  // Change whether
   toggleCancel(event_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE event e SET e.cancel = NOT e.cancel WHERE e.event_id = ?',
