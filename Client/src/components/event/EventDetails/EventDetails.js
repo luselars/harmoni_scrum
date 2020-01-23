@@ -71,9 +71,9 @@ export default class EventDetails extends Component<Props, State> {
               <tr>
                 <th className="hoyre text-right">Sted:</th>
                 <td className="venstre text-left">
-                  {this.state.location_name.length === 0 && this.state.venue.length != 0
+                  {this.state.location_name.length === 0 && this.state.venue.length !== 0
                     ? this.state.venue
-                    : this.state.venue.length === 0 && this.state.location_name.length != 0
+                    : this.state.venue.length === 0 && this.state.location_name.length !== 0
                     ? this.state.location_name
                     : this.state.venue.length === 0 && this.state.location_name.length === 0
                     ? 'Kommer snart'

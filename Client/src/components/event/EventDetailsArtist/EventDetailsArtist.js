@@ -70,7 +70,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel === 0 ? (
-              this.state.event.image != null ? (
+              this.state.event.image !== null ? (
                 <div className="imgdiv">
                   <img
                     id="EventPicLI"
@@ -89,7 +89,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   ></img>
                 </div>
               )
-            ) : this.state.event.image != null ? (
+            ) : this.state.event.image !== null ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"

@@ -34,7 +34,7 @@ module.exports = class OrganiserDao extends Dao {
   ) {
     var password = '';
 
-    if (organiser.hash != null) {
+    if (organiser.hash !== null) {
       password = ", hash = '" + organiser.hash + "', salt = '" + organiser.salt + "'";
     }
 

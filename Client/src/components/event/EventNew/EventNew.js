@@ -284,18 +284,18 @@ class EventNew extends Component<Props, State> {
   }
   next() {
     // TODO validate time input
-    if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
+    if (typeof this.state.event.name !== 'string' || this.state.event.name.length < 1) {
       // TODO bytt denne alerten
       alert('Ugyldig tittel');
       return;
     }
-    if (typeof this.state.event.description != 'string') {
+    if (typeof this.state.event.description !== 'string') {
       this.state.event.description = null;
     }
-    if (typeof this.state.event.start != 'string') {
+    if (typeof this.state.event.start !== 'string') {
       this.state.event.start = null;
     }
-    if (typeof this.state.event.end != 'string') {
+    if (typeof this.state.event.end !== 'string') {
       this.state.event.end = null;
     }
     if (localStorage.getItem('curr_event') === null) {

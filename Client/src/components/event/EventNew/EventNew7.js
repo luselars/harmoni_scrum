@@ -177,7 +177,7 @@ class EventNew7 extends Component<Props, State> {
     // Oprett personellgruppe her
     if (
       this.state.new_type === null ||
-      typeof this.state.new_type != 'string' ||
+      typeof this.state.new_type !== 'string' ||
       this.state.new_type === ''
     ) {
       alert('Ingen personelltype skrevet inn');
