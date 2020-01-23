@@ -30,7 +30,7 @@ export default class EventDetails extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="card" id="carddetailsevent">
+      <div className="card mb-4" id="carddetailsevent">
         <div className="imgdiv">
           {this.state.event.image ? (
             <img

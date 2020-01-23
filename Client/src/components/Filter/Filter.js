@@ -91,6 +91,19 @@ export default class Filter extends Component<{}, State> {
                     Tidligere arragementer
                   </label>
                 </div>
+                <div className="form-check text-left mb-3">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="placeCheck2"
+                    value="viewCanceled"
+                    checked={this.state.sortAlt[1] === 'viewCanceled'}
+                    onChange={e => this.handleChangeAlt(e)}
+                  ></input>
+                  <label className="placecheck form-check-label" for="placeCheck2">
+                    Se avlyste arragementer
+                  </label>
+                </div>
                 <div className="col filtercategories border-bottom">
                   <h6 className="mb-3 text-success">PRIS</h6>
                 </div>
@@ -192,7 +205,7 @@ export default class Filter extends Component<{}, State> {
       let newValue = this.state.sortAlt[0] === '' ? value : '';
       this.state.sortAlt[0] = newValue;
     }
-    if (value == 'test') {
+    if (value == 'viewCanceled') {
       let newValue = this.state.sortAlt[1] === '' ? value : '';
       this.state.sortAlt[1] = newValue;
     }
