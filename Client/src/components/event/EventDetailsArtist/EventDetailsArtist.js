@@ -343,6 +343,6 @@ export default class EventDetailsArtist extends Component<Props, State> {
   }
 
   edit() {
-    console.log(this.state.cancel);
+    window.location.href = '/userevent/edit/' + this.props.match.params.id;
   }
 }
