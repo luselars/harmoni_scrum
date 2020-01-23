@@ -35,7 +35,6 @@ export class UserService {
     return axios.get(url, config);
   }
 
-
   static getRiders(event_id: number): AxiosPromise<Event> {
     let url = url_base + '/event/' + event_id + '/riders';
     return axios.get(url, config);
@@ -52,7 +51,7 @@ export class UserService {
   }
   // Get all riders on an event
   static getMyRiders(event_id: number): AxiosPromise<Rider> {
-    let url = url_base + '/event/' + + event_id + '/riders';
+    let url = url_base + '/event/' + +event_id + '/riders';
     return axios.get<Object>(url, config);
   }
 
@@ -66,4 +65,8 @@ export class UserService {
     return axios.delete(url, config);
   }
 
+  static putNotes(notes: string, event_id: number) {
+    let url = url_base + '/event/' + event_id + '/notes';
+    return axios.put(url, { notes }, config);
+  }
 }

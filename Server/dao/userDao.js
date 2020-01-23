@@ -13,7 +13,7 @@ module.exports = class UserDao extends Dao {
   editUser(user_id: number, user: User, callback: (status: string, data: Object) => mixed) {
     var password = '';
 
-    if (user.hash != null) {
+    if (user.hash !== null) {
       password = ", hash = '" + user.hash + "', salt = '" + user.salt + "'";
     }
 
@@ -76,7 +76,7 @@ module.exports = class UserDao extends Dao {
   getMyEvent(user_id: number, event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?'; // eo.organiser_id = ? AND TODO: ADD artist id check
-    super.query(queryString, [user_id,event_id], callback);
+    super.query(queryString, [user_id, event_id], callback);
   }
 
   getMyRiders(
@@ -130,5 +130,13 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [event_id], callback);
   }
 
-
+  putEventArtist(
+    event_id: number,
+    user_id: number,
+    notes: string,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
+    super.query(queryString, [notes, user_id, event_id], callback);
+  }
 };

@@ -2,7 +2,6 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { PublicService } from '../../../services/publicService';
 import { OrganiserService } from '../../../services/organiserService';
@@ -126,7 +125,7 @@ class EventNew4 extends Component<Props, State> {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
       console.log(res.data);
-      if (res.data.length === 0 || res.data.type != 'organiser') {
+      if (res.data.length === 0 || res.data.type !== 'organiser') {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);

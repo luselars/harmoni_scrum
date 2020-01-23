@@ -3,7 +3,7 @@ import React from 'react';
 import { Component } from 'react';
 import FormData from 'form-data';
 import { UserService } from '../../services/userService.js';
-import { string } from 'prop-types';
+//import { string } from 'prop-types';
 import { OrganiserService } from '../../services/organiserService';
 let path = require('path');
 

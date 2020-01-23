@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Event, Artist } from '../../../services/modelService';
-import { OrganiserService } from '../../../services/organiserService';
 import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
@@ -71,9 +70,9 @@ export default class EventDetails extends Component<Props, State> {
               <tr>
                 <th className="hoyre text-right">Sted:</th>
                 <td className="venstre text-left">
-                  {this.state.location_name.length === 0 && this.state.venue.length != 0
+                  {this.state.location_name.length === 0 && this.state.venue.length !== 0
                     ? this.state.venue
-                    : this.state.venue.length === 0 && this.state.location_name.length != 0
+                    : this.state.venue.length === 0 && this.state.location_name.length !== 0
                     ? this.state.location_name
                     : this.state.venue.length === 0 && this.state.location_name.length === 0
                     ? 'Kommer snart'
@@ -96,6 +95,7 @@ export default class EventDetails extends Component<Props, State> {
             <></>
           ) : (
             <iframe
+              title="Google maps"
               id="map"
               width="100%"
               height="300px"

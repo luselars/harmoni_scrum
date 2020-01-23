@@ -12,7 +12,7 @@ export class PublicService {
   }
 
   static refreshToken() {
-    if (localStorage.getItem('token') != null) {
+    if (localStorage.getItem('token') !== null) {
       axios
         .get(url_base + '/refreshToken', {
           headers: {

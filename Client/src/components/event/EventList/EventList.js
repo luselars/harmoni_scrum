@@ -3,9 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
 import { Event } from '../../../services/modelService.js';
-import { CommunicationService } from '../../../services/communicationService';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import { PublicService } from '../../../services/publicService';
 import { UserService } from '../../../services/userService';
 import Filter from '../../Filter/Filter';
@@ -15,10 +13,6 @@ let options = {
   keys: ['name', 'description'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
-let events: Event[] = [];
-let status: boolean;
-let event_id: number;
-let eventsPerPage = 7;
 
 type Props = {
   profile_list: boolean,
@@ -34,6 +28,7 @@ type State = {
   organiser_id: number,
   organiser: boolean,
   offset: number,
+  eventsPerPage: number,
 };
 
 export default class EventList extends Component<Props, State> {
@@ -47,13 +42,14 @@ export default class EventList extends Component<Props, State> {
       organiser_id: 0,
       organiser: organiser,
       offset: 0,
+      eventsPerPage: 7,
     };
     const fuse = new Fuse(this.state.events, options);
   }
 
   handlePageClick = data => {
     let selected = data.selected;
-    let offset = Math.ceil(selected * eventsPerPage);
+    let offset = Math.ceil(selected * this.state.eventsPerPage);
     this.setState({ offset: offset });
   };
 
@@ -127,9 +123,9 @@ export default class EventList extends Component<Props, State> {
 
     this.setState({
       events: tempEvents,
-      pageCount: Math.ceil(tempEvents.length / eventsPerPage),
+      pageCount: Math.ceil(tempEvents.length / this.state.eventsPerPage),
     });
-    this.fuse = new Fuse(this.state.tempEvents, options);
+    this.fuse = new Fuse(tempEvents, options);
   };
 
   handleFilterPriceChange = (filterChange, type) => {
@@ -149,7 +145,7 @@ export default class EventList extends Component<Props, State> {
     }
     this.setState({
       events: newEventList,
-      pageCount: Math.ceil(newEventList.length / eventsPerPage),
+      pageCount: Math.ceil(newEventList.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(newEventList, options);
   };
@@ -184,7 +180,7 @@ export default class EventList extends Component<Props, State> {
         />
         <div>
           {this.state.events.map((event, index) =>
-            index >= this.state.offset && index - this.state.offset < eventsPerPage ? (
+            index >= this.state.offset && index - this.state.offset < this.state.eventsPerPage ? (
               <div className="card float-right my-2 bg-light p-2" id="cardEvents">
                 <div
                   className="card-body bg-light"
@@ -364,7 +360,7 @@ export default class EventList extends Component<Props, State> {
       upcommingEvents: upcommingEvents,
       canceledEvents: canceledEvents,
       events: upcommingEvents,
-      pageCount: Math.ceil(upcommingEvents.length / eventsPerPage),
+      pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(upcommingEvents, options);
   }
@@ -376,7 +372,7 @@ export default class EventList extends Component<Props, State> {
       var searchResults = this.fuse.search(value);
       this.setState({
         events: searchResults,
-        pageCount: Math.ceil(searchResults.length / eventsPerPage),
+        pageCount: Math.ceil(searchResults.length / this.state.eventsPerPage),
       });
     } else {
       // If there is no search string it resets the eventlist
@@ -389,7 +385,7 @@ export default class EventList extends Component<Props, State> {
           tempEvents.push(this.state.canceledEvents[i]);
       this.setState({
         events: tempEvents,
-        pageCount: Math.ceil(tempEvents.length / eventsPerPage),
+        pageCount: Math.ceil(tempEvents.length / this.state.eventsPerPage),
       });
     }
   }

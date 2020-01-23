@@ -159,10 +159,17 @@ router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) 
 router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
-    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
+    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data) => {
       res.status(status);
       res.send(data);
     });
+  });
+});
+
+router.put('/event/:event_id/notes', (req: express$Request, res: express$Response) => {
+  dao.putEventArtist(req.params.event_id, req.uid, req.body.notes, (status, data) => {
+    res.status(status);
+    res.send(data);
   });
 });
 
