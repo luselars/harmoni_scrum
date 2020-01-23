@@ -121,7 +121,7 @@ router.get('/artist/:event_id', (req: express$Request, res: express$Response) =>
 
 // Get a spesific event.
 router.get('/myevents/:event_id', (req: express$Request, res: express$Response) => {
-  dao.getMyEvent(req.params.event_id, (status, data) => {
+  dao.getMyEvent(req.uid, req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
