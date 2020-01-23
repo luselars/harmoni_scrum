@@ -19,12 +19,16 @@ type State = {
 export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
+    let sortAlt = ['', ''];
+    if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
+    if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+
     this.state = {
       sortRadio1: 'Tid ↓',
       sortRadio2: 'Alfabetisk ↓',
       sortRadio3: 'Pris ↓',
       status: true,
-      sortAlt: ['', ''],
+      sortAlt: sortAlt,
     };
   }
 
