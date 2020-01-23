@@ -7,7 +7,6 @@ import Menu from './components/Menu/Menu';
 import LogIn from './components/LogIn/LogIn';
 import Footer from './components/Footer/Footer';
 import ProfileNew from './components/profile/ProfileNew/ProfileNew';
-import EventNew from './components/event/EventNew/EventNew';
 import EventDetails from './components/event/EventDetails/EventDetails';
 import EventDetailsLoggedInUser from './components/event/EventDetailsArtist/EventDetailsArtist';
 import EventDetailsLoggedInOrganiser from './components/event/EventDetailsLoggedIn/EventDetailsLoggedIn';
