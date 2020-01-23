@@ -13,11 +13,7 @@ type Props = {
   artist_id: number,
   event_id: number,
   reload: any,
-<<<<<<< HEAD
-  artist: boolean,
-=======
   organiser: boolean,
->>>>>>> c67259d882c02f665429e0a8f492c6538803eb61
 };
 type State = {
   value: any,
