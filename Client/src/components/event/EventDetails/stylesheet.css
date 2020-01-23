@@ -31,6 +31,20 @@
   margin-bottom: 3%;
 }
 
+.canceling {
+  opacity: 0.2;
+}
+
+.centered {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  transform: translate(-30%, -50%);
+  transform: rotate(15deg);
+  border-style: solid;
+  padding: 1%;
+}
+
 .img-fluid {
   width: 95%;
   height: 25vw;

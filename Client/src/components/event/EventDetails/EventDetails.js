@@ -16,6 +16,7 @@ type State = {
   artist: Artist[],
   venue: string,
   location_name: string,
+  cancel: number,
 };
 
 export default class EventDetails extends Component<Props, State> {
@@ -26,23 +27,41 @@ export default class EventDetails extends Component<Props, State> {
       artist: [],
       venue: '',
       location_name: '',
+      cancel: 0,
     };
   }
   render() {
     return (
       <div className="card mb-4" id="carddetailsevent">
-        <div className="imgdiv">
-          {this.state.event.image ? (
-            <img
-              src={'http://localhost:4000/public/file/' + this.state.event.image}
-              className="img-fluid"
-              alt="Eventbilde"
-              id="eventdetailsimg"
-            ></img>
+        {this.state.cancel == 0 ? (
+          this.state.event.image == null ? (
+            ''
           ) : (
-            <div></div>
-          )}
-        </div>
+            <div className="imgdiv">
+              <img
+                id="EventPicLI"
+                src={'http://localhost:4000/public/file/' + this.state.event.image}
+                className="img-fluid"
+                alt="Eventbilde"
+              ></img>
+            </div>
+          )
+        ) : this.state.event.image != null ? (
+          <div className="imgdiv">
+            <img
+              id="EventPicLI"
+              src={'http://localhost:4000/public/file/' + this.state.event.image}
+              className="img-fluid canceling"
+              alt="Eventbilde"
+            ></img>
+            <div class="centered">AVLYST</div>
+          </div>
+        ) : (
+          <div className="imgdiv">
+            <img id="EventPicLI"></img>
+            <div class="centered">AVLYST</div>
+          </div>
+        )}
         <p className="titleeventdetails display-4 text-uppercase text-center m-4">
           {this.state.event.name}
         </p>
@@ -120,15 +139,15 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
+        this.setState({ cancel: event.cancel });
+        console.log(this.state.event.image);
         if (this.state.event.location_name == null) {
-          console.log('Hei');
           this.setState({ location_name: '' });
           console.log('Name: ' + this.state.location_name.length);
         } else {
           this.setState({ location_name: event.location_name });
         }
         if (this.state.event.eventvenue == null) {
-          console.log('Hallo');
           this.setState({ venue: '' });
           console.log('Venue: ' + this.state.venue.length);
         } else {

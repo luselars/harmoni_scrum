@@ -153,7 +153,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                 <img
                   id="EventPicLI"
                   src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid cancelimg"
+                  className="img-fluid canceling"
                   alt="Eventbilde"
                 ></img>
                 <div class="centered">AVLYST</div>
