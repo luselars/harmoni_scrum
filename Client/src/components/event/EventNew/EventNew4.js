@@ -124,8 +124,6 @@ class EventNew4 extends Component<Props, State> {
   invite() {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
-      console.log(res.data.length === 0);
-      console.log(res.data[0].type);
       if (res.data.length === 0) {
         this.addArtist(email);
       } else if (res.data[0].type !== 'organiser') {
