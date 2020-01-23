@@ -6,6 +6,7 @@ module.exports = class UserDao extends Dao {
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
   }
+  // Get the pool.
   getPool() {
     return super.getPool();
   }

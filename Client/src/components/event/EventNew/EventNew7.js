@@ -149,12 +149,38 @@ class EventNew7 extends Component<Props, State> {
     }
     console.log(this.state.new_person);
     console.log(this.state.invite);
+
     OrganiserService.inviteVolunteer(
       this.state.new_person,
       this.state.event.event_id,
       this.state.invite.volunteer_type_id,
     ).then(response => {
       console.log(response);
+      let text = '';
+      if (response.data.message === 'Added new user') {
+        text =
+          ' som personell. Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni. </p><p><b>Brukernavn: <b> ' +
+          this.state.new_person +
+          '</p><p><b>Passord: <b>' +
+          response.data.password;
+      } else {
+        text = ' som personell.';
+      }
+      OrganiserService.getEvent(this.state.event.event_id)
+        .then(resp => {
+          OrganiserService.sendmail(this.state.new_person, resp.data.name, text)
+            .then(response => {
+              console.log('Email sent');
+              this.componentDidMount();
+            })
+            .catch(error => {
+              console.log('error sendmail: ' + error);
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
       this.componentDidMount();
     });
   }

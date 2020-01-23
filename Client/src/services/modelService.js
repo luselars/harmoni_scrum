@@ -1,4 +1,4 @@
-// Event-model
+// Data object for events
 export class Event {
   constructor() {
     this.name = null;
@@ -29,7 +29,7 @@ export class Event {
   contract: string;
   notes: string;
 }
-
+// Data object for users
 export class User {
   constructor() {
     this.user_id = null;
@@ -50,7 +50,7 @@ export class User {
   image: string;
   description: string;
 }
-
+// Data object for locations
 export class Location {
   constructor() {
     this.name = null;
@@ -64,8 +64,7 @@ export class Location {
   venue: string;
 }
 
-// Object for sending Organiser
-
+// Data object for organisers
 export class Organiser {
   constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
@@ -86,7 +85,7 @@ export class Organiser {
   eventsComing: number;
 }
 
-// Object for sending ticket type
+// Data object for tickettype
 export class TicketType {
   constructor(name: string) {
     this.name = name;
@@ -99,5 +98,3 @@ export class TicketType {
   price: number;
   amount: number;
 }
-
-// TODO: Legg til rider

@@ -72,8 +72,6 @@ class EventNew4 extends Component<Props, State> {
                 Inviter artist
               </button>
             </div>
-            {alert(this.state.event.event_id)}
-            {alert(this.state.artists.length)}
             {this.state.artists.length > 0 ? (
               <table class="table table-striped">
                 <thead>
@@ -138,43 +136,49 @@ class EventNew4 extends Component<Props, State> {
   };
   invite() {
     let email = document.getElementById('email').value;
-    alert(email);
     PublicService.checkEmail(email).then(res => {
-      console.log(res.data);
-      if (res.data.length === 0 || res.data.type !== 'organiser') {
-        console.log(this.state.event.event_id);
-        OrganiserService.inviteArtist(email, this.state.event.event_id)
-          .then(resp => {
-            console.log(resp);
-            console.log('RESP DATA MESSAGE: ' + resp.data.message);
-            let text = '';
-            if (resp.data.message === 'Added new user') {
-              text =
-                'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
-                email +
-                '</p><p><b>Passord: <b>' +
-                resp.data.password;
-            } else if (resp.data.message === 'Made user artist and added him/her to event') {
-              text =
-                'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
-            } else {
-              text = 'Logg inn på Harmoni for å se flere detaljer.';
-            }
-            OrganiserService.sendmail(email, this.state.event.name, text)
-              .then(response => {
-                console.log('Email sent');
-                this.componentDidMount();
-              })
-              .catch(error => {
-                console.log('error sendmail: ' + error);
-              });
-
-            this.componentDidMount();
-          })
-          .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+      if (res.data.length === 0) {
+        this.addArtist(email);
+      } else if (res.data[0].type !== 'organiser') {
+        this.addArtist(email);
+      } else {
+        alert('Eposten er i bruk av en annen arrangør');
       }
     });
   }
+
+  addArtist(email) {
+    OrganiserService.inviteArtist(email, this.state.event.event_id)
+      .then(resp => {
+        console.log(resp);
+        console.log('RESP DATA MESSAGE: ' + resp.data.message);
+        let text = '';
+        if (resp.data.message === 'Added new user') {
+          text =
+            'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
+            email +
+            '</p><p><b>Passord: <b>' +
+            resp.data.password;
+        } else if (resp.data.message === 'Made user artist and added him/her to event') {
+          text =
+            'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
+        } else {
+          text = 'Logg inn på Harmoni for å se flere detaljer.';
+        }
+        OrganiserService.sendmail(email, this.state.event.name, text)
+          .then(response => {
+            console.log('Email sent');
+            this.componentDidMount();
+          })
+          .catch(error => {
+            console.log('error sendmail: ' + error);
+          });
+
+        this.componentDidMount();
+      })
+      .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+  }
+
   formatTime() {
     if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);

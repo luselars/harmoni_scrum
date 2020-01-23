@@ -31,14 +31,16 @@ router.changeDao = function changeDao(publicDao: publicDao) {
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
 router.get('/refreshToken', (req: express$Request, res: express$Response) => {
+  // Get token from header
   let token = req.headers['x-access-token'];
+  // Verify token
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
       console.log('Token NOT ok');
       res.status(401);
       res.json({ error: 'Not authorized, log in again' });
     } else {
-      //console.log('Token ok: ' + decoded.username + ', Assigning new token');
+      // If token is valid a new one is made and returned to the user with the same contents and an extended duration
       let token = jwt.sign(
         { username: decoded.username, type: decoded.type, id: decoded.id },
         privateKey,
