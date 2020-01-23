@@ -40,7 +40,12 @@ export default class EventDetails extends Component<Props, State> {
               id="eventdetailsimg"
             ></img>
           ) : (
-            <div></div>
+            <img
+              src={'http://localhost:4000/public/file/rockband.jpeg'}
+              className="img-fluid"
+              alt="Eventbilde"
+              id="eventdetailsimg"
+            ></img>
           )}
         </div>
         <p className="titleeventdetails display-4 text-uppercase text-center m-4">

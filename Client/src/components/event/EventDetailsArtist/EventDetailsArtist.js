@@ -80,7 +80,14 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   ></img>
                 </div>
               ) : (
-                ''
+                <div className="imgdiv">
+                  <img
+                    id="EventPicLI"
+                    src={'http://localhost:4000/public/file/rockband.jpeg'}
+                    className="img-fluid"
+                    alt="Eventbilde"
+                  ></img>
+                </div>
               )
             ) : this.state.event.image != null ? (
               <div className="imgdiv">
