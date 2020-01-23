@@ -279,9 +279,9 @@ export default class ProfileNew extends Component<
     this.setState({
       address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
     });
-    if (this.state.password == this.state.passwordConfirmation) {
+    if (this.state.password === this.state.passwordConfirmation) {
       PublicService.checkEmail(this.state.email).then(res => {
-        if (res.data.length == 0) {
+        if (res.data.length === 0) {
           // Image
           let element = document.getElementById('upload');
           if (element.value !== '') {

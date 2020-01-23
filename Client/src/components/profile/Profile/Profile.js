@@ -28,7 +28,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="card profilecard container bg-light">
+      <div className="card profilecard container bg-light mb-4">
         <div className="row justify-content-md-center align-items-center">
           <div className="col-md-6 text-center mt-4">
             <img
@@ -84,7 +84,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
                   </th>
                   <td className="text-left">{this.state.userType.description}</td>
                 </tr>
-                {localStorage.getItem('userType') == 'organiser' ? (
+                {localStorage.getItem('userType') === 'organiser' ? (
                   <tr>
                     <th className="text-right" scope="row">
                       Nettside:
@@ -96,7 +96,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
                 )}
               </tbody>
             </table>
-            {localStorage.getItem('userType') == 'organiser' ? (
+            {localStorage.getItem('userType') === 'organiser' ? (
               <button
                 className="btn btn-success w-75 m-3"
                 onClick={() => (window.location.href = '/editprofile/organiser')}
@@ -113,10 +113,10 @@ export default class ProfileOrganiser extends Component<Props, State> {
             )}
           </div>
         </div>
-        {localStorage.getItem('userType') == 'organiser' || this.state.artist ? (
+        {localStorage.getItem('userType') === 'organiser' || this.state.artist ? (
           <div className="row justify-content-md-center align-items-center border-top py-5 px-6">
             <div className="col-md-6 text-center pb-4">
-              {localStorage.getItem('userType') == 'organiser' ? (
+              {localStorage.getItem('userType') === 'organiser' ? (
                 <button
                   className="btn btn-success w-75 m-3"
                   onClick={() => {
@@ -151,13 +151,13 @@ export default class ProfileOrganiser extends Component<Props, State> {
               <h4 className="mb-3 text-success">ARRANGEMENTER</h4>
               {console.log(this.state.userType.eventsComing)}
               {this.state.userType.eventsComing === null &&
-              this.state.userType.eventsFinished == null ? (
+              this.state.userType.eventsFinished === null ? (
                 <p>Du har ikke noen arrangementer</p>
               ) : (
                 <div>
                   <p>
                     Du har
-                    {this.state.userType.eventsComing == 0
+                    {this.state.userType.eventsComing === 0
                       ? ' ingen kommende arrangement'
                       : ' ' +
                         this.state.userType.eventsComing +
@@ -166,13 +166,14 @@ export default class ProfileOrganiser extends Component<Props, State> {
                   </p>
                   <p>
                     Du har
-                    {this.state.userType.eventsFinished == 0
+                    {this.state.userType.eventsFinished === 0
                       ? ' ingen fullførte arrangement'
                       : ' ' +
                         this.state.userType.eventsFinished +
+                        ' fullførte' +
                         (this.state.userType.eventsFinished > 1
-                          ? ' fullførte arrangementer'
-                          : ' fullførte arrangement')}
+                          ? ' arrangementer'
+                          : ' arrangement')}
                   </p>
                 </div>
               )}
@@ -186,10 +187,11 @@ export default class ProfileOrganiser extends Component<Props, State> {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('userType') == 'user') {
+    if (localStorage.getItem('userType') === 'user') {
       UserService.getMyProfile()
         .then(res => {
           let user: User = res.data[0];
+          console.log(user);
           this.setState({
             userType: user,
             email: user.email,
@@ -200,7 +202,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
           }
         })
         .catch(error => console.error(error));
-    } else if (localStorage.getItem('userType') == 'organiser') {
+    } else if (localStorage.getItem('userType') === 'organiser') {
       OrganiserService.getOrganiser()
         .then(res => {
           let organiser: any = res.data;

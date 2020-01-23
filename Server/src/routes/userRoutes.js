@@ -104,7 +104,7 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
 
 //Get riders for event
 router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
-  dao.getMyRiders(req.params.event_id, (status, data) => {
+  dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -121,7 +121,7 @@ router.get('/artist/:event_id', (req: express$Request, res: express$Response) =>
 
 // Get a spesific event.
 router.get('/myevents/:event_id', (req: express$Request, res: express$Response) => {
-  dao.getMyEvent(req.params.event_id, (status, data) => {
+  dao.getMyEvent(req.uid, req.params.event_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -143,12 +143,27 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
 });
 
 router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
-  res.status(200);
-  res.send('fake');
-  /*dao.getRiders(req.params.id, (status, data) => {
+  dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
-  });*/
+  });
+});
+
+router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) => {
+  dao.deleteRider(req.params.rider_id, req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
+  uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
+    req.body.rider_file = imageUrl;
+    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
+      res.status(status);
+      res.send(data);
+    });
+  });
 });
 
 module.exports = router;

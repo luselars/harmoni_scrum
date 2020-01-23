@@ -21,7 +21,7 @@ router.use('', (req, res, next) => {
         error: err,
       });
     } else {
-      if (decoded.type == 'admin') {
+      if (decoded.type === 'admin') {
         //console.log('Token ok: ' + decoded.username);
         req.email = decoded.username;
         req.uid = decoded.id;

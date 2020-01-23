@@ -58,13 +58,14 @@ export default class ProfileUser extends Component<{}, State> {
               <div className="col text-center">
                 <h5 className="mb-3 text-success">ARRANGEMENTER</h5>
                 {console.log(this.state.user.eventsComing)}
-                {this.state.user.eventsComing === null && this.state.user.eventsFinished == null ? (
+                {this.state.user.eventsComing === null &&
+                this.state.user.eventsFinished === null ? (
                   <p>Du har ikke noen arrangementer</p>
                 ) : (
                   <div>
                     <p>
                       Du har
-                      {this.state.user.eventsComing == 0
+                      {this.state.user.eventsComing === 0
                         ? ' ingen kommende arrangement'
                         : ' ' +
                           this.state.user.eventsComing +
@@ -73,13 +74,12 @@ export default class ProfileUser extends Component<{}, State> {
                     </p>
                     <p>
                       Du har
-                      {this.state.user.eventsFinished == 0
+                      {this.state.user.eventsFinished === 0
                         ? ' ingen fullførte arrangement'
-                        : +' ' +
+                        : ' ' +
                           this.state.user.eventsFinished +
-                          (this.state.user.eventsFinished > 1
-                            ? ' fullførte arrangementer'
-                            : ' fullførte arrangement')}
+                          ' fullførte ' +
+                          (this.state.user.eventsFinished > 1 ? ' arrangementer' : ' arrangement')}
                     </p>
                     <button
                       className="btn btn-success bg-green"

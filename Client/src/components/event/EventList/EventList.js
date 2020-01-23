@@ -28,11 +28,12 @@ type Props = {
 
 type State = {
   events: [],
+  oldEvents: [],
+  canceledEvents: [],
   status: boolean,
   organiser_id: number,
   organiser: boolean,
   offset: number,
-  showAllEvents: boolean,
 };
 
 export default class EventList extends Component<Props, State> {
@@ -40,11 +41,12 @@ export default class EventList extends Component<Props, State> {
     super(props);
     this.state = {
       events: [],
+      oldEvents: [],
+      canceledEvents: [],
       status: localStorage.getItem('token') === null,
       organiser_id: 0,
       organiser: organiser,
       offset: 0,
-      showAllEvents: false,
     };
     const fuse = new Fuse(this.state.events, options);
   }
@@ -104,21 +106,30 @@ export default class EventList extends Component<Props, State> {
 
   handleFilterAlternativChange = filterChange => {
     this.setState({ sortAlt: filterChange });
+    console.log(filterChange);
     if (filterChange[0] === 'viewOld') {
-      this.setState({
-        events: this.state.allEvents,
-        pageCount: Math.ceil(this.state.allEvents.length / eventsPerPage),
-        showAllEvents: true,
-      });
-      this.fuse = new Fuse(this.state.allEvents.data, options);
+      this.state.viewOld = true;
     } else {
-      this.setState({
-        events: this.state.upcommingEvents,
-        pageCount: Math.ceil(this.state.upcommingEvents.length / eventsPerPage),
-        showAllEvents: false,
-      });
-      this.fuse = new Fuse(this.state.upcommingEvents.data, options);
+      this.state.viewOld = false;
     }
+    if (filterChange[1] === 'viewCanceled') {
+      this.state.viewCanceled = true;
+    } else {
+      this.state.viewCanceled = false;
+    }
+    var tempEvents = [...this.state.upcommingEvents];
+    if (this.state.viewOld)
+      for (var i = 0; i < this.state.oldEvents.length; i++)
+        tempEvents.push(this.state.oldEvents[i]);
+    if (this.state.viewCanceled)
+      for (var i = 0; i < this.state.canceledEvents.length; i++)
+        tempEvents.push(this.state.canceledEvents[i]);
+
+    this.setState({
+      events: tempEvents,
+      pageCount: Math.ceil(tempEvents.length / eventsPerPage),
+    });
+    this.fuse = new Fuse(this.state.tempEvents, options);
   };
 
   handleFilterPriceChange = (filterChange, type) => {
@@ -178,8 +189,7 @@ export default class EventList extends Component<Props, State> {
                 <div
                   className="card-body bg-light"
                   onClick={() => {
-                    if (!this.props.profile_list)
-                      window.location.href = '/event/' + event.event_id;
+                    if (!this.props.profile_list) window.location.href = '/event/' + event.event_id;
                     else if (localStorage.getItem('userType') === 'organiser')
                       window.location.href = '/orgevent/' + event.event_id;
                     else window.location.href = '/userevent/' + event.event_id;
@@ -323,6 +333,7 @@ export default class EventList extends Component<Props, State> {
     } else {
       PublicService.getFrontpage()
         .then(events => {
+          console.log(events);
           this.insertEvents(events);
         })
         .catch((error: Error) => alert(error.message));
@@ -333,12 +344,16 @@ export default class EventList extends Component<Props, State> {
     var today = new Date();
     var time = today.getTime();
     var oldEvents = [];
+    var canceledEvents = [];
     var upcommingEvents = [];
     for (var i = 0; i < events.data.length; i++) {
       let jsDate = new Date(events.data[i].end);
       if (time > jsDate.getTime()) {
         events.data[i].old = true;
         oldEvents.push(events.data[i]);
+      } else if (events.data[i].cancel === 1) {
+        events.data[i].old = false;
+        canceledEvents.push(events.data[i]);
       } else {
         events.data[i].old = false;
         upcommingEvents.push(events.data[i]);
@@ -347,8 +362,8 @@ export default class EventList extends Component<Props, State> {
     this.setState({
       oldEvents: oldEvents,
       upcommingEvents: upcommingEvents,
+      canceledEvents: canceledEvents,
       events: upcommingEvents,
-      allEvents: events.data,
       pageCount: Math.ceil(upcommingEvents.length / eventsPerPage),
     });
     this.fuse = new Fuse(upcommingEvents, options);
@@ -365,10 +380,16 @@ export default class EventList extends Component<Props, State> {
       });
     } else {
       // If there is no search string it resets the eventlist
-      let events = this.state.showAllEvents ? this.state.allEvents : this.state.upcommingEvents;
+      var tempEvents = [...this.state.upcommingEvents];
+      if (this.state.viewOld)
+        for (var i = 0; i < this.state.oldEvents.length; i++)
+          tempEvents.push(this.state.oldEvents[i]);
+      if (this.state.viewCanceled)
+        for (var i = 0; i < this.state.canceledEvents.length; i++)
+          tempEvents.push(this.state.canceledEvents[i]);
       this.setState({
-        events: events,
-        pageCount: Math.ceil(events.length / eventsPerPage),
+        events: tempEvents,
+        pageCount: Math.ceil(tempEvents.length / eventsPerPage),
       });
     }
   }

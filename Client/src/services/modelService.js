@@ -28,6 +28,8 @@ export class Event {
   postcode: number;
   max_price: number;
   min_price: number;
+  contract: string;
+  notes: string;
 }
 
 export class User {

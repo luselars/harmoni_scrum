@@ -23,7 +23,6 @@ type State = {
 class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
-    //this.check = createRef();
     this.state = {
       event: new Event(),
       checked: false,
@@ -37,11 +36,15 @@ class EventNew extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         console.log(data);
-        this.setState({ event: data });
+        console.log(data.is_public);
+        let value: boolean = data.is_public === 0 ? false : true;
+        console.log(value);
+
+        this.setState({ event: data, checked: value });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
-        document.getElementById('eventispublic').value = this.state.event.is_public;
+        // TODO olava fiks så switch oppdateres.
         this.insertTime();
       });
     }
@@ -65,7 +68,7 @@ class EventNew extends Component<Props, State> {
             <input
               required
               type="text"
-              className="form-control"
+              className="form-control mb-4"
               placeholder="Skriv tittel her..."
               id="eventnameinput"
               onChange={(event: SyntheticInputEvent<HTMLInputElement>) =>
@@ -82,7 +85,7 @@ class EventNew extends Component<Props, State> {
               />
             </label>
             <textarea
-              className={'form-control'}
+              className={'form-control mb-4'}
               id={'eventdesc'}
               rows="4"
               cols="50"
@@ -95,20 +98,26 @@ class EventNew extends Component<Props, State> {
             <label id="eventdatestart" htmlFor="start">
               Starttidspunkt
             </label>
+            <small id="startDateOptional" className="form-text text-muted mb-2">
+              Kan endres senere
+            </small>
             <input
               className="form-control w-50"
               type="date"
               id="start"
               name="start"
               min={this.today()}
+              defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
             <input
-              className="form-control w-50"
+              className="form-control w-50 mb-4"
               type="time"
               id="start_time"
               name="start"
+              min={this.currentTime()}
+              defaultValue={this.currentTime()}
               onChange={() => this.updateTime()}
             />
             {/*<TimeField
@@ -119,6 +128,9 @@ class EventNew extends Component<Props, State> {
             <label id="eventdateend" htmlFor="end">
               Sluttidspunkt
             </label>
+            <small id="startDateOptional" className="form-text text-muted mb-2">
+              Kan endres senere
+            </small>
             <input
               className="form-control w-50"
               type="date"
@@ -128,8 +140,9 @@ class EventNew extends Component<Props, State> {
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
+
             <input
-              className="form-control w-50"
+              className="form-control w-50 mb-4"
               type="time"
               id="end_time"
               name="end"
@@ -150,8 +163,11 @@ class EventNew extends Component<Props, State> {
                 }
               />
             </label>
+            <small id="statusOptional" className="form-text text-muted mb-2">
+              Valgfritt
+            </small>
             <textarea
-              className="form-control"
+              className="form-control mb-4"
               id="eventstatus"
               rows="1"
               cols="50"
@@ -160,45 +176,30 @@ class EventNew extends Component<Props, State> {
                 (this.state.event.status = event.target.value)
               }
             />
-            <small id="statusHelp" className="form-text text-muted mb-3">
-              Her kan du skrive status på arrrangementet ditt. Dette ser kun arrangør.
-            </small>
 
             <BootstrapSwitchButton
-              checked={true}
+              ref="public"
+              checked={this.state.event.is_public === 1 ? true : false}
               onlabel="Ja"
               offlabel="Nei"
               name="public"
               onstyle="success"
               offstyle="secondary"
               width="75"
-              onChange={(checked: boolean) => {
-                this.state.event.is_public = checked;
+              onChange={(b: boolean) => {
+                this.state.event.is_public = b ? 1 : 0;
+                console.log(this.state.event);
               }}
             />
-            <label>Jeg ønsker at arrangementet skal være offentlig</label>
-            {/*<div>
-              <FormControlLabel
-                control={
-                  <Switch
-                    inputRef={this.check}
-                    onChange={event => {
-                      this.state.event.is_public = event.target.checked;
-                    }}
-                    color="primary"
-                    id="eventispublic"
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                  />
+            <label>
+              Jeg ønsker at arrangementet skal være offentlig
+              <MoreInfo
+                padding={'5px'}
+                text={
+                  'Velg om arrangementet kan vises til alle. Hvis arrangementet er offentlig vil tittel, beskrivelse, sted, tidspunkt, artister og bilde gjøres tilgjengelig for alle.'
                 }
-                label="Jeg ønsker at arrangementet skal være offentlig"
               />
-              </div>*/}
-            <MoreInfo
-              padding={'0px'}
-              text={
-                'Velg om arrangementet kan vises til alle. Hvis arrangementet er offentlig vil tittel, beskrivelse, sted, tidspunkt, artister og bilde gjøres tilgjengelig for alle.'
-              }
-            />
+            </label>
           </div>
         </div>
 
@@ -222,21 +223,6 @@ class EventNew extends Component<Props, State> {
         </div>
       </div>
     );
-  }
-  //TODO fiks
-  handleChange = (event: any) => {
-    //this.setState({checked: ((event.target.checked == 1) ? false : true)});
-    this.state.checked = event.target.checked == 1 ? false : true;
-    //this.state.event.is_public = (event.target.checked == true ? 1 : -1);
-    console.log(this.state.checked);
-    //this.setState()(this.state.event.is_public == 1) ? -1 : 1;
-    //this.setState({ [e.target.public]: e.target.value});
-  };
-
-  changeCheck(e: any) {
-    let value: string = e.target.checked;
-    console.log('value: ' + value);
-    //this.setState({ [name]: value });
   }
 
   today() {
@@ -298,9 +284,9 @@ class EventNew extends Component<Props, State> {
   }
   next() {
     // TODO validate time input
-    if (typeof this.state.event.name != 'string' || this.state.event.name.length <= 1) {
+    if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
       // TODO bytt denne alerten
-      alert('Ugyldig navn');
+      alert('Ugyldig tittel');
       return;
     }
     if (typeof this.state.event.description != 'string') {
