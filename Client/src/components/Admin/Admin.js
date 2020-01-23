@@ -6,7 +6,7 @@ import { AdminService } from '../../services/adminService';
 import './stylesheet.css';
 import { NotAuthorized } from '../NotAuthorized/NotAuthorized';
 
-const { axios, AxiosError } = require('axios');
+const { AxiosError } = require('axios');
 
 type State = {
   requests: Organiser[],

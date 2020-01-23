@@ -56,7 +56,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         this.setState({ artists: res.data });
       })
       .catch(error => {
-        if (error == 'Error: Request failed with status code 404') {
+        if (error === 'Error: Request failed with status code 404') {
           window.location = '/404';
         } else {
           alert(error);
@@ -135,7 +135,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         </div>
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.cancel == 0 ? (
+            {this.state.cancel === 0 ? (
               this.state.event.image != null ? (
                 <div className="imgdiv">
                   <img
@@ -146,14 +146,21 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   ></img>
                 </div>
               ) : (
-                ''
+                <div className="imgdiv">
+                  <img
+                    id="EventPicLI"
+                    src={'http://localhost:4000/public/file/rockband.jpeg'}
+                    className="img-fluid"
+                    alt="Eventbilde"
+                  ></img>
+                </div>
               )
             ) : this.state.event.image != null ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
                   src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid cancelimg"
+                  className="img-fluid canceling"
                   alt="Eventbilde"
                 ></img>
                 <div class="centered">AVLYST</div>
@@ -210,8 +217,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Beskrivelse:
                     </th>
-                    {this.state.event.description !== null &&
-                    this.state.event.description !== '' ? (
+                    {this.state.event.description != null && this.state.event.description !== '' ? (
                       <td className="text-left">{this.state.event.description}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -240,7 +246,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Kontrakter:
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.contract !== null ? 1 : 0),
+                      (total, curr) => total + (curr.contract != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <table>
@@ -301,13 +307,13 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Notater
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.notes !== null ? 1 : 0),
+                      (total, curr) => total + (curr.notes != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <div>
                         {this.state.artists.map((artist, index) => (
                           <div>
-                            {artist.notes !== null && artist.notes !== '' ? (
+                            {artist.notes != null && artist.notes !== '' ? (
                               <div>
                                 {artist.notes.length > 45 ? (
                                   <div>
@@ -420,7 +426,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Status:
                     </th>
-                    {this.state.event.status !== null ? (
+                    {this.state.event.status != null ? (
                       <div>
                         {this.state.event.status.length > 45 ? (
                           <div>
@@ -464,7 +470,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    {this.state.event.venue !== '' && this.state.event.venue !== null ? (
+                    {this.state.event.venue !== '' && this.state.event.venue != null ? (
                       <td className="text-left">{this.state.event.venue}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -474,7 +480,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    {this.state.event.address !== null && this.state.event.address !== '' ? (
+                    {this.state.event.address != null && this.state.event.address !== '' ? (
                       <td className="text-left">{this.state.event.address}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -482,7 +488,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   </tr>
                 </tbody>
               </table>
-              {this.state.event.address == null ? (
+              {this.state.event.address === null ? (
                 <div></div>
               ) : (
                 <iframe
@@ -507,7 +513,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               >
                 Endre
               </button>
-              {this.state.event.cancel == 0 ? (
+              {this.state.event.cancel === 0 ? (
                 <button
                   className="btn btn-secondary mx-auto d-block m-2"
                   id="cancelbtn"
@@ -538,7 +544,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     );
   }
   btnclicked(id: string) {
-    if (id == 'deleteeventbtn') {
+    if (id === 'deleteeventbtn') {
       let btn = document.getElementById('deleteeventbtn');
       let modal = document.getElementById('myModal');
       let span = document.getElementsByClassName('close')[0];
@@ -576,7 +582,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     }
 
     window.onclick = function(event) {
-      if (event.target.className == 'modal') {
+      if (event.target.className === 'modal') {
         //modal.style.display = 'none';
         event.target.style.display = 'none';
       }
@@ -590,7 +596,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       }*/
       }
       window.onclick = function(event) {
-        if (event.target.className == 'modal') {
+        if (event.target.className === 'modal') {
           //modal.style.display = 'none';
           event.target.style.display = 'none';
         }

@@ -5,8 +5,6 @@ import { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import './stylesheet.css';
 
-type Props = {};
-
 export default class ForgottenPassword extends Component<{}, { email: string }> {
   constructor(props: any) {
     super(props);
@@ -42,7 +40,6 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
 
   changeEmail(e: any) {
     const target = e.target;
-    let name: string = target.name;
     let value: string = target.value;
     this.setState({ email: value });
   }
@@ -51,7 +48,7 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
     e.preventDefault();
     PublicService.checkEmail(this.state.email)
       .then(response => {
-        if (response.data.length == 0) {
+        if (response.data.length === 0) {
           alert('Ingen bruker er knyttet til eposten.');
         } else {
           PublicService.newPassword(this.state.email, response.data[0].type)

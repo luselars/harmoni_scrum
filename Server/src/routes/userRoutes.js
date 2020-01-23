@@ -53,7 +53,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.image !== null && req.body.image !== undefined) {
+  if (req.body.image != null && req.body.image !== undefined) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editUser(req.uid, req.body, (status, data) => {
@@ -143,7 +143,7 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
 });
 
 router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
-  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
+  dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });
@@ -159,10 +159,17 @@ router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) 
 router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
-    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
+    dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data) => {
       res.status(status);
       res.send(data);
     });
+  });
+});
+
+router.put('/event/:event_id/notes', (req: express$Request, res: express$Response) => {
+  dao.putEventArtist(req.params.event_id, req.uid, req.body.notes, (status, data) => {
+    res.status(status);
+    res.send(data);
   });
 });
 

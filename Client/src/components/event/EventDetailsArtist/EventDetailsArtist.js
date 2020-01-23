@@ -15,6 +15,8 @@ type State = {
   tickets: [],
   pers: [],
   types: [],
+  expandNotes: boolean,
+  expandStatus: boolean,
 };
 
 type Props = {
@@ -32,12 +34,13 @@ export default class EventDetailsArtist extends Component<Props, State> {
       tickets: [],
       pers: [],
       types: [],
+      expandNotes: false,
+      expandStatus: false,
     };
   }
   componentDidMount() {
     UserService.getArtists(this.props.match.params.id)
       .then(res => {
-        console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
@@ -55,10 +58,10 @@ export default class EventDetailsArtist extends Component<Props, State> {
       })
       .catch(error => console.log(error));
 
-    /*UserService.getRiders(this.props.match.params.id).then(res => {
+    UserService.getRiders(this.props.match.params.id).then(res => {
       console.log(res.data);
       this.setState({ riders: res.data });
-    });*/
+    });
 
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
       this.setState({ tickets: response.data });
@@ -69,7 +72,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
       <div>
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.cancel == 0 ? (
+            {this.state.cancel === 0 ? (
               this.state.event.image != null ? (
                 <div className="imgdiv">
                   <img
@@ -80,7 +83,14 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   ></img>
                 </div>
               ) : (
-                ''
+                <div className="imgdiv">
+                  <img
+                    id="EventPicLI"
+                    src={'http://localhost:4000/public/file/rockband.jpeg'}
+                    className="img-fluid"
+                    alt="Eventbilde"
+                  ></img>
+                </div>
               )
             ) : this.state.event.image != null ? (
               <div className="imgdiv">
@@ -144,8 +154,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Beskrivelse:
                     </th>
-                    {this.state.event.description !== null &&
-                    this.state.event.description !== '' ? (
+                    {this.state.event.description != null && this.state.event.description !== '' ? (
                       <td className="text-left">{this.state.event.description}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -171,36 +180,14 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
-                      Kontrakter:
+                      Kontrakt:
                     </th>
-                    {this.state.artists.reduce(
-                      (total, curr) => total + (curr.contract !== null ? 1 : 0),
-                      0,
-                    ) > 0 ? (
-                      <table>
-                        {this.state.artists.map(artist => (
-                          <div>
-                            {artist.contract === null ? null : (
-                              <div>
-                                <tr>
-                                  {artist.artist_name === null ? (
-                                    <td className="text-left">Ukjent artist ({artist.email}): </td>
-                                  ) : (
-                                    <td className="text-left">{artist.artist_name}: </td>
-                                  )}
-                                  <td className="text-left">
-                                    <DownloadFile fileName={artist.contract} />
-                                  </td>
-                                </tr>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </table>
+                    {this.state.event.contract != null ? (
+                      <td className="text-left">
+                        <DownloadFile fileName={this.state.event.contract} />
+                      </td>
                     ) : (
-                      <table>
-                        <td className="text-left">-</td>
-                      </table>
+                      <td className="text-left">Ingen kontrakt lastet opp</td>
                     )}
                   </tr>
                   <tr>
@@ -230,6 +217,92 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
+                      Notater:
+                    </th>
+                    {this.state.event.notes !== undefined && this.state.event.notes != null ? (
+                      <div>
+                        {this.state.event.notes.length > 45 ? (
+                          <div>
+                            {this.state.expandNotes === true ? (
+                              <td className="text-left">
+                                {this.state.event.notes}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandNotes: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.notes.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandNotes: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.notes}</td>
+                        )}
+                      </div>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Status:
+                    </th>
+                    {this.state.event.status != null ? (
+                      <div>
+                        {this.state.event.status.length > 45 ? (
+                          <div>
+                            {this.state.expandStatus === true ? (
+                              <td className="text-left">
+                                {this.state.event.status}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandStatus: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.status.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandStatus: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.status}</td>
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        <td className="text-left">-</td>
+                      </div>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
                       Billetter:
                     </th>
                     {this.state.tickets.length > 0 ? (
@@ -251,7 +324,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    {this.state.event.venue !== '' && this.state.event.venue !== null ? (
+                    {this.state.event.venue !== '' && this.state.event.venue != null ? (
                       <td className="text-left">{this.state.event.venue}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -261,7 +334,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    {this.state.event.address !== null && this.state.event.address !== '' ? (
+                    {this.state.event.address != null && this.state.event.address !== '' ? (
                       <td className="text-left">{this.state.event.address}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -269,7 +342,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                 </tbody>
               </table>
-              {this.state.event.address == null ? (
+              {this.state.event.address === null ? (
                 <div></div>
               ) : (
                 <iframe

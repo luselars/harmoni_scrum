@@ -2,9 +2,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import Upload from '../../Upload/Upload.js';
-import FileDropzone from '../../FileDropzone/FileDropzone.js';
 import { OrganiserService } from '../../../services/organiserService.js';
 import { Event } from '../../../services/modelService.js';
 import MoreInfo from '../../MoreInfo/MoreInfo';
@@ -26,7 +24,7 @@ class EventNew2 extends Component<Props, State> {
   }
   componentDidMount(): * {
     // Check if the user is currently writing an event, if so load inputs with data
-    if (localStorage.getItem('curr_event') !== null) {
+    if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
@@ -79,19 +77,19 @@ class EventNew2 extends Component<Props, State> {
     );
   }
   loadImage() {
-    if (this.state.event.image !== null) {
+    if (this.state.event.image != null) {
       console.log(this.state.event.image);
       document.getElementById('prev').src =
         'http://localhost:4000/public/file/' + this.state.event.image;
     }
   }
   formatTime() {
-    if (this.state.event.start !== null) {
+    if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
       this.state.event.start = d + ' ' + h + ':00';
     }
-    if (this.state.event.end !== null) {
+    if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
       this.state.event.end = d + ' ' + h + ':00';
