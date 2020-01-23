@@ -94,7 +94,7 @@ export default class Filter extends Component<{}, State> {
                 <div className="col filtercategories border-bottom">
                   <h6 className="mb-3 text-success">PRIS</h6>
                 </div>
-                <div className="input-group pricegroup my-3 " id="searchBox">
+                <div className="input-group pricegroup my-3 " id="searchBox2">
                   <div class="input-group md-form form-sm form-1 pl-0">
                     <div class="input-group-prepend">
                       <span
@@ -118,7 +118,7 @@ export default class Filter extends Component<{}, State> {
                     />
                   </div>
                 </div>
-                <div className="input-group pricegroup my-3 " id="searchBox">
+                <div className="input-group pricegroup my-3 " id="searchBox2">
                   <div class="input-group md-form form-sm form-1 pl-0">
                     <div class="input-group-prepend">
                       <span
