@@ -1,7 +1,9 @@
 # HARMONI - Scrum team 2
 
-## Running the client:
-From the top-level repository folder:
+Harmoni er en nettbasert applikasjon for å samle informasjon om arrangementer, slik at arrangører, artister og publikum kan holde oversikt over tidspunkter, artister, personale, billetter og mer.
+
+## Kjøre klienten:
+Fra hovedmappen:
 
 ```sh
 cd Client
@@ -9,11 +11,11 @@ npm install
 npm start 
 ```
 
-## Running the server: 
-The server-code requires a mysql-database to run.
-Change the credentials in Server/src/config/dbCredentials.js to the mysql database of your choice.
+## Kjøre serveren: 
+Serverkoden kreven en mysql-database for å kjøre.
+Endre dataene i Server/src/config/dbCredentials.js til en mysql-database du har tilgang til.
 
- From the top-level repository folder:
+ Fra hovedmappen:
 
   ```sh
   cd Server
@@ -21,7 +23,7 @@ Change the credentials in Server/src/config/dbCredentials.js to the mysql databa
   npm start 
   ```
 
-## Open application:
+## Åpne applikasjon:
 http://localhost:3000
 
-Warning: The project is only tested in the browsers Chrome and Firefox.
+Advarsel: Prosjektet er bare testet i nettleserene Chrome og Firefox.
