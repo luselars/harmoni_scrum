@@ -167,14 +167,14 @@ export default class EventList extends Component<Props, State> {
     return (
       <div>
         <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
         <div className="input-group my-3 " id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
-                <i className="fa fa-search" aria-hidden="true"/>
+                <i className="fa fa-search" aria-hidden="true" />
               </span>
             </div>
             <input
@@ -300,8 +300,8 @@ export default class EventList extends Component<Props, State> {
                 <div className="col-12">
                   <div className="reactpaginate">
                     <ReactPaginate
-                      previousLabel={<i className="fa fa-angle-left" aria-hidden="true"/>}
-                      nextLabel={<i className="fa fa-angle-right" aria-hidden="true"/>}
+                      previousLabel={<i className="fa fa-angle-left" aria-hidden="true" />}
+                      nextLabel={<i className="fa fa-angle-right" aria-hidden="true" />}
                       breakLabel={'...'}
                       breakClassName={'break-me'}
                       pageCount={this.state.pageCount}
