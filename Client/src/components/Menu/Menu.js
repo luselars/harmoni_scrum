@@ -48,38 +48,38 @@ export default class Menu extends Component<{}, { status: boolean }> {
             </a>
           </form>
         ) : (
-          <div className="loginGroup" id="navbarContent">
+          <div className="loginGroup" id="toggler-div">
             <button class="navbar-toggler" type="button" onClick={() => this.collapse()}>
               <span class="navbar-toggler-icon"></span>
             </button>
-            <form id="navbarSupportedContent">
-              <a className="nav-link text-light" id="homeButton" href="/">
-                Hjem <i className="fa fa-home fa-lg"></i>
-                <span className="sr-only"></span>
-              </a>
-              {this.state.userType == 'organiser' ? (
-                <a className="nav-link text-light" id="eventButton" href="/newevent">
-                  Opprett arrangement <i className="fa fa-plus-circle fa-lg"></i>
-                  <span className="sr-only"></span>
-                </a>
-              ) : (
-                <div></div>
-              )}
-              <a className="nav-link text-light" id="profileButton" href="/profile">
-                Profil <i className="fa fa-user fa-lg"></i>
-                <span className="sr-only"></span>
-              </a>
-              <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
-                Logg ut{' '}
-                <i
-                  className="fa fa-sign-out fa-lg"
-                  style={{ color: 'white' }}
-                  aria-hidden="true"
-                ></i>
-                <span className="sr-only"></span>
-              </a>
-            </form>
           </div>
+        )}
+        {this.state.status ? (
+          <div></div>
+        ) : (
+          <form id="navbarSupportedContent" className="loginGroup">
+            <a className="nav-link text-light" id="homeButton" href="/">
+              Hjem <i className="fa fa-home fa-lg"></i>
+              <span className="sr-only"></span>
+            </a>
+            {this.state.userType == 'organiser' ? (
+              <a className="nav-link text-light" id="eventButton" href="/newevent">
+                Opprett arrangement <i className="fa fa-plus-circle fa-lg"></i>
+                <span className="sr-only"></span>
+              </a>
+            ) : (
+              <div></div>
+            )}
+            <a className="nav-link text-light" id="profileButton" href="/profile">
+              Profil <i className="fa fa-user fa-lg"></i>
+              <span className="sr-only"></span>
+            </a>
+            <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
+              Logg ut{' '}
+              <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} aria-hidden="true"></i>
+              <span className="sr-only"></span>
+            </a>
+          </form>
         )}
       </nav>
     );
@@ -101,12 +101,10 @@ export default class Menu extends Component<{}, { status: boolean }> {
     let x = document.getElementById('navbarSupportedContent');
     let y = document.getElementById('navbarContent');
     if (this.state.show) {
-      y.style.display = 'block';
-      x.style.display = 'block';
+      x.style.display = 'contents';
       this.setState({ show: false });
     } else {
       x.style.display = 'none';
-      y.style.display = 'contents';
       this.setState({ show: true });
     }
   }
