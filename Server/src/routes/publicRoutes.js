@@ -2,18 +2,20 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import mysql from 'mysql';
-import { sendInvite } from '../mailClient';
-import { User, Organiser } from '../../dao/modelDao';
 import uploadFunctions from '../uploadHelper';
-
+import { productionDatabase } from '../config/dbCredentials';
 var path = require('path');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let app = express();
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new publicDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
@@ -29,14 +31,16 @@ router.changeDao = function changeDao(publicDao: publicDao) {
 
 // Checks if the token is verified, if so it returns a new token that lasts longer
 router.get('/refreshToken', (req: express$Request, res: express$Response) => {
+  // Get token from header
   let token = req.headers['x-access-token'];
+  // Verify token
   jwt.verify(token, publicKey, (err, decoded) => {
     if (err) {
       console.log('Token NOT ok');
       res.status(401);
       res.json({ error: 'Not authorized, log in again' });
     } else {
-      //console.log('Token ok: ' + decoded.username + ', Assigning new token');
+      // If token is valid a new one is made and returned to the user with the same contents and an extended duration
       let token = jwt.sign(
         { username: decoded.username, type: decoded.type, id: decoded.id },
         privateKey,
@@ -53,8 +57,6 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
 // Get file. The id should match a file in the folder files
 // TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
-  //console.log('Got a file request');
-  //console.log(path.join(__dirname, '../../files/' + req.params.id));
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });
 
@@ -189,7 +191,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Register new user/organiser
+// Register new user or organiser with a sent in form.
 router.post('/register', (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
@@ -210,7 +212,7 @@ router.post('/register', (req: express$Request, res: express$Response) => {
   }
 });
 
-// Check if email is in DB
+// Check if email is in database.
 router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
   dao.emailExists(req.params.email, (status, data) => {
     console.log(data);
@@ -219,7 +221,7 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
   });
 });
 
-//Send feedback-email
+// Send feedback-email to administrator account.
 router.post('/feedback', (req: express$Request, res: express$Response) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -271,7 +273,7 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   });
 });
 
-//Send new password
+// Send new password to a specific email. (user forgot password)
 router.post('/newpassword', (req: express$Request, res: express$Response) => {
   let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
   let password = rand.toString();

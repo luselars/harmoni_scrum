@@ -49,7 +49,7 @@ class EventNew extends Component<Props, State> {
     return (
       <div>
         <div className="form-row">
-          <div className="col-12" id="">
+          <div className="col-12">
             <label id="eventnamelabel" for="eventname">
               Tittel
               <MoreInfo
@@ -101,7 +101,6 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="start"
               name="start"
-              min={this.today()}
               defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
@@ -111,7 +110,6 @@ class EventNew extends Component<Props, State> {
               type="time"
               id="start_time"
               name="start"
-              min={this.currentTime()}
               defaultValue={this.currentTime()}
               onChange={() => this.updateTime()}
             />
@@ -131,7 +129,6 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="end"
               name="end"
-              min={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />

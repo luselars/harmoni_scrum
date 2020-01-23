@@ -212,10 +212,45 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Beskrivelse:
                     </th>
-                    {this.state.event.description != null && this.state.event.description !== '' ? (
-                      <td className="text-left">{this.state.event.description}</td>
+                    {this.state.event.description !== null &&
+                    this.state.event.description !== '' ? (
+                      <div>
+                        {this.state.event.description.length > 45 ? (
+                          <div>
+                            {this.state.expandDesc === true ? (
+                              <td className="text-left">
+                                {this.state.event.description}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.description.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.description}</td>
+                        )}
+                      </div>
                     ) : (
-                      <td className="text-left">-</td>
+                      <div>
+                        <td className="text-left">-</td>
+                      </div>
                     )}
                   </tr>
                   <tr>
@@ -466,7 +501,18 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Sted:
                     </th>
-                    {this.state.event.venue !== '' && this.state.event.venue != null ? (
+                    {this.state.event.location_name !== '' &&
+                    this.state.event.location_name !== null ? (
+                      <td className="text-left">{this.state.event.location_name}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Scene:
+                    </th>
+                    {this.state.event.venue !== '' && this.state.event.venue !== null ? (
                       <td className="text-left">{this.state.event.venue}</td>
                     ) : (
                       <td className="text-left">-</td>
@@ -476,7 +522,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Adresse:
                     </th>
-                    {this.state.event.address != null && this.state.event.address !== '' ? (
+                    {this.state.event.address !== null && this.state.event.address !== '' ? (
                       <td className="text-left">{this.state.event.address}</td>
                     ) : (
                       <td className="text-left">-</td>

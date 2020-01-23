@@ -2,13 +2,18 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
+import { productionDatabase } from '../config/dbCredentials';
 let bcrypt = require('bcryptjs');
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
 let td = new tokenDecoder();
-
 const adminDao = require('../../dao/adminDao.js');
-let dao = new adminDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new adminDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 let router = express.Router();
 
 // Middleware for admin activities
@@ -45,7 +50,7 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Get all unverified
+// Get all unverified organisers
 router.get('/unverified', (req: express$Request, res: express$Response) => {
   dao.getUnverified((status, data) => {
     res.status(status);
@@ -53,15 +58,12 @@ router.get('/unverified', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Change verification status of this organiser
+// Change verification status of organiser by id.
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
   dao.verifyOrganiser(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
-
-//TODO authorization.
-// only admin should be able to use this
 
 module.exports = router;

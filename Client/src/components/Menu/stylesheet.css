@@ -2,6 +2,11 @@
   margin-bottom: 3%;
 }
 
+.navbar-toggler {
+  margin-left: 0;
+  margin-right: -10px;
+}
+
 #title {
   margin-right: 0px;
 }
@@ -38,10 +43,15 @@
 @media screen and (max-width: 600px) {
   #navbarSupportedContent {
     display: none;
+    float: right;
   }
   .navbar-toggler {
     display: contents;
   }
+}
+
+.navbar-toggler-icon {
+  margin-left: 50% !important;
 }
 
 @media screen and (min-width: 600px) {
@@ -49,9 +59,6 @@
     display: none;
   }
   #navbarSupportedContent {
-    display: contents !important;
-  }
-  .loginGroup {
     display: contents !important;
   }
 }

@@ -41,8 +41,8 @@ class EventNew2 extends Component<Props, State> {
   render() {
     return (
       <div>
-        <div class="form-row">
-          <div class="col-12 text-center">
+        <div className="form-row">
+          <div className="col-12 text-center">
             <label>
               Last opp bilde
               <MoreInfo
@@ -55,8 +55,8 @@ class EventNew2 extends Component<Props, State> {
             <small id="imageUploadOptional" className="form-text text-muted mb-2">
               Valgfritt
             </small>
-            <div className="text-center m-3">
-              <Upload class="upload" accept={'.jpg, .png, .jpeg'} />
+            <div className="">
+              <Upload className="upload" accept={'.jpg, .png, .jpeg'} />
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ class EventNew2 extends Component<Props, State> {
           >
             Neste
           </button>
-          <button onClick={() => this.back()} class="btn btn-secondary w-50 m-2 " id="backbtn">
+          <button onClick={() => this.back()} className="btn btn-secondary w-50 m-2 " id="backbtn">
             Tilbake
           </button>
         </div>

@@ -4,6 +4,7 @@ import express$Request from 'express';
 import express$Response from 'express';
 import mysql from 'mysql';
 import { sendInvite } from '../mailClient';
+import { productionDatabase } from '../config/dbCredentials';
 //import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';
 let bcrypt = require('bcryptjs');
@@ -13,7 +14,12 @@ let td = new tokenDecoder();
 var nodemailer = require('nodemailer');
 
 const organiserDao = require('../../dao/organiserDao.js');
-let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new organiserDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 
 const upload = require('../uploadHelper');
 let router = express.Router();
@@ -220,9 +226,9 @@ router.post('/sendmail', (req: express$Request, res: express$Response) => {
     to: req.body.email,
     subject: 'Nytt arrangement',
     html:
-      '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet ' +
+      '<h1>Nytt arrangement</h1><p>Heisann! <br>Du har blitt lagt til i arrangementet <i>' +
       req.body.name +
-      '. ' +
+      '</i>' +
       req.body.text +
       '</p><p>Mvh.<br>Alle oss i harmoni</p>',
   };
@@ -303,9 +309,10 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
 
     if (data.length === 0) {
       //lag en dummy user og artist:
-      let password = 'EndreMeg';
+      let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
+      let password = rand.toString();
       let salt = bcrypt.genSaltSync(10);
-      let hash = bcrypt.hashSync(password, req.body.salt);
+      let hash = bcrypt.hashSync(password, salt);
       dao.postUser(req.body.email, hash, salt, (status, data) => {
         res.status(status);
         let ud = data;
@@ -314,7 +321,7 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
         res.status(status);
         dao.addVolunteerToEvent(id, req.params.event_id, req.params.vid, (status, data) => {
           res.status(status);
-          res.send(data);
+          res.send({ message: 'Added new user', password: password });
         });
       });
     } else {
@@ -324,10 +331,10 @@ router.post('/volunteer/:vid/:event_id', (req: express$Request, res: express$Res
       dao.addVolunteerToEvent(start_id, req.params.event_id, req.params.vid, (status, data) => {
         if (Number(status) === 500) {
           res.status(400);
-          res.send('Staff already in event');
+          res.send({ message: 'Staff already in event' });
         } else {
           res.status(status);
-          res.send(data);
+          res.send({ message: 'Added existing volunteer to event' });
         }
       });
     }

@@ -8,7 +8,7 @@ const config = {
 };
 
 export class AdminService {
-  // Get Unverified
+  // Get all unverified organisers
   static getUnverifed() {
     return axios.get(url_base + '/unverified', config);
   }
@@ -17,7 +17,7 @@ export class AdminService {
     return axios.get(url_base + '/organisers', config);
   }
 
-  // Verify an account
+  // Verify an organiser account
   static verify(id) {
     return axios.put(url_base + '/unverified/' + id, [], config);
   }

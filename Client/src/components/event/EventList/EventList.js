@@ -10,7 +10,7 @@ import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
 let options = {
-  keys: ['name', 'description'],
+  keys: ['name', 'location_name'],
 };
 let dates = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 
@@ -34,6 +34,11 @@ type State = {
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
+    let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
+    let sortAlt = ['', ''];
+    if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
+    if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+
     this.state = {
       events: [],
       oldEvents: [],
@@ -43,6 +48,8 @@ export default class EventList extends Component<Props, State> {
       organiser: organiser,
       offset: 0,
       eventsPerPage: 7,
+      sortType: sortType,
+      sortAlt: sortAlt,
     };
     const fuse = new Fuse(this.state.events, options);
   }
@@ -51,6 +58,7 @@ export default class EventList extends Component<Props, State> {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.eventsPerPage);
     this.setState({ offset: offset });
+    localStorage.setItem('page', selected);
   };
 
   compareAlphabetically(a, b) {
@@ -86,6 +94,7 @@ export default class EventList extends Component<Props, State> {
   }
 
   handleFilterChange = filterChange => {
+    localStorage.setItem('sortType', filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
     this.setState({ sortMethod: filterChange });
     if (sortType === 'Alfabetisk') {
@@ -105,13 +114,17 @@ export default class EventList extends Component<Props, State> {
     console.log(filterChange);
     if (filterChange[0] === 'viewOld') {
       this.state.viewOld = true;
+      localStorage.setItem('viewOld', 'true');
     } else {
       this.state.viewOld = false;
+      localStorage.setItem('viewOld', 'false');
     }
     if (filterChange[1] === 'viewCanceled') {
       this.state.viewCanceled = true;
+      localStorage.setItem('viewCanceled', 'true');
     } else {
       this.state.viewCanceled = false;
+      localStorage.setItem('viewCanceled', 'false');
     }
     var tempEvents = [...this.state.upcommingEvents];
     if (this.state.viewOld)
@@ -156,12 +169,12 @@ export default class EventList extends Component<Props, State> {
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        ></link>
+        />
         <div className="input-group my-3 " id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
-                <i className="fa fa-search" aria-hidden="true"></i>
+                <i className="fa fa-search" aria-hidden="true" />
               </span>
             </div>
             <input
@@ -213,7 +226,11 @@ export default class EventList extends Component<Props, State> {
                         </p>
                         <p className="eventlistp">
                           <a className="eventdescription">Sted: </a>
-                          {event.venue}
+                          {event.location_name !== null &&
+                          event.location_name !== undefined &&
+                          event.location_name !== ''
+                            ? event.location_name
+                            : 'Kommer senere'}
                         </p>
                       </div>
                       <div id="eventbtn" className="col text-right">
@@ -283,8 +300,8 @@ export default class EventList extends Component<Props, State> {
                 <div className="col-12">
                   <div className="reactpaginate">
                     <ReactPaginate
-                      previousLabel={<i className="fa fa-angle-left" aria-hidden="true"></i>}
-                      nextLabel={<i className="fa fa-angle-right" aria-hidden="true"></i>}
+                      previousLabel={<i className="fa fa-angle-left" aria-hidden="true" />}
+                      nextLabel={<i className="fa fa-angle-right" aria-hidden="true" />}
                       breakLabel={'...'}
                       breakClassName={'break-me'}
                       pageCount={this.state.pageCount}
@@ -294,6 +311,11 @@ export default class EventList extends Component<Props, State> {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
+                      initialPage={
+                        localStorage.getItem('page') != null
+                          ? parseInt(localStorage.getItem('page'))
+                          : 0
+                      }
                     />
                   </div>
                 </div>
@@ -363,6 +385,13 @@ export default class EventList extends Component<Props, State> {
       pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(upcommingEvents, options);
+    this.getFilterStateFromLocalStorage();
+  }
+
+  getFilterStateFromLocalStorage() {
+    console.log(this.state.events);
+    this.handleFilterChange(this.state.sortType);
+    this.handleFilterAlternativChange(this.state.sortAlt);
   }
 
   search(event) {

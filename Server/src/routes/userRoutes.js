@@ -4,6 +4,7 @@ import express$Request from 'express';
 import express$Response from 'express';
 import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
+import { productionDatabase } from '../config/dbCredentials';
 
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
@@ -11,7 +12,12 @@ let td = new tokenDecoder();
 let bcrypt = require('bcryptjs');
 
 const userDao = require('../../dao/userDao.js');
-let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new userDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 const upload = require('../uploadHelper');
 
 let router = express.Router();
@@ -46,7 +52,7 @@ router.use('', (req, res, next) => {
   });
 });
 
-// Edit a specific user
+// Edit logged in user usig user_id in token
 router.put('/myprofile', (req: express$Request, res: express$Response) => {
   if (req.body.password.length !== 0) {
     req.body.salt = bcrypt.genSaltSync(10);
@@ -69,7 +75,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
   }
 });
 
-// Delete single user
+// Delete logged-in user using user_id in token
 router.delete('/:id', (req: express$Request, res: express$Response) => {
   dao.deleteUser(req.params.id, (status, data) => {
     res.status(status);
@@ -80,13 +86,13 @@ router.delete('/:id', (req: express$Request, res: express$Response) => {
 // TODO: Brukes denne? Virker som en kopi av myevents
 // Retrieve all events that the user is a part of
 router.get('/:id/event', (req: express$Request, res: express$Response) => {
-  dao.getUserByEvent(req.params.id, (status, data) => {
+  dao.getUserEvents(req.params.id, (status, data) => {
     res.status(status);
     res.send(data);
   });
 });
 
-// Retrieve info from a user
+// Retrieve info about logged in user with user_id in token
 router.get('/myprofile', (req: express$Request, res: express$Response) => {
   dao.getUserInfo(req.uid, (status, data) => {
     res.status(status);
@@ -102,7 +108,7 @@ router.get('/myevents', (req: express$Request, res: express$Response) => {
   });
 });
 
-//Get riders for event
+//Get riders for an event where logged in user is an artist
 router.get('/event/rider/:event_id', (req: express$Request, res: express$Response) => {
   dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
@@ -110,8 +116,7 @@ router.get('/event/rider/:event_id', (req: express$Request, res: express$Respons
   });
 });
 
-// TODO: Verify Artist relation to event
-// Get event artists with contract and stuff
+// Get event artists without contract and stuff
 router.get('/artist/:event_id', (req: express$Request, res: express$Response) => {
   dao.getEventArtist(req.params.event_id, (status, data) => {
     res.status(status);
@@ -119,7 +124,7 @@ router.get('/artist/:event_id', (req: express$Request, res: express$Response) =>
   });
 });
 
-// Get a spesific event.
+// Get a spesific event that user has access to.
 router.get('/myevents/:event_id', (req: express$Request, res: express$Response) => {
   dao.getMyEvent(req.uid, req.params.event_id, (status, data) => {
     res.status(status);
@@ -127,14 +132,7 @@ router.get('/myevents/:event_id', (req: express$Request, res: express$Response) 
   });
 });
 
-// Lets an organiser change his profile.
-router.post('/event/:id/join', (req: express$Request, res: express$Response) => {
-  dao.linkArtist(req.email, req.params.id, (status, data) => {
-    res.status(status);
-    res.send(data);
-  });
-});
-
+//edit logged in users artist name
 router.put('/artistname', (req: express$Request, res: express$Response) => {
   dao.setArtistName(req.body.artist_name, req.uid, (status, data) => {
     res.status(status);
@@ -142,6 +140,7 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
   });
 });
 
+//gets logged in users riders on a given event he has access to
 router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
   dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
@@ -149,6 +148,7 @@ router.get('/event/:event_id/riders', (req: express$Request, res: express$Respon
   });
 });
 
+//deletes a rider that is associated with logged in user
 router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) => {
   dao.deleteRider(req.params.rider_id, req.uid, (status, data) => {
     res.status(status);
@@ -156,6 +156,7 @@ router.delete('/rider/:rider_id', (req: express$Request, res: express$Response) 
   });
 });
 
+//posts a rider, to an event where logged in user has access
 router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
   uploadFunctions.handleFile(req.body.rider_file, function(imageUrl) {
     req.body.rider_file = imageUrl;
@@ -166,6 +167,7 @@ router.post('/event/:event_id/riders', (req: express$Request, res: express$Respo
   });
 });
 
+//get notes on logged in user from an event he has access to
 router.put('/event/:event_id/notes', (req: express$Request, res: express$Response) => {
   dao.putEventArtist(req.params.event_id, req.uid, req.body.notes, (status, data) => {
     res.status(status);

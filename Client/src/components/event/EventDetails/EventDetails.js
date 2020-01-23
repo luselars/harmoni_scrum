@@ -89,15 +89,23 @@ export default class EventDetails extends Component<Props, State> {
               <tr>
                 <th className="hoyre text-right">Sted:</th>
                 <td className="venstre text-left">
-                  {this.state.location_name.length === 0 && this.state.venue.length !== 0
-                    ? this.state.venue
-                    : this.state.venue.length === 0 && this.state.location_name.length !== 0
-                    ? this.state.location_name
-                    : this.state.venue.length === 0 && this.state.location_name.length === 0
-                    ? 'Kommer snart'
-                    : this.state.location_name + ', ' + this.state.venue}
+                  {this.state.event.location_name !== null &&
+                  this.state.event.location_name !== undefined &&
+                  this.state.event.location_name !== ''
+                    ? this.state.event.location_name
+                    : 'Kommer senere'}
                 </td>
               </tr>
+              {this.state.venue !== null &&
+              this.state.venue !== '' &&
+              this.state.venue !== undefined &&
+              this.state.event.location_name !== null &&
+              this.state.event.location_name !== undefined ? (
+                <tr>
+                  <th className="hoyre text-right">Scene:</th>
+                  <td className="venstre text-left">{this.state.venue}</td>
+                </tr>
+              ) : null}
               <tr>
                 {this.state.artist.length === 0 ? (
                   <p></p>
