@@ -35,12 +35,7 @@ class EventNew extends Component<Props, State> {
       // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(data);
-        console.log(data.is_public);
-        let value: boolean = data.is_public == 0 ? false : true;
-        console.log(value);
-
-        this.setState({ event: data, checked: value });
+        this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
@@ -140,7 +135,6 @@ class EventNew extends Component<Props, State> {
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
-
             <input
               className="form-control w-50 mb-4"
               type="time"

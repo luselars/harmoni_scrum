@@ -79,10 +79,8 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div className="createEvent">
-        {/*<form>*/}
+      <div>
         <div className="form-row">
-          <p id="locationtitle">Velg sted</p>
           <iframe
             id="map"
             width="100%"
@@ -97,10 +95,10 @@ class EventNew3 extends Component<Props> {
             }
             allowfullscreen
           ></iframe>
+          <label>Velg sted</label>
           <Autocomplete
             id="search_name"
             style={{ width: '800px' }}
-            freeSolo
             onChange={(event, value) => this.updateForm(0, value)}
             value={this.state.location_name}
             options={this.state.locations.map(option => option.name)}
@@ -114,7 +112,7 @@ class EventNew3 extends Component<Props> {
                   this.setState({ location_name: this.name.current.value });
                 }}
                 margin="normal"
-                variant="outlined"
+                color="secondary"
                 fullWidth
               />
             )}
@@ -122,7 +120,6 @@ class EventNew3 extends Component<Props> {
           <Autocomplete
             id="search_address"
             style={{ width: '800px' }}
-            freeSolo
             onChange={(event, value) => this.updateForm(1, value)}
             options={this.state.locations.map(option => option.address)}
             value={this.state.location_addr}
@@ -138,7 +135,7 @@ class EventNew3 extends Component<Props> {
                 }}
                 label="Stedsaddresse"
                 margin="normal"
-                variant="outlined"
+                color="secondary"
                 fullWidth
               />
             )}
@@ -163,7 +160,6 @@ class EventNew3 extends Component<Props> {
             Neste
           </button>
         </div>
-        {/*</form>*/}
       </div>
     );
   }
