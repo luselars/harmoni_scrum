@@ -27,7 +27,7 @@ class EventNew4 extends Component<Props, State> {
   }
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
-    if (localStorage.getItem('curr_event') !== null) {
+    if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
@@ -159,12 +159,12 @@ class EventNew4 extends Component<Props, State> {
     });
   }
   formatTime() {
-    if (this.state.event.start !== null) {
+    if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
       this.state.event.start = d + ' ' + h + ':00';
     }
-    if (this.state.event.end !== null) {
+    if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
       this.state.event.end = d + ' ' + h + ':00';
