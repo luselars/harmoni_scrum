@@ -273,7 +273,8 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
 
 //Send new password
 router.post('/newpassword', (req: express$Request, res: express$Response) => {
-  let password = 'EndreMeg';
+  let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
+  let password = rand.toString();
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
   console.log('TYPE:' + req.body.type);
