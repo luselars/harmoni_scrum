@@ -143,12 +143,17 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
 });
 
 router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
-  res.status(200);
-  res.send('fake');
-  /*dao.getRiders(req.params.id, (status, data) => {
+  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
-  });*/
+  });
+});
+
+router.post('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
+  dao.postRiders(req.uid, req.params.event_id, req.body.rider_file, (status, data)=> {
+    res.status(status);
+    res.send(data);
+  });
 });
 
 module.exports = router;
