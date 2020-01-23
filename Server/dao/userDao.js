@@ -85,7 +85,7 @@ module.exports = class UserDao extends Dao {
     callback: (status: string, data: Object) => mixed,
   ) {
     super.query(
-      'SELECT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.user_id = r.user_id WHERE ea.event_id = ? AND ea.user_id = ?',
+      'SELECT DISTINCT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.event_id = r.event_id AND ea.user_id = r.user_id WHERE ea.event_id = ? AND r.user_id = ?',
       [event_id, user_id],
       callback,
     );
@@ -128,5 +128,15 @@ module.exports = class UserDao extends Dao {
     var queryString =
       'SELECT u.email, a.user_id, a.artist_name FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
     super.query(queryString, [event_id], callback);
+  }
+
+  putEventArtist(
+    event_id: number,
+    user_id: number,
+    notes: string,
+    callback: (status: string, data: Object) => mixed,
+  ) {
+    var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
+    super.query(queryString, [notes, user_id, event_id], callback);
   }
 };
