@@ -150,6 +150,17 @@ export default class Filter extends Component<{}, State> {
                     />
                   </div>
                 </div>
+                <div className="col text-center mt-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.nullstill();
+                    }}
+                    className="btn btn-success"
+                  >
+                    Nullstill
+                  </button>
+                </div>
               </div>
             </Collapse>
           </form>
@@ -220,5 +231,12 @@ export default class Filter extends Component<{}, State> {
   handleSubmit(event) {
     event.preventDefault();
     alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
+  }
+  nullstill() {
+    localStorage.removeItem('sortType');
+    localStorage.removeItem('viewCanceled');
+    localStorage.removeItem('viewOld');
+    localStorage.removeItem('page');
+    window.location = '/';
   }
 }
