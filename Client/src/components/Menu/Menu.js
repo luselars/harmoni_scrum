@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 type State = {
   status: boolean,
+  userType: String,
+  show: Boolean,
 };
 
 export default class Menu extends Component<{}, { status: boolean }> {
@@ -14,6 +16,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
     this.state = {
       status: localStorage.getItem('token') === null,
       show: true,
+      userType: localStorage.getItem('userType'),
     };
   }
 
@@ -54,10 +57,14 @@ export default class Menu extends Component<{}, { status: boolean }> {
                 Hjem <i className="fa fa-home fa-lg"></i>
                 <span className="sr-only"></span>
               </a>
-              <a className="nav-link text-light" id="eventButton" href="/newevent">
-                Opprett arrangement <i className="fa fa-plus-square fa-lg"></i>
-                <span className="sr-only"></span>
-              </a>
+              {this.state.userType == 'organiser' ? (
+                <a className="nav-link text-light" id="eventButton" href="/newevent">
+                  Opprett arrangement <i className="fa fa-plus-circle fa-lg"></i>
+                  <span className="sr-only"></span>
+                </a>
+              ) : (
+                <div></div>
+              )}
               <a className="nav-link text-light" id="profileButton" href="/profile">
                 Profil <i className="fa fa-user fa-lg"></i>
                 <span className="sr-only"></span>
