@@ -40,7 +40,12 @@ export default class EventDetails extends Component<Props, State> {
               id="eventdetailsimg"
             ></img>
           ) : (
-            <div></div>
+            <img
+              src={'http://localhost:4000/public/file/rockband.jpeg'}
+              className="img-fluid"
+              alt="Eventbilde"
+              id="eventdetailsimg"
+            ></img>
           )}
         </div>
         <p className="titleeventdetails display-4 text-uppercase text-center m-4">
@@ -66,17 +71,17 @@ export default class EventDetails extends Component<Props, State> {
               <tr>
                 <th className="hoyre text-right">Sted:</th>
                 <td className="venstre text-left">
-                  {this.state.location_name.length == 0 && this.state.venue.length != 0
+                  {this.state.location_name.length === 0 && this.state.venue.length != 0
                     ? this.state.venue
-                    : this.state.venue.length == 0 && this.state.location_name.length != 0
+                    : this.state.venue.length === 0 && this.state.location_name.length != 0
                     ? this.state.location_name
-                    : this.state.venue.length == 0 && this.state.location_name.length == 0
+                    : this.state.venue.length === 0 && this.state.location_name.length === 0
                     ? 'Kommer snart'
                     : this.state.location_name + ', ' + this.state.venue}
                 </td>
               </tr>
               <tr>
-                {this.state.artist.length == 0 ? (
+                {this.state.artist.length === 0 ? (
                   <p></p>
                 ) : (
                   <th className="hoyre text-right">Lineup:</th>
@@ -87,7 +92,7 @@ export default class EventDetails extends Component<Props, State> {
               </tr>
             </tbody>
           </table>
-          {this.state.event.address == null ? (
+          {this.state.event.address === null ? (
             <></>
           ) : (
             <iframe
@@ -120,14 +125,14 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
-        if (this.state.event.location_name == null) {
+        if (this.state.event.location_name === null) {
           console.log('Hei');
           this.setState({ location_name: '' });
           console.log('Name: ' + this.state.location_name.length);
         } else {
           this.setState({ location_name: event.location_name });
         }
-        if (this.state.event.eventvenue == null) {
+        if (this.state.event.eventvenue === null) {
           console.log('Hallo');
           this.setState({ venue: '' });
           console.log('Venue: ' + this.state.venue.length);

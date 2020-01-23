@@ -278,7 +278,7 @@ router.post('/newpassword', (req: express$Request, res: express$Response) => {
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
   console.log('TYPE:' + req.body.type);
-  if (req.body.type == 'organiser') {
+  if (req.body.type === 'organiser') {
     dao.editPasswordOrg(hash, salt, req.body.email, (status, data) => {
       res.status(status);
       res.send(data);

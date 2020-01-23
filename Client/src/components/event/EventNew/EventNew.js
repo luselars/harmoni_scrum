@@ -37,7 +37,7 @@ class EventNew extends Component<Props, State> {
         let data = response.data;
         console.log(data);
         console.log(data.is_public);
-        let value: boolean = data.is_public == 0 ? false : true;
+        let value: boolean = data.is_public === 0 ? false : true;
         console.log(value);
 
         this.setState({ event: data, checked: value });
