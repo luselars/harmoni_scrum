@@ -53,8 +53,7 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
         } else {
           PublicService.newPassword(this.state.email, response.data[0].type)
             .then(response => {
-              console.log('Email sent');
-              window.location = '/glemtpassordregisrert';
+              window.location = '/passwordregister';
             })
             .catch(error => {
               console.log('error sendFeedback: ' + error);

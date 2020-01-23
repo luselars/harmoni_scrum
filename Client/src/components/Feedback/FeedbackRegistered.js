@@ -13,7 +13,7 @@ export default class FeedbackRegistered extends Component<{}, {}> {
           Vi vil svare på din hendvendelse på mail så fort som mulig.
         </p>
         <button
-          className="btn btn-success bg-green w-25"
+          className="btn btn-success w-50 mx-auto d-block m-2"
           onClick={() => (window.location.href = '/')}
         >
           Tilbake til forside

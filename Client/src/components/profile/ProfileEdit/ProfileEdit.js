@@ -266,11 +266,14 @@ class ProfileEdit extends Component<{}, State> {
       var a = this.state.address;
       var res = a.split('#');
       var nr = parseInt(res[1], 10);
-      console.log('postnr: ' + nr);
+      if (res[2] === 'undefined') {
+        this.setState({ postal: '' });
+      } else {
+        this.setState({ postal: res[2] });
+      }
       this.setState({
         streetAddress: res[0],
         postalcode: nr,
-        postal: res[2],
       });
       console.log(
         this.state.streetAddress + ', ' + this.state.postalcode + ', ' + this.state.postal,
@@ -340,7 +343,6 @@ class ProfileEdit extends Component<{}, State> {
             state2.image = reader.result;
             if (changePassword) state2.password = state2.newPassword;
             OrganiserService.editOrganiser(state2).then(response => {
-              alert('Endring registert');
               window.location = '/profile';
             });
           },
@@ -360,7 +362,6 @@ class ProfileEdit extends Component<{}, State> {
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
-      alert('ikke blide');
       window.location = '/profile';
     });
   }

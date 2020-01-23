@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Component for downloading files from database
 type Props = {
   fileName: string,
 };

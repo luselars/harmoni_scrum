@@ -1,5 +1,6 @@
 //@flow
 
+//Event details for the public
 import * as React from 'react';
 import { Component } from 'react';
 import { Event, Artist, TicketType } from '../../../services/modelService';
@@ -34,7 +35,9 @@ export default class EventDetails extends Component<Props, State> {
   render() {
     return (
       <div className="card mb-4" id="carddetailsevent">
+        {/*Checks if events are cancelled or not*/}
         {this.state.cancel == 0 ? (
+          //Checks if event has an event image
           this.state.event.image == null ? (
             ''
           ) : (
@@ -126,6 +129,7 @@ export default class EventDetails extends Component<Props, State> {
           {this.state.event.address === null ? (
             <></>
           ) : (
+            //Inserts adress to google maps
             <iframe
               title="Google maps"
               id="map"
@@ -153,31 +157,30 @@ export default class EventDetails extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.id);
+    //Gets public event by event_id
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
         this.setState({ cancel: event.cancel });
-        console.log(this.state.event.image);
         if (this.state.event.location_name == null) {
           this.setState({ location_name: '' });
-          console.log('Name: ' + this.state.location_name.length);
         } else {
           this.setState({ location_name: event.location_name });
         }
         if (this.state.event.eventvenue === null) {
           this.setState({ venue: '' });
-          console.log('Venue: ' + this.state.venue.length);
         } else {
           this.setState({ venue: event.venue });
         }
         this.setState({ event: event });
 
+        //Gets artist on event by event_id
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {
           let artist: any = res.data;
           this.setState({ artist: artist });
         });
 
+        //Gets tickets on event by event_id
         PublicService.getPublicEventTickets(this.state.event.event_id).then(res => {
           let tickets: any = res.data;
           this.setState({ tickets: tickets });

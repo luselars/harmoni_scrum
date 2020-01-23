@@ -1,4 +1,6 @@
 //@flow
+
+//Event details for artists
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
@@ -39,15 +41,16 @@ export default class EventDetailsArtist extends Component<Props, State> {
     };
   }
   componentDidMount() {
+    //Gets artists on event by event_id
     UserService.getArtists(this.props.match.params.id)
       .then(res => {
         this.setState({ artists: res.data });
       })
       .catch(error => {
         alert(error);
-        //window.location = '/404';
       });
 
+    //Gets event by id
     UserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
@@ -58,11 +61,13 @@ export default class EventDetailsArtist extends Component<Props, State> {
       })
       .catch(error => console.log(error));
 
+    //Gets all riders by event_id
     UserService.getRiders(this.props.match.params.id).then(res => {
       console.log(res.data);
       this.setState({ riders: res.data });
     });
 
+    //Gets all tickets by event_id
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
       this.setState({ tickets: response.data });
     });
@@ -72,21 +77,16 @@ export default class EventDetailsArtist extends Component<Props, State> {
       <div>
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.cancel === 0 ? (
-              this.state.event.image != null ? (
-                <div className="imgdiv">
-                  <img
-                    id="EventPicLI"
-                    src={'http://localhost:4000/public/file/' + this.state.event.image}
-                    className="img-fluid"
-                    alt="Eventbilde"
-                  ></img>
-                </div>
+            {/*Checks if events are cancelled or not*/}
+            {this.state.cancel == 0 ? (
+              //Checks if event has an event image
+              this.state.event.image == null ? (
+                ''
               ) : (
                 <div className="imgdiv">
                   <img
                     id="EventPicLI"
-                    src={'http://localhost:4000/public/file/rockband.jpeg'}
+                    src={'http://localhost:4000/public/file/' + this.state.event.image}
                     className="img-fluid"
                     alt="Eventbilde"
                   ></img>
@@ -97,7 +97,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                 <img
                   id="EventPicLI"
                   src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid cancelimg"
+                  className="img-fluid canceling"
                   alt="Eventbilde"
                 ></img>
                 <div class="centered">AVLYST</div>
@@ -219,6 +219,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Notater:
                     </th>
+                    {/*Checks if the event has notes in riders*/}
                     {this.state.event.notes !== undefined && this.state.event.notes != null ? (
                       <div>
                         {this.state.event.notes.length > 45 ? (
@@ -345,6 +346,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
               {this.state.event.address === null ? (
                 <div></div>
               ) : (
+                //Inserts adress to google maps
                 <iframe
                   id="map"
                   width="100%"
@@ -375,6 +377,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
   }
 
   edit() {
+    //Changes your location to edit event
     window.location.href = '/userevent/edit/' + this.props.match.params.id;
   }
 }

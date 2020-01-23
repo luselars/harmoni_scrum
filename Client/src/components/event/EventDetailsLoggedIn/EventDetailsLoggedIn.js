@@ -1,5 +1,6 @@
 //@flow
 
+//Event details for organisers
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
@@ -24,8 +25,6 @@ type Props = {
   match: { params: { id: number } },
 };
 
-//<{match: { params: {id: number}}},{props: {event: Event, artists: [], riders: []}}>
-
 export default class EventDetailsLoggedIn extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -40,16 +39,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       expandNotes: [],
       expandStatus: false,
     };
-
-    {
-      /*this.state = {
-      event: new Event(),
-      artists: [],
-      riders: [],
-    };*/
-    }
   }
   componentDidMount() {
+    //Gets all artist by event_id
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
         console.log(res.data);
@@ -63,6 +55,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           window.location = '/404';
         }
       });
+    //Gets event by event_id
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
@@ -73,20 +66,26 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         });
       })
       .catch(error => console.log(error));
-
+    //Gets riders to event by event_id
     OrganiserService.getRiders(this.props.match.params.id).then(res => {
       this.setState({ riders: res.data });
     });
+    //Gets tickets by event_id
     PublicService.getPublicEventTickets(this.props.match.params.id).then(response => {
       this.setState({ tickets: response.data });
     });
+
+    //Gets staffs tasks by event_id
     OrganiserService.getVolunteerType().then(response => {
       this.setState({ types: response.data });
     });
+    //Gets staff by event_id
     OrganiserService.getMyVolunteers(this.props.match.params.id).then(response => {
       this.setState({ pers: response.data });
     });
   }
+
+  //Cheks if artists exists
   getArtistName(artist): string {
     if (
       artist.artist_name === '' ||
@@ -105,6 +104,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
+        {/*Inserts modals for warnings when pressing delete and cancel buttons*/}
         <div id="myModal" className="modal" role="dialog" aria-hidden="true">
           <div className="modal-content">
             <span className="close">&times;</span>
@@ -135,21 +135,16 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         </div>
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.cancel === 0 ? (
-              this.state.event.image != null ? (
-                <div className="imgdiv">
-                  <img
-                    id="EventPicLI"
-                    src={'http://localhost:4000/public/file/' + this.state.event.image}
-                    className="img-fluid"
-                    alt="Eventbilde"
-                  ></img>
-                </div>
+            {/*Checks if events are cancelled or not*/}
+            {this.state.cancel == 0 ? (
+              //Checks if event has an event image
+              this.state.event.image == null ? (
+                ''
               ) : (
                 <div className="imgdiv">
                   <img
                     id="EventPicLI"
-                    src={'http://localhost:4000/public/file/rockband.jpeg'}
+                    src={'http://localhost:4000/public/file/' + this.state.event.image}
                     className="img-fluid"
                     alt="Eventbilde"
                   ></img>
@@ -261,6 +256,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                                     <td className="text-left">{artist.artist_name}: </td>
                                   )}
                                   <td className="text-left">
+                                    {/*Uses Downloadfile Component to publish contracts*/}
                                     <DownloadFile fileName={artist.contract} />
                                   </td>
                                 </tr>
@@ -491,6 +487,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               {this.state.event.address === null ? (
                 <div></div>
               ) : (
+                //Inserts adress to google maps
                 <iframe
                   id="map"
                   width="100%"
@@ -543,6 +540,8 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       </div>
     );
   }
+
+  //Runs when a button with a modal is pressed
   btnclicked(id: string) {
     if (id === 'deleteeventbtn') {
       let btn = document.getElementById('deleteeventbtn');
@@ -580,20 +579,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         };
       }
     }
-
     window.onclick = function(event) {
       if (event.target.className === 'modal') {
-        //modal.style.display = 'none';
         event.target.style.display = 'none';
-      }
-      {
-        /* ganske sikker på at denne er unødvendig nå, etter at jeg fikset btn.onClick() over her
-      let cancel = document.getElementById('cancel2');
-      if(cancel instanceof HTMLElement) {
-        cancel.onclick = function() {
-          modal.style.display = 'none';
-        };
-      }*/
       }
       window.onclick = function(event) {
         if (event.target.className === 'modal') {
@@ -604,18 +592,21 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     };
   }
 
+  //Cancel/Restoring event
   cancel() {
+    //Changes Cancel status
     OrganiserService.toggleCancel(this.state.event.event_id).then(response => {
       window.location = '/orgevent/' + this.state.event.event_id;
-      console.log('done');
-      console.log(this.state.event.cancel);
     });
   }
 
+  //Sends you to edit event by event_id
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
     window.location = '/editevent';
   }
+
+  //Deletes event by event_id
   delete() {
     OrganiserService.deleteEvent(this.props.match.params.id)
       .then(response => {

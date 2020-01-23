@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
+//Organiser component when event is deleted
 export default class EventDeleted extends Component<{}, {}> {
   render() {
     return (
