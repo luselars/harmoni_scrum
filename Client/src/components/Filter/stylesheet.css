@@ -1,3 +1,20 @@
+.filtersortbtn {
+  border: none;
+  padding: 5px 10px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.pricegroup {
+  margin-left: 0;
+}
+
+.filtersortbtn:hover {
+  background-color: lightgrey;
+}
+
 .filtertitle {
   font-size: 1.25rem;
   margin: 10px 15px;
@@ -35,12 +52,11 @@ h6 {
   -webkit-transform: rotate(45deg);
 }
 .arrow {
-  border: solid rgb(37, 155, 34);
-  border-width: 0 6px 6px 0;
+  border: solid rgb(0, 0, 0);
+  border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 6px;
-  margin: 0 18px;
-  margin-top: -20px;
+  margin: 4px 18px;
 }
 
 .dropdown {
@@ -55,17 +71,20 @@ h6 {
   margin-top: 1px;
 }
 
+#searchBox {
+  width: 100% !important;
+  margin-left: 0% !important;
+  margin-right: 0% !important;
+}
+
 @media screen and (max-width: 850px) {
-  .dropdown {
-  }
   #filterCard {
     margin-right: 5%;
     margin-left: 5%;
     width: 90%;
   }
-}
-
-@media screen and (max-width: 1010px) {
-  .dropdown {
+  .filtersortbtn {
+    font-size: medium;
+    margin-right: 300px;
   }
 }
