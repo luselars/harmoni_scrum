@@ -4,6 +4,7 @@ import express$Request from 'express';
 import express$Response from 'express';
 import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
+import { productionDatabase } from '../config/dbCredentials';
 
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
@@ -11,7 +12,12 @@ let td = new tokenDecoder();
 let bcrypt = require('bcryptjs');
 
 const userDao = require('../../dao/userDao.js');
-let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new userDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 const upload = require('../uploadHelper');
 
 let router = express.Router();
@@ -53,7 +59,7 @@ router.put('/myprofile', (req: express$Request, res: express$Response) => {
     req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
     req.body.password = null;
   }
-  if (req.body.image !== null && req.body.image !== undefined) {
+  if (req.body.image != null && req.body.image !== undefined) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.image = imageUrl;
       dao.editUser(req.uid, req.body, (status, data) => {

@@ -13,9 +13,15 @@ event.event_id = 2;
 // @flow
 import mysql from 'mysql';
 import { Event, User, Location, Organiser, TicketType } from '../../dao/modelDao.js';
+import { testDatabase } from '../config/dbCredentials';
 const organiserDao = require('../../dao/organiserDao.js');
 const runsqlfile = require('./runsqlfile.js');
-let dao = new organiserDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+let dao = new organiserDao(
+  testDatabase.url,
+  testDatabase.user,
+  testDatabase.password,
+  testDatabase.database,
+);
 
 let event = new Event('Mcpearsons nye organfest');
 event.name = 'Mcpearsons nye organfest';

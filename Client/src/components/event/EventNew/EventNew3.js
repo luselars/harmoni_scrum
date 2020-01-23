@@ -79,10 +79,8 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div className="createEvent">
-        {/*<form>*/}
+      <div>
         <div className="form-row">
-          <p id="locationtitle">Velg sted</p>
           <iframe
             id="map"
             width="100%"
@@ -97,9 +95,10 @@ class EventNew3 extends Component<Props> {
             }
             allowfullscreen
           ></iframe>
+          <label>Velg sted</label>
           <Autocomplete
             id="search_name"
-            style={{ width: '800px' }}
+            style={{ width: '100%' }}
             freeSolo
             onChange={(event, value) => this.updateForm(0, value)}
             value={this.state.location_name}
@@ -121,7 +120,7 @@ class EventNew3 extends Component<Props> {
           />
           <Autocomplete
             id="search_address"
-            style={{ width: '800px' }}
+            style={{ width: '100%' }}
             freeSolo
             onChange={(event, value) => this.updateForm(1, value)}
             options={this.state.locations.map(option => option.address)}
@@ -136,8 +135,9 @@ class EventNew3 extends Component<Props> {
                     this.setState({ location_addr: this.addr.current.value });
                   }
                 }}
-                label="Stedsaddresse"
-                margin="normal"
+                label="Adresse"
+                margin="narrow"
+                padding="narrow"
                 variant="outlined"
                 fullWidth
               />
@@ -146,7 +146,7 @@ class EventNew3 extends Component<Props> {
         </div>
 
         <label htmlFor="postcode">Postkode:</label>
-        <input id="postcode" type="text" />
+        <input className="form-control w-50" id="postcode" type="text" />
         <label htmlFor="postcode">
           Scene:
           <MoreInfo
@@ -154,7 +154,11 @@ class EventNew3 extends Component<Props> {
             text={'Om du vil kan du spesifisere hvilken scene arrangementet foregår på.'}
           />
         </label>
-        <input id="venue" type="text" />
+        <small id="sceneOptional" className="form-text text-muted mb-2">
+          Valgfritt
+        </small>
+        <input className="form-control w-50" id="venue" type="text" />
+
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
             Tilbake
@@ -163,12 +167,11 @@ class EventNew3 extends Component<Props> {
             Neste
           </button>
         </div>
-        {/*</form>*/}
       </div>
     );
   }
   updateForm(w, val) {
-    if (w === 0 && val !== null && val !== '') {
+    if (w === 0 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].name === val) {
           let a = this.state.locations[i].address;
@@ -177,7 +180,7 @@ class EventNew3 extends Component<Props> {
         }
       }
     }
-    if (w === 1 && val !== null && val !== '') {
+    if (w === 1 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
         if (this.state.locations[i].address === val) {
           let a = this.state.locations[i].name;
@@ -190,12 +193,12 @@ class EventNew3 extends Component<Props> {
 
   //TODO do not mutate state directly. use setState()
   formatTime() {
-    if (this.state.event.start !== null) {
+    if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
       this.state.event.start = d + ' ' + h + ':00';
     }
-    if (this.state.event.end !== null) {
+    if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
       this.state.event.end = d + ' ' + h + ':00';

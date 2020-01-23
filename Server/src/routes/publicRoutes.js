@@ -2,18 +2,20 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import mysql from 'mysql';
-import { sendInvite } from '../mailClient';
-import { User, Organiser } from '../../dao/modelDao';
 import uploadFunctions from '../uploadHelper';
-
+import { productionDatabase } from '../config/dbCredentials';
 var path = require('path');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let app = express();
 const publicDao = require('../../dao/publicDao.js');
-let dao = new publicDao('mysql-ait.stud.idi.ntnu.no', 'larsoos', 'S6yv7wYa', 'larsoos');
+let dao = new publicDao(
+  productionDatabase.url,
+  productionDatabase.user,
+  productionDatabase.password,
+  productionDatabase.database,
+);
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
 // TODO: bruk ekte sertifikat, lest fra config...
@@ -95,7 +97,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
     if (status === '200') {
-      if (data[0] !== null) {
+      if (data[0] != null) {
         // Callback function that hashes inputed password and compares to hash in DB
         let salt = data[0].salt;
         let hash = bcrypt.hashSync(req.body.password, salt);
@@ -119,7 +121,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
       } else {
         dao.getOrganiserLoginInfo(req.body.username, (status, data) => {
           if (status === '200') {
-            if (data[0] !== null) {
+            if (data[0] != null) {
               // Callback function that hashes inputed password and compares to hash in DB
               let salt = data[0].salt;
               let hash = bcrypt.hashSync(req.body.password, salt);
@@ -142,7 +144,7 @@ router.post('/login', (req: express$Request, res: express$Response) => {
             } else {
               dao.getAdminLoginInfo(req.body.username, (status, data) => {
                 if (status === '200') {
-                  if (data[0] !== null) {
+                  if (data[0] != null) {
                     // Callback function that hashes inputed password and compares to hash in DB
                     let salt = data[0].salt;
                     let hash = bcrypt.hashSync(req.body.password, salt);
@@ -194,7 +196,7 @@ router.post('/register', (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
   req.body.hash = bcrypt.hashSync(req.body.password, req.body.salt);
-  if (req.body.image !== null) {
+  if (req.body.image != null) {
     uploadFunctions.handleFile(req.body.image, function(imageUrl) {
       req.body.imageUrl = imageUrl;
       dao.insertNewUser(req.body, (status, data) => {

@@ -136,7 +136,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
             {this.state.cancel === 0 ? (
-              this.state.event.image !== null ? (
+              this.state.event.image != null ? (
                 <div className="imgdiv">
                   <img
                     id="EventPicLI"
@@ -155,12 +155,12 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   ></img>
                 </div>
               )
-            ) : this.state.event.image !== null ? (
+            ) : this.state.event.image != null ? (
               <div className="imgdiv">
                 <img
                   id="EventPicLI"
                   src={'http://localhost:4000/public/file/' + this.state.event.image}
-                  className="img-fluid cancelimg"
+                  className="img-fluid canceling"
                   alt="Eventbilde"
                 ></img>
                 <div class="centered">AVLYST</div>
@@ -219,9 +219,43 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     </th>
                     {this.state.event.description !== null &&
                     this.state.event.description !== '' ? (
-                      <td className="text-left">{this.state.event.description}</td>
+                      <div>
+                        {this.state.event.description.length > 45 ? (
+                          <div>
+                            {this.state.expandDesc === true ? (
+                              <td className="text-left">
+                                {this.state.event.description}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.description.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.description}</td>
+                        )}
+                      </div>
                     ) : (
-                      <td className="text-left">-</td>
+                      <div>
+                        <td className="text-left">-</td>
+                      </div>
                     )}
                   </tr>
                   <tr>
@@ -247,7 +281,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Kontrakter:
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.contract !== null ? 1 : 0),
+                      (total, curr) => total + (curr.contract != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <table>
@@ -308,13 +342,13 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Notater
                     </th>
                     {this.state.artists.reduce(
-                      (total, curr) => total + (curr.notes !== null ? 1 : 0),
+                      (total, curr) => total + (curr.notes != null ? 1 : 0),
                       0,
                     ) > 0 ? (
                       <div>
                         {this.state.artists.map((artist, index) => (
                           <div>
-                            {artist.notes !== null && artist.notes !== '' ? (
+                            {artist.notes != null && artist.notes !== '' ? (
                               <div>
                                 {artist.notes.length > 45 ? (
                                   <div>
@@ -427,7 +461,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Status:
                     </th>
-                    {this.state.event.status !== null ? (
+                    {this.state.event.status != null ? (
                       <div>
                         {this.state.event.status.length > 45 ? (
                           <div>
@@ -470,6 +504,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                   <tr>
                     <th className="text-right" scope="row">
                       Sted:
+                    </th>
+                    {this.state.event.location_name !== '' &&
+                    this.state.event.location_name !== null ? (
+                      <td className="text-left">{this.state.event.location_name}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Scene:
                     </th>
                     {this.state.event.venue !== '' && this.state.event.venue !== null ? (
                       <td className="text-left">{this.state.event.venue}</td>

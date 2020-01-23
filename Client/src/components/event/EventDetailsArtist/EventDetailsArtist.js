@@ -17,6 +17,7 @@ type State = {
   types: [],
   expandNotes: boolean,
   expandStatus: boolean,
+  expandDesc: boolean,
 };
 
 type Props = {
@@ -36,6 +37,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
       types: [],
       expandNotes: false,
       expandStatus: false,
+      expandDesc: false,
     };
   }
   componentDidMount() {
@@ -51,6 +53,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
     UserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
+        console.log(event);
         this.setState({
           event: event,
           cancel: event.cancel,
@@ -156,9 +159,43 @@ export default class EventDetailsArtist extends Component<Props, State> {
                     </th>
                     {this.state.event.description !== null &&
                     this.state.event.description !== '' ? (
-                      <td className="text-left">{this.state.event.description}</td>
+                      <div>
+                        {this.state.event.description.length > 45 ? (
+                          <div>
+                            {this.state.expandDesc === true ? (
+                              <td className="text-left">
+                                {this.state.event.description}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: false });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Skjul
+                                </a>
+                              </td>
+                            ) : (
+                              <td className="text-left">
+                                {this.state.event.description.substring(0, 50)}{' '}
+                                <a
+                                  onClick={() => {
+                                    this.setState({ expandDesc: true });
+                                  }}
+                                  style={{ cursor: 'pointer', color: 'blue' }}
+                                >
+                                  Vis mer...
+                                </a>
+                              </td>
+                            )}
+                          </div>
+                        ) : (
+                          <td className="text-left">{this.state.event.description}</td>
+                        )}
+                      </div>
                     ) : (
-                      <td className="text-left">-</td>
+                      <div>
+                        <td className="text-left">-</td>
+                      </div>
                     )}
                   </tr>
                   <tr>
@@ -199,11 +236,6 @@ export default class EventDetailsArtist extends Component<Props, State> {
                       <span>
                         {this.state.riders.map(rider => (
                           <div>
-                            {rider.artist_name === null ? (
-                              <td className="text-left">Ukjent artist ({rider.email}): </td>
-                            ) : (
-                              <td className="text-left">{rider.artist_name}: </td>
-                            )}
                             <td>
                               <DownloadFile fileName={rider.rider_file} />
                             </td>
@@ -218,7 +250,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                   <tr>
                     <th className="text-right" scope="row">
-                      Notater:
+                      Notat:
                     </th>
                     {this.state.event.notes !== undefined && this.state.event.notes !== null ? (
                       <div>
@@ -324,6 +356,17 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   <tr>
                     <th className="text-right" scope="row">
                       Sted:
+                    </th>
+                    {this.state.event.location_name !== '' &&
+                    this.state.event.location_name !== null ? (
+                      <td className="text-left">{this.state.event.location_name}</td>
+                    ) : (
+                      <td className="text-left">-</td>
+                    )}
+                  </tr>
+                  <tr>
+                    <th className="text-right" scope="row">
+                      Scene:
                     </th>
                     {this.state.event.venue !== '' && this.state.event.venue !== null ? (
                       <td className="text-left">{this.state.event.venue}</td>

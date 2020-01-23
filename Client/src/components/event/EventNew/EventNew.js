@@ -30,17 +30,12 @@ class EventNew extends Component<Props, State> {
   }
   componentDidMount(): * {
     // Check if the user is currently writing an event, if so load inputs with data
-    if (localStorage.getItem('curr_event') !== null) {
+    if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(data);
-        console.log(data.is_public);
-        let value: boolean = data.is_public === 0 ? false : true;
-        console.log(value);
-
-        this.setState({ event: data, checked: value });
+        this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
@@ -106,7 +101,6 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="start"
               name="start"
-              min={this.today()}
               defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
@@ -116,7 +110,6 @@ class EventNew extends Component<Props, State> {
               type="time"
               id="start_time"
               name="start"
-              min={this.currentTime()}
               defaultValue={this.currentTime()}
               onChange={() => this.updateTime()}
             />
@@ -136,11 +129,9 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="end"
               name="end"
-              min={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
-
             <input
               className="form-control w-50 mb-4"
               type="time"
@@ -243,7 +234,7 @@ class EventNew extends Component<Props, State> {
   insertTime() {
     let start_date = document.getElementById('start');
     let end_date = document.getElementById('end');
-    if (this.state.event.start !== null) {
+    if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
       start_date.value = d;
@@ -253,7 +244,7 @@ class EventNew extends Component<Props, State> {
       document.getElementById('start_time').value = this.today();
       this.state.event.start = this.today();
     }
-    if (this.state.event.end !== null) {
+    if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
       end_date.value = d;

@@ -11,8 +11,14 @@ event.event_id = 2;
 */
 import mysql from 'mysql';
 import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
+import { testDatabase } from '../config/dbCredentials';
 const userDao = require('../../dao/userDao.js');
-let dao = new userDao('mysql-ait.stud.idi.ntnu.no', 'sebastel', 'HGTdKcVW', 'sebastel');
+let dao = new userDao(
+  testDatabase.url,
+  testDatabase.user,
+  testDatabase.password,
+  testDatabase.database,
+);
 const runsqlfile = require('./runsqlfile.js');
 
 beforeAll(done => {
