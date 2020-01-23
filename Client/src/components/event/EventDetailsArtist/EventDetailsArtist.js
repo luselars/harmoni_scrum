@@ -69,7 +69,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
       <div>
         <div className="card mb-4" id="carddetailsevent">
           <div id="loginBox">
-            {this.state.cancel == 0 ? (
+            {this.state.cancel === 0 ? (
               this.state.event.image != null ? (
                 <div className="imgdiv">
                   <img
@@ -269,7 +269,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
                   </tr>
                 </tbody>
               </table>
-              {this.state.event.address == null ? (
+              {this.state.event.address === null ? (
                 <div></div>
               ) : (
                 <iframe

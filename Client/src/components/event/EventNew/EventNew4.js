@@ -126,19 +126,19 @@ class EventNew4 extends Component<Props, State> {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
       console.log(res.data);
-      if (res.data.length == 0 || res.data.type != 'organiser') {
+      if (res.data.length === 0 || res.data.type != 'organiser') {
         OrganiserService.inviteArtist(email, this.state.event.event_id)
           .then(resp => {
             console.log(resp);
             console.log('RESP DATA MESSAGE: ' + resp.data.message);
             let text = '';
-            if (resp.data.message == 'Added new user') {
+            if (resp.data.message === 'Added new user') {
               text =
                 'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
                 email +
                 '</p><p><b>Passord: <b>' +
                 resp.data.password;
-            } else if (resp.data.message == 'Made user artist and added him/her to event') {
+            } else if (resp.data.message === 'Made user artist and added him/her to event') {
               text =
                 'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
             } else {

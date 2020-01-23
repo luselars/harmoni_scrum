@@ -181,17 +181,17 @@ export default class Filter extends Component<{}, State> {
 
   handleChangeSort(e: any) {
     let value: string = e.target.value;
-    if (value.charAt(value.length - 1) == '↓') {
+    if (value.charAt(value.length - 1) === '↓') {
       value = value.substring(0, value.length - 1) + '↑';
       this.setState();
     } else {
       value = value.substring(0, value.length - 1) + '↓';
     }
-    if (e.target.id == 'sortRadio1') {
+    if (e.target.id === 'sortRadio1') {
       this.setState({ sortRadio1: value });
-    } else if (e.target.id == 'sortRadio2') {
+    } else if (e.target.id === 'sortRadio2') {
       this.setState({ sortRadio2: value });
-    } else if (e.target.id == 'sortRadio3') {
+    } else if (e.target.id === 'sortRadio3') {
       this.setState({ sortRadio3: value });
     } else {
       console.log('Ukjent id: ' + e.target.id);
@@ -201,11 +201,11 @@ export default class Filter extends Component<{}, State> {
 
   handleChangeAlt(e: any) {
     let value: string = e.target.value;
-    if (value == 'viewOld') {
+    if (value === 'viewOld') {
       let newValue = this.state.sortAlt[0] === '' ? value : '';
       this.state.sortAlt[0] = newValue;
     }
-    if (value == 'viewCanceled') {
+    if (value === 'viewCanceled') {
       let newValue = this.state.sortAlt[1] === '' ? value : '';
       this.state.sortAlt[1] = newValue;
     }
