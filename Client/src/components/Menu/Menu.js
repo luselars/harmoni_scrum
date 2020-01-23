@@ -101,7 +101,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
     let x = document.getElementById('navbarSupportedContent');
     let y = document.getElementById('navbarContent');
     if (this.state.show) {
-      x.style.display = 'contents';
+      x.style.display = 'block';
       this.setState({ show: false });
     } else {
       x.style.display = 'none';
