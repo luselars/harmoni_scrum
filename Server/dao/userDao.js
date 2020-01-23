@@ -85,7 +85,7 @@ module.exports = class UserDao extends Dao {
     callback: (status: string, data: Object) => mixed,
   ) {
     super.query(
-      'SELECT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.user_id = r.user_id WHERE ea.event_id = ? AND ea.user_id = ?',
+      'SELECT DISTINCT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.event_id = r.event_id AND ea.user_id = r.user_id WHERE ea.event_id = ? AND r.user_id = ?',
       [event_id, user_id],
       callback,
     );

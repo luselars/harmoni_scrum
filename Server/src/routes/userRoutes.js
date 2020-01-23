@@ -143,7 +143,7 @@ router.put('/artistname', (req: express$Request, res: express$Response) => {
 });
 
 router.get('/event/:event_id/riders', (req: express$Request, res: express$Response) => {
-  dao.getMyRiders(req.params.id, req.uid, (status, data) => {
+  dao.getMyRiders(req.params.event_id, req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });

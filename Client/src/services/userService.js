@@ -52,7 +52,7 @@ export class UserService {
   }
   // Get all riders on an event
   static getMyRiders(event_id: number): AxiosPromise<Rider> {
-    let url = url_base + '/event/rider/' + event_id;
+    let url = url_base + '/event/' + + event_id + '/riders';
     return axios.get<Object>(url, config);
   }
 
