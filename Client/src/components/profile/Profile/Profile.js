@@ -44,7 +44,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
           </div>
           <div className="col-md text-center float-left">
             <p id="profilename" className="display-md-4 display-4 text-uppercase text-center m-4">
-              {this.state.userType.name
+              {/*this.state.userType.name
                 ? this.state.userType.name.length < 13
                   ? this.state.userType.name
                   : this.state.userType.name.slice(8, 15).includes(' ')
@@ -52,7 +52,8 @@ export default class ProfileOrganiser extends Component<Props, State> {
                     ? this.state.userType.name.slice(0, 22) + '...'
                     : this.state.userType.name
                   : this.state.userType.name.slice(0, 12) + '...'
-                : ''}
+              : ''*/}
+              {this.state.userType.name}
             </p>
             <table className="table table-borderless">
               <tbody className="align-items-center">

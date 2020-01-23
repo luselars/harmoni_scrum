@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { Event, Artist } from '../../../services/modelService';
+import { Event, Artist, TicketType } from '../../../services/modelService';
 import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
@@ -16,6 +16,7 @@ type State = {
   venue: string,
   location_name: string,
   cancel: number,
+  tickets: TicketType[],
 };
 
 export default class EventDetails extends Component<Props, State> {
@@ -27,6 +28,7 @@ export default class EventDetails extends Component<Props, State> {
       venue: '',
       location_name: '',
       cancel: 0,
+      tickets: [],
     };
   }
   render() {
@@ -100,7 +102,23 @@ export default class EventDetails extends Component<Props, State> {
                   <th className="hoyre text-right">Lineup:</th>
                 )}
                 {this.state.artist.map(artist => (
-                  <p className="artistmap">{artist.artist_name}</p>
+                  <div>
+                    <td className="venstre text-left">{artist.artist_name}</td>
+                  </div>
+                ))}
+              </tr>
+              <tr>
+                {this.state.tickets.length === 0 ? (
+                  <p></p>
+                ) : (
+                  <th className="hoyre text-right">Billetter:</th>
+                )}
+                {this.state.tickets.map(ticket => (
+                  <div>
+                    <td className="venstre text-left">
+                      {ticket.name} ({ticket.price} ,-)
+                    </td>
+                  </div>
                 ))}
               </tr>
             </tbody>
@@ -158,6 +176,11 @@ export default class EventDetails extends Component<Props, State> {
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {
           let artist: any = res.data;
           this.setState({ artist: artist });
+        });
+
+        PublicService.getPublicEventTickets(this.state.event.event_id).then(res => {
+          let tickets: any = res.data;
+          this.setState({ tickets: tickets });
         });
       })
       .catch(error => console.error(error));
