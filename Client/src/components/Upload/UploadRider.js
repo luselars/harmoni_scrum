@@ -67,7 +67,6 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
-<<<<<<< HEAD
         // send here, has to do different for artist and organiser because of backend authentication
         if(this.props.artist) {
           UserService.postRider(reader.result, ev_id, artist_id)
@@ -99,7 +98,6 @@ class UploadRider extends Component<Props, State> {
         }
 
 
-=======
         // send here
         if (that.props.organiser) {
           OrganiserService.postRider(reader.result, ev_id, artist_id)
@@ -128,7 +126,6 @@ class UploadRider extends Component<Props, State> {
             })
             .catch(error => console.log(error));
         }
->>>>>>> c67259d882c02f665429e0a8f492c6538803eb61
       },
       false,
     );
