@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
 import { UserService } from '../../services/userService';
 import { Artist } from '../../services/modelService';
-import { UserService } from '../../services/userService';
 
 let path = require('path');
 
