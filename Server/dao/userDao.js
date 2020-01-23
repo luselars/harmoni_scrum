@@ -67,10 +67,10 @@ module.exports = class UserDao extends Dao {
     );
   }
 
-  getMyEvent(event_id: number, callback: (status: string, data: Object) => mixed) {
+  getMyEvent(user_id: number, event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id WHERE e.event_id = ?'; // eo.organiser_id = ? AND TODO: ADD artist id check
-    super.query(queryString, [event_id], callback);
+      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?'; // eo.organiser_id = ? AND TODO: ADD artist id check
+    super.query(queryString, [user_id,event_id], callback);
   }
 
   getMyRiders(
@@ -117,7 +117,9 @@ module.exports = class UserDao extends Dao {
 
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
-      'SELECT u.email, a.user_id, a.artist_name, ea.contract, ea.notes FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
+      'SELECT u.email, a.user_id, a.artist_name FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
+
+
 };
