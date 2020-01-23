@@ -2,7 +2,6 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import { Artist, Event } from '../../../services/modelService';
 import { PublicService } from '../../../services/publicService';
 import { OrganiserService } from '../../../services/organiserService';

@@ -2,9 +2,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
 import Upload from '../../Upload/Upload.js';
-import FileDropzone from '../../FileDropzone/FileDropzone.js';
 import { OrganiserService } from '../../../services/organiserService.js';
 import { Event } from '../../../services/modelService.js';
 import MoreInfo from '../../MoreInfo/MoreInfo';

@@ -1,5 +1,3 @@
-import { string } from 'prop-types';
-
 // Event-model
 export class Event {
   constructor() {

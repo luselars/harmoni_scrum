@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Collapse } from 'react-collapse';
 import './stylesheet.css';
-import { string } from 'prop-types';
 
 type State = {
   sortRadio1: string,

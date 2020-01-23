@@ -5,8 +5,6 @@ import { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import './stylesheet.css';
 
-type Props = {};
-
 export default class ForgottenPassword extends Component<{}, { email: string }> {
   constructor(props: any) {
     super(props);
@@ -42,7 +40,6 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
 
   changeEmail(e: any) {
     const target = e.target;
-    let name: string = target.name;
     let value: string = target.value;
     this.setState({ email: value });
   }
