@@ -97,7 +97,7 @@ export default class EventList extends Component<Props, State> {
     } else if (sortType === 'Pris') {
       this.state.events.sort(this.comparePrice);
     }
-    if (filterChange.charAt(filterChange.length - 1) == '↑') {
+    if (filterChange.charAt(filterChange.length - 1) === '↑') {
       this.state.events.reverse();
     }
   };
@@ -122,12 +122,12 @@ export default class EventList extends Component<Props, State> {
   };
 
   handleFilterPriceChange = (filterChange, type) => {
-    if (filterChange == '' && type == 'max') filterChange = 999999999999999;
+    if (filterChange === '' && type === 'max') filterChange = 999999999999999;
     let previousEventList = this.state.showAllEvents
       ? this.state.allEvents
       : this.state.upcommingEvents;
     let newEventList = [];
-    if (type == 'min') {
+    if (type === 'min') {
       for (var i = 0; i < previousEventList.length; i++) {
         if (previousEventList[i].max_price >= filterChange) newEventList.push(previousEventList[i]);
       }
@@ -178,17 +178,17 @@ export default class EventList extends Component<Props, State> {
                 <div
                   className="card-body bg-light"
                   onClick={() => {
-                    if (localStorage.getItem('userType') === 'organiser')
+                    if (!this.props.profile_list)
+                      window.location.href = '/event/' + event.event_id;
+                    else if (localStorage.getItem('userType') === 'organiser')
                       window.location.href = '/orgevent/' + event.event_id;
-                    else if (this.props.profile_list)
-                      window.location.href = '/userevent/' + event.event_id;
-                    else window.location.href = '/event/' + event.event_id;
+                    else window.location.href = '/userevent/' + event.event_id;
                   }}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="container bg-light">
                     <div className="row justify-content-md-center align-items-center">
-                      {event.cancel == 0 ? (
+                      {event.cancel === 0 ? (
                         <div id="date" className="col-2 text-center">
                           <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
                           <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
@@ -212,7 +212,7 @@ export default class EventList extends Component<Props, State> {
                       </div>
                       <div id="eventbtn" className="col text-right">
                         {this.state.status ? (
-                          event.cancel == 0 ? (
+                          event.cancel === 0 ? (
                             <button
                               className="btn btn-success bg-green m-2"
                               id="moreinfo"
@@ -231,16 +231,16 @@ export default class EventList extends Component<Props, State> {
                               Mer info
                             </button>
                           )
-                        ) : event.cancel == 0 ? (
+                        ) : event.cancel === 0 ? (
                           <button
                             className="btn btn-success bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (localStorage.getItem('userType') === 'organiser')
+                              if (!this.props.profile_list)
+                                window.location.href = '/event/' + event.event_id;
+                              else if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
-                              else if (this.props.profile_list)
-                                window.location.href = '/userevent/' + event.event_id;
-                              else window.location.href = '/event/' + event.event_id;
+                              else window.location.href = '/userevent/' + event.event_id;
                             }}
                           >
                             {' '}
@@ -251,11 +251,11 @@ export default class EventList extends Component<Props, State> {
                             className="btn btn-secondary bg-green"
                             id="moreinfo"
                             onClick={() => {
-                              if (localStorage.getItem('userType') === 'organiser')
+                              if (!this.props.profile_list)
+                                window.location.href = '/event/' + event.event_id;
+                              else if (localStorage.getItem('userType') === 'organiser')
                                 window.location.href = '/orgevent/' + event.event_id;
-                              else if (this.props.profile_list)
-                                window.location.href = '/userevent/' + event.event_id;
-                              else window.location.href = '/event/' + event.event_id;
+                              else window.location.href = '/userevent/' + event.event_id;
                             }}
                           >
                             {' '}
@@ -277,8 +277,8 @@ export default class EventList extends Component<Props, State> {
                 <div className="col-12">
                   <div className="reactpaginate">
                     <ReactPaginate
-                      previousLabel={<i class="fa fa-angle-left" aria-hidden="true"></i>}
-                      nextLabel={<i class="fa fa-angle-right" aria-hidden="true"></i>}
+                      previousLabel={<i className="fa fa-angle-left" aria-hidden="true"></i>}
+                      nextLabel={<i className="fa fa-angle-right" aria-hidden="true"></i>}
                       breakLabel={'...'}
                       breakClassName={'break-me'}
                       pageCount={this.state.pageCount}
