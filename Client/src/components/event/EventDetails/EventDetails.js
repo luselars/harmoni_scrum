@@ -90,7 +90,7 @@ export default class EventDetails extends Component<Props, State> {
                   this.state.event.location_name !== undefined &&
                   this.state.event.location_name !== ''
                     ? this.state.event.location_name
-                    : 'Kommer snart'}
+                    : 'Kommer senere'}
                 </td>
               </tr>
               {this.state.venue !== null &&

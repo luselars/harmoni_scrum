@@ -213,7 +213,11 @@ export default class EventList extends Component<Props, State> {
                         </p>
                         <p className="eventlistp">
                           <a className="eventdescription">Sted: </a>
-                          {event.venue}
+                          {event.location_name !== null &&
+                          event.location_name !== undefined &&
+                          event.location_name !== ''
+                            ? event.location_name
+                            : 'Kommer senere'}
                         </p>
                       </div>
                       <div id="eventbtn" className="col text-right">
