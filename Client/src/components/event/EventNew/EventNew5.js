@@ -55,7 +55,7 @@ class EventNew5 extends Component<Props, State> {
   render() {
     return (
       <div className="row justify-content-center">
-        <div id="col-12">
+        <div className="col-sm-8">
           <label className="text-center">
             Legg til ridere og notater for artist
             <MoreInfo
@@ -67,45 +67,57 @@ class EventNew5 extends Component<Props, State> {
           {this.state.artists.length > 0 ? (
             <div>
               {this.state.artists.map(artist => (
-                <div className="w-100 border p-2 mb-3">
-                  <label className="text-center">
-                    <strong>{artist.email}</strong>
-                  </label>
-                  <label className="text-center">Noteter:</label>
-                  <div>
-                    <textarea
-                      class="form-control"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      onBlur={e => this.publishNotes(artist.user_id, e.target.value)}
-                    >
-                      {artist.notes}
-                    </textarea>
-                    <br />
-                    <UploadRider
-                      organiser={true}
-                      reload={() => this.handleReload()}
-                      accept={'.pdf'}
-                      message={'Last opp rider'}
-                      artist_id={artist.user_id}
-                      event_id={this.state.event.event_id}
-                    />
-                  </div>
-                  <br />
-                </div>
+                <table className="table table-bordered">
+                  <thead className="thead-light">
+                    <tr className=" text-center">
+                      <th scope="col text-center">{artist.email}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className=" text-center">
+                      <th scope="row">
+                        <label>Notater:</label>
+
+                        <textarea
+                          className={'form-control mb-4'}
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          onBlur={e => this.publishNotes(artist.user_id, e.target.value)}
+                        >
+                          {artist.notes}
+                        </textarea>
+                        <UploadRider
+                          organiser={true}
+                          reload={() => this.handleReload()}
+                          accept={'.pdf'}
+                          message={'Last opp rider'}
+                          artist_id={artist.user_id}
+                          event_id={this.state.event.event_id}
+                        />
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
               ))}
-              {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
+              {this.state.riders.length > 0 ? (
+                <label className="text-center mb-3">Riders til arrangemenetet:</label>
+              ) : (
+                <label className="text-center mb-3">Ingen riders lastet opp.</label>
+              )}
               {this.state.riders.map(rider => (
-                <div>
-                  {rider.email}
-                  <DownloadFile fileName={rider.rider_file} />
-                  <button
+                <div className="text-center">
+                  <label>
+                    {rider.email}
+                    <DownloadFile fileName={rider.rider_file} />
+                  </label>
+                  <div
                     onClick={() => {
                       this.deleteRider(rider.rider_id);
                     }}
                   >
-                    Slett rider
-                  </button>
+                    <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
+                    <label className="text-center mb-3">Slett</label>
+                  </div>
                 </div>
               ))}
             </div>
