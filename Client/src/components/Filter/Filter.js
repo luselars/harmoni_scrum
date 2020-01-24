@@ -152,7 +152,7 @@ export default class Filter extends Component<{}, State> {
                     </div>
                     <input
                       className="form-control my-0 py-1"
-                      onChange={e => this.handleChangeMinPrice(e)}
+                      onChange={e => this.handleChangeMaxPrice(e)}
                       value={this.state.maxprice}
                       type="text"
                       placeholder="Søk..."

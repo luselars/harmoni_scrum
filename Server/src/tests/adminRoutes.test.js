@@ -52,20 +52,45 @@ beforeAll(done => {
     });
   });
 });
-describe('Get userprofile', () => {
-  // it('Should retreive the profile for a logged in user', done => {
-  //     chai
-  //         .request(app)
-  //         .get('/user/myprofile')
-  //         .set('Accept', 'application/json')
-  //         .set('x-access-token', jwt)
-  //         .end((err, res) => {
-  //             expect(res.status).to.equal(200);
-  //             done();
-  //         });
-  // });
-  it('placeholder', done => {
-    expect(1).equal(1);
-    done();
+describe('Get unverified organisers', () => {
+  it('Should retreive all unverified organisers', done => {
+    chai
+      .request(app)
+      .get('/admin/unverified')
+      .set('Accept', 'application/json')
+      .set('x-access-token', jwt)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(0);
+        done();
+      });
+  });
+});
+describe('Get verified organisers', () => {
+  it('Should retreive all verified organisers', done => {
+    chai
+      .request(app)
+      .get('/admin/organisers')
+      .set('Accept', 'application/json')
+      .set('x-access-token', jwt)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(2);
+        done();
+      });
+  });
+});
+describe('Get organisers', () => {
+  it('Should retreive all organisers', done => {
+    chai
+      .request(app)
+      .get('/admin/organisers')
+      .set('Accept', 'application/json')
+      .set('x-access-token', jwt)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(2);
+        done();
+      });
   });
 });

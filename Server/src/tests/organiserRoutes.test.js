@@ -5,16 +5,16 @@ import { testDatabase } from '../config/dbCredentials';
 
 chai.use(http);
 const { expect } = chai;
-const userDao = require('../../dao/userDao.js');
-let dao = new userDao(
+const organiserDao = require('../../dao/organiserDao.js');
+let dao = new organiserDao(
   testDatabase.url,
   testDatabase.user,
   testDatabase.password,
   testDatabase.database,
 );
 const runsqlfile = require('./runsqlfile.js');
-let userRoutes = require('../routes/userRoutes');
-userRoutes.changeDao(dao);
+let organiserRoutes = require('../routes/organiserRoutes');
+organiserRoutes.changeDao(dao);
 
 const publicDao = require('../../dao/publicDao.js');
 let daoP = new publicDao(
@@ -36,7 +36,7 @@ beforeAll(done => {
     runsqlfile('src/tests/testData.sql', dao.getPool(), () => {
       // Log in, save token.
       let data = {
-        username: 'testuser@testemail.com',
+        username: 'organiser@email.com',
         password: 'ertertert',
       };
       chai
@@ -52,47 +52,78 @@ beforeAll(done => {
     });
   });
 });
-describe('Get userprofile', () => {
-  it('Should retreive the profile for a logged in user', done => {
+describe('Create, get, delete event', () => {
+  let event = {
+    name: 'name',
+    is_public: true,
+  };
+  it('Should post event', done => {
     chai
       .request(app)
-      .get('/user/myprofile')
+      .post('/organiser/event')
+      .set('Accept', 'application/json')
+      .set('x-access-token', jwt)
+      .send(event)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.affectedRows).to.equal(1);
+        done();
+      });
+  });
+  it('Should delete event', done => {
+    chai
+      .request(app)
+      .delete('/organiser/event/3')
       .set('Accept', 'application/json')
       .set('x-access-token', jwt)
       .end((err, res) => {
         expect(res.status).to.equal(200);
+        expect(res.body.affectedRows).to.equal(1);
         done();
       });
   });
-});
-let data = {
-  email: 'testuser@testemail.com',
-  password: 'ertertert',
-  name: 'Jonas',
-};
-describe('Get userprofile', () => {
-  it('Should retreive the profile for a logged in user', done => {
+  it('should get event', done => {
     chai
       .request(app)
-      .get('/user/myprofile')
+      .get('/organiser/event/2')
       .set('Accept', 'application/json')
       .set('x-access-token', jwt)
       .end((err, res) => {
-        data.user_id = res.body[0].user_id;
         expect(res.status).to.equal(200);
+        expect(res.body.event_id).to.equal(2);
         done();
       });
   });
 });
-
-describe('Update userprofile', () => {
-  it('Should update the profile for a logged in user', done => {
+describe('Locations', () => {
+  it('Should get all locations', done => {
     chai
       .request(app)
-      .put('/user/myprofile')
+      .get('/organiser/location')
       .set('Accept', 'application/json')
       .set('x-access-token', jwt)
-      .send(data)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(1);
+        done();
+      });
+  });
+});
+describe('Artists on event', () => {
+  let artist = {
+    artist_id: 1,
+    contract: '.',
+    event_id: 2,
+    notes: 'notes',
+    accepted: true,
+  };
+  it('Should edit an artist on an event', done => {
+    chai
+      .request(app)
+      .put('/organiser/artist/1')
+      .set('Accept', 'application/json')
+      .set('x-access-token', jwt)
+      .send(artist)
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.affectedRows).to.equal(1);
@@ -100,40 +131,23 @@ describe('Update userprofile', () => {
       });
   });
 });
-describe('Get all events user is a part of', () => {
-  it('Should get events', done => {
+describe('Riders', () => {
+  it('Should get riders for event', done => {
     chai
       .request(app)
-      .get('/user/' + data.user_id + '/event')
+      .get('/organiser/event/rider/2')
       .set('Accept', 'application/json')
       .set('x-access-token', jwt)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.length).to.equal(2);
+        expect(res.body.length).to.equal(1);
         done();
       });
   });
-});
-describe('Set artistname', () => {
-  it('Should set name', done => {
+  it('should delete rider', done => {
     chai
       .request(app)
-      .put('/user/artistname')
-      .set('Accept', 'application/json')
-      .set('x-access-token', jwt)
-      .send({ artist_name: 'ARTIST!' })
-      .end((err, res) => {
-        expect(res.status).to.equal(200);
-        expect(res.body.affectedRows).to.equal(1);
-        done();
-      });
-  });
-});
-describe('Delete user', () => {
-  it('Should delete user', done => {
-    chai
-      .request(app)
-      .delete('/user/' + data.user_id)
+      .delete('/organiser/event/rider/2/2')
       .set('Accept', 'application/json')
       .set('x-access-token', jwt)
       .end((err, res) => {

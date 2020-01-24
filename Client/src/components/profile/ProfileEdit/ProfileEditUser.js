@@ -22,6 +22,7 @@ type State = {
   artist_name: string,
 };
 
+//Component for editing user profile
 class ProfileEditUser extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -41,6 +42,7 @@ class ProfileEditUser extends Component<{}, State> {
   render() {
     return (
       <div>
+        {/*Modal for deleting profile*/}
         <div id="myModal" className="modal">
           <div className="modal-content">
             <span className="close">&times;</span>
@@ -211,6 +213,7 @@ class ProfileEditUser extends Component<{}, State> {
     });
   }
 
+  //Sets style to modal
   deletebtn() {
     var btn = document.getElementById('deleteprofilebtn');
     var modal = document.getElementById('myModal');
@@ -231,8 +234,8 @@ class ProfileEditUser extends Component<{}, State> {
     };
   }
 
+  //Deletes user
   delete() {
-    console.log('hei');
     UserService.deleteUser(this.state.user_id)
       .then(response => {
         localStorage.removeItem('token');
@@ -247,7 +250,6 @@ class ProfileEditUser extends Component<{}, State> {
     this.setState({ [name]: value });
   }
 
-  //TODO delete old profile pic <3
   edit(changePassword: boolean) {
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
@@ -262,7 +264,6 @@ class ProfileEditUser extends Component<{}, State> {
         let fullPath: any = element.value;
         let ext = path.extname(fullPath).toLowerCase();
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-          //TODO change alert
           alert('Ikke gyldig filtype');
           return;
         }
@@ -291,21 +292,20 @@ class ProfileEditUser extends Component<{}, State> {
     }
   }
 
+  //edits profile
   editPost(state: Object, changePassword: boolean) {
-    alert('heeeeeeelllo' + state.artist_name);
-
     if (changePassword) state.password = state.newPassword;
     UserService.editUser(state)
       .then(UserService.editArtistname(state.artist_name).then(alert('hei')))
       .then(response => {
         window.location = '/profile';
-        console.log('done');
       })
       .catch(error => {
         console.log('error: ' + error);
       });
   }
 
+  //comfirms the changes
   post(event: any) {
     event.preventDefault();
     {
