@@ -88,35 +88,35 @@ class EventEditArtist extends Component<Props, State> {
               </tbody>
             </table>
           </div>
-          <table className="table table-bordered">
+
+          <table className="table  table-bordered">
             <thead className="thead-light">
-              <tr className=" text-center">
-                <th scope="col text-center">
-                  {' '}
-                  {this.state.riders.length > 0 ? (
-                    <p>Dine ridere:</p>
-                  ) : (
-                    <p>Ingen riders lastet opp.</p>
-                  )}
-                </th>
+              <tr>
+                <th scope="col text-center">Dine riders</th>
               </tr>
             </thead>
             <tbody>
               {this.state.riders.map(rider => (
-                <div>
-                  {rider.email}
-                  {/*Component for downloading riders*/}
-                  <DownloadFile fileName={rider.rider_file} />
-                  {/*Button for deleting uploaded riders*/}
-                  <div
-                    onClick={() => {
-                      this.deleteRider(rider.rider_id);
-                    }}
-                  >
-                    <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
-                    <label className="text-center mb-3">Slett</label>
-                  </div>
-                </div>
+                <tr>
+                  <td>
+                    <p className="float-left ml-5">
+                      {/*Component for downloading riders*/}
+                      <DownloadFile fileName={rider.rider_file} />
+                      {/*Button for deleting uploaded riders*/}
+                    </p>
+                    <div className="float-right mr-5">
+                      <button
+                        onClick={() => {
+                          this.deleteRider(rider.rider_id);
+                        }}
+                        className="btn btn-seacondary float-right"
+                      >
+                        <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
+                        Fjern
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
