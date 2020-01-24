@@ -63,7 +63,15 @@ export default class Menu extends Component<{}, { status: boolean }> {
               <span className="sr-only"></span>
             </a>
             {this.state.userType == 'organiser' ? (
-              <a className="nav-link text-light" id="eventButton" href="/newevent">
+              <a
+                className="nav-link text-light"
+                style={{ cursor: 'pointer' }}
+                id="eventButton"
+                onClick={() => {
+                  localStorage.removeItem('curr_event');
+                  window.location = '/newevent';
+                }}
+              >
                 Opprett arrangement <i className="fa fa-plus-circle fa-lg"></i>
                 <span className="sr-only"></span>
               </a>
