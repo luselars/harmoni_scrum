@@ -47,7 +47,7 @@ export default class Profile extends Component<Props, State> {
             />
           </div>
           <div className="col-md text-center float-left">
-            <p id="profilename" className="display-md-4 display-4 text-uppercase text-center m-4">
+            <p id="profilename" className="display-4 text-uppercase text-center">
               {this.state.userType.name}
             </p>
             <table className="table table-borderless">
