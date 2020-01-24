@@ -114,11 +114,6 @@ class EventNew extends Component<Props, State> {
               onChange={() => this.updateTime()}
               required
             />
-            {/*<TimeField
-              id="start_time"
-              style={{ width: '100px' }}
-              onChange={() => this.updateTime()}
-            />*/}
             <label id="eventdateend" htmlFor="end">
               Sluttidspunkt
             </label>
@@ -143,12 +138,6 @@ class EventNew extends Component<Props, State> {
               onChange={() => this.updateTime()}
               required
             />
-            {/*
-            <TimeField
-              id="end_time"
-              style={{ width: '100px' }}
-              onChange={() => this.updateTime()}
-            />*/}
             <label>
               Privat status
               <MoreInfo
