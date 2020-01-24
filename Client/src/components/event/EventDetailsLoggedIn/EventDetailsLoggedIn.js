@@ -1,6 +1,5 @@
 //@flow
 
-//Event details for organisers
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
@@ -25,6 +24,7 @@ type Props = {
   match: { params: { id: number } },
 };
 
+/**Shows detailed details about events - Available for organisers only*/
 export default class EventDetailsLoggedIn extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -40,6 +40,8 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
       expandStatus: false,
     };
   }
+
+  /**Gets event, all artists, riders, tickets and staff by event_id */
   componentDidMount() {
     //Gets all artist by event_id
     OrganiserService.getArtists(this.props.match.params.id)
@@ -85,7 +87,9 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     });
   }
 
-  //Cheks if artists exists
+  /**Cheks if artists exists
+   * Returns "Unknown Artist" if not
+   */
   getArtistName(artist): string {
     if (
       artist.artist_name === '' ||
@@ -587,7 +591,7 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     );
   }
 
-  //Runs when a button with a modal is pressed
+  /**Sets up modal when cancel- or delete-button id pressed*/
   btnclicked(id: string) {
     if (id === 'deleteeventbtn') {
       let btn = document.getElementById('deleteeventbtn');
@@ -638,21 +642,20 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     };
   }
 
-  //Cancel/Restoring event
+  /**Cancels/Restores event*/
   cancel() {
-    //Changes Cancel status
     OrganiserService.toggleCancel(this.state.event.event_id).then(response => {
       window.location = '/orgevent/' + this.state.event.event_id;
     });
   }
 
-  //Sends you to edit event by event_id
+  /**Adds the current event to localStorage and relocates the user to /editevent*/
   edit() {
     localStorage.setItem('curr_event', this.state.event.event_id);
     window.location = '/editevent';
   }
 
-  //Deletes event by event_id
+  /**Deletes event by event_id*/
   delete() {
     OrganiserService.deleteEvent(this.props.match.params.id)
       .then(response => {
