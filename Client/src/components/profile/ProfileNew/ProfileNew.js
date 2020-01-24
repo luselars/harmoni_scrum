@@ -4,6 +4,7 @@ import { Component } from 'react';
 import './stylesheet.css';
 import { PublicService } from '../../../services/publicService';
 import { number, string } from 'prop-types';
+import DownloadFile from '../../DownloadFile/DownloadFile';
 
 let path = require('path');
 
@@ -262,7 +263,11 @@ export default class ProfileNew extends Component<
                 required
               ></input>
               <label className="form-check-label" for="check2">
-                Jeg godkjenner vilkårene
+                Jeg godkjenner vilkårene (
+                <div style={{ display: 'inline-block' }}>
+                  <DownloadFile fileName="vilkar.pdf"></DownloadFile>
+                </div>
+                )
               </label>
             </div>
             <button type="submit" className="btn btn-success w-50 mx-auto d-block m-2">
