@@ -2,7 +2,9 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-//Component for altert page when an unauthorized user tries to access
+/**
+ * Component for altert page when an unauthorized user tries to access
+ */
 export class NotAuthorized extends Component<{}, {}> {
   render() {
     return (

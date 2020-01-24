@@ -27,6 +27,9 @@ type State = {
 };
 
 //Component for editing ograniser profile
+/**
+ * Component for editing ograniser profile
+ */
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -283,7 +286,10 @@ class ProfileEdit extends Component<{}, State> {
     });
   }
 
-  //Sets style to modal
+  // TODO hva betyr dette?
+  /**
+   * Sets style to modal
+   */
   deletebtn() {
     var btn = document.getElementById('deleteprofilebtn');
     var modal = document.getElementById('myModal');
@@ -303,7 +309,9 @@ class ProfileEdit extends Component<{}, State> {
     };
   }
 
-  //Deletes event
+  /**
+   * Deletes event
+   */
   delete() {
     OrganiserService.deleteOrganiser(this.state.organiser_id)
       .then(response => {
@@ -319,6 +327,10 @@ class ProfileEdit extends Component<{}, State> {
     this.setState({ [name]: value });
   }
 
+  /**
+   *
+   * @param changePassword
+   */
   edit(changePassword: boolean) {
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
@@ -360,7 +372,6 @@ class ProfileEdit extends Component<{}, State> {
       }
     }
   }
-
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
