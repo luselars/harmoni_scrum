@@ -11,16 +11,16 @@ import { NotAuthorized } from '../NotAuthorized/NotAuthorized';
 const { AxiosError } = require('axios');
 
 type State = {
-  requests: Organiser[],
+  organiser: Organiser[],
   authorised: boolean,
 };
 
-/** The Component for accepting new organiseres*/
-export default class Admin extends Component<{}, State> {
+/** The Component for deleting organiseres*/
+export default class DeleteOrganiser extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      requests: [],
+      organiser: [],
       authorised: true,
     };
   }
@@ -31,22 +31,22 @@ export default class Admin extends Component<{}, State> {
           <div className="card display-4 text-center" id="admincard">
             Administrer
           </div>
-          {this.state.requests.map(req => (
+          {this.state.organiser.map(org => (
             <div className="card" id="admincard">
               <table className="table table-borderless">
                 <tbody>
                   <tr>
                     <th className="text-right" id="textright" scope="row">
-                      <p className="textadmin">{req.organiser_email}</p>
+                      <p className="textadmin">{org.organiser_email}</p>
                     </th>
                     <td className="text-left" id="textleft">
                       <div className="btnclassadmin">
                         <button
                           type="button"
-                          className="btn btn-success adminbtn"
-                          onClick={() => this.accept(req.organiser_id)}
+                          className="btn btn-danger adminbtn"
+                          onClick={() => this.delete(org.organiser_id)}
                         >
-                          Godkjenn
+                          Slett
                         </button>
                       </div>
                     </td>
@@ -65,11 +65,11 @@ export default class Admin extends Component<{}, State> {
 
   /**Gets all unverifed organisers*/
   componentDidMount() {
-    AdminService.getUnverifed()
+    AdminService.getAll()
       .then(res => {
         this.setState({ authorised: true });
-        let requests: any = res.data;
-        this.setState({ requests: requests });
+        let organiser: any = res.data;
+        this.setState({ organiser: organiser });
       })
       .catch((reason: AxiosError) => {
         if (reason.response.status === 401) {
@@ -82,7 +82,7 @@ export default class Admin extends Component<{}, State> {
   }
 
   /**Verifies new organisers*/
-  accept(id: number) {
+  delete(id: number) {
     AdminService.verify(id);
   }
 }
