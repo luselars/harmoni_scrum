@@ -83,10 +83,25 @@ export default class Menu extends Component<{}, { status: boolean }> {
             ) : (
               <div />
             )}
-            <a className="nav-link text-light" id="profileButton" href="/profile">
-              Profil <i className="fa fa-user fa-lg" />
-              <span className="sr-only" />
-            </a>
+            {this.state.userType == 'admin' ? (
+              <a className="nav-link text-light" id="profileButton" href="/deleteuser">
+                Delete user <i className="fa fa-times fa-lg" />
+                <span className="sr-only" />
+              </a>
+            ) : (
+              ''
+            )}
+            {this.state.userType == 'admin' ? (
+              <a className="nav-link text-light" id="profileButton" href="/admin">
+                Approve organiser <i className="fa fa-check fa-lg" />
+                <span className="sr-only" />
+              </a>
+            ) : (
+              <a className="nav-link text-light" id="profileButton" href="/profile">
+                Profil <i className="fa fa-user fa-lg" />
+                <span className="sr-only" />
+              </a>
+            )}
             <a
               className="nav-link text-light"
               id="loginButton"

@@ -25,7 +25,7 @@ import EventEditArtist from './components/event/EventEditArtist/EventEditArtist'
 import EditTickets from './components/event/EventNew/EditTickets';
 
 const NoMatch = () => (
-  <div className="card">
+  <div className="card" id="NotFound">
     <h1 data-testid="not-found">404 Not Found</h1>
     <p>Oisann.. Siden finnes ikke, eller du mangler rettighetene som kreves for å gå inn på den.</p>
   </div>

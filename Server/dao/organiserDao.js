@@ -70,7 +70,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Check if organiser owns event
    */
@@ -128,7 +127,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Add a volunteer by user id to event by event id within volunteer type volunteer type id.
    */
@@ -160,7 +158,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Edits an event artist to add or change contracts and other files.
    */
@@ -188,6 +185,7 @@ module.exports = class OrganiserDao extends Dao {
   }
   // Creates an event by using sent in data from a form.
   postEvent(event: Event, callback: (status: string, data: Object) => mixed) {
+    console.log(event);
     super.query(
       'INSERT INTO event (name, description, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?,?)',
       [
@@ -205,7 +203,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Gets all locations
    */
@@ -214,7 +211,6 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [], callback);
   }
 
-
   /**
    * Get a single location
    */
@@ -222,7 +218,6 @@ module.exports = class OrganiserDao extends Dao {
     let queryString = 'SELECT location_id FROM location WHERE address = ?';
     super.query(queryString, [location_address], callback);
   }
-
 
   /**
    * Create new location in database from location form
@@ -235,7 +230,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Get all groups based on an organiser id.
    */
@@ -243,7 +237,6 @@ module.exports = class OrganiserDao extends Dao {
     let queryString = 'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_id = ?';
     super.query(queryString, [organiser_id], callback);
   }
-
 
   /**
    * Get all ticket types based on an event id.
@@ -279,7 +272,6 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT user_id FROM user WHERE email = ?';
     super.query(queryString, [email], callback);
   }
-
 
   /**
    * Gets (artist) user id to an email to see if user exists
@@ -559,7 +551,7 @@ module.exports = class OrganiserDao extends Dao {
    */
   getMyEvents(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
+      'SELECT e.*,DATE_FORMAT(e.end, "%Y-%m-%d %H:%i") as end_format, DATE_FORMAT(e.start, "%Y-%m-%d %H:%i") as start_format, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
       organiser_id,
       callback,
     );

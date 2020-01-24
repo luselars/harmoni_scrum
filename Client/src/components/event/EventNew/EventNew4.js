@@ -32,7 +32,6 @@ class EventNew4 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        this.formatTime();
         OrganiserService.getArtists(data.event_id).then(resp => {
           this.setState({ artists: resp.data });
           console.log(this.state.artists);
@@ -190,19 +189,6 @@ class EventNew4 extends Component<Props, State> {
         this.componentDidMount();
       })
       .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
-  }
-
-  formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
-    }
   }
   back() {
     this.props.onSelectPage(3);
