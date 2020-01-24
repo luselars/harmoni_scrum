@@ -16,7 +16,7 @@ class Upload extends Component<Props> {
   render() {
     return (
       <div>
-        <img id="prev" src="" height="200" alt="" />
+        <img id="prev" src="" height="200" style={{ maxWidth: '100%' }} alt="" />
         <label className="custom-file-upload" style={{ cursor: 'pointer' }}>
           <input
             style={{ display: 'none' }}

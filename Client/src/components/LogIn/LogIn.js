@@ -23,10 +23,10 @@ export default class LogIn extends Component<{}, { email: string, password: stri
         <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
             <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
-            <p id="alert" style={{ color: 'red' }} hidden="true">
-              Bruker ikke funnet, sjekk passord og email og prøv på nytt
-            </p>
             <div class="form-group text-center ml-5 mr-5">
+              <p id="alert" style={{ color: 'red' }} hidden="true">
+                Bruker ikke funnet, sjekk passord og email og prøv på nytt
+              </p>
               <label for="inputEmail1">Brukernavn (e-post)</label>
               <input
                 type="email"
