@@ -49,11 +49,7 @@ class EditPersonnel extends Component<Props, State> {
           type="text"
           required
         />
-        <button
-          onClick={() => this.createType()}
-          type="submit"
-          className="btn btn-success col-sm-3 my-2 d-block mx-auto"
-        >
+        <button type="submit" className="btn btn-success col-sm-3 my-2 d-block mx-auto">
           Opprett
         </button>
         <div>
