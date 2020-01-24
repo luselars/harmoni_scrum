@@ -113,15 +113,19 @@ class EventNew5 extends Component<Props, State> {
                     onClick={() => {
                       this.deleteRider(rider.rider_id);
                     }}
-                    className="row text-center justify-content-center"
+                    className="row "
                   >
-                    <i
-                      className="fa fa-trash m-0"
-                      placeholder="slett"
-                      classname="col-1 mt-5 float-right"
-                      aria-hidden="true"
-                    ></i>
-                    <label className="text-center col-2 mb-4 float-left">Slett</label>
+                    <div className="col-6 float-right">
+                      <label></label>
+                      <i
+                        className="fa fa-trash m-0 float-right"
+                        placeholder="slett"
+                        aria-hidden="true"
+                      ></i>
+                    </div>
+                    <div className="col-6 float-left">
+                      <label className="text-center mb-4 float-left">Slett</label>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -131,24 +135,22 @@ class EventNew5 extends Component<Props, State> {
               <p>Ingen artiser lagt til.</p>
             </div>
           )}
-          <div className="row justify-content-center">
-            <button
-              onClick={() => this.next()}
-              type="button"
-              className="btn btn-success w-50 m-2"
-              id="nextbtn"
-            >
-              Neste
-            </button>
-            <button
-              onClick={() => this.back()}
-              type="button"
-              className="btn btn-secondary w-50 m-2"
-              id="backbtn"
-            >
-              Tilbake
-            </button>
-          </div>
+          <button
+            onClick={() => this.next()}
+            type="button"
+            className="btn btn-success col-md-4 m-2 d-block mx-auto"
+            id="nextbtn"
+          >
+            Neste
+          </button>
+          <button
+            onClick={() => this.back()}
+            type="button"
+            className="btn btn-secondary col-md-4 m-2 d-block mx-auto"
+            id="backbtn"
+          >
+            Tilbake
+          </button>
         </div>
       </div>
     );

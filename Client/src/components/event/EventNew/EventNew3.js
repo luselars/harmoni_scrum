@@ -10,19 +10,11 @@ import { OrganiserService } from '../../../services/organiserService';
 import { Location } from '../../../services/modelService';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 
-{
-  /*
-type State = {
-  event: Event,
-  locations: [],
-  location_name: string,
-  location_addr: string,
-};
-type Props = {};*/
-}
 type Props = {
   onSelectPage: any,
 };
+
+/**Component for third page on creating a new event */
 class EventNew3 extends Component<Props> {
   constructor(props: any) {
     super(props);
@@ -36,8 +28,8 @@ class EventNew3 extends Component<Props> {
       location_nr: Number,
     };
   }
+  /**Gets event and locations. Check if the user is currently writing an event, if so load inputs with data */
   componentDidMount() {
-    // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
@@ -93,6 +85,10 @@ class EventNew3 extends Component<Props> {
             }
             allowfullscreen
           ></iframe>
+          <p id="alert" style={{ color: 'red' }} hidden="true">
+            Kunne ikke legge til sted
+          </p>
+
           <label>Velg sted</label>
           <Autocomplete
             id="search_name"
@@ -159,22 +155,22 @@ class EventNew3 extends Component<Props> {
         </small>
         <input className="form-control w-50" id="venue" type="text" />
 
-        <div className="row justify-content-center">
-          <button type="submit" className="btn btn-success w-50 m-2" id="nextbtn">
-            Neste
-          </button>
-          <button
-            onClick={() => this.back()}
-            type="button"
-            className="btn btn-secondary w-50 m-2"
-            id="backbtn"
-          >
-            Tilbake
-          </button>
-        </div>
+        <button type="submit" className="btn btn-success w-25 m-2 d-block mx-auto" id="nextbtn">
+          Neste
+        </button>
+        <button
+          onClick={() => this.back()}
+          type="button"
+          className="btn btn-secondary w-25 m-2 d-block mx-auto"
+          id="backbtn"
+        >
+          Tilbake
+        </button>
       </form>
     );
   }
+
+  /**Inserts data if it already exist*/
   updateForm(w: number, val: any) {
     if (w === 0 && val != null && val !== '') {
       for (let i = 0; i < this.state.locations.length; i++) {
@@ -196,17 +192,21 @@ class EventNew3 extends Component<Props> {
     }
   }
 
-  //TODO do not mutate state directly. use setState()
+  /**Formates time*/
   formatTime() {
     this.state.event.start = this.state.event.start_format;
     this.state.event.end = this.state.event.end_format;
   }
-  // todo ADD postcode
+
+  /**Returns to previos page */
   back() {
-    // I won't save the address here, it would create a lot of unfinished locations
     this.props.onSelectPage(2);
   }
+
+  /**Updates server and sends the user to the next page. */
   next(event) {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
     event.preventDefault();
     let name = this.name.current.value;
     let addr = this.addr.current.value;
@@ -221,25 +221,23 @@ class EventNew3 extends Component<Props> {
     l.address = addr;
     l.postcode = postcode;
     OrganiserService.postLocation(l).then(resp => {
-      console.log(resp.data);
       if (resp.status === 200) {
         this.state.event.location_id = resp.data.location_id;
         this.state.event.venue = venue;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
-          console.log(this);
-          console.log(resp);
           this.props.onSelectPage(4);
         });
       } else if (resp.status === 100) {
         this.state.event.location_id = resp.data.insertId;
         this.state.event.venue = venue;
         OrganiserService.updateEvent(this.state.event).then(resp => {
-          console.log(resp);
           this.props.onSelectPage(4);
         });
       } else {
-        alert('Kunne ikke legge til addresse');
+        // $FlowFixMe
+        document.getElementById('alert').hidden = false;
+        window.scrollTo(0, 0);
       }
     });
   }
