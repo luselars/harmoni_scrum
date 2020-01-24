@@ -478,6 +478,7 @@ export default class EventList extends Component<Props, State> {
   search(event) {
     let value: string = event.target.value;
     if (value) {
+      if (typeof this.fuse == 'undefined') return;
       var searchResults = this.fuse.search(value);
       this.setState({
         events: searchResults,
