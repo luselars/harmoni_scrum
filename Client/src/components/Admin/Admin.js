@@ -83,7 +83,8 @@ export default class Admin extends Component<{}, State> {
 
   /**Verifies new organisers*/
   accept(id: number) {
-    AdminService.verify(id);
-    window.location.reload();
+    AdminService.verify(id).then(() => {
+      window.location.reload();
+    });
   }
 }
