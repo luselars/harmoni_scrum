@@ -23,7 +23,7 @@ let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
 var nodemailer = require('nodemailer');
 
-let tokenDuration = 60 * 60 * 2;
+let tokenDuration = '2h';
 
 router.changeDao = function changeDao(publicDao: publicDao) {
   dao = publicDao;
