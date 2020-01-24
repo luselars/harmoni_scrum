@@ -99,7 +99,7 @@ class ProfileEditUser extends Component<{}, State> {
                 required
               ></input>
             </div>
-            {this.state.artist_name != null ? (
+            {this.state.is_artist == 1 ? (
               <div className="form-group" id="name">
                 <label for="artistnameInput">Artistnavn: </label>
                 <input
@@ -206,6 +206,7 @@ class ProfileEditUser extends Component<{}, State> {
         description: user.description,
         tlf: user.tlf,
         artist_name: user.artist_name,
+        is_artist: user.is_artist,
       });
       mail = this.state.email;
       if (this.state.image != null) imagePrev = this.state.image;

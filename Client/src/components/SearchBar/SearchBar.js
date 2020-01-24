@@ -5,7 +5,9 @@ import './stylesheet.css';
 import { OrganiserService } from '../../services/organiserService';
 import { PublicService } from '../../services/publicService';
 
-//Component for the search function
+/**
+ * Component for the search-function in events
+ */
 export default class SearchBar extends Component<{}, { search: string }> {
   constructor(props: any) {
     super(props);
