@@ -155,19 +155,17 @@ class EventNew3 extends Component<Props> {
         </small>
         <input className="form-control w-50" id="venue" type="text" />
 
-        <div className="row justify-content-center">
-          <button type="submit" className="btn btn-success w-50 m-2" id="nextbtn">
-            Neste
-          </button>
-          <button
-            onClick={() => this.back()}
-            type="button"
-            className="btn btn-secondary w-50 m-2"
-            id="backbtn"
-          >
-            Tilbake
-          </button>
-        </div>
+        <button type="submit" className="btn btn-success w-25 m-2 d-block mx-auto" id="nextbtn">
+          Neste
+        </button>
+        <button
+          onClick={() => this.back()}
+          type="button"
+          className="btn btn-secondary w-25 m-2 d-block mx-auto"
+          id="backbtn"
+        >
+          Tilbake
+        </button>
       </form>
     );
   }
