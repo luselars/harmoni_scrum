@@ -31,13 +31,20 @@ type State = {
   eventsPerPage: number,
 };
 
+//Component to list all events on the main page, orginasior page and artist page
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
     let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
     let sortAlt = ['', ''];
+    let minprice = '';
+    let maxprice = '';
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+    if (localStorage.getItem('minprice') != null)
+      minprice = parseInt(localStorage.getItem('minprice'));
+    if (localStorage.getItem('maxprice') != null)
+      maxprice = parseInt(localStorage.getItem('maxprice'));
 
     this.state = {
       events: [],
@@ -50,10 +57,13 @@ export default class EventList extends Component<Props, State> {
       eventsPerPage: 7,
       sortType: sortType,
       sortAlt: sortAlt,
+      minprice: minprice,
+      maxprice: maxprice,
     };
     const fuse = new Fuse(this.state.events, options);
   }
 
+  //Handles page navigations
   handlePageClick = data => {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.eventsPerPage);
@@ -61,6 +71,7 @@ export default class EventList extends Component<Props, State> {
     localStorage.setItem('page', selected);
   };
 
+  //Sorts events alphavetically
   compareAlphabetically(a, b) {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {
       return -1;
@@ -71,9 +82,10 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
+  //Sorts events by date
   compareChronologically(a, b) {
-    let aDate = new Date(a.start);
-    let bDate = new Date(b.start);
+    let aDate = new Date(a.start_format);
+    let bDate = new Date(b.start_format);
     if (aDate < bDate) {
       return -1;
     }
@@ -83,6 +95,7 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
+  //Sorts events by prices
   comparePrice(a, b) {
     if (a.min_price < b.min_price) {
       return -1;
@@ -93,6 +106,7 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
+  //Handles the different sort methodes
   handleFilterChange = filterChange => {
     localStorage.setItem('sortType', filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
@@ -109,6 +123,7 @@ export default class EventList extends Component<Props, State> {
     }
   };
 
+  //Handles filter alternatives - View orld and View cancelled
   handleFilterAlternativChange = filterChange => {
     this.setState({ sortAlt: filterChange });
     console.log(filterChange);
@@ -141,6 +156,7 @@ export default class EventList extends Component<Props, State> {
     this.fuse = new Fuse(tempEvents, options);
   };
 
+  //Filters events by price
   handleFilterPriceChange = (filterChange, type) => {
     if (filterChange === '' && type === 'max') filterChange = 999999999999999;
     let previousEventList = this.state.showAllEvents
@@ -170,7 +186,8 @@ export default class EventList extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <div className="input-group my-3 " id="searchBox">
+        {!this.props.profile_list ? <div></div> : <p className="display-4">Dine arrangementer</p>}
+        <div className="input-group my-3" id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
@@ -181,15 +198,17 @@ export default class EventList extends Component<Props, State> {
               className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Søk"
+              aria-label="Søk"
             />
           </div>
         </div>
+        {/*Uses the Filter component to cooparate with the eventlist*/}
         <Filter
           handleFilterChange={this.handleFilterChange.bind(this)}
           handleFilterAlternativChange={this.handleFilterAlternativChange.bind(this)}
           handleFilterPriceChange={this.handleFilterPriceChange.bind(this)}
+          profile_list={this.props.profile_list}
         />
         <div>
           {this.state.events.map((event, index) =>
@@ -209,8 +228,8 @@ export default class EventList extends Component<Props, State> {
                     <div className="row justify-content-md-center align-items-center">
                       {event.cancel === 0 ? (
                         <div id="date" className="col-2 text-center">
-                          <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                          <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                          <h3 className="datenumber">{event.start_format.slice(8, 10)}</h3>
+                          <h3 className="datemonth">{dates[event.start_format.slice(5, 7) - 1]}</h3>
                         </div>
                       ) : (
                         <div id="date" className="col-2 text-center">
@@ -222,7 +241,7 @@ export default class EventList extends Component<Props, State> {
 
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
-                          {event.start.slice(11, 16)}
+                          {event.start_format.slice(11, 16)}
                         </p>
                         <p className="eventlistp">
                           <a className="eventdescription">Sted: </a>
@@ -294,6 +313,7 @@ export default class EventList extends Component<Props, State> {
               ''
             ),
           )}
+          {/*Handles the page counter*/}
           {this.state.pageCount >= 2 ? (
             <div className="card float-right bg-transparent border-0">
               <div className="card-body bg-transparent">
@@ -333,31 +353,37 @@ export default class EventList extends Component<Props, State> {
     // Gets new token from auth server
     PublicService.refreshToken();
 
-    console.log('profile list: ' + this.props.profile_list);
     if (this.props.profile_list) {
       if (localStorage.getItem('userType') === 'organiser') {
+        //Gets my events if the user is an organiser
         OrganiserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);
           })
           .catch((error: Error) => alert(error.message));
       } else {
-        UserService.getMyEvents()
-          .then(events => {
-            this.insertEvents(events);
+        //Gets mye event if the user is not an ograniser
+        UserService.getMyEventsArtist()
+          .then(aEvents => {
+            UserService.getMyEventsVolunteer()
+              .then(vEvents => {
+                this.insertUserEvents(aEvents, vEvents);
+              })
+              .catch((error: Error) => alert(error.message));
           })
           .catch((error: Error) => alert(error.message));
       }
     } else {
+      //Gets events for the frontpage
       PublicService.getFrontpage()
         .then(events => {
-          console.log(events);
           this.insertEvents(events);
         })
         .catch((error: Error) => alert(error.message));
     }
   }
 
+  //Inserts event to the eventlist
   insertEvents(events: Object) {
     var today = new Date();
     var time = today.getTime();
@@ -365,7 +391,7 @@ export default class EventList extends Component<Props, State> {
     var canceledEvents = [];
     var upcommingEvents = [];
     for (var i = 0; i < events.data.length; i++) {
-      let jsDate = new Date(events.data[i].end);
+      let jsDate = new Date(events.data[i].end_format);
       if (time > jsDate.getTime()) {
         events.data[i].old = true;
         oldEvents.push(events.data[i]);
@@ -388,10 +414,61 @@ export default class EventList extends Component<Props, State> {
     this.getFilterStateFromLocalStorage();
   }
 
+  //Inserts event to the eventlist
+  insertUserEvents(aEvents: Object, vEvents: Object) {
+    var today = new Date();
+    var time = today.getTime();
+    var oldEvents = [];
+    var canceledEvents = [];
+    var upcommingEvents = [];
+    for (var i = 0; i < aEvents.data.length; i++) {
+      let jsDate = new Date(aEvents.data[i].end);
+      aEvents.data[i].name = 'Artist: ' + aEvents.data[i].name;
+      if (time > jsDate.getTime()) {
+        aEvents.data[i].old = true;
+        oldEvents.push(aEvents.data[i]);
+      } else if (aEvents.data[i].cancel === 1) {
+        aEvents.data[i].old = false;
+        canceledEvents.push(aEvents.data[i]);
+      } else {
+        aEvents.data[i].old = false;
+        upcommingEvents.push(aEvents.data[i]);
+      }
+    }
+    for (var i = 0; i < vEvents.data.length; i++) {
+      console.log(vEvents.data[i]);
+      let jsDate = new Date(vEvents.data[i].end);
+      vEvents.data[i].name = vEvents.data[i].name + ': ' + vEvents.data[i].event_name;
+      if (time > jsDate.getTime()) {
+        vEvents.data[i].old = true;
+        oldEvents.push(vEvents.data[i]);
+      } else if (vEvents.data[i].cancel === 1) {
+        vEvents.data[i].old = false;
+        canceledEvents.push(vEvents.data[i]);
+      } else {
+        vEvents.data[i].old = false;
+        upcommingEvents.push(vEvents.data[i]);
+      }
+    }
+    this.setState({
+      oldEvents: oldEvents,
+      upcommingEvents: upcommingEvents,
+      canceledEvents: canceledEvents,
+      events: upcommingEvents,
+      pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
+    });
+    this.fuse = new Fuse(upcommingEvents, options);
+    this.getFilterStateFromLocalStorage();
+  }
+
   getFilterStateFromLocalStorage() {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
+    if (!isNaN(this.state.minprice) && this.state.minprice != '')
+      this.handleFilterPriceChange(this.state.minprice, 'min');
+    if (!isNaN(this.state.maxprice) && this.state.maxprice != '')
+      this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {

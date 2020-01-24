@@ -15,6 +15,7 @@ type State = {
   event: Event,
   artist: Artist[],
   venue: string,
+  description: string,
   location_name: string,
   cancel: number,
   tickets: TicketType[],
@@ -26,6 +27,7 @@ export default class EventDetails extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artist: [],
+      description: '',
       venue: '',
       location_name: '',
       cancel: 0,
@@ -73,16 +75,30 @@ export default class EventDetails extends Component<Props, State> {
           <table className="table table-borderless">
             <tbody>
               <tr>
-                <th className="hoyre text-right">Tid:</th>
+                <th className="hoyre text-right">Start:</th>
                 <td className="venstre text-left">
-                  {this.state.event.start
-                    ? this.state.event.start.slice(8, 10) +
+                  {this.state.event.start_format
+                    ? this.state.event.start_format.slice(8, 10) +
                       '/' +
-                      this.state.event.start.slice(5, 7) +
+                      this.state.event.start_format.slice(5, 7) +
                       '/' +
-                      this.state.event.start.slice(0, 4) +
+                      this.state.event.start_format.slice(0, 4) +
                       ' - ' +
-                      this.state.event.start.slice(11, 16)
+                      this.state.event.start_format.slice(11, 16)
+                    : 'Laster'}
+                </td>
+              </tr>
+              <tr>
+                <th className="hoyre text-right">Slutt:</th>
+                <td className="venstre text-left">
+                  {this.state.event.end_format
+                    ? this.state.event.end_format.slice(8, 10) +
+                      '/' +
+                      this.state.event.end_format.slice(5, 7) +
+                      '/' +
+                      this.state.event.end_format.slice(0, 4) +
+                      ' - ' +
+                      this.state.event.end_format.slice(11, 16)
                     : 'Laster'}
                 </td>
               </tr>
@@ -96,6 +112,14 @@ export default class EventDetails extends Component<Props, State> {
                     : 'Kommer senere'}
                 </td>
               </tr>
+              {this.state.description !== null &&
+              this.state.description !== '' &&
+              this.state.description !== undefined ? (
+                <tr>
+                  <th className="hoyre text-right">Beskrivelse:</th>
+                  <td className="venstre text-left">{this.state.description}</td>
+                </tr>
+              ) : null}
               {this.state.venue !== null &&
               this.state.venue !== '' &&
               this.state.venue !== undefined &&
@@ -169,6 +193,7 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
+        console.log(res.data[0]);
         this.setState({ cancel: event.cancel });
         if (this.state.event.location_name == null) {
           this.setState({ location_name: '' });
@@ -179,6 +204,11 @@ export default class EventDetails extends Component<Props, State> {
           this.setState({ venue: '' });
         } else {
           this.setState({ venue: event.venue });
+        }
+        if (this.state.event.eventdescription === null) {
+          this.setState({ description: '' });
+        } else {
+          this.setState({ description: event.description });
         }
         this.setState({ event: event });
 

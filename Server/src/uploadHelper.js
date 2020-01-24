@@ -3,16 +3,14 @@ const crypto = require('crypto');
 const fs = require('fs');
 var path = require('path');
 
+/** module containing methods required when uploading files */
 let uploadFunctions = {
+  /**
+   *
+   */
   handleFile: function(f: string, callback: Object): ?string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
     let p = path.join(__dirname + '/../files/');
-    /*
-    let check_path = p + f.name;
-    console.log(f);
-    console.log('Check path: ' + check_path);
-    fs.existsSync(check_path) ||
-    */
 
     if (f === null) {
       console.log('File undefined.');
@@ -35,6 +33,9 @@ let uploadFunctions = {
       callback(name);
     });
   },
+  /**
+   *
+   */
   base64Decoder: function(file: string): Object {
     let matches: any = file.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
@@ -48,6 +49,9 @@ let uploadFunctions = {
 
     return response;
   },
+  /**
+   *
+   */
   createFilePath: function(extension: string): string {
     extension = extension.substring(extension.indexOf('/') + 1, extension.length);
     extension = '.' + extension;

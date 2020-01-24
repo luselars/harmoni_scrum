@@ -20,8 +20,14 @@ export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     let sortAlt = ['', ''];
+    let minprice = null;
+    let maxprice = null;
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+    if (localStorage.getItem('minprice') != null)
+      minprice = parseInt(localStorage.getItem('minprice'));
+    if (localStorage.getItem('maxprice') != null)
+      maxprice = parseInt(localStorage.getItem('maxprice'));
 
     this.state = {
       sortRadio1: 'Tid ↓',
@@ -29,6 +35,8 @@ export default class Filter extends Component<{}, State> {
       sortRadio3: 'Pris ↓',
       status: true,
       sortAlt: sortAlt,
+      minprice: minprice,
+      maxprice: maxprice,
     };
   }
 
@@ -124,7 +132,8 @@ export default class Filter extends Component<{}, State> {
                     <input
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
-                      type="text"
+                      value={this.state.minprice}
+                      type="number"
                       placeholder="Søk..."
                       aria-label="Search"
                     />
@@ -143,8 +152,9 @@ export default class Filter extends Component<{}, State> {
                     </div>
                     <input
                       className="form-control my-0 py-1"
-                      onChange={e => this.handleChangeMinPrice(e)}
-                      type="text"
+                      onChange={e => this.handleChangeMaxPrice(e)}
+                      value={this.state.maxprice}
+                      type="number"
                       placeholder="Søk..."
                       aria-label="Search"
                     />
@@ -221,10 +231,14 @@ export default class Filter extends Component<{}, State> {
 
   handleChangeMinPrice(e: any) {
     let price = e.target.value;
+    this.setState({ minprice: price });
+    localStorage.setItem('minprice', price);
     this.props.handleFilterPriceChange(price, 'min');
   }
   handleChangeMaxPrice(e: any) {
     let price = e.target.value;
+    this.setState({ maxprice: price });
+    localStorage.setItem('maxprice', price);
     this.props.handleFilterPriceChange(price, 'max');
   }
 
@@ -237,6 +251,8 @@ export default class Filter extends Component<{}, State> {
     localStorage.removeItem('viewCanceled');
     localStorage.removeItem('viewOld');
     localStorage.removeItem('page');
-    window.location = '/';
+    localStorage.removeItem('minprice');
+    localStorage.removeItem('maxprice');
+    window.location.reload();
   }
 }

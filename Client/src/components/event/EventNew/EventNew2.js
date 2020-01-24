@@ -26,7 +26,6 @@ class EventNew2 extends Component<Props, State> {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
-      // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         console.log(data);
@@ -84,16 +83,8 @@ class EventNew2 extends Component<Props, State> {
     }
   }
   formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
-    }
+    this.state.event.start = this.state.event.start_format;
+    this.state.event.end = this.state.event.end_format;
   }
   back() {
     // If the user has uploaded anything new, publish it.

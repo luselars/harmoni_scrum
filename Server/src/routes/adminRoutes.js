@@ -16,7 +16,13 @@ let dao = new adminDao(
 );
 let router = express.Router();
 
-// Middleware for admin activities
+router.changeDao = function changeDao(adminDao: adminDao) {
+  dao = adminDao;
+};
+
+/**
+ * Middleware for admin activities
+ */
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
   td.decode(token, (err, decoded) => {
@@ -42,7 +48,9 @@ router.use('', (req, res, next) => {
   });
 });
 
-// Get all organisers
+/**
+ * Get all organisers
+ */
 router.get('/organisers', (req: express$Request, res: express$Response) => {
   dao.getOrganisers((status, data) => {
     res.status(status);
@@ -50,7 +58,9 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Get all unverified organisers
+/**
+ * Get all unverified organisers
+ */
 router.get('/unverified', (req: express$Request, res: express$Response) => {
   dao.getUnverified((status, data) => {
     res.status(status);
@@ -58,7 +68,9 @@ router.get('/unverified', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Change verification status of organiser by id.
+/**
+ * Change verification status of organiser by id.
+ */
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
   dao.verifyOrganiser(req.params.id, (status, data) => {
     res.status(status);

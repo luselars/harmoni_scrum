@@ -7,6 +7,8 @@ type Props = {
   text: string,
   padding: string,
 };
+
+//'More information'-butten on input fields
 class MoreInfo extends Component<Props> {
   constructor(props: any) {
     super(props);

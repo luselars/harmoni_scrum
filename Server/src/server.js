@@ -12,7 +12,7 @@ const cors = require('cors');
 
 const PORT = 4000;
 
-// Routes
+// Routes (all separated into relevant files)
 let publicRoutes = require('./routes/publicRoutes');
 let organiserRoutes = require('./routes/organiserRoutes');
 let userRoutes = require('./routes/userRoutes');
@@ -20,31 +20,46 @@ let adminRoutes = require('./routes/adminRoutes');
 
 let app = express();
 
-// TODO snakk om maks-filstørrelse, legg inn begrensning i front-end også
+// Max file size set to 50mb for uploaded files.
+
+/**
+ * Sets max upload size of files to the limit
+ */
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
+/**
+ * Sets max upload size of files to the limit
+ */
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-// CORS
+/**
+ * Makes the application use CORS.
+ */
 app.use(cors());
+/**
+ * CORS Options.
+ */
 app.options('*', cors());
-// app.use(function(req, res, next) {
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'content-type,x-access-token');
-//   // Pass to next layer of middleware
-//   next();
-// });
 
-// Dependencies
+/**
+ * Dependencies used by the server.
+ */
 app.use(express.json()); // For parsing application/json
 
-// Initiate routes
+/**
+ * Public routing used by the server.
+ */
 app.use('/public/', publicRoutes);
+/**
+ * Organiser routing used by the server.
+ */
 app.use('/organiser/', organiserRoutes);
+/**
+ * User routing used by the server.
+ */
 app.use('/user/', userRoutes);
+/**
+ * Admin routing used by the server.
+ */
 app.use('/admin/', adminRoutes);
 
 let server = app.listen(PORT);

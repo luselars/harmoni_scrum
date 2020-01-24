@@ -32,7 +32,6 @@ class EventNew4 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        this.formatTime();
         OrganiserService.getArtists(data.event_id).then(resp => {
           this.setState({ artists: resp.data });
           console.log(this.state.artists);
@@ -46,32 +45,35 @@ class EventNew4 extends Component<Props, State> {
       <div>
         <div className="form-row justify-content-center">
           <div id="col-12">
-            <label>
-              Legg til artister på arrangementet
-              <MoreInfo
-                padding={'5px'}
-                text={
-                  'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
-                }
+            <form onSubmit={() => this.invite()}>
+              <label className="text-center">
+                Legg til artister på arrangementet
+                <MoreInfo
+                  padding={'5px'}
+                  text={
+                    'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
+                  }
+                />
+              </label>
+              <div className="text-center">
+                <small id="artistOptional" className="text-muted text-center mb-2">
+                  Valgfritt
+                </small>
+              </div>
+              <input
+                type="email"
+                name="email"
+                className="form-control w-100"
+                id="email"
+                placeholder="Skriv e-mail..."
+                required
               />
-            </label>
-            <div className="text-center">
-              <small id="artistOptional" className="text-muted text-center mb-2">
-                Valgfritt
-              </small>
-            </div>
-            <input
-              type="email"
-              name="email"
-              className="form-control w-100"
-              id="email"
-              placeholder="Skriv e-mail..."
-            />
-            <div className="row justify-content-center">
-              <button className="btn btn-success w-50 mt-2 mb-3" onClick={() => this.invite()}>
-                Inviter artist
-              </button>
-            </div>
+              <div className="row justify-content-center">
+                <button type="submit" className="btn btn-success w-50 mt-2 mb-3">
+                  Inviter artist
+                </button>
+              </div>
+            </form>
             {this.state.artists.length > 0 ? (
               <table className="table table-striped">
                 <thead>
@@ -119,12 +121,22 @@ class EventNew4 extends Component<Props, State> {
             )}
           </div>
         </div>
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+        <div className="row justify-content-center">
+          <button
+            onClick={() => this.next()}
+            type="button"
+            className="btn btn-success w-50 m-2"
+            id="nextbtn"
+          >
             Neste
+          </button>
+          <button
+            onClick={() => this.back()}
+            type="button"
+            className="btn btn-secondary w-50 m-2"
+            id="backbtn"
+          >
+            Tilbake
           </button>
         </div>
       </div>
@@ -155,15 +167,15 @@ class EventNew4 extends Component<Props, State> {
         let text = '';
         if (resp.data.message === 'Added new user') {
           text =
-            'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
+            ' som artist. Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
             email +
             '</p><p><b>Passord: <b>' +
             resp.data.password;
         } else if (resp.data.message === 'Made user artist and added him/her to event') {
           text =
-            'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
+            ' som artist. Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
         } else {
-          text = 'Logg inn på Harmoni for å se flere detaljer.';
+          text = ' som artist. Logg inn på Harmoni for å se flere detaljer.';
         }
         OrganiserService.sendmail(email, this.state.event.name, text)
           .then(response => {
@@ -177,19 +189,6 @@ class EventNew4 extends Component<Props, State> {
         this.componentDidMount();
       })
       .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
-  }
-
-  formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
-    }
   }
   back() {
     this.props.onSelectPage(3);

@@ -23,7 +23,6 @@ type Props = {};*/
 type Props = {
   onSelectPage: any,
 };
-//TODO add postcode
 class EventNew3 extends Component<Props> {
   constructor(props: any) {
     super(props);
@@ -41,7 +40,6 @@ class EventNew3 extends Component<Props> {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
-      // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
@@ -79,7 +77,7 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div>
+      <form onSubmit={event => this.next(event)}>
         <div className="form-row">
           <iframe
             id="map"
@@ -115,6 +113,7 @@ class EventNew3 extends Component<Props> {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
@@ -140,13 +139,14 @@ class EventNew3 extends Component<Props> {
                 padding="narrow"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
         </div>
 
         <label htmlFor="postcode">Postkode:</label>
-        <input className="form-control w-50" id="postcode" type="text" />
+        <input className="form-control w-50" id="postcode" type="number" />
         <label htmlFor="postcode">
           Scene:
           <MoreInfo
@@ -159,15 +159,20 @@ class EventNew3 extends Component<Props> {
         </small>
         <input className="form-control w-50" id="venue" type="text" />
 
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+        <div className="row justify-content-center">
+          <button type="submit" className="btn btn-success w-50 m-2" id="nextbtn">
             Neste
           </button>
+          <button
+            onClick={() => this.back()}
+            type="button"
+            className="btn btn-secondary w-50 m-2"
+            id="backbtn"
+          >
+            Tilbake
+          </button>
         </div>
-      </div>
+      </form>
     );
   }
   updateForm(w: number, val: any) {
@@ -193,23 +198,16 @@ class EventNew3 extends Component<Props> {
 
   //TODO do not mutate state directly. use setState()
   formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
-    }
+    this.state.event.start = this.state.event.start_format;
+    this.state.event.end = this.state.event.end_format;
   }
   // todo ADD postcode
   back() {
     // I won't save the address here, it would create a lot of unfinished locations
     this.props.onSelectPage(2);
   }
-  next() {
+  next(event) {
+    event.preventDefault();
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;
