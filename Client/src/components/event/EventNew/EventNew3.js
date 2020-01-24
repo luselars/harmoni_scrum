@@ -148,7 +148,7 @@ class EventNew3 extends Component<Props> {
         </div>
 
         <label htmlFor="postcode">Postkode:</label>
-        <input className="form-control w-50" id="postcode" type="text" />
+        <input className="form-control w-50" id="postcode" type="number" />
         <label htmlFor="postcode">
           Scene:
           <MoreInfo
