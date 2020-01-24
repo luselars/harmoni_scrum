@@ -1,12 +1,10 @@
 //@flow
-import React, { createRef } from 'react';
+import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { number, string } from 'prop-types';
-import { TicketType, Artist, Event } from '../../../services/modelService';
+import { TicketType, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 import EditTickets from './EditTickets';
 
@@ -24,6 +22,7 @@ type State = {
 type Props = {
   onSelectPage: any,
 };
+
 class EventNew6 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -34,11 +33,12 @@ class EventNew6 extends Component<Props, State> {
       new_ticket: string,
       new_event_ticket: TicketType,
       new_ticket_desc: string,
-      ev_price: number,
-      ev_amount: number,
+      ev_price: 0,
+      ev_amount: 0,
       expandCreate: false,
     };
   }
+
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -49,7 +49,6 @@ class EventNew6 extends Component<Props, State> {
         // Get tickets tied to event
         OrganiserService.getTickets(this.state.event.event_id).then(response => {
           this.setState({ event_tickets: response.data });
-          console.log(this.state.event_tickets);
         });
       });
       // Get tickets tied to organiser
@@ -57,13 +56,13 @@ class EventNew6 extends Component<Props, State> {
         this.setState({ org_tickets: response.data });
         if (this.state.org_tickets.length > 0) {
           this.setState({ new_event_ticket: this.state.org_tickets[0].ticket_type_id });
-          this.setState({ ev_price: 0 });
-          this.setState({ ev_amount: 0 });
+          console.log(typeof this.state.ev_price);
+          console.log(this.state.ev_price);
         }
-        console.log(this.state.org_tickets);
       });
     }
   }
+
   toggleExpandCreate() {
     if (this.state.expandCreate) {
       this.setState({ expandCreate: false });
@@ -71,9 +70,11 @@ class EventNew6 extends Component<Props, State> {
       this.setState({ expandCreate: true });
     }
   }
+
   update = () => {
     this.componentDidMount();
   };
+
   render() {
     return (
       <div className="row justify-content-center">
@@ -125,7 +126,7 @@ class EventNew6 extends Component<Props, State> {
             <div className="col-sm-4">
               <label>Pris:</label>
               <input
-                defaultValue={'0'}
+                defaultValue={this.state.ev_price}
                 onChange={e => this.setState({ ev_price: e.target.value })}
                 type="number"
                 className="form-control"
@@ -135,7 +136,7 @@ class EventNew6 extends Component<Props, State> {
             <div className="col-sm-4">
               <label>Antall:</label>
               <input
-                defaultValue={'0'}
+                defaultValue={this.state.ev_amount}
                 onChange={e => this.setState({ ev_amount: e.target.value })}
                 type="number"
                 className="form-control"
@@ -199,12 +200,14 @@ class EventNew6 extends Component<Props, State> {
       </div>
     );
   }
+
   removeTicket(ticket_id: number) {
     OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
       console.log(response);
       this.componentDidMount();
     });
   }
+
   addTicketToEvent() {
     let ticket = new TicketType();
     for (let i = 0; i < this.state.org_tickets.length; i++) {
@@ -232,11 +235,14 @@ class EventNew6 extends Component<Props, State> {
       });
     }
   }
+
   back() {
     this.props.onSelectPage(5);
   }
+
   next() {
     this.props.onSelectPage(7);
   }
 }
+
 export default EventNew6;

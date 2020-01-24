@@ -2,8 +2,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { OrganiserService } from '../../services/organiserService';
-import { PublicService } from '../../services/publicService';
 
 /**
  * Component for the search-bar that is used for searching in events. The filtration itself is done in EventList.js.
