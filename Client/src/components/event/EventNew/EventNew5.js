@@ -54,82 +54,85 @@ class EventNew5 extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-group text-center ml-5 mr-5">
-          <p>
+      <div className="row justify-content-center">
+        <div id="col-12">
+          <label className="text-center">
             Legg til ridere og notater for artist
             <MoreInfo
               padding={'5px'}
               text={'Ridere og notater vil vises for artisene de gjelder.'}
             />
-          </p>
-        </div>
-        {this.state.artists.length > 0 ? (
-          <div className="form-group text-center ml-5 mr-5">
-            {this.state.artists.map(artist => (
-              <div>
-                <p>Notater for {artist.email}</p>
-                <div>
-                  <textarea
-                    class="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                    onBlur={e => this.publishNotes(artist.user_id, e.target.value)}
-                  >
-                    {artist.notes}
-                  </textarea>
+          </label>
+
+          {this.state.artists.length > 0 ? (
+            <div>
+              {this.state.artists.map(artist => (
+                <div className="w-100 border p-2 mb-3">
+                  <label className="text-center">
+                    <strong>{artist.email}</strong>
+                  </label>
+                  <label className="text-center">Noteter:</label>
+                  <div>
+                    <textarea
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      rows="3"
+                      onBlur={e => this.publishNotes(artist.user_id, e.target.value)}
+                    >
+                      {artist.notes}
+                    </textarea>
+                    <br />
+                    <UploadRider
+                      organiser={true}
+                      reload={() => this.handleReload()}
+                      accept={'.pdf'}
+                      message={'Last opp rider'}
+                      artist_id={artist.user_id}
+                      event_id={this.state.event.event_id}
+                    />
+                  </div>
                   <br />
-                  <UploadRider
-                    organiser={true}
-                    reload={() => this.handleReload()}
-                    accept={'.pdf'}
-                    message={'Last opp rider'}
-                    artist_id={artist.user_id}
-                    event_id={this.state.event.event_id}
-                  />
                 </div>
-                <br />
-              </div>
-            ))}
-            {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
-            {this.state.riders.map(rider => (
-              <div>
-                {rider.email}
-                <DownloadFile fileName={rider.rider_file} />
-                <button
-                  onClick={() => {
-                    this.deleteRider(rider.rider_id);
-                  }}
-                >
-                  Slett rider
-                </button>
-              </div>
-            ))}
+              ))}
+              {this.state.riders.length > 0 ? <p>Mine riders:</p> : <p>Ingen riders lastet opp.</p>}
+              {this.state.riders.map(rider => (
+                <div>
+                  {rider.email}
+                  <DownloadFile fileName={rider.rider_file} />
+                  <button
+                    onClick={() => {
+                      this.deleteRider(rider.rider_id);
+                    }}
+                  >
+                    Slett rider
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="form-group text-center ml-5 mr-5">
+              <p>Ingen artiser lagt til.</p>
+            </div>
+          )}
+          <div className="row justify-content-center">
+            <button
+              onClick={() => this.next()}
+              type="button"
+              className="btn btn-success w-50 m-2"
+              id="nextbtn"
+            >
+              Neste
+            </button>
+            <button
+              onClick={() => this.back()}
+              type="button"
+              className="btn btn-secondary w-50 m-2"
+              id="backbtn"
+            >
+              Tilbake
+            </button>
           </div>
-        ) : (
-          <div className="form-group text-center ml-5 mr-5">
-            <p>Ingen artiser lagt til.</p>
-          </div>
-        )}
-        <div className="row justify-content-center">
-          <button
-            onClick={() => this.next()}
-            type="button"
-            className="btn btn-success w-50 m-2"
-            id="nextbtn"
-          >
-            Neste
-          </button>
-          <button
-            onClick={() => this.back()}
-            type="button"
-            className="btn btn-secondary w-50 m-2"
-            id="backbtn"
-          >
-            Tilbake
-          </button>
         </div>
-        {/*</form>*/}
       </div>
     );
   }
