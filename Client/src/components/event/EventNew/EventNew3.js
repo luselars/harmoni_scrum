@@ -79,7 +79,7 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div>
+      <form onSubmit={event => this.next(event)}>
         <div className="form-row">
           <iframe
             id="map"
@@ -115,6 +115,7 @@ class EventNew3 extends Component<Props> {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
@@ -140,6 +141,7 @@ class EventNew3 extends Component<Props> {
                 padding="narrow"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
@@ -160,12 +162,7 @@ class EventNew3 extends Component<Props> {
         <input className="form-control w-50" id="venue" type="text" />
 
         <div className="row justify-content-center">
-          <button
-            onClick={() => this.next()}
-            type="button"
-            className="btn btn-success w-50 m-2"
-            id="nextbtn"
-          >
+          <button type="submit" className="btn btn-success w-50 m-2" id="nextbtn">
             Neste
           </button>
           <button
@@ -177,7 +174,7 @@ class EventNew3 extends Component<Props> {
             Tilbake
           </button>
         </div>
-      </div>
+      </form>
     );
   }
   updateForm(w: number, val: any) {
@@ -219,7 +216,8 @@ class EventNew3 extends Component<Props> {
     // I won't save the address here, it would create a lot of unfinished locations
     this.props.onSelectPage(2);
   }
-  next() {
+  next(event) {
+    event.preventDefault();
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;
