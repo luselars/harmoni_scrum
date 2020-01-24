@@ -63,7 +63,7 @@ class EditTickets extends Component<Props, State> {
             type="text"
           />
           <div className="row justify-content-center">
-            <button type="submit" className="btn btn-success col-sm-3 m-2">
+            <button type="submit" className="btn btn-success col-sm-6 m-2">
               Opprett
             </button>
           </div>
@@ -80,7 +80,7 @@ class EditTickets extends Component<Props, State> {
           </div>
         </form>
         <div className="row justify-content-center">
-          <button onClick={() => this.deleteTicket()} className="btn btn-secondary col-sm-3 m-2">
+          <button onClick={() => this.deleteTicket()} className="btn btn-secondary col-sm-6 m-2">
             <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i> Slett
           </button>
         </div>
