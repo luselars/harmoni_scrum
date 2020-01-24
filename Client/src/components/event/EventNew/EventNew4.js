@@ -17,6 +17,7 @@ type Props = {
   onSelectPage: any,
 };
 
+/**Component for fourth page on creating a new event */
 class EventNew4 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -25,6 +26,7 @@ class EventNew4 extends Component<Props, State> {
       artists: [],
     };
   }
+  /**Updates the localStorage. Gets event and artist*/
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -55,6 +57,10 @@ class EventNew4 extends Component<Props, State> {
                   }
                 />
               </h4>
+              <p id="alert" style={{ color: 'red' }} hidden="true">
+                Eposten er i bruk av en annen arrangør
+              </p>
+
               <div className="text-center">
                 <small id="artistOptional" className="text-muted text-center mb-2">
                   Valgfritt
@@ -142,26 +148,31 @@ class EventNew4 extends Component<Props, State> {
       </div>
     );
   }
+  /**Reloads page*/
   handleReload = () => {
-    console.log('RELOAD');
     this.componentDidMount();
   };
+
+  /**Checks if email already exist.*/
   invite(event) {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
     event.preventDefault();
     let email = document.getElementById('email').value;
     document.getElementById('email').value = '';
-
     PublicService.checkEmail(email).then(res => {
       if (res.data.length === 0) {
         this.addArtist(email);
       } else if (res.data[0].type !== 'organiser') {
         this.addArtist(email);
       } else {
-        alert('Eposten er i bruk av en annen arrangør');
+        // $FlowFixMe
+        document.getElementById('alert').hidden = false;
+        window.scrollTo(0, 0);
       }
     });
   }
-
+  /**Sends email to artist added to event */
   addArtist(email) {
     OrganiserService.inviteArtist(email, this.state.event.event_id)
       .then(resp => {
@@ -193,9 +204,12 @@ class EventNew4 extends Component<Props, State> {
       })
       .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
   }
+  /**Returns to previous page */
   back() {
     this.props.onSelectPage(3);
   }
+
+  /**Sends user to next page */
   next() {
     this.props.onSelectPage(5);
   }
