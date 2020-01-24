@@ -208,6 +208,7 @@ export default class EventList extends Component<Props, State> {
           handleFilterAlternativChange={this.handleFilterAlternativChange.bind(this)}
           handleFilterPriceChange={this.handleFilterPriceChange.bind(this)}
           profile_list={this.props.profile_list}
+          reRenderList={this.reRenderList.bind(this)}
         />
         <div>
           {this.state.events.map((event, index) =>
