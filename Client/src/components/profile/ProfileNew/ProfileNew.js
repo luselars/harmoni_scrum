@@ -3,7 +3,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { PublicService } from '../../../services/publicService';
-import { string, number } from 'prop-types';
+import { number, string } from 'prop-types';
+
 let path = require('path');
 
 /** Component for creating a new profile */
@@ -351,7 +352,6 @@ export default class ProfileNew extends Component<
             PublicService.registerNewUser(this.state)
               .then(response => {
                 PublicService.logIn(this.state.email, this.state.password).then(response => {
-                  console.log(response);
                   localStorage.setItem('token', response.data.jwt);
                   localStorage.setItem('userType', response.data.type);
                   window.location = '/profile';

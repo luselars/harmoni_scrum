@@ -1,8 +1,6 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
-import { Link } from 'react-router-dom';
 
 type State = {
   status: boolean,

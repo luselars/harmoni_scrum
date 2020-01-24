@@ -46,7 +46,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     //Gets all artist by event_id
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
-        console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
@@ -61,7 +60,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
-        console.log(event);
         this.setState({
           event: event,
           cancel: event.cancel,
@@ -288,17 +286,17 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                           <div>
                             {artist.contract === null ? null : (
                               <div>
-                                <tr>
-                                  {artist.artist_name === null ? (
-                                    <td className="text-left">Ukjent artist ({artist.email}): </td>
-                                  ) : (
-                                    <td className="text-left">{artist.artist_name}: </td>
-                                  )}
+                                {artist.artist_name === null ? (
+                                  <td className="text-left">{artist.email}: </td>
+                                ) : (
+                                  <td className="text-left">{artist.artist_name}: </td>
+                                )}
+                                <div>
                                   <td className="text-left">
                                     {/*Uses Downloadfile Component to publish contracts*/}
                                     <DownloadFile fileName={artist.contract} />
                                   </td>
-                                </tr>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -321,13 +319,15 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                         {this.state.riders.map(rider => (
                           <div>
                             {rider.artist_name === null ? (
-                              <td className="text-left">Ukjent artist ({rider.email}): </td>
+                              <td className="text-left">{rider.email}: </td>
                             ) : (
                               <td className="text-left">{rider.artist_name}: </td>
                             )}
-                            <td>
-                              <DownloadFile fileName={rider.rider_file} />
-                            </td>
+                            <div>
+                              <td>
+                                <DownloadFile fileName={rider.rider_file} />
+                              </td>
+                            </div>
                           </div>
                         ))}
                       </span>
@@ -628,7 +628,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         };
         cancel.onclick = function() {
           modal.style.display = 'none';
-          console.log('heihiii');
         };
         //la til denne, tror den manglet
         btn.onclick = function() {

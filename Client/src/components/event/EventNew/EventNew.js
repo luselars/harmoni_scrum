@@ -1,6 +1,5 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService.js';
@@ -206,7 +205,6 @@ class EventNew extends Component<Props, State> {
               width="75"
               onChange={(b: boolean) => {
                 this.state.event.is_public = b ? 1 : 0;
-                console.log(this.state.event);
               }}
             />
             <label>
@@ -275,7 +273,6 @@ class EventNew extends Component<Props, State> {
     this.state.event.start = this.state.start_d + ' ' + this.state.start_h;
     this.state.event.end = this.state.end_d + ' ' + this.state.end_h;
     if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
-      console.log('Ugyldig tittel');
       return;
     }
     if (typeof this.state.event.description != 'string') {

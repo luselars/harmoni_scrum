@@ -23,10 +23,10 @@ export default class LogIn extends Component<{}, { email: string, password: stri
         <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
             <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
-            <p id="alert" style={{ color: 'red' }} hidden="true">
-              Bruker ikke funnet, sjekk passord og email og prøv på nytt
-            </p>
             <div class="form-group text-center ml-5 mr-5">
+              <p id="alert" style={{ color: 'red' }} hidden="true">
+                Bruker ikke funnet, sjekk passord og email og prøv på nytt
+              </p>
               <label for="inputEmail1">Brukernavn (e-post)</label>
               <input
                 type="email"
@@ -103,7 +103,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     //Logging in and returning nessesary information
     PublicService.logIn(this.state.email, this.state.password)
       .then(response => {
-        console.log('Response: ' + response.data.jwt);
         localStorage.setItem('token', response.data.jwt);
         localStorage.setItem('userType', response.data.type);
         response.data.type == 'admin'
@@ -112,7 +111,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
       })
       //Catches errors and sets alert
       .catch(error => {
-        console.log('error: ' + error);
         // $FlowFixMe
         document.getElementById('alert').hidden = false;
       });

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { Link, Switch, Route, BrowserRouter as Router, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import Main from '../src/views/main';
 import Menu from './components/Menu/Menu';
 import LogIn from './components/LogIn/LogIn';
@@ -22,7 +22,6 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
-import EditTickets from './components/event/EventNew/EditTickets';
 
 const NoMatch = () => (
   <div className="card" id="NotFound">

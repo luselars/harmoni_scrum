@@ -1,10 +1,10 @@
 // @flow
 
 import axios, { AxiosPromise } from 'axios';
-import { Event, Artist, Organiser, TicketType } from './modelService.js';
+import { Artist, Event, Organiser, TicketType } from './modelService.js';
+
 const url_base = 'http://localhost:4000/organiser';
 // axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
-// console.log(localStorage.getItem('token'));
 const config = {
   headers: {
     'x-access-token': localStorage.getItem('token'),
@@ -14,19 +14,16 @@ const config = {
 export class OrganiserService {
   /** Sends in an event form to server-side to create a new event. */
   static createEvent(event: Event) {
-    console.log(event);
     let url = url_base + '/event';
     return axios.post<Object>(url, event, config);
   }
   /** Sends in an event form to server-side to update existing event. */
   static updateEvent(event: Event) {
-    console.log(event);
     let url = url_base + '/event/' + event.event_id;
     return axios.put<Object>(url, event, config);
   }
   /** Deletes an event by id. */
   static deleteEvent(id: number): AxiosPromise<Event> {
-    console.log('Service delete startet');
     let url = url_base + '/event/' + id;
     return axios.delete<Object>(url, config);
   }
@@ -47,7 +44,6 @@ export class OrganiserService {
   }
   /** Deletes the organiser by id. */
   static deleteOrganiser(id: number): AxiosPromise<Organiser> {
-    console.log('Service: ' + id);
     let url = url_base + '/organiser/' + id;
     return axios.delete<Object>(url, config);
   }
@@ -110,7 +106,6 @@ export class OrganiserService {
   /** Deletes a rider. */
   static deleteRider(event_id: number, rider_id: number) {
     let url = url_base + '/event/rider/' + event_id + '/' + rider_id;
-    console.log(url);
     return axios.delete(url, config);
   }
   /** Get all tickettypes on an event. */

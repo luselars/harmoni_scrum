@@ -2,12 +2,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { Organiser } from '../../../services/modelService';
+import { Organiser, User } from '../../../services/modelService';
 
 import { OrganiserService } from '../../../services/organiserService';
 import { UserService } from '../../../services/userService';
-import { User } from '../../../services/modelService';
-import { any } from 'prop-types';
 
 type State = {
   userType: any,
@@ -49,7 +47,7 @@ export default class Profile extends Component<Props, State> {
             />
           </div>
           <div className="col-md text-center float-left">
-            <p id="profilename" className="display-md-4 display-4 text-uppercase text-center m-4">
+            <p id="profilename" className="display-4 text-uppercase text-center">
               {this.state.userType.name}
             </p>
             <table className="table table-borderless">
@@ -188,14 +186,12 @@ export default class Profile extends Component<Props, State> {
       UserService.getMyProfile()
         .then(res => {
           let user: User = res.data[0];
-          console.log(user);
           this.setState({
             userType: user,
             email: user.email,
           });
           if (user.artist_name != null) {
             this.setState({ artist: true });
-            console.log(this.state.user.artist_name);
           }
         })
         .catch(error => console.error(error));
