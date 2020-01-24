@@ -41,6 +41,7 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="4"
+              placeholder="Skriv inn din tilbakemelding"
               onChange={e => this.changeFeedback(e)}
             ></textarea>
           </div>

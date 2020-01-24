@@ -15,7 +15,9 @@ type State = {
   artist: boolean,
 };
 
-export default class ProfileOrganiser extends Component<Props, State> {
+//Component to view the user profile
+//Adapts the profile to usertype
+export default class Profile extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -44,15 +46,6 @@ export default class ProfileOrganiser extends Component<Props, State> {
           </div>
           <div className="col-md text-center float-left">
             <p id="profilename" className="display-md-4 display-4 text-uppercase text-center m-4">
-              {/*this.state.userType.name
-                ? this.state.userType.name.length < 13
-                  ? this.state.userType.name
-                  : this.state.userType.name.slice(8, 15).includes(' ')
-                  ? this.state.userType.name.length > 22
-                    ? this.state.userType.name.slice(0, 22) + '...'
-                    : this.state.userType.name
-                  : this.state.userType.name.slice(0, 12) + '...'
-              : ''*/}
               {this.state.userType.name}
             </p>
             <table className="table table-borderless">
@@ -189,6 +182,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
 
   componentDidMount() {
     if (localStorage.getItem('userType') === 'user') {
+      //Gets userprofile
       UserService.getMyProfile()
         .then(res => {
           let user: User = res.data[0];
@@ -204,6 +198,7 @@ export default class ProfileOrganiser extends Component<Props, State> {
         })
         .catch(error => console.error(error));
     } else if (localStorage.getItem('userType') === 'organiser') {
+      //Gets organiser profile
       OrganiserService.getOrganiser()
         .then(res => {
           let organiser: any = res.data;

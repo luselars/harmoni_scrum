@@ -232,16 +232,16 @@ export default class ProfileNew extends Component<
               <p></p>
             )}
             <div className="form-check text-center ml-5 mr-5 p-2 border">
+              <label className="form-check-label" for="upload">
+                Profilbilde
+              </label>
               <input
-                className="file mr-6"
+                className="file"
                 accept=".jpg, .jpeg, .png"
                 type="file"
                 id="upload"
                 name="recfile"
               />
-              <label className="form-check-label" for="upload">
-                Profilbilde
-              </label>
             </div>
             <div class="form-check ml-5 mr-5">
               <input

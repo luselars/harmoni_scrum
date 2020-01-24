@@ -49,10 +49,6 @@ label {
   margin: 0.4rem 0;
 }
 
-#nextbtn {
-  float: right;
-}
-
 @media screen and (max-width: 750px) {
   .neweventtitle {
     font-size: 5vw;
