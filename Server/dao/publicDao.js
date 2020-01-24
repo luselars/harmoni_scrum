@@ -19,7 +19,7 @@ module.exports = class PublicDao extends Dao {
    */
   getPublicEvents(callback) {
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode, v.min_price, v.max_price FROM event e LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN (SELECT et.event_id, MIN(et.price) as min_price, MAX(et.price) as max_price FROM event_ticket et GROUP BY et.event_id) v ON v.event_id = e.event_id WHERE end > now() - INTERVAL 1 month AND e.is_public IS TRUE AND (TRUE IN(SELECT o.verified FROM organiser o WHERE o.organiser_id IN(SELECT eo.organiser_id FROM event_organiser eo WHERE eo.event_id = e.event_id)))',
+      'SELECT e.*, DATE_FORMAT(e.end, "%Y-%m-%d %H:%i") as end_format, DATE_FORMAT(e.start, "%Y-%m-%d %H:%i") as start_format, l.address, l.name as location_name, l.postcode, v.min_price, v.max_price FROM event e LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN (SELECT et.event_id, MIN(et.price) as min_price, MAX(et.price) as max_price FROM event_ticket et GROUP BY et.event_id) v ON v.event_id = e.event_id WHERE end > now() - INTERVAL 1 month AND e.is_public IS TRUE AND (TRUE IN(SELECT o.verified FROM organiser o WHERE o.organiser_id IN(SELECT eo.organiser_id FROM event_organiser eo WHERE eo.event_id = e.event_id)))',
       [],
       callback,
     );
@@ -51,7 +51,7 @@ module.exports = class PublicDao extends Dao {
    */
   getPublicEvent(event_id: number, callback) {
     super.query(
-      'SELECT e.*, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE AND e.event_id = ?',
+      'SELECT e.*,DATE_FORMAT(e.end, "%Y-%m-%d %H:%i") as end_format, DATE_FORMAT(e.start, "%Y-%m-%d %H:%i") as start_format, l.address, l.name as location_name, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE e.is_public IS TRUE AND e.event_id = ?',
       [event_id],
       callback,
     );

@@ -177,14 +177,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Start:
                     </th>
                     <td className="text-left">
-                      {this.state.event.start ? (
-                        this.state.event.start.slice(8, 10) +
+                      {this.state.event.start_format ? (
+                        this.state.event.start_format.slice(8, 10) +
                         '/' +
-                        this.state.event.start.slice(5, 7) +
+                        this.state.event.start_format.slice(5, 7) +
                         '/' +
-                        this.state.event.start.slice(0, 4) +
+                        this.state.event.start_format.slice(0, 4) +
                         ' - ' +
-                        this.state.event.start.slice(11, 16)
+                        this.state.event.start_format.slice(11, 16)
                       ) : (
                         <span>-</span>
                       )}
@@ -195,14 +195,14 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
                       Slutt:
                     </th>
                     <td className="text-left">
-                      {this.state.event.end ? (
-                        this.state.event.end.slice(8, 10) +
+                      {this.state.event.end_format ? (
+                        this.state.event.end_format.slice(8, 10) +
                         '/' +
-                        this.state.event.end.slice(5, 7) +
+                        this.state.event.end_format.slice(5, 7) +
                         '/' +
-                        this.state.event.end.slice(0, 4) +
+                        this.state.event.end_format.slice(0, 4) +
                         ' - ' +
-                        this.state.event.end.slice(11, 16)
+                        this.state.event.end_format.slice(11, 16)
                       ) : (
                         <span>-</span>
                       )}

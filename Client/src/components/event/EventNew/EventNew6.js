@@ -46,7 +46,6 @@ class EventNew6 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        this.formatTime();
         // Get tickets tied to event
         OrganiserService.getTickets(this.state.event.event_id).then(response => {
           this.setState({ event_tickets: response.data });
@@ -77,21 +76,24 @@ class EventNew6 extends Component<Props, State> {
   };
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-group text-center ml-5 mr-5">
-          <p
+      <div className="row justify-content-center">
+        <div className="col-12">
+          <label
             style={{ cursor: 'pointer' }}
             onClick={() => {
               this.toggleExpandCreate();
             }}
+            className="text-center"
           >
             Endre dine bilettyper
+            <br />
+            <br />
             {this.state.expandCreate ? (
-              <i className="arrow down"></i>
+              <i className="arrow down text-center"></i>
             ) : (
-              <i className="arrow up"></i>
+              <i className="arrow up text-center"></i>
             )}
-          </p>
+          </label>
           {this.state.expandCreate ? (
             <EditTickets
               updateParent={() => {
@@ -99,9 +101,7 @@ class EventNew6 extends Component<Props, State> {
               }}
             />
           ) : null}
-        </div>
-        <div className="form-group text-center ml-5 mr-5">
-          <p>
+          <h4 className="text-center">
             Legg til billetter på arrangement:
             <MoreInfo
               padding={'5px'}
@@ -109,49 +109,91 @@ class EventNew6 extends Component<Props, State> {
                 'Legg til billetter med antall og pris på arrangementet. For å legge til en billett må det velges en av billett-typene knyttet til kontoen din. Nye billett-typer kan oprettes og slettes i feltet under, og vil være lagret til videre arrangementer.'
               }
             />
-          </p>
-        </div>
-        <div>
-          <select onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}>
-            {this.state.org_tickets.map(ticket => (
-              <option value={ticket.ticket_type_id}>{ticket.name}</option>
-            ))}
-          </select>
-          <input
-            defaultValue={'0'}
-            onChange={e => this.setState({ ev_price: e.target.value })}
-            type="number"
-            placeholder={'pris'}
-          />
-          <input
-            defaultValue={'0'}
-            onChange={e => this.setState({ ev_amount: e.target.value })}
-            type="number"
-            placeholder={'antall'}
-          />
-          <button onClick={() => this.addTicketToEvent()}>Legg til i arrangement</button>
+          </h4>
+          <div className="row">
+            <div className="col-sm-4">
+              <label>Billett:</label>
+              <select
+                onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
+                className="form-control"
+              >
+                {this.state.org_tickets.map(ticket => (
+                  <option value={ticket.ticket_type_id}>{ticket.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-sm-4">
+              <label>Pris:</label>
+              <input
+                defaultValue={'0'}
+                onChange={e => this.setState({ ev_price: e.target.value })}
+                type="number"
+                className="form-control"
+                placeholder={'pris'}
+              />
+            </div>
+            <div className="col-sm-4">
+              <label>Antall:</label>
+              <input
+                defaultValue={'0'}
+                onChange={e => this.setState({ ev_amount: e.target.value })}
+                type="number"
+                className="form-control"
+                placeholder={'antall'}
+              />
+            </div>
+          </div>
+          <div className="row justify-content-center">
+            <button
+              onClick={() => this.addTicketToEvent()}
+              type="button"
+              className="btn btn-success col-sm-3 m-2"
+            >
+              Legg til
+            </button>
+          </div>
+          <div className="border-bottom m-5"></div>
           <div>
-            <p>Billetter lagt til:</p>
+            <label className="text-center">Billetter lagt til:</label>
             {this.state.event_tickets.length > 0 ? (
               <span>
                 {this.state.event_tickets.map(ticket => (
-                  <p>
-                    {ticket.name}: {ticket.amount} stk. kr {ticket.price}{' '}
-                    <button onClick={() => this.removeTicket(ticket.ticket_type_id)}>Fjern</button>
-                  </p>
+                  <div className="text-center">
+                    <label>
+                      {ticket.name}: {ticket.amount} stk. kr {ticket.price}{' '}
+                    </label>
+                    <button
+                      onClick={() => this.removeTicket(ticket.ticket_type_id)}
+                      className="btn btn-secondary col-sm-3"
+                    >
+                      <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
+                      Fjern
+                    </button>
+                  </div>
                 ))}
               </span>
             ) : (
-              <p>Du har ikke lagt til noen billetter på dette arrangementet.</p>
+              <label className="text-center">
+                Du har ikke lagt til noen billetter på dette arrangementet.
+              </label>
             )}
           </div>
-          <div>
-            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-              Tilbake
-            </button>
-            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-              Neste
-            </button>
+          <br />
+          <div className="row justify-content-center mt-3">
+            <div className="col-12 text-center">
+              <button onClick={() => this.next()} className="btn btn-success w-25" id="nextbtn">
+                Neste
+              </button>
+            </div>
+            <div className="col-12 text-center">
+              <button
+                onClick={() => this.back()}
+                className="btn btn-secondary mt-2 w-25"
+                id="backbtn"
+              >
+                Tilbake
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -188,18 +230,6 @@ class EventNew6 extends Component<Props, State> {
         console.log(r);
         this.componentDidMount();
       });
-    }
-  }
-  formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
     }
   }
   back() {

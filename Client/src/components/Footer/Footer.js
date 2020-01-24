@@ -11,7 +11,7 @@ function Footer() {
           <div className="col-md-8 col-lg-8">
             <h6 className="text-uppercase mb-4 font-weight-bold ">Kontakt</h6>
             <p>Telefon: +47 123 45 678</p>
-            <p>E-mail: harmoni.scrum@gmail.com</p>
+            <p>E-post: harmoni.scrum@gmail.com</p>
           </div>
           <div className="col-md-3 col-lg-4 ml-lg-0">
             <div className="text-center text-md-right">

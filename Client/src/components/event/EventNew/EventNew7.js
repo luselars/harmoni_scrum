@@ -45,7 +45,6 @@ class EventNew7 extends Component<Props, State> {
         let data = response.data;
         console.log(response.data);
         this.setState({ event: data });
-        this.formatTime();
         OrganiserService.getMyVolunteers(this.state.event.event_id).then(response => {
           console.log(response.data);
           this.setState({ personnel: response.data });
@@ -193,18 +192,6 @@ class EventNew7 extends Component<Props, State> {
       console.log(response);
       this.componentDidMount();
     });
-  }
-  formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
-    }
   }
   back() {
     this.props.onSelectPage(6);

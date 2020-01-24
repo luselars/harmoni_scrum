@@ -6,7 +6,7 @@ import { Component } from 'react';
 export default class FeedbackRegistered extends Component<{}, {}> {
   render() {
     return (
-      <div className="card profilecard container bg-light p-2 text-center p-5">
+      <div className="card profilecard container bg-light p-2 text-center p-5 mb-4">
         <p className="display-4 text-uppercase text-center mt-4 border-bottom">
           Feedback registrert
         </p>
