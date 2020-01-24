@@ -34,32 +34,36 @@ class EditPersonnel extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-group text-center ml-5 mr-5">
-          <p>Knytt personell til arrangementet: </p>
-        </div>
+      <form onSubmit={event => this.createType()}>
+        <h4 className="text-center my-3">Knytt personell til arrangementet: </h4>
+        <label>Legg til personelltype:</label>
+        <p id="alert" style={{ color: 'red' }} hidden="true">
+          Ingen personelltype skrevet inn.
+        </p>
+        <input
+          onChange={e => {
+            this.setState({ new_type: e.target.value });
+          }}
+          className="form-control w-100 my-2"
+          placeholder="Skriv personelltype..."
+          type="text"
+          required
+        />
+        <button
+          onClick={() => this.createType()}
+          type="submit"
+          className="btn btn-success col-sm-3 my-2 d-block mx-auto"
+        >
+          Opprett
+        </button>
         <div>
-          <p>Legg til personelltype:</p>
-          <p id="alert" style={{ color: 'red' }} hidden="true">
-            Ingen personelltype skrevet inn.
-          </p>
-          <input
-            onChange={e => {
-              this.setState({ new_type: e.target.value });
-            }}
-            placeholder={'Personelltype'}
-            type="text"
-          />
-          <button onClick={() => this.createType()}>Opprett personelltype</button>
-        </div>
-        <div>
-          <p>Slett personelltyper:</p>
+          <h4 className="text-center my-3">Slett personelltyper:</h4>
           <select
             id="delete"
             onChange={e => {
               this.state.delete = e.target.value;
             }}
-            className="form-control"
+            className="form-control w-100 my-2"
           >
             {this.state.my_types.map(type => (
               <option value={type.volunteer_type_id}>{type.name}</option>
@@ -69,11 +73,14 @@ class EditPersonnel extends Component<Props, State> {
             onClick={() => {
               this.deleteType();
             }}
+            type="button"
+            className="btn btn-secondary col-sm-3 my-2 d-block mx-auto"
           >
-            Slett
+            <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i> Slett
           </button>
         </div>
-      </div>
+        <div className="border-bottom border-dark border-5 m-5"></div>
+      </form>
     );
   }
 
