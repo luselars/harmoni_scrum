@@ -198,8 +198,8 @@ export default class EventList extends Component<Props, State> {
               className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Søk"
+              aria-label="Søk"
             />
           </div>
         </div>

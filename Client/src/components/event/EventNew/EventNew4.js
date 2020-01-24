@@ -165,15 +165,15 @@ class EventNew4 extends Component<Props, State> {
         let text = '';
         if (resp.data.message === 'Added new user') {
           text =
-            'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
+            ' som artist. Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
             email +
             '</p><p><b>Passord: <b>' +
             resp.data.password;
         } else if (resp.data.message === 'Made user artist and added him/her to event') {
           text =
-            'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
+            ' som artist. Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
         } else {
-          text = 'Logg inn på Harmoni for å se flere detaljer.';
+          text = ' som artist. Logg inn på Harmoni for å se flere detaljer.';
         }
         OrganiserService.sendmail(email, this.state.event.name, text)
           .then(response => {

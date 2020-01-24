@@ -8,7 +8,7 @@ import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import MoreInfo from '../../MoreInfo/MoreInfo';
-import EditEventTickets from './EditEventTickets';
+import EditTickets from './EditTickets';
 
 type State = {
   event: Event,
@@ -72,6 +72,9 @@ class EventNew6 extends Component<Props, State> {
       this.setState({ expandCreate: true });
     }
   }
+  update = () => {
+    this.componentDidMount();
+  };
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
@@ -89,7 +92,13 @@ class EventNew6 extends Component<Props, State> {
               <i className="arrow up"></i>
             )}
           </p>
-          {this.state.expandCreate ? <EditEventTickets /> : null}
+          {this.state.expandCreate ? (
+            <EditTickets
+              updateParent={() => {
+                this.update();
+              }}
+            />
+          ) : null}
         </div>
         <div className="form-group text-center ml-5 mr-5">
           <p>
