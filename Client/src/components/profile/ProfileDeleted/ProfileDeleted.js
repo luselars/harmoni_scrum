@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
+//Confirmation page when profile is deleted
 export default class ProfileDeleted extends Component<{}, {}> {
   render() {
     return (
