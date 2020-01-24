@@ -37,7 +37,7 @@ export default class ProfileNew extends Component<
       organiser: false,
       check: false,
       address: '',
-      streetAddress: null,
+      streetAddress: '',
       postalcode: null,
       postal: '',
       image: null,
