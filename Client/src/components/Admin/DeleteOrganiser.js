@@ -29,7 +29,7 @@ export default class DeleteOrganiser extends Component<{}, State> {
       return (
         <div>
           <div className="card display-4 text-center" id="admincard">
-            Administrer
+            Slett brukere
           </div>
           {this.state.organiser.map(org => (
             <div className="card" id="admincard">

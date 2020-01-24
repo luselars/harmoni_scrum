@@ -29,7 +29,7 @@ export default class Admin extends Component<{}, State> {
       return (
         <div>
           <div className="card display-4 text-center" id="admincard">
-            Administrer
+            Godkjenn arrangører
           </div>
           {this.state.requests.map(req => (
             <div className="card" id="admincard">
@@ -84,5 +84,6 @@ export default class Admin extends Component<{}, State> {
   /**Verifies new organisers*/
   accept(id: number) {
     AdminService.verify(id);
+    window.location.reload();
   }
 }
