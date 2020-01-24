@@ -34,7 +34,7 @@ class EditPersonnel extends Component<Props, State> {
   }
   render() {
     return (
-      <form onSubmit={event => this.createType()}>
+      <form onSubmit={event => this.createType(event)}>
         <h4 className="text-center my-3">Knytt personell til arrangementet: </h4>
         <label>Legg til personelltype:</label>
         <p id="alert" style={{ color: 'red' }} hidden="true">
@@ -96,7 +96,8 @@ class EditPersonnel extends Component<Props, State> {
   }
 
   /**Creates personnel type*/
-  createType() {
+  createType(e: any) {
+    e.preventDefault();
     // Opprett personellgruppe her
     if (
       this.state.new_type === null ||
@@ -106,12 +107,14 @@ class EditPersonnel extends Component<Props, State> {
       document.getElementById('alert').hidden = false;
       return;
     }
-    OrganiserService.addVolunteerType(this.state.new_type).then(response => {
-      // TODO gi alert om at type er lagt til
-      alert('234');
-      this.props.updateParent();
-      this.componentDidMount();
-    });
+    OrganiserService.addVolunteerType(this.state.new_type)
+      .then(response => {
+        // TODO gi alert om at type er lagt til
+
+        this.props.updateParent();
+        this.componentDidMount();
+      })
+      .catch(err => {});
   }
 }
 export default EditPersonnel;
