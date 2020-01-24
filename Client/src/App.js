@@ -15,6 +15,7 @@ import Profile from './components/profile/Profile/Profile';
 import LoggedIn from './views/loggedIn';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import Admin from './components/Admin/Admin';
+import DeleteOrganiser from './components/Admin/DeleteOrganiser';
 import Feedback from './components/Feedback/Feedback';
 import ForgottenPassword from './components/ForgottenPassword/ForgottenPassword';
 import ForgottenPasswordRegistered from './components/ForgottenPassword/ForgottenPasswordRegistered';
@@ -59,6 +60,7 @@ function App() {
           <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />
+          <Route exaxt path="/deleteuser" component={DeleteOrganiser} />
           <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
