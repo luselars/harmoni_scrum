@@ -16,6 +16,10 @@ let dao = new adminDao(
 );
 let router = express.Router();
 
+router.changeDao = function changeDao(adminDao: adminDao) {
+  dao = adminDao;
+};
+
 // Middleware for admin activities
 router.use('', (req, res, next) => {
   var token = req.headers['x-access-token'];
