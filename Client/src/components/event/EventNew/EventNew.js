@@ -32,14 +32,12 @@ class EventNew extends Component<Props, State> {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
-      // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
-        // TODO olava fiks så switch oppdateres.
         this.insertTime();
       });
     }
@@ -92,7 +90,6 @@ class EventNew extends Component<Props, State> {
                 (this.state.event.description = event.target.value)
               }
             />
-            {/*TODO Sett opp så det er mulig å velge tidspunkt også*/}
             <label id="eventdatestart" htmlFor="start">
               Starttidspunkt
             </label>
@@ -117,11 +114,6 @@ class EventNew extends Component<Props, State> {
               onChange={() => this.updateTime()}
               required
             />
-            {/*<TimeField
-              id="start_time"
-              style={{ width: '100px' }}
-              onChange={() => this.updateTime()}
-            />*/}
             <label id="eventdateend" htmlFor="end">
               Sluttidspunkt
             </label>
@@ -146,12 +138,6 @@ class EventNew extends Component<Props, State> {
               onChange={() => this.updateTime()}
               required
             />
-            {/*
-            <TimeField
-              id="end_time"
-              style={{ width: '100px' }}
-              onChange={() => this.updateTime()}
-            />*/}
             <label>
               Privat status
               <MoreInfo
@@ -205,14 +191,6 @@ class EventNew extends Component<Props, State> {
           <button type="submit" className="btn btn-success w-50 m-2 " id="nextbtn">
             Neste
           </button>
-          <button
-            onClick={() => this.ny()}
-            type="button"
-            className="btn btn-secondary w-50 m-2  "
-            id="nextbtn"
-          >
-            Avbryt??
-          </button>
         </div>
       </form>
     );
@@ -234,6 +212,7 @@ class EventNew extends Component<Props, State> {
   }
 
   insertTime() {
+    alert(this.state.event.start);
     let start_date = document.getElementById('start');
     let end_date = document.getElementById('end');
     if (this.state.event.start != null) {
@@ -268,12 +247,6 @@ class EventNew extends Component<Props, State> {
     if (end_date !== '') {
       this.state.event.end = end_date + ' ' + end_time + ':00';
     }
-  }
-  //debug-metode, slett etter hvert
-  // TODO delete
-  ny() {
-    localStorage.removeItem('curr_event');
-    window.location = '/editevent';
   }
   next(event) {
     event.preventDefault();

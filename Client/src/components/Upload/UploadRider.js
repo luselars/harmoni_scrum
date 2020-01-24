@@ -17,6 +17,7 @@ type Props = {
 type State = {
   value: any,
 };
+/**A Component for uploading rider pdf files */
 class UploadRider extends Component<Props, State> {
   file = '';
   constructor(props: any) {
@@ -45,12 +46,14 @@ class UploadRider extends Component<Props, State> {
       </div>
     );
   }
-  upload(element) {
+
+  /**Takes inn an html element and checks its value for a pdf file, if one is found it is uploaded to the server and connected to the user/organiser */
+  upload(element: HTMLInputElement) {
     let value = element.value;
     console.log(element.value);
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let ext = path.extname(value);
-    if (ext !== '.pdf') {
+    if (ext.toLowerCase() !== '.pdf') {
       alert('Ikke gyldig filtype (.pdf)');
       return;
     }
@@ -62,8 +65,6 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
-
-
         console.log(that.props.organiser);
         // send here
         if (that.props.organiser) {

@@ -37,8 +37,8 @@ export default class EventList extends Component<Props, State> {
     super(props);
     let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
     let sortAlt = ['', ''];
-    let minprice = null;
-    let maxprice = 99999999999;
+    let minprice = '';
+    let maxprice = '';
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
     if (localStorage.getItem('minprice') != null)
@@ -186,7 +186,8 @@ export default class EventList extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <div className="input-group my-3 " id="searchBox">
+        {!this.props.profile_list ? <div></div> : <p className="display-4">Dine arrangementer</p>}
+        <div className="input-group my-3" id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
@@ -197,8 +198,8 @@ export default class EventList extends Component<Props, State> {
               className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Søk"
+              aria-label="Søk"
             />
           </div>
         </div>
@@ -207,6 +208,7 @@ export default class EventList extends Component<Props, State> {
           handleFilterChange={this.handleFilterChange.bind(this)}
           handleFilterAlternativChange={this.handleFilterAlternativChange.bind(this)}
           handleFilterPriceChange={this.handleFilterPriceChange.bind(this)}
+          profile_list={this.props.profile_list}
         />
         <div>
           {this.state.events.map((event, index) =>
@@ -361,9 +363,13 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       } else {
         //Gets mye event if the user is not an ograniser
-        UserService.getMyEvents()
-          .then(events => {
-            this.insertEvents(events);
+        UserService.getMyEventsArtist()
+          .then(aEvents => {
+            UserService.getMyEventsVolunteer()
+              .then(vEvents => {
+                this.insertUserEvents(aEvents, vEvents);
+              })
+              .catch((error: Error) => alert(error.message));
           })
           .catch((error: Error) => alert(error.message));
       }
@@ -408,12 +414,61 @@ export default class EventList extends Component<Props, State> {
     this.getFilterStateFromLocalStorage();
   }
 
+  //Inserts event to the eventlist
+  insertUserEvents(aEvents: Object, vEvents: Object) {
+    var today = new Date();
+    var time = today.getTime();
+    var oldEvents = [];
+    var canceledEvents = [];
+    var upcommingEvents = [];
+    for (var i = 0; i < aEvents.data.length; i++) {
+      let jsDate = new Date(aEvents.data[i].end);
+      aEvents.data[i].name = 'Artist: ' + aEvents.data[i].name;
+      if (time > jsDate.getTime()) {
+        aEvents.data[i].old = true;
+        oldEvents.push(aEvents.data[i]);
+      } else if (aEvents.data[i].cancel === 1) {
+        aEvents.data[i].old = false;
+        canceledEvents.push(aEvents.data[i]);
+      } else {
+        aEvents.data[i].old = false;
+        upcommingEvents.push(aEvents.data[i]);
+      }
+    }
+    for (var i = 0; i < vEvents.data.length; i++) {
+      console.log(vEvents.data[i]);
+      let jsDate = new Date(vEvents.data[i].end);
+      vEvents.data[i].name = vEvents.data[i].name + ': ' + vEvents.data[i].event_name;
+      if (time > jsDate.getTime()) {
+        vEvents.data[i].old = true;
+        oldEvents.push(vEvents.data[i]);
+      } else if (vEvents.data[i].cancel === 1) {
+        vEvents.data[i].old = false;
+        canceledEvents.push(vEvents.data[i]);
+      } else {
+        vEvents.data[i].old = false;
+        upcommingEvents.push(vEvents.data[i]);
+      }
+    }
+    this.setState({
+      oldEvents: oldEvents,
+      upcommingEvents: upcommingEvents,
+      canceledEvents: canceledEvents,
+      events: upcommingEvents,
+      pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
+    });
+    this.fuse = new Fuse(upcommingEvents, options);
+    this.getFilterStateFromLocalStorage();
+  }
+
   getFilterStateFromLocalStorage() {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
-    this.handleFilterPriceChange(this.state.minprice, 'min');
-    this.handleFilterPriceChange(this.state.maxprice, 'max');
+    if (!isNaN(this.state.minprice) && this.state.minprice != '')
+      this.handleFilterPriceChange(this.state.minprice, 'min');
+    if (!isNaN(this.state.maxprice) && this.state.maxprice != '')
+      this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {

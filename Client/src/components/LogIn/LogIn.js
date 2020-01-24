@@ -93,7 +93,9 @@ export default class LogIn extends Component<{}, { email: string, password: stri
         console.log('Response: ' + response.data.jwt);
         localStorage.setItem('token', response.data.jwt);
         localStorage.setItem('userType', response.data.type);
-        window.location = '/profile';
+        response.data.type == 'admin'
+          ? (window.location = '/admin')
+          : (window.location = '/profile');
       })
       //Catches errors and sets alert
       .catch(error => {

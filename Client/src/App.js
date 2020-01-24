@@ -13,7 +13,6 @@ import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import Profile from './components/profile/Profile/Profile';
 import LoggedIn from './views/loggedIn';
-import ProfileUser from './components/profile/ProfileUser/ProfileUser';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
@@ -23,6 +22,7 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
+import EditTickets from './components/event/EventNew/EditTickets';
 
 const NoMatch = () => (
   <div className="card" id="NotFound">
@@ -47,13 +47,12 @@ function App() {
           <Route exact path="/editevent" render={props => <EditEvent {...props} edit={true} />} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/profile/user" component={ProfileUser} />
           <Route exact path="/editprofile/organiser" component={ProfileEdit} />
           <Route exact path="/editprofile/user" component={ProfileEditUser} />
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/events" component={LoggedIn} />
           <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />

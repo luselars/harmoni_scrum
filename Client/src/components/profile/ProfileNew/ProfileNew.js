@@ -6,6 +6,7 @@ import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
 let path = require('path');
 
+//Component for creating a new profile
 export default class ProfileNew extends Component<
   {},
   {
@@ -50,7 +51,9 @@ export default class ProfileNew extends Component<
       <div id="profileOrganiserCard" className="card mb-4">
         <div className="card-body bg-light">
           <form onSubmit={e => this.post(e)}>
-            <h2 className="display-4 text-uppercase text-center m-2 border-bottom">REGISTRER</h2>
+            <h2 className="display-4 text-uppercase text-center m-2 border-bottom">
+              Opprett profil
+            </h2>
             <div
               id="error-message"
               style={{ visibility: 'hidden' }}
@@ -75,6 +78,9 @@ export default class ProfileNew extends Component<
               <label for="inputEmail1" id="registerText">
                 E-post*
               </label>
+              <p id="alert" style={{ color: 'red' }} hidden="true">
+                Eposten er allerede i bruk
+              </p>
               <input
                 type="email"
                 onChange={event => this.handleChange(event)}
@@ -119,6 +125,9 @@ export default class ProfileNew extends Component<
               <label for="inputPasswordRepeat1" id="loginText">
                 Bekreft passord*
               </label>
+              <p id="alertpassword" style={{ color: 'red' }} hidden="true">
+                Passord stemmer ikke overens
+              </p>
               <input
                 type="password"
                 minlength="8"
@@ -243,7 +252,7 @@ export default class ProfileNew extends Component<
                 name="recfile"
               />
             </div>
-            <div class="form-check ml-5 mr-5">
+            <div className="form-check ml-5 mr-5">
               <input
                 type="checkbox"
                 onChange={event => this.handleChange(event)}
@@ -251,7 +260,7 @@ export default class ProfileNew extends Component<
                 id="check2"
                 required
               ></input>
-              <label class="form-check-label" for="check2">
+              <label className="form-check-label" for="check2">
                 Jeg godkjenner vilkårene
               </label>
             </div>
@@ -274,7 +283,10 @@ export default class ProfileNew extends Component<
     });
   }
 
+  //Creates profile and gives feedback
   post(event: any) {
+    document.getElementById('alertpassword').hidden = true;
+    document.getElementById('alert').hidden = true;
     event.preventDefault();
     this.setState({
       address: this.state.streetAddress + '#' + this.state.postalcode + '#' + this.state.postal,
@@ -288,7 +300,6 @@ export default class ProfileNew extends Component<
             let fullPath: any = element.value;
             let ext = path.extname(fullPath);
             if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-              //TODO change alert
               alert('Ikke gyldig filtype');
               return;
             }
@@ -299,6 +310,7 @@ export default class ProfileNew extends Component<
               'load',
               function() {
                 state2.image = reader.result;
+
                 PublicService.registerNewUser(state2)
                   .then(response => {
                     PublicService.logIn(state2.email, state2.password).then(response2 => {
@@ -316,7 +328,7 @@ export default class ProfileNew extends Component<
             if (file) {
               reader.readAsDataURL(file);
             } else {
-              console.log(this.state);
+              //Register the new user
               PublicService.registerNewUser(this.state)
                 .then(response => {
                   PublicService.logIn(this.state.email, this.state.password).then(response => {
@@ -344,11 +356,15 @@ export default class ProfileNew extends Component<
               });
           }
         } else {
-          alert('Eposten er allerede i bruk');
+          //Gives alert if the email is already taken
+          document.getElementById('alert').hidden = false;
+          window.scrollTo(0, 0);
         }
       });
     } else {
-      alert('Passord matcher ikke');
+      //Gives alert if the password to not match
+      document.getElementById('alertpassword').hidden = false;
+      window.scrollTo(0, 0);
     }
   }
 }
