@@ -1,5 +1,5 @@
 import './modelDao';
-import { Event, Organiser, User } from './modelDao';
+import { Event } from './modelDao';
 const Dao = require('./dao.js');
 
 module.exports = class PublicDao extends Dao {
