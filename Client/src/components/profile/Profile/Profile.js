@@ -87,7 +87,9 @@ export default class Profile extends Component<Props, State> {
                     <th className="text-right" scope="row">
                       Nettside:
                     </th>
-                    <td className="text-left">{this.state.userType.website}</td>
+                    <td className="text-left">
+                      <a href={this.state.userType.website}>{this.state.userType.website}</a>
+                    </td>
                   </tr>
                 ) : (
                   <div></div>
