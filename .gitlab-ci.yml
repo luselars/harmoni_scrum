@@ -17,5 +17,4 @@ run_tests:
   script:
     - npm install -g flow-bin
     - cd Server && npm install && npm test && flow check src
-    - cd ../Client && npm install && flow check src
-    # && npm test
+    - cd ../Client && npm install && npm test && flow check src
