@@ -85,7 +85,7 @@ export default class Menu extends Component<{}, State> {
             )}
             {this.state.userType == 'admin' ? (
               <a className="nav-link text-light" id="profileButton" href="/deleteuser">
-                Slett arrangører <i className="fa fa-times fa-lg" />
+                Slett bruker <i className="fa fa-times fa-lg" />
                 <span className="sr-only" />
               </a>
             ) : (
