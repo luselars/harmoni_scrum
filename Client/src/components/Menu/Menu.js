@@ -36,13 +36,17 @@ export default class Menu extends Component<{}, { status: boolean }> {
         {/*Customizes the navbar to logged in status*/}
         {this.state.status ? (
           <form className="loginGroup">
-            <a className="nav-link text-light" id="homeButton" href="/">
+            <a
+              className="nav-link text-light"
+              id="homeButton"
+              href="/"
+              style={{ cursor: 'pointer' }}
+            >
               Hjem <i className="fa fa-home fa-lg" />
               <span className="sr-only" />
             </a>
             <a className="nav-link text-light" id="loginButton" href="/login">
-              Logg inn{' '}
-              <i className="fa fa-sign-in fa-lg" style={{ color: 'white' }} aria-hidden="true" />
+              Logg inn <i className="fa fa-sign-in fa-lg" style={{ cursor: 'pointer' }} />
               <span className="sr-only" />
             </a>
           </form>
@@ -67,6 +71,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
                 className="nav-link text-light"
                 style={{ cursor: 'pointer' }}
                 id="eventButton"
+                href="/newevent"
                 onClick={() => {
                   localStorage.removeItem('curr_event');
                   window.location = '/newevent';
@@ -82,9 +87,14 @@ export default class Menu extends Component<{}, { status: boolean }> {
               Profil <i className="fa fa-user fa-lg" />
               <span className="sr-only" />
             </a>
-            <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
-              Logg ut{' '}
-              <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} aria-hidden="true" />
+            <a
+              className="nav-link text-light"
+              id="loginButton"
+              href="/"
+              onClick={() => this.logOut()}
+              style={{ cursor: 'pointer' }}
+            >
+              Logg ut <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} />
               <span className="sr-only" />
             </a>
           </form>
