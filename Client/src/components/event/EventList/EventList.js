@@ -365,6 +365,7 @@ export default class EventList extends Component<Props, State> {
         //Gets mye event if the user is not an ograniser
         UserService.getMyEventsArtist()
           .then(aEvents => {
+            console.log(aEvents);
             UserService.getMyEventsVolunteer()
               .then(vEvents => {
                 this.insertUserEvents(aEvents, vEvents);

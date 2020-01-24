@@ -186,7 +186,7 @@ module.exports = class UserDao extends Dao {
    */
   getMyEventsArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
+      'SELECT e.*,DATE_FORMAT(e.end, "%Y-%m-%d %H:%i") as end_format, DATE_FORMAT(e.start, "%Y-%m-%d %H:%i") as start_format, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
       [user_id],
       callback,
     );
