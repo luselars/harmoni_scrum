@@ -70,22 +70,22 @@ class EventNew7 extends Component<Props, State> {
     return (
       <div className="row justify-content-center">
         <div className="col-md-10">
-          <label
+          <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
               this.toggleExpandCreate();
             }}
             className="text-center"
           >
-            Endre dine personelltyper
+            <button className="btn btn-success w-50 mb-2">Endre dine personelltyper</button>
             <br />
-            <br />
+
             {this.state.expandCreate ? (
               <i className="arrow down text-center"></i>
             ) : (
               <i className="arrow up text-center"></i>
             )}
-          </label>
+          </div>
           {this.state.expandCreate ? (
             <EditPersonnel
               updateParent={() => {
@@ -97,73 +97,93 @@ class EventNew7 extends Component<Props, State> {
           <h4 className="text-center">Knytt personell til arrangementet </h4>
           <label className="text-center">Inviter personell til arrangementet:</label>
           <div className="row">
-            <input
-              onChange={e => {
-                this.setState({ new_person: e.target.value });
-              }}
-              className="form-control col-7"
-              placeholder={'E-post'}
-              type="text"
-            />
-            <select
-              onChange={e => {
-                console.log(e.target.value);
-                this.state.invite = e.target.value;
-              }}
-              className="form-control"
-            >
-              {this.state.my_types.map(type => (
-                <option value={type.volunteer_type_id}>{type.name}</option>
-              ))}
-            </select>
-            {/*<Autocomplete*/}
-            {/*  options={this.state.my_types}*/}
-            {/*  className="col-5"*/}
-            {/*  onChange={(e, value) => {*/}
-            {/*    this.state.invite = value;*/}
-            {/*  }}*/}
-            {/*  getOptionLabel={pers => pers.name}*/}
-            {/*  style={{ width: 300 }}*/}
-            {/*  renderInput={params => (*/}
-            {/*    <TextField*/}
-            {/*      {...params}*/}
-            {/*      className="form-control"*/}
-            {/*      label="Velg personelltype"*/}
-            {/*      variant="outlined"*/}
-            {/*      fullWidth*/}
-            {/*    />*/}
-            {/*  )}*/}
-            {/*/>*/}
-            <button onClick={() => this.invitePerson()}>Inviter</button>
+            <div className="col-sm-4">
+              <label>Type:</label>
+              <select
+                onChange={e => {
+                  this.state.invite = e.target.value;
+                }}
+                className="form-control"
+              >
+                {this.state.my_types.map(type => (
+                  <option value={type.volunteer_type_id}>{type.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-sm-8">
+              <label>E-mail:</label>
+              <input
+                onChange={e => {
+                  this.setState({ new_person: e.target.value });
+                }}
+                className="form-control"
+                placeholder={'Skriv e-mail...'}
+                type="text"
+              />
+            </div>
           </div>
+          <button
+            onClick={() => this.invitePerson()}
+            className="btn btn-success w-25 m-2 d-block mx-auto"
+          >
+            Inviter
+          </button>
+          <div className="border-bottom m-5"></div>
           <div>
-            <p>Mitt personell</p>
+            <h4 className="text-center">Mitt personell:</h4>
             {this.state.my_types.map(type => (
               <span>
                 {this.state.personnel.filter(c => c.volunteer_type === type.name).length > 0 ? (
-                  <span>
-                    <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{type.name}:</p>
-                    {this.state.personnel
-                      .filter(c => c.volunteer_type === type.name)
-                      .map(p => (
-                        <p>
-                          {p.email}
-                          <button onClick={() => this.removePerson(p.user_id)}>Fjern</button>
-                        </p>
-                      ))}
-                  </span>
+                  <div className="row justify-content-center">
+                    <table className="table table-bordered text-center my-4 col-md-10">
+                      <thead className="thead-light">
+                        <tr>
+                          <th className="col">{type.name}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.personnel
+                          .filter(c => c.volunteer_type === type.name)
+                          .map(p => (
+                            <tr>
+                              <th>
+                                <p className="float-left">{p.email}</p>
+                                <button
+                                  onClick={() => this.removePerson(p.user_id)}
+                                  className="btn btn-seacondary float-right"
+                                >
+                                  <i
+                                    className="fa fa-trash m-0"
+                                    placeholder="slett"
+                                    aria-hidden="true"
+                                  ></i>
+                                  Fjern
+                                </button>
+                              </th>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : null}
               </span>
             ))}
           </div>
-          <div>
-            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-              Tilbake
-            </button>
-            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-              Fullfør
-            </button>
-          </div>
+
+          <button
+            onClick={() => this.next()}
+            className="btn btn-success w-25 m-2 d-block mx-auto"
+            id="nextbtn"
+          >
+            Fullfør
+          </button>
+          <button
+            onClick={() => this.back()}
+            className="btn btn-secondary w-25 m-2 d-block mx-auto"
+            id="backbtn"
+          >
+            Tilbake
+          </button>
         </div>
       </div>
     );
