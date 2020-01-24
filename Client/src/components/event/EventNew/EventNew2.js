@@ -27,12 +27,9 @@ class EventNew2 extends Component<Props, State> {
    */
   componentDidMount() {
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(data);
         this.setState({ event: data });
-        console.log(this.state.event);
         this.formatTime();
         this.loadImage();
       });
