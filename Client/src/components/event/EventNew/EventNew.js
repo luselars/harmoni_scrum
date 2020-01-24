@@ -124,7 +124,8 @@ class EventNew extends Component<Props, State> {
               ref="start"
               name="start"
               defaultValue={this.today()}
-              max="2023-12-31"
+              min={this.today()}
+              max={this.inThirtyYears()}
               onChange={event => {
                 this.setState({ start_d: event.target.value });
               }}
@@ -153,7 +154,8 @@ class EventNew extends Component<Props, State> {
               id="end"
               name="end"
               defaultValue={this.today()}
-              max="2023-12-31"
+              min={this.today()}
+              max={this.inThirtyYears()}
               onChange={event => {
                 this.setState({ end_d: event.target.value });
               }}
@@ -234,6 +236,14 @@ class EventNew extends Component<Props, State> {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
+    return yyyy + '-' + mm + '-' + dd;
+  }
+
+  inThirtyYears() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear() + 30;
     return yyyy + '-' + mm + '-' + dd;
   }
 
