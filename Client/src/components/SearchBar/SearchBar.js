@@ -5,6 +5,7 @@ import './stylesheet.css';
 import { OrganiserService } from '../../services/organiserService';
 import { PublicService } from '../../services/publicService';
 
+//Component for the search function
 export default class SearchBar extends Component<{}, { search: string }> {
   constructor(props: any) {
     super(props);
@@ -43,6 +44,7 @@ export default class SearchBar extends Component<{}, { search: string }> {
     console.log(this.state.search);
   }
 
+  //Sends search text to the database and returns the result
   post() {
     if (this.state.search.length !== 0) {
       PublicService.searchEvent('#' + this.state.search + '#').then();

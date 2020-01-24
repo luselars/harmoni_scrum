@@ -13,7 +13,6 @@ import ProfileEdit from './components/profile/ProfileEdit/ProfileEdit';
 import ProfileEditUser from './components/profile/ProfileEdit/ProfileEditUser';
 import Profile from './components/profile/Profile/Profile';
 import LoggedIn from './views/loggedIn';
-import ProfileUser from './components/profile/ProfileUser/ProfileUser';
 import EventDeleted from './components/event/EventDeleted/EventDeleted';
 import Admin from './components/Admin/Admin';
 import Feedback from './components/Feedback/Feedback';
@@ -48,7 +47,6 @@ function App() {
           <Route exact path="/editevent" render={props => <EditEvent {...props} edit={true} />} />
           <Route exact path="/register" component={ProfileNew} />
           <Route exact path="/profile" component={Profile} />
-          <Route exact path="/profile/user" component={ProfileUser} />
           <Route exact path="/editprofile/organiser" component={ProfileEdit} />
           <Route exact path="/editprofile/user" component={ProfileEditUser} />
           <Route exact path="/profile/summary" component={LoggedIn} />
