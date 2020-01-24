@@ -84,8 +84,8 @@ export default class EventList extends Component<Props, State> {
 
   //Sorts events by date
   compareChronologically(a, b) {
-    let aDate = new Date(a.start);
-    let bDate = new Date(b.start);
+    let aDate = new Date(a.start_format);
+    let bDate = new Date(b.start_format);
     if (aDate < bDate) {
       return -1;
     }
@@ -228,8 +228,8 @@ export default class EventList extends Component<Props, State> {
                     <div className="row justify-content-md-center align-items-center">
                       {event.cancel === 0 ? (
                         <div id="date" className="col-2 text-center">
-                          <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                          <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                          <h3 className="datenumber">{event.start_format.slice(8, 10)}</h3>
+                          <h3 className="datemonth">{dates[event.start_format.slice(5, 7) - 1]}</h3>
                         </div>
                       ) : (
                         <div id="date" className="col-2 text-center">
@@ -241,7 +241,7 @@ export default class EventList extends Component<Props, State> {
 
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
-                          {event.start.slice(11, 16)}
+                          {event.start_format.slice(11, 16)}
                         </p>
                         <p className="eventlistp">
                           <a className="eventdescription">Sted: </a>
@@ -363,9 +363,13 @@ export default class EventList extends Component<Props, State> {
           .catch((error: Error) => alert(error.message));
       } else {
         //Gets mye event if the user is not an ograniser
-        UserService.getMyEvents()
-          .then(events => {
-            this.insertEvents(events);
+        UserService.getMyEventsArtist()
+          .then(aEvents => {
+            UserService.getMyEventsVolunteer()
+              .then(vEvents => {
+                this.insertUserEvents(aEvents, vEvents);
+              })
+              .catch((error: Error) => alert(error.message));
           })
           .catch((error: Error) => alert(error.message));
       }
@@ -387,7 +391,7 @@ export default class EventList extends Component<Props, State> {
     var canceledEvents = [];
     var upcommingEvents = [];
     for (var i = 0; i < events.data.length; i++) {
-      let jsDate = new Date(events.data[i].end);
+      let jsDate = new Date(events.data[i].end_format);
       if (time > jsDate.getTime()) {
         events.data[i].old = true;
         oldEvents.push(events.data[i]);
@@ -397,6 +401,53 @@ export default class EventList extends Component<Props, State> {
       } else {
         events.data[i].old = false;
         upcommingEvents.push(events.data[i]);
+      }
+    }
+    this.setState({
+      oldEvents: oldEvents,
+      upcommingEvents: upcommingEvents,
+      canceledEvents: canceledEvents,
+      events: upcommingEvents,
+      pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
+    });
+    this.fuse = new Fuse(upcommingEvents, options);
+    this.getFilterStateFromLocalStorage();
+  }
+
+  //Inserts event to the eventlist
+  insertUserEvents(aEvents: Object, vEvents: Object) {
+    var today = new Date();
+    var time = today.getTime();
+    var oldEvents = [];
+    var canceledEvents = [];
+    var upcommingEvents = [];
+    for (var i = 0; i < aEvents.data.length; i++) {
+      let jsDate = new Date(aEvents.data[i].end);
+      aEvents.data[i].name = 'Artist: ' + aEvents.data[i].name;
+      if (time > jsDate.getTime()) {
+        aEvents.data[i].old = true;
+        oldEvents.push(aEvents.data[i]);
+      } else if (aEvents.data[i].cancel === 1) {
+        aEvents.data[i].old = false;
+        canceledEvents.push(aEvents.data[i]);
+      } else {
+        aEvents.data[i].old = false;
+        upcommingEvents.push(aEvents.data[i]);
+      }
+    }
+    for (var i = 0; i < vEvents.data.length; i++) {
+      console.log(vEvents.data[i]);
+      let jsDate = new Date(vEvents.data[i].end);
+      vEvents.data[i].name = vEvents.data[i].name + ': ' + vEvents.data[i].event_name;
+      if (time > jsDate.getTime()) {
+        vEvents.data[i].old = true;
+        oldEvents.push(vEvents.data[i]);
+      } else if (vEvents.data[i].cancel === 1) {
+        vEvents.data[i].old = false;
+        canceledEvents.push(vEvents.data[i]);
+      } else {
+        vEvents.data[i].old = false;
+        upcommingEvents.push(vEvents.data[i]);
       }
     }
     this.setState({

@@ -21,20 +21,45 @@ let adminRoutes = require('./routes/adminRoutes');
 let app = express();
 
 // Max file size set to 50mb for uploaded files.
+
+/**
+ * Sets max upload size of files to the limit
+ */
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
+/**
+ * Sets max upload size of files to the limit
+ */
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-// CORS
+/**
+ * Makes the application use CORS.
+ */
 app.use(cors());
+/**
+ * CORS Options.
+ */
 app.options('*', cors());
 
-// Dependencies
+/**
+ * Dependencies used by the server.
+ */
 app.use(express.json()); // For parsing application/json
 
-// Initiate routes
+/**
+ * Public routing used by the server.
+ */
 app.use('/public/', publicRoutes);
+/**
+ * Organiser routing used by the server.
+ */
 app.use('/organiser/', organiserRoutes);
+/**
+ * User routing used by the server.
+ */
 app.use('/user/', userRoutes);
+/**
+ * Admin routing used by the server.
+ */
 app.use('/admin/', adminRoutes);
 
 let server = app.listen(PORT);

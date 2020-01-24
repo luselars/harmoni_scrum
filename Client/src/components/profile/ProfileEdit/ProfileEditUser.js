@@ -57,7 +57,7 @@ class ProfileEditUser extends Component<{}, State> {
             </div>
           </div>
         </div>
-        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+        <form onSubmit={e => this.post(e)} className="card mb-4" id="editProfile">
           <div className="card-body m-2 m-md-5 text-center">
             <p className="display-4"> REDIGER PROFIL </p>
             {this.state.image === undefined || this.state.image === null ? (

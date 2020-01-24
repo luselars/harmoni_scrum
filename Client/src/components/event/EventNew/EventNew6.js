@@ -46,7 +46,6 @@ class EventNew6 extends Component<Props, State> {
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        this.formatTime();
         // Get tickets tied to event
         OrganiserService.getTickets(this.state.event.event_id).then(response => {
           this.setState({ event_tickets: response.data });
@@ -231,18 +230,6 @@ class EventNew6 extends Component<Props, State> {
         console.log(r);
         this.componentDidMount();
       });
-    }
-  }
-  formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
     }
   }
   back() {

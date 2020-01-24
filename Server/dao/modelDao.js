@@ -1,6 +1,8 @@
 //@flow
 
-// Object for sending Event
+/**
+ * Object for sending Event
+ */
 export class Event {
   constructor(name: string) {
     this.name = name;
@@ -24,7 +26,9 @@ export class Event {
   postcode: number;
 }
 
-// Object for sending Location
+/**
+ * Object for sending Location
+ */
 export class Location {
   constructor(name: string, postcode: number, address: string) {
     this.name = name;
@@ -38,7 +42,9 @@ export class Location {
   location_id: number = 0;
 }
 
-// Object for sending User
+/**
+ * Object for sending User
+ */
 export class User {
   constructor() {
     this.user_id = null;
@@ -60,7 +66,9 @@ export class User {
   description: ?string;
 }
 
-// Object for sending Artist
+/**
+ * Object for sending Artist
+ */
 export class Artist {
   constructor(user_id: number, artist_name: string) {
     this.user_id = user_id;
@@ -72,7 +80,9 @@ export class Artist {
   description: string;
 }
 
-// Object for sending Organiser
+/**
+ * Object for sending Organiser
+ */
 export class Organiser {
   constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
@@ -91,7 +101,9 @@ export class Organiser {
   eventsComing: number;
 }
 
-// Object for sending ticket type
+/**
+ * Object for sending Ticket Type
+ */
 export class TicketType {
   constructor(name: string) {
     this.name = name;
