@@ -26,41 +26,38 @@ export default class Menu extends Component<{}, { status: boolean }> {
         <a className="navbar-brand text-light" id="title" href="/">
           HARMONI
         </a>
-        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"></link>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        ></link>
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        ></link>
+        />
         {this.state.status ? (
           <form className="loginGroup">
             <a className="nav-link text-light" id="homeButton" href="/">
-              Hjem <i className="fa fa-home fa-lg"></i>
-              <span className="sr-only"></span>
+              Hjem <i className="fa fa-home fa-lg" />
+              <span className="sr-only" />
             </a>
             <a className="nav-link text-light" id="loginButton" href="/login">
               Logg inn{' '}
-              <i className="fa fa-sign-in fa-lg" style={{ color: 'white' }} aria-hidden="true"></i>
-              <span className="sr-only"></span>
+              <i className="fa fa-sign-in fa-lg" style={{ color: 'white' }} aria-hidden="true" />
+              <span className="sr-only" />
             </a>
           </form>
         ) : (
           <div className="loginGroup" id="toggler-div">
-            <button class="navbar-toggler" type="button" onClick={() => this.collapse()}>
-              <span class="navbar-toggler-icon"></span>
+            <button className="navbar-toggler" type="button" onClick={() => this.collapse()}>
+              <span className="navbar-toggler-icon" />
             </button>
           </div>
         )}
         {this.state.status ? (
-          <div></div>
+          <div />
         ) : (
           <form id="navbarSupportedContent" className="loginGroup">
             <a className="nav-link text-light" id="homeButton" href="/">
-              Hjem <i className="fa fa-home fa-lg"></i>
-              <span className="sr-only"></span>
+              Hjem <i className="fa fa-home fa-lg" />
+              <span className="sr-only" />
             </a>
             {this.state.userType == 'organiser' ? (
               <a
@@ -72,20 +69,20 @@ export default class Menu extends Component<{}, { status: boolean }> {
                   window.location = '/newevent';
                 }}
               >
-                Opprett arrangement <i className="fa fa-plus-circle fa-lg"></i>
-                <span className="sr-only"></span>
+                Opprett arrangement <i className="fa fa-plus-circle fa-lg" />
+                <span className="sr-only" />
               </a>
             ) : (
-              <div></div>
+              <div />
             )}
             <a className="nav-link text-light" id="profileButton" href="/profile">
-              Profil <i className="fa fa-user fa-lg"></i>
-              <span className="sr-only"></span>
+              Profil <i className="fa fa-user fa-lg" />
+              <span className="sr-only" />
             </a>
             <a className="nav-link text-light" id="loginButton" onClick={() => this.logOut()}>
               Logg ut{' '}
-              <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} aria-hidden="true"></i>
-              <span className="sr-only"></span>
+              <i className="fa fa-sign-out fa-lg" style={{ color: 'white' }} aria-hidden="true" />
+              <span className="sr-only" />
             </a>
           </form>
         )}
