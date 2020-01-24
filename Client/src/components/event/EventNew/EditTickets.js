@@ -37,16 +37,21 @@ class EditTickets extends Component<Props, State> {
   render() {
     return (
       <div>
-        <div>
+        <form onSubmit={event => this.createTicket(event)}>
           <h4 className="text-center">Opprett billettype:</h4>
+          <p id="alert" style={{ color: 'green' }} hidden="true">
+            Billettype lagt til
+          </p>
           <label className="my-3">Billettnavn</label>
           <input
             onChange={e => {
               this.setState({ new_ticket: e.target.value });
             }}
+            value={this.state.new_ticket}
             className="form-control w-100"
             placeholder="Skriv billetnavn..."
             type="text"
+            required
           />
           <label className="my-3">Billettbeskrivelse</label>
           <input
@@ -58,16 +63,15 @@ class EditTickets extends Component<Props, State> {
             type="text"
           />
           <div className="row justify-content-center">
-            <button
-              onClick={() => this.createTicket()}
-              type="button"
-              className="btn btn-success col-sm-3 m-2"
-            >
+            <button type="submit" className="btn btn-success col-sm-3 m-2">
               Opprett
             </button>
           </div>
           <div>
             <h4 className="text-center">Slett billettype:</h4>
+            <p id="alertdeleted" style={{ color: 'green' }} hidden="true">
+              Billettype slettet
+            </p>
             <select
               onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
               className="form-control w-100 my-2"
@@ -85,7 +89,7 @@ class EditTickets extends Component<Props, State> {
               </button>
             </div>
           </div>
-        </div>
+        </form>
         <div className="border-bottom border-dark border-5 m-5"></div>
       </div>
     );
@@ -93,22 +97,29 @@ class EditTickets extends Component<Props, State> {
 
   /**Deletes tickets*/
   deleteTicket() {
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertdeleted').hidden = true;
     OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
       // TODO bytt denne så det bare blir en melding på toppen
-      alert('Billettype slettet');
+      document.getElementById('alertdeleted').hidden = false;
       this.props.updateParent();
       this.componentDidMount();
     });
   }
   /**Creates tickets */
-  createTicket() {
+  createTicket(event) {
+    event.preventDefault();
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertdeleted').hidden = true;
     let ticket = new TicketType();
     ticket.name = this.state.new_ticket;
     ticket.description = this.state.new_ticket_desc;
     OrganiserService.postTicket(ticket).then(response => {
       // TODO bytt denne så det bare blir en melding på toppen
-      alert('Billettype lagt til');
+      document.getElementById('alert').hidden = false;
       this.props.updateParent();
+      this.setState({ new_ticket: '' });
+
       this.componentDidMount();
     });
   }
