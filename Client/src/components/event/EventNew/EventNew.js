@@ -79,6 +79,9 @@ class EventNew extends Component<Props, State> {
                 }
               />
             </label>
+            <small id="sceneOptional" className="form-text text-muted mb-2">
+              Valgfritt
+            </small>
             <textarea
               className={'form-control mb-4'}
               id={'eventdesc'}
