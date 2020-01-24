@@ -151,6 +151,7 @@ class EventNew2 extends Component<Props, State> {
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
       // $FlowFixMe
       document.getElementById('alert').hidden = true;
+      window.scrollTo(0, 0);
       return;
     }
     const file = element.files[0];
