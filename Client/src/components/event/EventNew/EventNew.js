@@ -129,6 +129,7 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="end"
               name="end"
+              defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
             />
@@ -136,6 +137,7 @@ class EventNew extends Component<Props, State> {
               className="form-control w-50 mb-4"
               type="time"
               id="end_time"
+              defaultValue={this.currentTime()}
               name="end"
               onChange={() => this.updateTime()}
             />
