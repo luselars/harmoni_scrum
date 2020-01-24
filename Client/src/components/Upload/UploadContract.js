@@ -53,7 +53,6 @@ class UploadContract extends Component<Props, State> {
     // $FlowFixMe
     document.getElementById('alert').hidden = true;
     let value = element.value;
-    console.log(element.value);
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let ext = path.extname(value);
     if (ext !== '.pdf') {
@@ -70,20 +69,16 @@ class UploadContract extends Component<Props, State> {
       function() {
         // send here
         temp_artist.contract = reader.result;
-        OrganiserService.updateArtistEvent(temp_artist, ev_id)
-          .then(resp => {
-            console.log(resp);
-            if (resp.status === 200) {
-              console.log('Kontrakt lastet opp.');
-              element.files = null;
-              that.props.reload();
-            } else {
-              // $FlowFixMe
-              document.getElementById('alert').hidden = false;
-              window.scrollTo(0, 0);
-            }
-          })
-          .catch(error => console.log(error));
+        OrganiserService.updateArtistEvent(temp_artist, ev_id).then(resp => {
+          if (resp.status === 200) {
+            element.files = null;
+            that.props.reload();
+          } else {
+            // $FlowFixMe
+            document.getElementById('alert').hidden = false;
+            window.scrollTo(0, 0);
+          }
+        });
       },
       false,
     );

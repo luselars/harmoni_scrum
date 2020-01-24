@@ -1,11 +1,11 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import Upload from '../../Upload/Upload.js';
 import { OrganiserService } from '../../../services/organiserService.js';
 import { Event } from '../../../services/modelService.js';
 import MoreInfo from '../../MoreInfo/MoreInfo';
+
 let path = require('path');
 
 type State = {
@@ -27,12 +27,9 @@ class EventNew2 extends Component<Props, State> {
    */
   componentDidMount() {
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(data);
         this.setState({ event: data });
-        console.log(this.state.event);
         this.formatTime();
         this.loadImage();
       });
@@ -119,12 +116,9 @@ class EventNew2 extends Component<Props, State> {
           // send here
           temp_event.image = reader.result;
           OrganiserService.updateEvent(temp_event).then(resp => {
-            console.log(resp);
             if (resp.status === 200) {
-              console.log('Arrangement oppdatert');
               that.props.onSelectPage(1);
             } else {
-              console.log('Kunne ikke oppdatere arrangement');
               this.props.onSelectPage(1);
             }
           });
@@ -152,9 +146,6 @@ class EventNew2 extends Component<Props, State> {
     let fullPath = element.value;
     let ext = path.extname(fullPath);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      // $FlowFixMe
-      document.getElementById('alert').hidden = true;
-      window.scrollTo(0, 0);
       return;
     }
     const file = element.files[0];
@@ -167,7 +158,6 @@ class EventNew2 extends Component<Props, State> {
         // send here
         temp_event.image = reader.result;
         OrganiserService.updateEvent(temp_event).then(resp => {
-          console.log(resp);
           if (resp.status === 200) {
             that.props.onSelectPage(3);
           } else {

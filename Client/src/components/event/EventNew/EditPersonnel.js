@@ -28,7 +28,6 @@ class EditPersonnel extends Component<Props, State> {
   /**Check if the user is currently writing an event, if so load inputs with data */
   componentDidMount() {
     OrganiserService.getVolunteerType().then(response => {
-      console.log(response.data);
       this.setState({ my_types: response.data });
     });
   }
@@ -83,7 +82,6 @@ class EditPersonnel extends Component<Props, State> {
   /**Deletes Personnel */
   deleteType() {
     this.state.delete = document.getElementById('delete').value;
-    console.log(this.state.delete);
     if (this.state.delete === undefined) {
       return;
     }

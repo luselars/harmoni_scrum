@@ -183,7 +183,6 @@ export default class Filter extends Component<{}, State> {
   }
 
   componentDidMount() {
-    console.log(window.screen.availWidth);
     if (window.screen.availWidth > 600) {
       this.setState({ status: true });
     } else {
@@ -214,7 +213,6 @@ export default class Filter extends Component<{}, State> {
     } else if (e.target.id === 'sortRadio3') {
       this.setState({ sortRadio3: value });
     } else {
-      console.log('Ukjent id: ' + e.target.id);
     }
     this.props.handleFilterChange(e.target.value);
   }

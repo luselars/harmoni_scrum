@@ -74,33 +74,27 @@ class UploadRider extends Component<Props, State> {
       function() {
         // send here
         if (that.props.organiser) {
-          OrganiserService.postRider(reader.result, ev_id, artist_id)
-            .then(resp => {
-              if (resp.status === 200) {
-                element.files = null;
-                that.props.reload();
-              } else {
-                // $FlowFixMe
-                document.getElementById('alert').hidden = false;
-                window.scrollTo(0, 0);
-              }
-            })
-            .catch(error => console.log(error));
+          OrganiserService.postRider(reader.result, ev_id, artist_id).then(resp => {
+            if (resp.status === 200) {
+              element.files = null;
+              that.props.reload();
+            } else {
+              // $FlowFixMe
+              document.getElementById('alert').hidden = false;
+              window.scrollTo(0, 0);
+            }
+          });
         } else {
-          UserService.postRider(reader.result, ev_id)
-            .then(resp => {
-              console.log(resp);
-              if (resp.status === 200) {
-                console.log('Rider lastet opp.');
-                element.files = null;
-                that.props.reload();
-              } else {
-                // $FlowFixMe
-                document.getElementById('alert').hidden = false;
-                window.scrollTo(0, 0);
-              }
-            })
-            .catch(error => console.log(error));
+          UserService.postRider(reader.result, ev_id).then(resp => {
+            if (resp.status === 200) {
+              element.files = null;
+              that.props.reload();
+            } else {
+              // $FlowFixMe
+              document.getElementById('alert').hidden = false;
+              window.scrollTo(0, 0);
+            }
+          });
         }
       },
       false,

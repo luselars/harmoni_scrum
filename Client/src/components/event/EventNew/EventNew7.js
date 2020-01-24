@@ -1,12 +1,9 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import { number, string } from 'prop-types';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 import EditPersonnel from './EditPersonnel';
 
 type State = {
@@ -46,18 +43,14 @@ class EventNew7 extends Component<Props, State> {
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(response.data);
         this.setState({ event: data });
         OrganiserService.getMyVolunteers(this.state.event.event_id).then(response => {
-          console.log(response.data);
           this.setState({ personnel: response.data });
         });
       });
       OrganiserService.getVolunteerType().then(response => {
-        console.log(response.data);
         this.setState({ my_types: response.data });
         if (response.data[0] !== undefined) {
           this.setState({ invite: response.data[0].volunteer_type_id });
@@ -237,13 +230,9 @@ class EventNew7 extends Component<Props, State> {
             .then(response => {
               this.componentDidMount();
             })
-            .catch(error => {
-              console.log('error sendmail: ' + error);
-            });
+            .catch(error => {});
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
 
       this.componentDidMount();
     });

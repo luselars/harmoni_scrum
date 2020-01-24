@@ -1,14 +1,10 @@
 //@flow
 
 //Component for artist to edit events
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
-import { User, Event } from '../../../services/modelService';
-import { PublicService } from '../../../services/publicService';
+import { Event, User } from '../../../services/modelService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
-import UploadContract from '../../Upload/UploadContract';
 import UploadRider from '../../Upload/UploadRider';
 import { UserService } from '../../../services/userService';
 
@@ -33,17 +29,13 @@ class EventEditArtist extends Component<Props, State> {
   componentDidMount() {
     UserService.getMyProfile().then(resp => {
       this.setState({ artist: resp.data });
-      console.log(this.state.artist);
       UserService.getMyRiders(this.props.match.params.id).then(resp => {
         this.setState({ riders: resp.data });
-        console.log(this.state.riders);
       });
     });
   }
   publishNotes(notes: string) {
-    UserService.putNotes(notes, this.props.match.params.id).then(r => {
-      console.log(r);
-    });
+    UserService.putNotes(notes, this.props.match.params.id).then(r => {});
   }
   render() {
     return (
@@ -147,13 +139,11 @@ class EventEditArtist extends Component<Props, State> {
   }
   //Reloads component
   handleReload = () => {
-    console.log('RELOAD');
     this.componentDidMount();
   };
 
   //Deletes riders
   deleteRider(rider_id: number) {
-    console.log(rider_id);
     //Deletes riders by rider_id
     UserService.deleteRider(rider_id).then(r => {
       this.componentDidMount();

@@ -1,13 +1,11 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
-import { Event } from '../../../services/modelService';
+import { Event, Location } from '../../../services/modelService';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { OrganiserService } from '../../../services/organiserService';
-import { Location } from '../../../services/modelService';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type Props = {
@@ -31,16 +29,12 @@ class EventNew3 extends Component<Props> {
   /**Gets event and locations. Check if the user is currently writing an event, if so load inputs with data */
   componentDidMount() {
     if (localStorage.getItem('curr_event') !== null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
-        console.log(this.state.event);
         this.formatTime();
         OrganiserService.getLocations().then(response => {
-          console.log(response.data);
           this.setState({ locations: response.data });
-          console.log(this.state.locations);
           this.setState({ location_nr: document.getElementById('postcode').value });
           if (data.location_id !== null) {
             let locData = new Location();

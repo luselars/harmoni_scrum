@@ -103,7 +103,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     //Logging in and returning nessesary information
     PublicService.logIn(this.state.email, this.state.password)
       .then(response => {
-        console.log('Response: ' + response.data.jwt);
         localStorage.setItem('token', response.data.jwt);
         localStorage.setItem('userType', response.data.type);
         response.data.type == 'admin'
@@ -112,7 +111,6 @@ export default class LogIn extends Component<{}, { email: string, password: stri
       })
       //Catches errors and sets alert
       .catch(error => {
-        console.log('error: ' + error);
         // $FlowFixMe
         document.getElementById('alert').hidden = false;
       });

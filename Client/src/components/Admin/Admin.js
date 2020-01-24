@@ -68,21 +68,16 @@ export default class Admin extends Component<{}, State> {
     AdminService.getUnverifed()
       .then(res => {
         this.setState({ authorised: true });
-        console.log(res.status);
         let requests: any = res.data;
-        console.log(requests + ' ');
         this.setState({ requests: requests });
       })
       .catch((reason: AxiosError) => {
         if (reason.response.status === 401) {
           // Handle 400
           this.setState({ authorised: false });
-          console.log('401 error');
         } else {
-          console.log(reason.message);
           // Handle else
         }
-        console.log(reason.message);
       });
   }
 
