@@ -6,7 +6,7 @@ import { PublicService } from '../../../services/publicService';
 import { string, number } from 'prop-types';
 let path = require('path');
 
-//Component for creating a new profile
+/** Component for creating a new profile */
 export default class ProfileNew extends Component<
   {},
   {
@@ -289,7 +289,6 @@ export default class ProfileNew extends Component<
 
   /**
    * Creates profile and redirects user, or gives alerts if there is any information that is not valid.
-   * @param event the button the user clicks to submit.
    */
   post(event: any) {
     document.getElementById('alertpassword').hidden = true;

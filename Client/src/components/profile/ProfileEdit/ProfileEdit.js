@@ -388,6 +388,7 @@ class ProfileEdit extends Component<{}, State> {
               console.log('error: ' + error);
               document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
               document.getElementById('labelNewPasswordError').innerHTML = '';
+              window.scrollTo(0, 0);
             });
     }
   }
