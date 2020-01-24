@@ -6,11 +6,15 @@ module.exports = class UserDao extends Dao {
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
   }
-  // Get the pool.
+  /**
+   * Get the pool.
+   */
   getPool() {
     return super.getPool();
   }
-  // Edit the logged in user by sending in a form with the user information and the user's id.
+  /**
+   * Edit the logged in user by sending in a form with the user information and the user's id.
+   */
   editUser(user_id: number, user: User, callback: (status: string, data: Object) => mixed) {
     var password = '';
     if (user.hash != null) {
@@ -24,7 +28,10 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Link the logged in account by email to an event by id as artist.
+
+  /**
+   * Link the logged in account by email to an event by id as artist.
+   */
   linkArtist(email: string, event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'INSERT INTO event_artist (event_id, user_id) VALUES(?, (SELECT user_id FROM user WHERE email = ?))',
@@ -32,11 +39,17 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Delete a user by id.
+
+  /**
+   * Delete a user by id.
+   */
   deleteUser(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query('DELETE FROM user WHERE user_id=?', [user_id], callback);
   }
-  // Get all events connected to a user by id.
+
+  /**
+   * Get all events connected to a user by id.
+   */
   getUserEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
     let queryString =
       'SELECT e.event_id FROM event e WHERE e.event_id IN(SELECT ea.event_id FROM event_artist ea WHERE ea.user_id = 1) UNION SELECT e.event_id FROM event e WHERE e.event_id IN(SELECT ev.event_id FROM event_volunteer ev WHERE ev.user_id = 1)';
@@ -56,7 +69,10 @@ module.exports = class UserDao extends Dao {
       WHERE u.user_id = ?`;
     super.query(queryString, [user_id], callback);
   }
-  // Sets the artist's name by user id.
+
+  /**
+   * Sets the artist's name by user id.
+   */
   setArtistName(
     artist_name: string,
     user_id: number,
@@ -65,7 +81,10 @@ module.exports = class UserDao extends Dao {
     let queryString = 'UPDATE artist SET artist_name = ? WHERE user_id = ?';
     super.query(queryString, [artist_name, user_id], callback);
   }
-  // Get all events connected to logged in user by user id.
+
+  /**
+   * Get all events connected to logged in user by user id.
+   */
   getMyEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
@@ -73,7 +92,10 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Get a specific owned event by logged in user by user id and event id.
+
+  /**
+   * Get a specific owned event by logged in user by user id and event id.
+   */
   getMyEvent(user_id: number, event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?';
@@ -91,7 +113,10 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Get all riders on a single event by event id.
+
+  /**
+   * Get all riders on a single event by event id.
+   */
   getRiders(event_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'SELECT r.*, ea.notes FROM event_artist ea  LEFT JOIN rider r ON ea.user_id = r.user_id WHERE ea.event_id = ?',
@@ -99,7 +124,10 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Post a rider by string to an event on a user by event id and user id.
+
+  /**
+   * Post a rider by string to an event on a user by event id and user id.
+   */
   postRiders(
     user_id: number,
     event_id: number,
@@ -112,7 +140,10 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Delete a rider on logged in user by user id and rider id.
+
+  /**
+   * Delete a rider on logged in user by user id and rider id.
+   */
   deleteRider(
     rider_id: number,
     user_id: number,
@@ -124,13 +155,19 @@ module.exports = class UserDao extends Dao {
       callback,
     );
   }
-  // Get artist connected to an event by event id.
+
+  /**
+   * Get artist connected to an event by event id.
+   */
   getEventArtist(event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
       'SELECT u.email, a.user_id, a.artist_name FROM artist a LEFT JOIN event_artist ea ON a.user_id = ea.user_id LEFT JOIN user u ON u.user_id = a.user_id WHERE ea.event_id = ?';
     super.query(queryString, [event_id], callback);
   }
-  // Edit artist notes on a specific event by event id, user id, and notes string.
+
+  /**
+   * Edit artist notes on a specific event by event id, user id, and notes string.
+   */
   putEventArtist(
     event_id: number,
     user_id: number,
