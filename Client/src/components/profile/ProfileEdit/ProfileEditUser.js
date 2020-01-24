@@ -58,19 +58,19 @@ class ProfileEditUser extends Component<{}, State> {
           </div>
         </div>
         <form onSubmit={e => this.post(e)} className="card" id="editProfile">
-          <div className="card-body m-2 m-sm-5 text-center">
+          <div className="card-body m-2 m-md-5 text-center">
             <p className="display-4"> REDIGER PROFIL </p>
             {this.state.image === undefined || this.state.image === null ? (
               <img
                 src="http://localhost:4000/public/file/profile.png"
-                className="img rounded-circle"
+                className="img rounded-circle p-md-0 p-4"
                 id="picture"
                 alt="Profilbilde"
               />
             ) : (
               <img
                 src={'http://localhost:4000/public/file/' + this.state.image}
-                className="img rounded-circle p-sm-0 py-3 px-3"
+                className="img rounded-circle p-md-0 p-4"
                 id="picture"
                 alt="Profilbilde"
               />
