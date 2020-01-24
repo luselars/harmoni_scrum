@@ -15,6 +15,8 @@ type Props = {
 type State = {
   value: any,
 };
+
+/**A Component for uploading contract pdf files */
 class UploadContract extends Component<Props, State> {
   file = '';
   constructor(props: any) {
@@ -43,7 +45,8 @@ class UploadContract extends Component<Props, State> {
       </div>
     );
   }
-  upload(element) {
+  /**Takes inn an html element and checks its value for a pdf file, if one is found it is uploaded to the server and connected to the user/organiser */
+  upload(element: HTMLInputElement) {
     let value = element.value;
     console.log(element.value);
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
