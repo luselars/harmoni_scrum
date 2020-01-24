@@ -10,6 +10,7 @@ type State = {
   show: Boolean,
 };
 
+//Component for the navbar
 export default class Menu extends Component<{}, { status: boolean }> {
   constructor(props: any) {
     super(props);
@@ -35,6 +36,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         ></link>
+        {/*Customizes the navbar to logged in status*/}
         {this.state.status ? (
           <form className="loginGroup">
             <a className="nav-link text-light" id="homeButton" href="/">
@@ -62,6 +64,7 @@ export default class Menu extends Component<{}, { status: boolean }> {
               Hjem <i className="fa fa-home fa-lg"></i>
               <span className="sr-only"></span>
             </a>
+            {/*Customizes the navbar to usertype*/}
             {this.state.userType == 'organiser' ? (
               <a
                 className="nav-link text-light"
@@ -100,11 +103,14 @@ export default class Menu extends Component<{}, { status: boolean }> {
       this.setState({ show: false });
     }
   }
+
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('userType');
     window.location.href = '/';
   }
+
+  //Hamburger menu
   collapse() {
     let x = document.getElementById('navbarSupportedContent');
     let y = document.getElementById('navbarContent');
