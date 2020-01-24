@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { string } from 'prop-types';
 import { PublicService } from '../../services/publicService.js';
 
+//Component for the feedback-function
 export default class Feedback extends Component<{}, { email: string, feedbacktext: string }> {
   constructor(props: any) {
     super(props);
@@ -40,6 +41,7 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="4"
+              placeholder="Skriv inn din tilbakemelding"
               onChange={e => this.changeFeedback(e)}
             ></textarea>
           </div>
@@ -56,18 +58,21 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
       </div>
     );
   }
+  //Sets the email state
   changeEmail(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
+  //Sets the feedback state
   changeFeedback(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ feedbacktext: value });
   }
 
+  //Sends feedback by email
   sendFeedback(e: any) {
     e.preventDefault();
     PublicService.feedback(this.state.email, this.state.feedbacktext)

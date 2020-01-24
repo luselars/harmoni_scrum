@@ -109,7 +109,7 @@ describe('Get all events user is a part of', () => {
       .set('x-access-token', jwt)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.length).to.equal(1);
+        expect(res.body.length).to.equal(2);
         done();
       });
   });

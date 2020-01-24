@@ -79,7 +79,7 @@ class EventNew3 extends Component<Props> {
 
   render() {
     return (
-      <div>
+      <form onSubmit={event => this.next(event)}>
         <div className="form-row">
           <iframe
             id="map"
@@ -115,6 +115,7 @@ class EventNew3 extends Component<Props> {
                 margin="normal"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
@@ -140,13 +141,14 @@ class EventNew3 extends Component<Props> {
                 padding="narrow"
                 variant="outlined"
                 fullWidth
+                required
               />
             )}
           />
         </div>
 
         <label htmlFor="postcode">Postkode:</label>
-        <input className="form-control w-50" id="postcode" type="text" />
+        <input className="form-control w-50" id="postcode" type="number" />
         <label htmlFor="postcode">
           Scene:
           <MoreInfo
@@ -159,15 +161,20 @@ class EventNew3 extends Component<Props> {
         </small>
         <input className="form-control w-50" id="venue" type="text" />
 
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+        <div className="row justify-content-center">
+          <button type="submit" className="btn btn-success w-50 m-2" id="nextbtn">
             Neste
           </button>
+          <button
+            onClick={() => this.back()}
+            type="button"
+            className="btn btn-secondary w-50 m-2"
+            id="backbtn"
+          >
+            Tilbake
+          </button>
         </div>
-      </div>
+      </form>
     );
   }
   updateForm(w: number, val: any) {
@@ -209,7 +216,8 @@ class EventNew3 extends Component<Props> {
     // I won't save the address here, it would create a lot of unfinished locations
     this.props.onSelectPage(2);
   }
-  next() {
+  next(event) {
+    event.preventDefault();
     let name = this.name.current.value;
     let addr = this.addr.current.value;
     let postcode = document.getElementById('postcode').value;

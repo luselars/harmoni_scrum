@@ -3,7 +3,6 @@ import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
 import mysql from 'mysql';
-import { sendInvite } from '../mailClient';
 import { productionDatabase } from '../config/dbCredentials';
 //import { decodeBase64Image } from '../uploadHelper';
 import uploadFunctions from '../uploadHelper';

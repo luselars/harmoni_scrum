@@ -50,7 +50,7 @@ export default class ProfileNew extends Component<
       <div id="profileOrganiserCard" className="card mb-4">
         <div className="card-body bg-light">
           <form onSubmit={e => this.post(e)}>
-            <h2 className="display-4 text-uppercase text-center m-4 border-bottom">REGISTRER</h2>
+            <h2 className="display-4 text-uppercase text-center m-2 border-bottom">REGISTRER</h2>
             <div
               id="error-message"
               style={{ visibility: 'hidden' }}
@@ -232,16 +232,16 @@ export default class ProfileNew extends Component<
               <p></p>
             )}
             <div className="form-check text-center ml-5 mr-5 p-2 border">
+              <label className="form-check-label" for="upload">
+                Profilbilde
+              </label>
               <input
-                className="file mr-6"
+                className="file"
                 accept=".jpg, .jpeg, .png"
                 type="file"
                 id="upload"
                 name="recfile"
               />
-              <label className="form-check-label" for="upload">
-                Profilbilde
-              </label>
             </div>
             <div class="form-check ml-5 mr-5">
               <input
@@ -255,7 +255,7 @@ export default class ProfileNew extends Component<
                 Jeg godkjenner vilkårene
               </label>
             </div>
-            <button type="submit" className="btn btn-success m-3 w-25 text-">
+            <button type="submit" className="btn btn-success w-50 mx-auto d-block m-2">
               Registrer
             </button>
           </form>
