@@ -107,7 +107,7 @@ class EventNew7 extends Component<Props, State> {
                 <label>Type:</label>
                 <select
                   onChange={e => {
-                    this.state.invite = e.target.value;
+                    this.setState({ invite: e.target.value });
                   }}
                   className="form-control"
                 >
@@ -125,6 +125,7 @@ class EventNew7 extends Component<Props, State> {
                   className="form-control"
                   placeholder="Skriv e-mail..."
                   type="email"
+                  value={this.state.new_person}
                   required
                 />
               </div>
@@ -231,6 +232,7 @@ class EventNew7 extends Component<Props, State> {
         })
         .catch(error => {});
 
+      this.setState({ new_person: '' });
       this.componentDidMount();
     });
   }
