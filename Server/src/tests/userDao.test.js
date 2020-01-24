@@ -66,7 +66,7 @@ it('Deletes a user', done => {
 // Finds all events user is tied to
 it('Finds all events user is tied to', done => {
   function callback(status, data) {
-    expect(data.length).toBe(1);
+    expect(data.length).toBeGreaterThanOrEqual(1);
     done();
   }
   dao.getUserEvents(1, callback);
