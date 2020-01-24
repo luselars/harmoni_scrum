@@ -298,7 +298,7 @@ class ProfileEditUser extends Component<{}, State> {
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     UserService.editUser(state)
-      .then(UserService.editArtistname(state.artist_name).then(alert('hei')))
+      .then(UserService.editArtistname(state.artist_name).then())
       .then(response => {
         window.location = '/profile';
       })

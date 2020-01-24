@@ -245,10 +245,7 @@ export default class Filter extends Component<{}, State> {
     localStorage.setItem('maxprice', price);
     this.props.handleFilterPriceChange(price, 'max');
   }
-  handleSubmit(event) {
-    event.preventDefault();
-    alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
-  }
+
   /** Resets all of the stored variables on the filter to default. */
   reset() {
     localStorage.removeItem('sortType');
