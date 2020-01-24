@@ -135,11 +135,19 @@ export default class EventDetails extends Component<Props, State> {
                 ) : (
                   <th className="hoyre text-right">Lineup:</th>
                 )}
-                {this.state.artist.map(artist => (
-                  <div>
-                    <td className="venstre text-left">{artist.artist_name}</td>
-                  </div>
-                ))}
+                {this.state.artist.map(artist =>
+                  artist.artist_name === null ||
+                  artist.artist_name === undefined ||
+                  artist.artist_name === '' ? (
+                    <div>
+                      <td className="venstre text-left">Ukjent artist</td>
+                    </div>
+                  ) : (
+                    <div>
+                      <td className="venstre text-left">{artist.artist_name}</td>
+                    </div>
+                  ),
+                )}
               </tr>
               <tr>
                 {this.state.tickets.length === 0 ? (
