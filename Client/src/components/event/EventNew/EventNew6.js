@@ -106,7 +106,7 @@ class EventNew6 extends Component<Props, State> {
             <MoreInfo
               padding={'5px'}
               text={
-                'Legg til billetter med antall og pris på arrangementet. For å legge til en billett må det velges en av billett-typene knyttet til kontoen din. Nye billett-typer kan oprettes og slettes i feltet under, og vil være lagret til videre arrangementer.'
+                'Legg til billetter med antall og pris på arrangementet. For å legge til en billett må det velges en av billett-typene knyttet til kontoen din. Nye billett-typer kan oprettes og slettes i feltet over, og vil være lagret til videre arrangementer.'
               }
             />
           </h4>
