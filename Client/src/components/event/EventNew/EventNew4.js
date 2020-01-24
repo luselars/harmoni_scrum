@@ -46,7 +46,7 @@ class EventNew4 extends Component<Props, State> {
       <div>
         <div className="form-row justify-content-center">
           <div id="col-12">
-            <form onSubmit={() => this.invite()}>
+            <form onSubmit={e => this.invite(e)}>
               <label className="text-center">
                 Legg til artister på arrangementet
                 <MoreInfo
@@ -147,8 +147,11 @@ class EventNew4 extends Component<Props, State> {
     console.log('RELOAD');
     this.componentDidMount();
   };
-  invite() {
+  invite(event) {
+    event.preventDefault();
     let email = document.getElementById('email').value;
+    document.getElementById('email').value = '';
+
     PublicService.checkEmail(email).then(res => {
       if (res.data.length === 0) {
         this.addArtist(email);
