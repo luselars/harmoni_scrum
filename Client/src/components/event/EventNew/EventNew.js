@@ -45,7 +45,7 @@ class EventNew extends Component<Props, State> {
         document.getElementById('eventstatus').value = this.state.event.status;
         this.setState({ start_d: this.state.event.start_format.substring(0, 10) });
         this.setState({ start_h: this.state.event.start_format.substring(11, 16) });
-        this.setState({ end: this.state.event.end_format.substring(12, 15) });
+        this.setState({ end_d: this.state.event.end_format.substring(0, 10) });
         this.setState({ end_h: this.state.event.end_format.substring(11, 16) });
         document.getElementById('start_time').value = this.state.start_h;
         document.getElementById('start').value = this.state.start_d;

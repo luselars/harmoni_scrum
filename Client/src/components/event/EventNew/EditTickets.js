@@ -37,7 +37,7 @@ class EditTickets extends Component<Props, State> {
   render() {
     return (
       <div>
-        <div>
+        <form onSubmit={event => this.createTicket(event)}>
           <h4 className="text-center">Opprett billettype:</h4>
           <p id="alert" style={{ color: 'green' }} hidden="true">
             Billettype lagt til
@@ -47,9 +47,11 @@ class EditTickets extends Component<Props, State> {
             onChange={e => {
               this.setState({ new_ticket: e.target.value });
             }}
+            value={this.state.new_ticket}
             className="form-control w-100"
             placeholder="Skriv billetnavn..."
             type="text"
+            required
           />
           <label className="my-3">Billettbeskrivelse</label>
           <input
@@ -61,11 +63,7 @@ class EditTickets extends Component<Props, State> {
             type="text"
           />
           <div className="row justify-content-center">
-            <button
-              onClick={() => this.createTicket()}
-              type="button"
-              className="btn btn-success col-sm-3 m-2"
-            >
+            <button type="submit" className="btn btn-success col-sm-3 m-2">
               Opprett
             </button>
           </div>
@@ -74,23 +72,17 @@ class EditTickets extends Component<Props, State> {
             <p id="alertdeleted" style={{ color: 'green' }} hidden="true">
               Billettype slettet
             </p>
-            <select
-              onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
-              className="form-control w-100 my-2"
-            >
+            <select id="ticketSelect" className="form-control w-100 my-2">
               {this.state.org_tickets.map(ticket => (
                 <option value={ticket.ticket_type_id}>{ticket.name}</option>
               ))}
             </select>
-            <div className="row justify-content-center">
-              <button
-                onClick={() => this.deleteTicket()}
-                className="btn btn-secondary col-sm-3 m-2"
-              >
-                <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i> Slett
-              </button>
-            </div>
           </div>
+        </form>
+        <div className="row justify-content-center">
+          <button onClick={() => this.deleteTicket()} className="btn btn-secondary col-sm-3 m-2">
+            <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i> Slett
+          </button>
         </div>
         <div className="border-bottom border-dark border-5 m-5"></div>
       </div>
@@ -101,15 +93,17 @@ class EditTickets extends Component<Props, State> {
   deleteTicket() {
     document.getElementById('alert').hidden = true;
     document.getElementById('alertdeleted').hidden = true;
-    OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
+    OrganiserService.deleteTicket(document.getElementById('ticketSelect').value).then(response => {
       // TODO bytt denne så det bare blir en melding på toppen
       document.getElementById('alertdeleted').hidden = false;
       this.props.updateParent();
       this.componentDidMount();
     });
   }
+
   /**Creates tickets */
-  createTicket() {
+  createTicket(event) {
+    event.preventDefault();
     document.getElementById('alert').hidden = true;
     document.getElementById('alertdeleted').hidden = true;
     let ticket = new TicketType();
@@ -119,6 +113,8 @@ class EditTickets extends Component<Props, State> {
       // TODO bytt denne så det bare blir en melding på toppen
       document.getElementById('alert').hidden = false;
       this.props.updateParent();
+      this.setState({ new_ticket: '' });
+
       this.componentDidMount();
     });
   }

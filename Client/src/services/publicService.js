@@ -105,17 +105,4 @@ export class PublicService {
     return axios.post(url, state);
   }
 
-  /**
-   * Search for events given a searchstring.
-   */
-  static searchEvent(search: string) {
-    let url = url_base + '/event/search' + search;
-    return (
-      axios.get <
-      Event >
-      (url, { search: search }).then(response => {
-        return response;
-      })
-    );
-  }
 }
