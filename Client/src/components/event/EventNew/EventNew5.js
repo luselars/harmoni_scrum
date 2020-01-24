@@ -1,11 +1,9 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
-import { Artist, Event } from '../../../services/modelService';
+import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import DownloadFile from '../../DownloadFile/DownloadFile';
-import UploadContract from '../../Upload/UploadContract';
 import UploadRider from '../../Upload/UploadRider';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 

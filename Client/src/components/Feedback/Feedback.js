@@ -79,8 +79,6 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
       .then(response => {
         window.location = '/feedbackregistered';
       })
-      .catch(error => {
-        console.log('error sendFeedback: ' + error);
-      });
+      .catch(error => {});
   }
 }

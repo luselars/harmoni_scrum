@@ -1,9 +1,8 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
-import { number, string } from 'prop-types';
-import { TicketType, Event } from '../../../services/modelService';
+import { string } from 'prop-types';
+import { Event, TicketType } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 import EditTickets from './EditTickets';
@@ -44,7 +43,6 @@ class EventNew6 extends Component<Props, State> {
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
@@ -58,8 +56,6 @@ class EventNew6 extends Component<Props, State> {
         this.setState({ org_tickets: response.data });
         if (this.state.org_tickets.length > 0) {
           this.setState({ new_event_ticket: this.state.org_tickets[0].ticket_type_id });
-          console.log(typeof this.state.ev_price);
-          console.log(this.state.ev_price);
         }
       });
     }

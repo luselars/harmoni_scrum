@@ -1,6 +1,5 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService.js';
@@ -124,7 +123,8 @@ class EventNew extends Component<Props, State> {
               ref="start"
               name="start"
               defaultValue={this.today()}
-              max="2023-12-31"
+              min={this.today()}
+              max={this.inThirtyYears()}
               onChange={event => {
                 this.setState({ start_d: event.target.value });
               }}
@@ -153,7 +153,8 @@ class EventNew extends Component<Props, State> {
               id="end"
               name="end"
               defaultValue={this.today()}
-              max="2023-12-31"
+              min={this.today()}
+              max={this.inThirtyYears()}
               onChange={event => {
                 this.setState({ end_d: event.target.value });
               }}
@@ -204,7 +205,6 @@ class EventNew extends Component<Props, State> {
               width="75"
               onChange={(b: boolean) => {
                 this.state.event.is_public = b ? 1 : 0;
-                console.log(this.state.event);
               }}
             />
             <label>
@@ -241,6 +241,14 @@ class EventNew extends Component<Props, State> {
     return yyyy + '-' + mm + '-' + dd;
   }
 
+  inThirtyYears() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear() + 30;
+    return yyyy + '-' + mm + '-' + dd;
+  }
+
   /**Finds current time */
   currentTime() {
     var now = new Date();
@@ -265,7 +273,6 @@ class EventNew extends Component<Props, State> {
     this.state.event.start = this.state.start_d + ' ' + this.state.start_h;
     this.state.event.end = this.state.end_d + ' ' + this.state.end_h;
     if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
-      console.log('Ugyldig tittel');
       return;
     }
     if (typeof this.state.event.description != 'string') {

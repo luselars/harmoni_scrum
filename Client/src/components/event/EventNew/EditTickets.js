@@ -1,11 +1,9 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import './stylesheet.css';
 import { string } from 'prop-types';
 import { TicketType } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
-import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type State = {
   org_tickets: [],
@@ -31,7 +29,6 @@ class EditTickets extends Component<Props, State> {
     // Check if the user is currently writing an event, if so load inputs with data
     OrganiserService.getMyTickets().then(response => {
       this.setState({ org_tickets: response.data });
-      console.log(this.state.org_tickets);
     });
   }
   render() {

@@ -46,7 +46,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     //Gets all artist by event_id
     OrganiserService.getArtists(this.props.match.params.id)
       .then(res => {
-        console.log(res.data);
         this.setState({ artists: res.data });
       })
       .catch(error => {
@@ -61,7 +60,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
     OrganiserService.getEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data;
-        console.log(event);
         this.setState({
           event: event,
           cancel: event.cancel,
@@ -630,7 +628,6 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
         };
         cancel.onclick = function() {
           modal.style.display = 'none';
-          console.log('heihiii');
         };
         //la til denne, tror den manglet
         btn.onclick = function() {

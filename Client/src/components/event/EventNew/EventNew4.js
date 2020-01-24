@@ -30,13 +30,11 @@ class EventNew4 extends Component<Props, State> {
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
         OrganiserService.getArtists(data.event_id).then(resp => {
           this.setState({ artists: resp.data });
-          console.log(this.state.artists);
         });
       });
     }
@@ -173,8 +171,6 @@ class EventNew4 extends Component<Props, State> {
   addArtist(email) {
     OrganiserService.inviteArtist(email, this.state.event.event_id)
       .then(resp => {
-        console.log(resp);
-        console.log('RESP DATA MESSAGE: ' + resp.data.message);
         let text = '';
         if (resp.data.message === 'Added new user') {
           text =
@@ -190,12 +186,9 @@ class EventNew4 extends Component<Props, State> {
         }
         OrganiserService.sendmail(email, this.state.event.name, text)
           .then(response => {
-            console.log('Email sent');
             this.componentDidMount();
           })
-          .catch(error => {
-            console.log('error sendmail: ' + error);
-          });
+          .catch(error => {});
 
         this.componentDidMount();
       })
