@@ -3,15 +3,24 @@ import { Organiser } from './modelDao';
 
 const Dao = require('./dao.js');
 
+/** Class representing the Admin DAO. */
 module.exports = class AdminDao extends Dao {
+  /**
+   * Create a new Admin DAO
+   */
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
   }
+  /**
+   * Get the pool from the dao.
+   */
   getPool() {
     return super.getPool();
   }
 
-  // Verify an organiser by id.
+  /**
+   * Verify an organiser
+   */
   verifyOrganiser(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'UPDATE organiser SET verified = NOT verified WHERE organiser_id = ?',
@@ -20,12 +29,16 @@ module.exports = class AdminDao extends Dao {
     );
   }
 
-  // Get all organisers.
+  /**
+   * Get all the organisers.
+   */
   getOrganisers(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser', [], callback);
   }
 
-  // Get all unverified organisers.
+  /**
+   * Get all the unverified organisers.
+   */
   getUnverified(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser WHERE NOT verified', [], callback);
   }
