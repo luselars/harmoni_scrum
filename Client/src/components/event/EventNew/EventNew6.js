@@ -34,8 +34,8 @@ class EventNew6 extends Component<Props, State> {
       new_ticket: string,
       new_event_ticket: TicketType,
       new_ticket_desc: string,
-      ev_price: number,
-      ev_amount: number,
+      ev_price: 0,
+      ev_amount: 0,
       expandCreate: false,
     };
   }
@@ -49,7 +49,6 @@ class EventNew6 extends Component<Props, State> {
         // Get tickets tied to event
         OrganiserService.getTickets(this.state.event.event_id).then(response => {
           this.setState({ event_tickets: response.data });
-          console.log(this.state.event_tickets);
         });
       });
       // Get tickets tied to organiser
@@ -57,10 +56,9 @@ class EventNew6 extends Component<Props, State> {
         this.setState({ org_tickets: response.data });
         if (this.state.org_tickets.length > 0) {
           this.setState({ new_event_ticket: this.state.org_tickets[0].ticket_type_id });
-          this.setState({ ev_price: 0 });
-          this.setState({ ev_amount: 0 });
+          console.log(typeof this.state.ev_price);
+          console.log(this.state.ev_price);
         }
-        console.log(this.state.org_tickets);
       });
     }
   }
@@ -125,7 +123,7 @@ class EventNew6 extends Component<Props, State> {
             <div className="col-sm-4">
               <label>Pris:</label>
               <input
-                defaultValue={'0'}
+                defaultValue={this.state.ev_price}
                 onChange={e => this.setState({ ev_price: e.target.value })}
                 type="number"
                 className="form-control"
@@ -135,7 +133,7 @@ class EventNew6 extends Component<Props, State> {
             <div className="col-sm-4">
               <label>Antall:</label>
               <input
-                defaultValue={'0'}
+                defaultValue={this.state.ev_amount}
                 onChange={e => this.setState({ ev_amount: e.target.value })}
                 type="number"
                 className="form-control"
