@@ -12,8 +12,10 @@ type State = {
   new_ticket: string,
   new_ticket_desc: string,
 };
-type Props = {};
-class EditEventTickets extends Component<Props, State> {
+type Props = {
+  updateParent: any,
+};
+class EditTickets extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -68,6 +70,7 @@ class EditEventTickets extends Component<Props, State> {
       console.log(response);
       // TODO bytt denne så det bare blir en melding på toppen
       alert('Billettype slettet');
+      this.props.updateParent();
       this.componentDidMount();
     });
   }
@@ -79,8 +82,9 @@ class EditEventTickets extends Component<Props, State> {
       console.log(response);
       // TODO bytt denne så det bare blir en melding på toppen
       alert('Billettype lagt til');
+      this.props.updateParent();
       this.componentDidMount();
     });
   }
 }
-export default EditEventTickets;
+export default EditTickets;
