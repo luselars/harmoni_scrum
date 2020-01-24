@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 var path = require('path');
 
+
+/** module containing methods required when uploading files */
 let uploadFunctions = {
   handleFile: function(f: string, callback: Object): ?string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
