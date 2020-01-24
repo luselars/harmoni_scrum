@@ -34,7 +34,6 @@ export default class Menu extends Component<{}, { status: boolean }> {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
         {/*Customizes the navbar to logged in status*/}
-        />
         {this.state.status ? (
           <form className="loginGroup">
             <a className="nav-link text-light" id="homeButton" href="/">
