@@ -5,7 +5,9 @@ import { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import './stylesheet.css';
 
-//Component for changing a forgotten password
+/**
+ * Component for changing a forgotten password
+ */
 export default class ForgottenPassword extends Component<{}, { email: string }> {
   constructor(props: any) {
     super(props);
@@ -39,12 +41,20 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
     );
   }
 
+  /**
+   * Sets the state of email
+   * @param e the input element
+   */
   changeEmail(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
+  /**
+   * Notifies the server to generate a new password, and the notfies the user via mail.
+   * @param e the input element.
+   */
   newPassword(e: any) {
     e.preventDefault();
     //Checks email to see if it exists
