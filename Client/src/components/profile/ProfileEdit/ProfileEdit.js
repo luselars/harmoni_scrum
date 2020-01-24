@@ -71,7 +71,7 @@ class ProfileEdit extends Component<{}, State> {
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           ></link>
           <div className="card-body m-2 m-md-5 text-center">
-            <h2 id="editTitle"> REDIGER PROFIL </h2>
+            <p className="display-4"> REDIGER PROFIL </p>
             <img
               className="img rounded-circle p-md-0 p-4"
               id="picture"
