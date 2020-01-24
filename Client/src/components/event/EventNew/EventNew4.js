@@ -26,7 +26,7 @@ class EventNew4 extends Component<Props, State> {
       artists: [],
     };
   }
-  /**Updates the localStorage. Gets event and artist*/
+  /**Gets from the localStorage. Gets event and artist*/
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
