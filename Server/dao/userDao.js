@@ -181,6 +181,15 @@ module.exports = class UserDao extends Dao {
     super.query(queryString, [notes, user_id, event_id], callback);
   }
 
+  // Get all events connected to logged in artist by user id.
+  getMyEventsArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+        'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
+        [user_id],
+        callback,
+    );
+  }
+
   /**
    * Get all events connected to logged in voluenteer by user id.
    */
