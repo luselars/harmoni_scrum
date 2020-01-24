@@ -1,14 +1,10 @@
 //@flow
-import React, { createRef } from 'react';
+import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { Event } from '../../../services/modelService';
-import TimeField from 'react-simple-timefield';
 import { OrganiserService } from '../../../services/organiserService.js';
-import Switch from '@material-ui/core/Switch';
-import { FormControl, FormControlLabel } from '@material-ui/core';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
-import { publicDecrypt } from 'crypto';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type Props = {
@@ -18,6 +14,10 @@ type Props = {
 type State = {
   event: Event,
   checked: boolean,
+  start_d: string,
+  start_h: string,
+  end_d: string,
+  end_h: string,
 };
 
 class EventNew extends Component<Props, State> {
@@ -26,6 +26,10 @@ class EventNew extends Component<Props, State> {
     this.state = {
       event: new Event(),
       checked: false,
+      start_d: this.today(),
+      end_d: this.today(),
+      start_h: this.currentTime(),
+      end_h: this.currentTime(),
     };
   }
   componentDidMount(): * {
@@ -34,11 +38,19 @@ class EventNew extends Component<Props, State> {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
+        console.log(response.data);
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
         document.getElementById('eventstatus').value = this.state.event.status;
-        this.insertTime();
+        this.setState({ start_d: this.state.event.start_format.substring(0, 10) });
+        this.setState({ start_h: this.state.event.start_format.substring(11, 16) });
+        this.setState({ end: this.state.event.end_format.substring(12, 15) });
+        this.setState({ end_h: this.state.event.end_format.substring(11, 16) });
+        document.getElementById('start_time').value = this.state.start_h;
+        document.getElementById('start').value = this.state.start_d;
+        document.getElementById('end').value = this.state.end_d;
+        document.getElementById('end_time').value = this.state.end_h;
       });
     }
   }
@@ -100,10 +112,13 @@ class EventNew extends Component<Props, State> {
               className="form-control w-50"
               type="date"
               id="start"
+              ref="start"
               name="start"
               defaultValue={this.today()}
               max="2023-12-31"
-              onChange={() => this.updateTime()}
+              onChange={event => {
+                this.setState({ start_d: event.target.value });
+              }}
               required
             />
             <input
@@ -111,7 +126,10 @@ class EventNew extends Component<Props, State> {
               type="time"
               id="start_time"
               name="start"
-              onChange={() => this.updateTime()}
+              defaultValue={this.currentTime()}
+              onChange={event => {
+                this.setState({ start_h: event.target.value });
+              }}
               required
             />
             <label id="eventdateend" htmlFor="end">
@@ -127,15 +145,20 @@ class EventNew extends Component<Props, State> {
               name="end"
               defaultValue={this.today()}
               max="2023-12-31"
-              onChange={() => this.updateTime()}
+              onChange={event => {
+                this.setState({ end_d: event.target.value });
+              }}
               required
             />
             <input
               className="form-control w-50 mb-4"
               type="time"
+              defaultValue={this.currentTime()}
               id="end_time"
               name="end"
-              onChange={() => this.updateTime()}
+              onChange={event => {
+                this.setState({ end_h: event.target.value });
+              }}
               required
             />
             <label>
@@ -207,49 +230,20 @@ class EventNew extends Component<Props, State> {
   currentTime() {
     var now = new Date();
     var hour = now.getHours();
+    if (hour < 10) {
+      hour = '0' + hour;
+    }
     var min = now.getMinutes();
+    if (min < 10) {
+      min = '0' + min;
+    }
     return hour + ':' + min;
   }
 
-  insertTime() {
-    alert(this.state.event.start);
-    let start_date = document.getElementById('start');
-    let end_date = document.getElementById('end');
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      start_date.value = d;
-      document.getElementById('start_time').value = h;
-      this.state.event.start = d + ' ' + h + ':00';
-    } else {
-      document.getElementById('start_time').value = this.today();
-      this.state.event.start = this.today();
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      end_date.value = d;
-      document.getElementById('end_time').value = h;
-      this.state.event.end = d + ' ' + h + ':00';
-    } else {
-      document.getElementById('end_time').value = this.today();
-      this.state.event.end = this.today();
-    }
-  }
-  updateTime() {
-    let start_date = document.getElementById('start').value;
-    let start_time = document.getElementById('start_time').value;
-    let end_date = document.getElementById('end').value;
-    let end_time = document.getElementById('end_time').value;
-    if (start_date !== '') {
-      this.state.event.start = start_date + ' ' + start_time + ':00';
-    }
-    if (end_date !== '') {
-      this.state.event.end = end_date + ' ' + end_time + ':00';
-    }
-  }
   next(event) {
     event.preventDefault();
+    this.state.event.start = this.state.start_d + ' ' + this.state.start_h;
+    this.state.event.end = this.state.end_d + ' ' + this.state.end_h;
     // TODO validate time input
     if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
       // TODO bytt denne alerten

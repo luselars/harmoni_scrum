@@ -198,20 +198,8 @@ class EventNew3 extends Component<Props> {
 
   //TODO do not mutate state directly. use setState()
   formatTime() {
-    if (this.state.event.start != null) {
-      let d = this.state.event.start.substring(0, 10);
-      let h = this.state.event.start.substring(11, 16);
-      let event = this.state.event;
-      event.start = d + ' ' + h + ':00';
-      this.setState({ event: event });
-    }
-    if (this.state.event.end != null) {
-      let d = this.state.event.end.substring(0, 10);
-      let h = this.state.event.end.substring(11, 16);
-      let event = this.state.event;
-      event.end = d + ' ' + h + ':00';
-      this.setState({ event: event });
-    }
+    this.state.event.start = this.state.event.start_format;
+    this.state.event.end = this.state.event.end_format;
   }
   // todo ADD postcode
   back() {

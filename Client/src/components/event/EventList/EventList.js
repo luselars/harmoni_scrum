@@ -84,8 +84,8 @@ export default class EventList extends Component<Props, State> {
 
   //Sorts events by date
   compareChronologically(a, b) {
-    let aDate = new Date(a.start);
-    let bDate = new Date(b.start);
+    let aDate = new Date(a.start_format);
+    let bDate = new Date(b.start_format);
     if (aDate < bDate) {
       return -1;
     }
@@ -228,8 +228,8 @@ export default class EventList extends Component<Props, State> {
                     <div className="row justify-content-md-center align-items-center">
                       {event.cancel === 0 ? (
                         <div id="date" className="col-2 text-center">
-                          <h3 className="datenumber">{event.start.slice(8, 10)}</h3>
-                          <h3 className="datemonth">{dates[event.start.slice(5, 7) - 1]}</h3>
+                          <h3 className="datenumber">{event.start_format.slice(8, 10)}</h3>
+                          <h3 className="datemonth">{dates[event.start_format.slice(5, 7) - 1]}</h3>
                         </div>
                       ) : (
                         <div id="date" className="col-2 text-center">
@@ -241,7 +241,7 @@ export default class EventList extends Component<Props, State> {
 
                         <p className="eventlistp">
                           <a className="eventdescription">Tid: </a>
-                          {event.start.slice(11, 16)}
+                          {event.start_format.slice(11, 16)}
                         </p>
                         <p className="eventlistp">
                           <a className="eventdescription">Sted: </a>
@@ -387,7 +387,7 @@ export default class EventList extends Component<Props, State> {
     var canceledEvents = [];
     var upcommingEvents = [];
     for (var i = 0; i < events.data.length; i++) {
-      let jsDate = new Date(events.data[i].end);
+      let jsDate = new Date(events.data[i].end_format);
       if (time > jsDate.getTime()) {
         events.data[i].old = true;
         oldEvents.push(events.data[i]);

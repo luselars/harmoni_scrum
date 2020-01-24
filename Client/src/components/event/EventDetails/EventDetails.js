@@ -73,16 +73,30 @@ export default class EventDetails extends Component<Props, State> {
           <table className="table table-borderless">
             <tbody>
               <tr>
-                <th className="hoyre text-right">Tid:</th>
+                <th className="hoyre text-right">Start:</th>
                 <td className="venstre text-left">
-                  {this.state.event.start
-                    ? this.state.event.start.slice(8, 10) +
+                  {this.state.event.start_format
+                    ? this.state.event.start_format.slice(8, 10) +
                       '/' +
-                      this.state.event.start.slice(5, 7) +
+                      this.state.event.start_format.slice(5, 7) +
                       '/' +
-                      this.state.event.start.slice(0, 4) +
+                      this.state.event.start_format.slice(0, 4) +
                       ' - ' +
-                      this.state.event.start.slice(11, 16)
+                      this.state.event.start_format.slice(11, 16)
+                    : 'Laster'}
+                </td>
+              </tr>
+              <tr>
+                <th className="hoyre text-right">Slutt:</th>
+                <td className="venstre text-left">
+                  {this.state.event.end_format
+                    ? this.state.event.end_format.slice(8, 10) +
+                      '/' +
+                      this.state.event.end_format.slice(5, 7) +
+                      '/' +
+                      this.state.event.end_format.slice(0, 4) +
+                      ' - ' +
+                      this.state.event.end_format.slice(11, 16)
                     : 'Laster'}
                 </td>
               </tr>
@@ -169,6 +183,7 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
+        console.log(res.data[0]);
         this.setState({ cancel: event.cancel });
         if (this.state.event.location_name == null) {
           this.setState({ location_name: '' });

@@ -155,6 +155,7 @@ module.exports = class OrganiserDao extends Dao {
   }
   // Creates an event by using sent in data from a form.
   postEvent(event: Event, callback: (status: string, data: Object) => mixed) {
+    console.log(event);
     super.query(
       'INSERT INTO event (name, description, image, start, status, is_public, location_id, venue, end) VALUES (?,?,?,?,?,?,?,?,?)',
       [
@@ -433,7 +434,7 @@ module.exports = class OrganiserDao extends Dao {
   // Get all events connected to an organiser by id.
   getMyEvents(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
-      'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
+      'SELECT e.*,DATE_FORMAT(e.end, "%Y-%m-%d %H:%i") as end_format, DATE_FORMAT(e.start, "%Y-%m-%d %H:%i") as start_format, l.location_id, l.name as location_name, l.address, l.postcode FROM event e LEFT JOIN location l ON l.location_id = e.location_id WHERE event_id IN(SELECT event_id FROM event_organiser WHERE organiser_id = ?)',
       organiser_id,
       callback,
     );
