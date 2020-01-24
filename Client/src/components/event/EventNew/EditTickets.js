@@ -15,6 +15,8 @@ type State = {
 type Props = {
   updateParent: any,
 };
+
+/**Component for editting tickets */
 class EditTickets extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -24,6 +26,7 @@ class EditTickets extends Component<Props, State> {
       new_ticket_desc: string,
     };
   }
+  /** Gets tickets on the event*/
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     OrganiserService.getMyTickets().then(response => {
@@ -36,7 +39,7 @@ class EditTickets extends Component<Props, State> {
       <div>
         <div>
           <h4 className="text-center">Opprett billettype:</h4>
-          <label className="my-3">Bilettnavn</label>
+          <label className="my-3">Billettnavn</label>
           <input
             onChange={e => {
               this.setState({ new_ticket: e.target.value });
@@ -87,22 +90,22 @@ class EditTickets extends Component<Props, State> {
       </div>
     );
   }
+
+  /**Deletes tickets*/
   deleteTicket() {
-    console.log(this.state.new_event_ticket);
     OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
-      console.log(response);
       // TODO bytt denne så det bare blir en melding på toppen
       alert('Billettype slettet');
       this.props.updateParent();
       this.componentDidMount();
     });
   }
+  /**Creates tickets */
   createTicket() {
     let ticket = new TicketType();
     ticket.name = this.state.new_ticket;
     ticket.description = this.state.new_ticket_desc;
     OrganiserService.postTicket(ticket).then(response => {
-      console.log(response);
       // TODO bytt denne så det bare blir en melding på toppen
       alert('Billettype lagt til');
       this.props.updateParent();

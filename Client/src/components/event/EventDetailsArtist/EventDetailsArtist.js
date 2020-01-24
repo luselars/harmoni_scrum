@@ -1,6 +1,5 @@
 //@flow
 
-//Event details for artists
 import * as React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
@@ -26,6 +25,7 @@ type Props = {
   match: { params: { id: number } },
 };
 
+/**Shows details about events - Available for artist*/
 export default class EventDetailsArtist extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -42,6 +42,7 @@ export default class EventDetailsArtist extends Component<Props, State> {
       expandDesc: false,
     };
   }
+  /**Gets artist, event, riders and tickets by event_id */
   componentDidMount() {
     //Gets artists on event by event_id
     UserService.getArtists(this.props.match.params.id)
@@ -418,8 +419,8 @@ export default class EventDetailsArtist extends Component<Props, State> {
     );
   }
 
+  /**Changes your location to edit event*/
   edit() {
-    //Changes your location to edit event
     window.location.href = '/userevent/edit/' + this.props.match.params.id;
   }
 }
