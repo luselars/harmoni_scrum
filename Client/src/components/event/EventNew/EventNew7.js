@@ -2,7 +2,7 @@
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { string } from 'prop-types';
+import { number, string } from 'prop-types';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -15,7 +15,7 @@ type State = {
   my_types: [],
   new_type: string,
   delete: {},
-  invite: {},
+  vol_id: number,
   expandCreate: boolean,
 };
 type Props = {
@@ -30,7 +30,7 @@ class EventNew7 extends Component<Props, State> {
       personnel: [],
       new_type: string,
       delete: {},
-      invite: {},
+      vol_id: number,
       expandCreate: false,
     };
   }
@@ -53,6 +53,9 @@ class EventNew7 extends Component<Props, State> {
       OrganiserService.getVolunteerType().then(response => {
         console.log(response.data);
         this.setState({ my_types: response.data });
+        if (response.data[0] !== undefined) {
+          this.setState({ invite: response.data[0].volunteer_type_id });
+        }
       });
     }
   }
@@ -65,24 +68,24 @@ class EventNew7 extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-group text-center ml-5 mr-5">
-          <p>Knytt personell til arrangementet: </p>
-        </div>
-        <div className="form-group text-center ml-5 mr-5">
-          <p
+      <div className="row justify-content-center">
+        <div className="col-md-10">
+          <label
             style={{ cursor: 'pointer' }}
             onClick={() => {
               this.toggleExpandCreate();
             }}
+            className="text-center"
           >
             Endre dine personelltyper
+            <br />
+            <br />
             {this.state.expandCreate ? (
-              <i className="arrow down"></i>
+              <i className="arrow down text-center"></i>
             ) : (
-              <i className="arrow up"></i>
+              <i className="arrow up text-center"></i>
             )}
-          </p>
+          </label>
           {this.state.expandCreate ? (
             <EditPersonnel
               updateParent={() => {
@@ -90,63 +93,83 @@ class EventNew7 extends Component<Props, State> {
               }}
             />
           ) : null}
+
+          <h4 className="text-center">Knytt personell til arrangementet </h4>
+          <label className="text-center">Inviter personell til arrangementet:</label>
+          <div className="row">
+            <input
+              onChange={e => {
+                this.setState({ new_person: e.target.value });
+              }}
+              className="form-control col-7"
+              placeholder={'E-post'}
+              type="text"
+            />
+            <select
+              onChange={e => {
+                console.log(e.target.value);
+                this.state.invite = e.target.value;
+              }}
+              className="form-control"
+            >
+              {this.state.my_types.map(type => (
+                <option value={type.volunteer_type_id}>{type.name}</option>
+              ))}
+            </select>
+            {/*<Autocomplete*/}
+            {/*  options={this.state.my_types}*/}
+            {/*  className="col-5"*/}
+            {/*  onChange={(e, value) => {*/}
+            {/*    this.state.invite = value;*/}
+            {/*  }}*/}
+            {/*  getOptionLabel={pers => pers.name}*/}
+            {/*  style={{ width: 300 }}*/}
+            {/*  renderInput={params => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      className="form-control"*/}
+            {/*      label="Velg personelltype"*/}
+            {/*      variant="outlined"*/}
+            {/*      fullWidth*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*/>*/}
+            <button onClick={() => this.invitePerson()}>Inviter</button>
+          </div>
+          <div>
+            <p>Mitt personell</p>
+            {this.state.my_types.map(type => (
+              <span>
+                {this.state.personnel.filter(c => c.volunteer_type === type.name).length > 0 ? (
+                  <span>
+                    <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{type.name}:</p>
+                    {this.state.personnel
+                      .filter(c => c.volunteer_type === type.name)
+                      .map(p => (
+                        <p>
+                          {p.email}
+                          <button onClick={() => this.removePerson(p.user_id)}>Fjern</button>
+                        </p>
+                      ))}
+                  </span>
+                ) : null}
+              </span>
+            ))}
+          </div>
+          <div>
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+              Fullfør
+            </button>
+          </div>
         </div>
-        <div>
-          <p>Inviter personell til arrangementet:</p>
-          <input
-            onChange={e => {
-              this.setState({ new_person: e.target.value });
-            }}
-            placeholder={'E-post'}
-            type="text"
-          />
-          <Autocomplete
-            options={this.state.my_types}
-            onChange={(e, value) => {
-              this.state.invite = value;
-            }}
-            getOptionLabel={pers => pers.name}
-            style={{ width: 300 }}
-            renderInput={params => (
-              <TextField {...params} label="Velg personelltype" variant="outlined" fullWidth />
-            )}
-          />
-          <button onClick={() => this.invitePerson()}>Inviter</button>
-        </div>
-        <div>
-          <p>Mitt personell</p>
-          {this.state.my_types.map(type => (
-            <span>
-              {this.state.personnel.filter(c => c.volunteer_type === type.name).length > 0 ? (
-                <span>
-                  <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{type.name}:</p>
-                  {this.state.personnel
-                    .filter(c => c.volunteer_type === type.name)
-                    .map(p => (
-                      <p>
-                        {p.email}
-                        <button onClick={() => this.removePerson(p.user_id)}>Fjern</button>
-                      </p>
-                    ))}
-                </span>
-              ) : null}
-            </span>
-          ))}
-        </div>
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Fullfør
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }
   invitePerson() {
-    if (this.state.new_person === undefined || this.state.invite.name === undefined) {
+    if (this.state.new_person === undefined || this.state.invite === undefined) {
       alert('Vennligst velg både en person å invitere og en type personellgruppe.');
       return;
     }
@@ -156,7 +179,7 @@ class EventNew7 extends Component<Props, State> {
     OrganiserService.inviteVolunteer(
       this.state.new_person,
       this.state.event.event_id,
-      this.state.invite.volunteer_type_id,
+      Number(this.state.invite),
     ).then(response => {
       console.log(response);
       let text = '';

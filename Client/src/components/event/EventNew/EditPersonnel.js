@@ -41,7 +41,7 @@ class EditPersonnel extends Component<Props, State> {
         <div>
           <p>Legg til personelltype:</p>
           <p id="alert" style={{ color: 'red' }} hidden="true">
-            Ingen personelltype skrevet inn
+            Ingen personelltype skrevet inn.
           </p>
           <input
             onChange={e => {
@@ -83,6 +83,8 @@ class EditPersonnel extends Component<Props, State> {
       return;
     }
     OrganiserService.deleteVolunteerType(this.state.delete.volunteer_type_id).then(response => {
+      // TODO gi alert om at type er lagt til
+      alert('231');
       this.props.updateParent();
       this.componentDidMount();
     });
@@ -100,6 +102,8 @@ class EditPersonnel extends Component<Props, State> {
       return;
     }
     OrganiserService.addVolunteerType(this.state.new_type).then(response => {
+      // TODO gi alert om at type er lagt til
+      alert('234');
       this.props.updateParent();
       this.componentDidMount();
     });

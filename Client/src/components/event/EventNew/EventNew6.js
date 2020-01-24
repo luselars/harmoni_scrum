@@ -154,7 +154,7 @@ class EventNew6 extends Component<Props, State> {
           </div>
           <div className="border-bottom m-5"></div>
           <div>
-            <label className="text-center">Billetter lagt til:</label>
+            <h4 className="text-center">Billetter lagt til:</h4>
             {this.state.event_tickets.length > 0 ? (
               <span>
                 {this.state.event_tickets.map(ticket => (
