@@ -6,6 +6,7 @@ The server listens to port 4000.
 
 // Imports
 import express from 'express';
+
 let bodyParser = require('body-parser');
 let td = require('./routes/tokenDecoder');
 const cors = require('cors');
