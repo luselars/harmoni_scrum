@@ -38,7 +38,7 @@ export default class EventList extends Component<Props, State> {
     let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
     let sortAlt = ['', ''];
     let minprice = null;
-    let maxprice = null;
+    let maxprice = 99999999999;
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
     if (localStorage.getItem('minprice') != null)
