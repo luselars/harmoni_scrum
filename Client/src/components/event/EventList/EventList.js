@@ -60,8 +60,7 @@ export default class EventList extends Component<Props, State> {
       minprice: minprice,
       maxprice: maxprice,
     };
-    var fuse = new Fuse([], options);
-    if (this.state.events != null) fuse = new Fuse(this.state.events, options);
+    const fuse = new Fuse(this.state.events, options);
   }
 
   /**Handles page navigations*/
@@ -154,8 +153,7 @@ export default class EventList extends Component<Props, State> {
       events: tempEvents,
       pageCount: Math.ceil(tempEvents.length / this.state.eventsPerPage),
     });
-    if (tempEvents == null) this.fuse = new Fuse([], options);
-    else this.fuse = new Fuse(tempEvents, options);
+    this.fuse = new Fuse(tempEvents, options);
   };
 
   /**Filter events by price*/
@@ -178,8 +176,7 @@ export default class EventList extends Component<Props, State> {
       events: newEventList,
       pageCount: Math.ceil(newEventList.length / this.state.eventsPerPage),
     });
-    if (newEventList == null) this.fuse = new Fuse([], options);
-    else this.fuse = new Fuse(newEventList, options);
+    this.fuse = new Fuse(newEventList, options);
   };
 
   render() {
@@ -415,8 +412,7 @@ export default class EventList extends Component<Props, State> {
       events: upcommingEvents,
       pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
     });
-    if (upcommingEvents == null) this.fuse = new Fuse([], options);
-    else this.fuse = new Fuse(upcommingEvents, options);
+    this.fuse = new Fuse(upcommingEvents, options);
     this.getFilterStateFromLocalStorage();
   }
 
@@ -463,8 +459,7 @@ export default class EventList extends Component<Props, State> {
       events: upcommingEvents,
       pageCount: Math.ceil(upcommingEvents.length / this.state.eventsPerPage),
     });
-    if (upcommingEvents == null) this.fuse = new Fuse([], options);
-    else this.fuse = new Fuse(upcommingEvents, options);
+    this.fuse = new Fuse(upcommingEvents, options);
     this.getFilterStateFromLocalStorage();
   }
 
