@@ -13,7 +13,7 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
   }
   render() {
     return (
-      <div className="card passwordcard">
+      <div className="card passwordcard mb-4">
         <p className="display-4 text-uppercase text-center m-4 border-bottom">GLEMT PASSORD</p>
         <form onSubmit={e => this.newPassword(e)}>
           <div class="form-group text-center ml-5 mr-5">
