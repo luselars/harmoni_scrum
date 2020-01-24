@@ -28,7 +28,9 @@ router.changeDao = function changeDao(publicDao: publicDao) {
   dao = publicDao;
 };
 
-// Checks if the token is verified, if so it returns a new token that lasts longer
+/**
+ * Checks if the token is verified, if so it returns a new token that lasts longer
+ */
 router.get('/refreshToken', (req: express$Request, res: express$Response) => {
   // Get token from header
   let token = req.headers['x-access-token'];
@@ -53,12 +55,16 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Get file. The id should match a file in the folder files
+/**
+ * Get file. The id should match a file in the folder files
+ */
 router.get('/file/:id', function(req, res) {
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });
 
-// Get all public events sorted by a string
+/**
+ * Get all public events sorted by a string
+ */
 router.get('/event', (req, res: express$Response) => {
   dao.getPublicEvents((status, data) => {
     res.status(status);
@@ -66,7 +72,9 @@ router.get('/event', (req, res: express$Response) => {
   });
 });
 
-// Get a specific public event
+/**
+ * Get a specific public event
+ */
 router.get('/event/:id', (req: express$Request, res: express$Response) => {
   dao.getPublicEvent(req.params.id, (status, data) => {
     res.status(status);
@@ -74,7 +82,9 @@ router.get('/event/:id', (req: express$Request, res: express$Response) => {
   });
 });
 
-//Get artist on an event, only artist name
+/**
+ * Get artist on an event, only artist name
+ */
 router.get('/event/:id/artist', (req: express$Request, res: express$Response) => {
   dao.getArtistEvent(req.params.id, (status, data) => {
     res.status(status);
@@ -82,7 +92,9 @@ router.get('/event/:id/artist', (req: express$Request, res: express$Response) =>
   });
 });
 
-//Get tickets on an event
+/**
+ * Get tickets on an event
+ */
 router.get('/event/:id/tickets', (req: express$Request, res: express$Response) => {
   dao.getEventTickets(req.params.id, (status, data) => {
     res.status(status);
@@ -90,7 +102,9 @@ router.get('/event/:id/tickets', (req: express$Request, res: express$Response) =
   });
 });
 
-// login for user, returns a jwt token
+/**
+ * login for user, returns a jwt token
+ */
 router.post('/login', (req: express$Request, res: express$Response) => {
   // Gets the users hash and salt from the DB
   dao.getUserLoginInfo(req.body.username, (status, data) => {
@@ -189,7 +203,9 @@ router.post('/login', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Register new user or organiser with a sent in form.
+/**
+ * Register new user or organiser with a sent in form.
+ */
 router.post('/register', (req: express$Request, res: express$Response) => {
   // Genereates salt and hash
   req.body.salt = bcrypt.genSaltSync(10);
@@ -210,7 +226,9 @@ router.post('/register', (req: express$Request, res: express$Response) => {
   }
 });
 
-// Check if email is in database.
+/**
+ * Check if email is in database.
+ */
 router.get('/checkEmail/:email', (req: express$Request, res: express$Response) => {
   dao.emailExists(req.params.email, (status, data) => {
     console.log(data);
@@ -219,7 +237,9 @@ router.get('/checkEmail/:email', (req: express$Request, res: express$Response) =
   });
 });
 
-// Send feedback-email to administrator account.
+/**
+ * Send feedback-email to administrator account.
+ */
 router.post('/feedback', (req: express$Request, res: express$Response) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -270,7 +290,9 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Send new password to a specific email. (user forgot password)
+/**
+ * Send new password to a specific email. (user forgot password)
+ */
 router.post('/newpassword', (req: express$Request, res: express$Response) => {
   let rand = Math.floor(Math.random() * (100000000 - 10000000)) + 10000000;
   let password = rand.toString();
