@@ -22,7 +22,7 @@ type State = {
   artist_name: string,
 };
 
-//Component for editing user profile
+/** Component for editing user profile */
 class ProfileEditUser extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -214,7 +214,7 @@ class ProfileEditUser extends Component<{}, State> {
     });
   }
 
-  //Sets style to modal
+  /** Function for changing modal style */
   deletebtn() {
     var btn = document.getElementById('deleteprofilebtn');
     var modal = document.getElementById('myModal');
@@ -235,7 +235,7 @@ class ProfileEditUser extends Component<{}, State> {
     };
   }
 
-  //Deletes user
+  /** Function for deleting user */
   delete() {
     UserService.deleteUser(this.state.user_id)
       .then(response => {
@@ -251,6 +251,7 @@ class ProfileEditUser extends Component<{}, State> {
     this.setState({ [name]: value });
   }
 
+  /** Function for editing user details */
   edit(changePassword: boolean) {
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
@@ -293,7 +294,7 @@ class ProfileEditUser extends Component<{}, State> {
     }
   }
 
-  //edits profile
+  /** Function for sending edited user details to serverside*/
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     UserService.editUser(state)
@@ -306,7 +307,7 @@ class ProfileEditUser extends Component<{}, State> {
       });
   }
 
-  //comfirms the changes
+  /** Function confirming changes. */
   post(event: any) {
     event.preventDefault();
     {
