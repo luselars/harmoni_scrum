@@ -39,6 +39,12 @@ class EditPersonnel extends Component<Props, State> {
         <p id="alert" style={{ color: 'red' }} hidden="true">
           Ingen personelltype skrevet inn.
         </p>
+        <p id="alertgood" style={{ color: 'green' }} hidden="true">
+          Personell lagt til
+        </p>
+        <p id="alertdelete" style={{ color: 'red' }} hidden="true">
+          Personell er slettet
+        </p>
         <input
           onChange={e => {
             this.setState({ new_type: e.target.value });
@@ -82,20 +88,24 @@ class EditPersonnel extends Component<Props, State> {
 
   /**Deletes Personnel */
   deleteType() {
+    document.getElementById('alertgood').hidden = true;
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertdelete').hidden = true;
     this.state.delete = document.getElementById('delete').value;
     if (this.state.delete === undefined) {
       return;
     }
     OrganiserService.deleteVolunteerType(this.state.delete).then(response => {
-      // TODO gi alert om at type er slettet
-      alert('231');
       this.props.updateParent();
       this.componentDidMount();
+      document.getElementById('alertdelete').hidden = false;
     });
   }
 
   /**Creates personnel type*/
   createType(e: any) {
+    document.getElementById('alertgood').hidden = true;
+    document.getElementById('alert').hidden = true;
     e.preventDefault();
     // Opprett personellgruppe her
     if (
@@ -109,7 +119,7 @@ class EditPersonnel extends Component<Props, State> {
     OrganiserService.addVolunteerType(this.state.new_type)
       .then(response => {
         // TODO gi alert om at type er lagt til
-
+        document.getElementById('alertgood').hidden = false;
         this.props.updateParent();
         this.componentDidMount();
       })
