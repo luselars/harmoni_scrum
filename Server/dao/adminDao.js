@@ -11,7 +11,7 @@ module.exports = class AdminDao extends Dao {
     return super.getPool();
   }
 
-  //verify an account
+  // Verify an organiser by id.
   verifyOrganiser(organiser_id: number, callback: (status: string, data: Event) => mixed) {
     super.query(
       'UPDATE organiser SET verified = NOT verified WHERE organiser_id = ?',
@@ -20,12 +20,12 @@ module.exports = class AdminDao extends Dao {
     );
   }
 
-  //get all organisers.
+  // Get all organisers.
   getOrganisers(callback: (status: string, data: Event) => mixed) {
     super.query('SELECT * FROM organiser', [], callback);
   }
 
-  //get all unverified organisers.
+  // Get all unverified organisers.
   getUnverified(callback: (status: string, data: Event) => mixed) {
     super.query('SELECT * FROM organiser WHERE NOT verified', [], callback);
   }

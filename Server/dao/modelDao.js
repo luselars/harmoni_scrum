@@ -22,11 +22,6 @@ export class Event {
 
   location_name: string;
   postcode: number;
-
-  // Event Location
-  //location: Location = null;
-  // Event Users
-  //users: User[] = null;
 }
 
 // Object for sending Location

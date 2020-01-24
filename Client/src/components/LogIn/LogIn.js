@@ -50,7 +50,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
             </div>
             <div class="form-group text-center ml-5 mr-5">
               <label class="form-label" for="check1">
-                <a href="/glemtpassord">Glemt passord?</a>
+                <a href="/password">Glemt passord?</a>
               </label>
               <button type="submit" class="btn btn-success mr-3 ml-3">
                 Logg inn

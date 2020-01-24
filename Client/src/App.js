@@ -67,9 +67,9 @@ function App() {
           <Route exaxt path="/deletedprofile" component={ProfileDeleted} />
           <Route exaxt path="/feedback" component={Feedback} />
           <Route exaxt path="/feedbackregistered" component={FeedbackRegistered} />
-          <Route exaxt path="/glemtpassord" component={ForgottenPassword} />
+          <Route exaxt path="/password" component={ForgottenPassword} />
           <Route exact path="/userevent/edit/:id" component={EventEditArtist} />
-          <Route exaxt path="/glemtpassordregisrert" component={ForgottenPasswordRegistered} />
+          <Route exaxt path="/passwordregister" component={ForgottenPasswordRegistered} />
           <Route component={NoMatch} />
         </Switch>
       </div>

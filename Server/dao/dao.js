@@ -13,10 +13,11 @@ module.exports = class Dao {
     });
   }
 
+  // Returns the pool
   getPool() {
     return this.pool;
   }
-
+  // Sends in an sql query by string with an array of params.
   query(sql: string, params: any, callback: (status: string, data: Object) => mixed) {
     this.pool.getConnection((err, connection) => {
       if (err) {

@@ -43,67 +43,81 @@ class EventNew4 extends Component<Props, State> {
 
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-row">
-          <p>
-            Legg til artister på arrangementet:
-            <MoreInfo
-              padding={'5px'}
-              text={
-                'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
-              }
-            />
-          </p>
-        </div>
-        <div className="form-group text-center ml-5 mr-5">
-          <label htmlFor="inputEmail1" id="loginText">
-            Artistens epost-addresse:
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control"
-            id="email"
-            placeholder="Skriv e-mail"
-          />
-          <button className="btn btn-success" onClick={() => this.invite()}>
-            Inviter artist
-          </button>
-          {this.state.artists.map(artist => (
-            <div>
-              <p>Artist: {artist.email}</p>
-              <div>
-                <p>
-                  Kontrakt: <br />
-                  {artist.contract === null ? (
-                    <UploadContract
-                      reload={() => {
-                        this.handleReload();
-                      }}
-                      artist={artist}
-                      accept={'.pdf'}
-                      message={'Last opp kontrakt'}
-                      event_id={this.state.event.event_id}
-                    />
-                  ) : (
-                    <p>
-                      <DownloadFile fileName={artist.contract} />
-                      <UploadContract
-                        reload={() => {
-                          this.handleReload();
-                        }}
-                        artist={artist}
-                        accept={'.pdf'}
-                        message={'Last opp annen kontrakt'}
-                        event_id={this.state.event.event_id}
-                      />
-                    </p>
-                  )}
-                </p>
-              </div>
-              <br />
+      <div>
+        <div className="form-row justify-content-center">
+          <div id="col-12">
+            <label>
+              Legg til artister på arrangementet
+              <MoreInfo
+                padding={'5px'}
+                text={
+                  'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
+                }
+              />
+            </label>
+            <div className="text-center">
+              <small id="artistOptional" className="text-muted text-center mb-2">
+                Valgfritt
+              </small>
             </div>
-          ))}
+            <input
+              type="email"
+              name="email"
+              className="form-control w-100"
+              id="email"
+              placeholder="Skriv e-mail..."
+            />
+            <div className="row justify-content-center">
+              <button className="btn btn-success w-50 mt-2 mb-3" onClick={() => this.invite()}>
+                Inviter artist
+              </button>
+            </div>
+            {this.state.artists.length > 0 ? (
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Artist</th>
+                    <th scope="col">Kontrakt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.artists.map(artist => (
+                    <tr>
+                      <td scope="row">{artist.email}</td>
+                      <td>
+                        {artist.contract === null ? (
+                          <UploadContract
+                            reload={() => {
+                              this.handleReload();
+                            }}
+                            artist={artist}
+                            accept={'.pdf'}
+                            message={'Last opp kontrakt'}
+                            event_id={this.state.event.event_id}
+                          />
+                        ) : (
+                          <p>
+                            <DownloadFile fileName={artist.contract} />
+                            <UploadContract
+                              reload={() => {
+                                this.handleReload();
+                              }}
+                              artist={artist}
+                              accept={'.pdf'}
+                              message={'Last opp annen kontrakt'}
+                              event_id={this.state.event.event_id}
+                            />
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div></div>
+            )}
+          </div>
         </div>
         <div>
           <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
@@ -113,7 +127,6 @@ class EventNew4 extends Component<Props, State> {
             Neste
           </button>
         </div>
-        {/*</form>*/}
       </div>
     );
   }
@@ -124,40 +137,48 @@ class EventNew4 extends Component<Props, State> {
   invite() {
     let email = document.getElementById('email').value;
     PublicService.checkEmail(email).then(res => {
-      console.log(res.data);
-      if (res.data.length === 0 || res.data.type !== 'organiser') {
-        OrganiserService.inviteArtist(email, this.state.event.event_id)
-          .then(resp => {
-            console.log(resp);
-            console.log('RESP DATA MESSAGE: ' + resp.data.message);
-            let text = '';
-            if (resp.data.message === 'Added new user') {
-              text =
-                'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
-                email +
-                '</p><p><b>Passord: <b>' +
-                resp.data.password;
-            } else if (resp.data.message === 'Made user artist and added him/her to event') {
-              text =
-                'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
-            } else {
-              text = 'Logg inn på Harmoni for å se flere detaljer.';
-            }
-            OrganiserService.sendmail(email, this.state.event.name, text)
-              .then(response => {
-                console.log('Email sent');
-                this.componentDidMount();
-              })
-              .catch(error => {
-                console.log('error sendmail: ' + error);
-              });
-
-            this.componentDidMount();
-          })
-          .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+      if (res.data.length === 0) {
+        this.addArtist(email);
+      } else if (res.data[0].type !== 'organiser') {
+        this.addArtist(email);
+      } else {
+        alert('Eposten er i bruk av en annen arrangør');
       }
     });
   }
+
+  addArtist(email) {
+    OrganiserService.inviteArtist(email, this.state.event.event_id)
+      .then(resp => {
+        console.log(resp);
+        console.log('RESP DATA MESSAGE: ' + resp.data.message);
+        let text = '';
+        if (resp.data.message === 'Added new user') {
+          text =
+            'Det er opprettet en bruker du kan bruke for å logge deg inn på Harmoni for å se flere detaljer. </p><p><b>Brukernavn: <b> ' +
+            email +
+            '</p><p><b>Passord: <b>' +
+            resp.data.password;
+        } else if (resp.data.message === 'Made user artist and added him/her to event') {
+          text =
+            'Din bruker er oppdatert til en artistbruker. Logg inn på Harmoni for å se flere detaljer.';
+        } else {
+          text = 'Logg inn på Harmoni for å se flere detaljer.';
+        }
+        OrganiserService.sendmail(email, this.state.event.name, text)
+          .then(response => {
+            console.log('Email sent');
+            this.componentDidMount();
+          })
+          .catch(error => {
+            console.log('error sendmail: ' + error);
+          });
+
+        this.componentDidMount();
+      })
+      .catch((error: Error) => alert('Artist allerede lagt til i arrangement'));
+  }
+
   formatTime() {
     if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);

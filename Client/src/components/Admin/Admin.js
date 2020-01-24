@@ -1,4 +1,6 @@
 // @flow
+
+//Admin Component for Organizer Approval
 import * as React from 'react';
 import { Component } from 'react';
 import { Organiser } from '../../services/modelService';
@@ -17,12 +19,13 @@ export default class Admin extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
+      //List of all organiser-user reguests
       requests: [],
       authorised: true,
     };
   }
   render() {
-    console.log(this.state.authorised);
+    //Admin access
     if (this.state.authorised) {
       return (
         <div>
@@ -56,11 +59,13 @@ export default class Admin extends Component<{}, State> {
         </div>
       );
     } else {
+      //Not Authorized users tries to access
       return <NotAuthorized />;
     }
   }
 
   componentDidMount() {
+    //Gets all unverifed organisers
     AdminService.getUnverifed()
       .then(res => {
         this.setState({ authorised: true });
@@ -83,7 +88,7 @@ export default class Admin extends Component<{}, State> {
   }
 
   accept(id: number) {
-    console.log(id);
+    //Verifies organiser
     AdminService.verify(id);
   }
 }

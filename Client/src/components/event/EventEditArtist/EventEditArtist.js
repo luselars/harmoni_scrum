@@ -1,4 +1,6 @@
 //@flow
+
+//Component for artist to edit events
 import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
@@ -11,7 +13,13 @@ import UploadRider from '../../Upload/UploadRider';
 import { UserService } from '../../../services/userService';
 
 type Props = {
-  onSelectPage: any,
+  match: { params: { id: number } },
+  onSelectedPage: any,
+};
+type State = {
+  event: Event,
+  artist: User,
+  riders: [],
 };
 class EventEditArtist extends Component<Props, State> {
   constructor(props: any) {
@@ -57,6 +65,7 @@ class EventEditArtist extends Component<Props, State> {
                 {this.state.artist.notes}
               </textarea>
               <br />
+              {/*Component for uploading riders*/}
               <UploadRider
                 reload={() => this.handleReload()}
                 accept={'.pdf'}
@@ -72,7 +81,9 @@ class EventEditArtist extends Component<Props, State> {
           {this.state.riders.map(rider => (
             <div>
               {rider.email}
+              {/*Component for downloading riders*/}
               <DownloadFile fileName={rider.rider_file} />
+              {/*Button for deleting uploaded riders*/}
               <button onClick={() => this.deleteRider(rider.rider_id)}>Slett rider</button>
             </div>
           ))}
@@ -92,15 +103,17 @@ class EventEditArtist extends Component<Props, State> {
       </div>
     );
   }
+  //Reloads component
   handleReload = () => {
     console.log('RELOAD');
     this.componentDidMount();
   };
+
+  //Deletes riders
   deleteRider(rider_id: number) {
     console.log(rider_id);
+    //Deletes riders by rider_id
     UserService.deleteRider(rider_id).then(r => {
-      console.log(r);
-      console.log('sletta du en rider?');
       this.componentDidMount();
     });
   }
