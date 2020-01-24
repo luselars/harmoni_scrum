@@ -30,20 +30,20 @@ export default class ProfileNew extends Component<
   constructor(props: any) {
     super(props);
     this.state = {
-      email: string,
-      name: string,
-      password: string,
-      passwordConfirmation: string,
-      url: string,
+      email: null,
+      name: null,
+      password: null,
+      passwordConfirmation: null,
+      url: null,
       organiser: false,
       check: false,
-      address: string,
+      address: '',
       streetAddress: '',
-      postalcode: number,
-      postal: string,
-      image: string,
-      tlf: string,
-      description: string,
+      postalcode: null,
+      postal: '',
+      image: null,
+      tlf: null,
+      description: null,
     };
   }
 
