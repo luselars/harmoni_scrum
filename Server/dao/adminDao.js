@@ -37,9 +37,26 @@ module.exports = class AdminDao extends Dao {
   }
 
   /**
+   * Get all the users.
+   */
+  getUsers(callback: (status: string, data: Organiser) => mixed) {
+    super.query('SELECT * FROM user', [], callback);
+  }
+
+  /**
    * Get all the unverified organisers.
    */
   getUnverified(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser WHERE NOT verified', [], callback);
+  }
+
+  /**Deletes a user from the database with the give id */
+  deleteUser(user_id: number, callback: (status: string, data: Organiser) => mixed) {
+    super.query('DELETE FROM user WHERE user_id = ?', [user_id], callback);
+  }
+
+  /**Deletes a organiser from the database with the give id */
+  deleteOrganiser(organiser_id: number, callback: (status: string, data: Organiser) => mixed) {
+    super.query('DELETE FROM organiser WHERE user_id = ?', [organiser_id], callback);
   }
 };

@@ -60,6 +60,16 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
 });
 
 /**
+ * Get all users
+ */
+router.get('/users', (req: express$Request, res: express$Response) => {
+  dao.getUsers((status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+/**
  * Get all unverified organisers
  */
 router.get('/unverified', (req: express$Request, res: express$Response) => {
@@ -74,6 +84,22 @@ router.get('/unverified', (req: express$Request, res: express$Response) => {
  */
 router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
   dao.verifyOrganiser(req.params.id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+/**Deletes a user from the database with the give id */
+router.delete('/user/:user_id', (req: express$Request, res: express$Response) => {
+  dao.deleteUser(req.params.user_id, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+/**Deletes a organiser from the database with the give id */
+router.delete('/organiser/:organiser_id', (req: express$Request, res: express$Response) => {
+  dao.deleteOrganiser(req.params.organiser_id, (status, data) => {
     res.status(status);
     res.send(data);
   });
