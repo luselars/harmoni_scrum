@@ -193,7 +193,7 @@ export default class EventList extends Component<Props, State> {
         />
         {!this.props.profile_list ? <div></div> : <p className="display-4">Dine arrangementer</p>}
         <div className="input-group my-3 justify-content-md-center" id="searchBox">
-          <div className="input-group md-form form-sm form-1 pl-0" style={{ width: '80%' }}>
+          <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
                 <i className="fa fa-search" aria-hidden="true" />
