@@ -2,7 +2,7 @@
 
 Harmoni er en nettbasert applikasjon for å samle informasjon om arrangementer, slik at arrangører, artister og publikum kan holde oversikt over tidspunkter, artister, personale, billetter og mer.
 
-## `Oppsett`
+## Oppsett:
 
 Når man første gang skal kjøre applikasjonen, kjør:
 npm install
