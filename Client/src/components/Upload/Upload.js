@@ -1,9 +1,6 @@
 //@flow
 import React from 'react';
 import { Component } from 'react';
-import FormData from 'form-data';
-import { UserService } from '../../services/userService.js';
-import { OrganiserService } from '../../services/organiserService';
 let path = require('path');
 
 type Props = {
