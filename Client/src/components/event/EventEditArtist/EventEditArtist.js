@@ -53,40 +53,73 @@ class EventEditArtist extends Component<Props, State> {
         </div>
         <div className="form-group text-center ml-5 mr-5">
           <div>
-            <p>Notater:</p>
-            <div>
-              <textarea
-                defaultValue={this.state.riders[0] !== undefined ? this.state.riders[0].notes : ''}
-                class="form-control"
-                id="notes"
-                rows="3"
-                onBlur={e => this.publishNotes(e.target.value)}
-              >
-                {this.state.artist.notes}
-              </textarea>
-              <br />
-              {/*Component for uploading riders*/}
-              <UploadRider
-                reload={() => this.handleReload()}
-                accept={'.pdf'}
-                message={'Last opp ridere'}
-                artist_id={this.state.artist.user_id}
-                event_id={this.props.match.params.id}
-                organiser={false}
-              />
-            </div>
-            <br />
+            <table className="table table-bordered">
+              <thead className="thead-light">
+                <tr className=" text-center">
+                  <th scope="col text-center">Endre dine riders</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <p>Notater: </p>
+                  <textarea
+                    defaultValue={
+                      this.state.riders[0] !== undefined ? this.state.riders[0].notes : ''
+                    }
+                    class={'form-control w-75 d-block mx-auto'}
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    onBlur={e => this.publishNotes(e.target.value)}
+                  >
+                    {this.state.riders.notes}
+                  </textarea>
+                  <br />
+                  {/*Component for uploading riders*/}
+                  <UploadRider
+                    reload={() => this.handleReload()}
+                    accept={'.pdf'}
+                    message={'Last opp ridere'}
+                    artist_id={this.state.artist.user_id}
+                    event_id={this.props.match.params.id}
+                    organiser={false}
+                  />
+                </tr>
+                <br />
+              </tbody>
+            </table>
           </div>
-          {this.state.riders.length > 0 ? <p>Dine ridere:</p> : <p>Ingen riders lastet opp.</p>}
-          {this.state.riders.map(rider => (
-            <div>
-              {rider.email}
-              {/*Component for downloading riders*/}
-              <DownloadFile fileName={rider.rider_file} />
-              {/*Button for deleting uploaded riders*/}
-              <button onClick={() => this.deleteRider(rider.rider_id)}>Slett rider</button>
-            </div>
-          ))}
+          <table className="table table-bordered">
+            <thead className="thead-light">
+              <tr className=" text-center">
+                <th scope="col text-center">
+                  {' '}
+                  {this.state.riders.length > 0 ? (
+                    <p>Dine ridere:</p>
+                  ) : (
+                    <p>Ingen riders lastet opp.</p>
+                  )}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.riders.map(rider => (
+                <div>
+                  {rider.email}
+                  {/*Component for downloading riders*/}
+                  <DownloadFile fileName={rider.rider_file} />
+                  {/*Button for deleting uploaded riders*/}
+                  <div
+                    onClick={() => {
+                      this.deleteRider(rider.rider_id);
+                    }}
+                  >
+                    <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
+                    <label className="text-center mb-3">Slett</label>
+                  </div>
+                </div>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <div>
@@ -94,8 +127,17 @@ class EventEditArtist extends Component<Props, State> {
             onClick={() => {
               window.location = '/userevent/' + this.props.match.params.id;
             }}
-            className="btn btn-success"
-            id="backbtn"
+            className="btn btn-success mx-auto d-block m-2"
+            id="editeventbtn"
+          >
+            Rediger
+          </button>
+          <button
+            onClick={() => {
+              window.location = '/userevent/' + this.props.match.params.id;
+            }}
+            className="btn btn-secondary mx-auto d-block m-2"
+            id="editeventbtn"
           >
             Tilbake
           </button>
