@@ -77,7 +77,7 @@ class EventEditArtist extends Component<Props, State> {
             </div>
             <br />
           </div>
-          {this.state.riders.length > 0 ? <p>Mine ridere:</p> : <p>Ingen riders lastet opp.</p>}
+          {this.state.riders.length > 0 ? <p>Dine ridere:</p> : <p>Ingen riders lastet opp.</p>}
           {this.state.riders.map(rider => (
             <div>
               {rider.email}

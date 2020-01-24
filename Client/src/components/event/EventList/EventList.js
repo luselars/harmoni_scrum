@@ -211,6 +211,7 @@ export default class EventList extends Component<Props, State> {
           profile_list={this.props.profile_list}
         />
         <div>
+          {this.state.events.map((event, index) => console.log(event))}
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < this.state.eventsPerPage ? (
               <div className="card float-right my-2 bg-light p-2" id="cardEvents">
@@ -365,6 +366,7 @@ export default class EventList extends Component<Props, State> {
         //Gets mye event if the user is not an ograniser
         UserService.getMyEventsArtist()
           .then(aEvents => {
+            console.log(aEvents);
             UserService.getMyEventsVolunteer()
               .then(vEvents => {
                 this.insertUserEvents(aEvents, vEvents);
