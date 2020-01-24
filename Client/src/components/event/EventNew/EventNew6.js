@@ -23,6 +23,7 @@ type Props = {
   onSelectPage: any,
 };
 
+/**Component for sixth page on creating a new event */
 class EventNew6 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -39,6 +40,7 @@ class EventNew6 extends Component<Props, State> {
     };
   }
 
+  /**Gets from localStorage and gets event and tickets */
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -62,7 +64,7 @@ class EventNew6 extends Component<Props, State> {
       });
     }
   }
-
+  /**Expands page*/
   toggleExpandCreate() {
     if (this.state.expandCreate) {
       this.setState({ expandCreate: false });
@@ -70,7 +72,7 @@ class EventNew6 extends Component<Props, State> {
       this.setState({ expandCreate: true });
     }
   }
-
+  /**Reloads the componets */
   update = () => {
     this.componentDidMount();
   };
@@ -200,14 +202,13 @@ class EventNew6 extends Component<Props, State> {
       </div>
     );
   }
-
+  /**Deletes ticket from event and reloads page */
   removeTicket(ticket_id: number) {
     OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
-      console.log(response);
       this.componentDidMount();
     });
   }
-
+  /**Adds new ticket to event*/
   addTicketToEvent() {
     let ticket = new TicketType();
     for (let i = 0; i < this.state.org_tickets.length; i++) {
@@ -227,19 +228,17 @@ class EventNew6 extends Component<Props, State> {
       }
     }
     if (update) {
-      console.log('Update ticket');
     } else {
       OrganiserService.postEventTicket(ticket, this.state.event.event_id).then(r => {
-        console.log(r);
         this.componentDidMount();
       });
     }
   }
-
+  /**Returns to previous page */
   back() {
     this.props.onSelectPage(5);
   }
-
+  /**Sends user to the next page */
   next() {
     this.props.onSelectPage(7);
   }

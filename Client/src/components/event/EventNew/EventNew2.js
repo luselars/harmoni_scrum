@@ -64,19 +64,22 @@ class EventNew2 extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div className="row justify-content-center">
-          <button
-            onClick={() => this.next()}
-            type="button"
-            className="btn btn-success w-50 m-2 "
-            id="nextbtn"
-          >
-            Neste
-          </button>
-          <button onClick={() => this.back()} className="btn btn-secondary w-50 m-2 " id="backbtn">
-            Tilbake
-          </button>
-        </div>
+
+        <button
+          onClick={() => this.next()}
+          type="button"
+          className="btn btn-success w-25 m-2 d-block mx-auto"
+          id="nextbtn"
+        >
+          Neste
+        </button>
+        <button
+          onClick={() => this.back()}
+          className="btn btn-secondary w-25 m-2 d-block mx-auto"
+          id="backbtn"
+        >
+          Tilbake
+        </button>
       </div>
     );
   }

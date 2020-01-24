@@ -21,6 +21,8 @@ type State = {
 type Props = {
   onSelectPage: any,
 };
+
+/**Component for seventh page on creating a new event */
 class EventNew7 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -34,9 +36,13 @@ class EventNew7 extends Component<Props, State> {
       expandCreate: false,
     };
   }
+
+  /**Reloads components */
   update = () => {
     this.componentDidMount();
   };
+
+  /**Gets from localstorage. Gets event and personnel */
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -59,6 +65,8 @@ class EventNew7 extends Component<Props, State> {
       });
     }
   }
+
+  /**Expands page */
   toggleExpandCreate() {
     if (this.state.expandCreate) {
       this.setState({ expandCreate: false });
@@ -95,6 +103,10 @@ class EventNew7 extends Component<Props, State> {
           ) : null}
 
           <h4 className="text-center">Knytt personell til arrangementet </h4>
+          <p id="alert" style={{ color: 'red' }} hidden="true">
+            Legg til både personell og personellgruppe
+          </p>
+
           <label className="text-center">Inviter personell til arrangementet:</label>
           <div className="row">
             <div className="col-sm-4">
@@ -188,20 +200,23 @@ class EventNew7 extends Component<Props, State> {
       </div>
     );
   }
+
+  /**Invite personnel to event and sends email to personnel */
   invitePerson() {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
     if (this.state.new_person === undefined || this.state.invite === undefined) {
-      alert('Vennligst velg både en person å invitere og en type personellgruppe.');
+      // $FlowFixMe
+      document.getElementById('alert').hidden = false;
+      window.scrollTo(0, 0);
       return;
     }
-    console.log(this.state.new_person);
-    console.log(this.state.invite);
 
     OrganiserService.inviteVolunteer(
       this.state.new_person,
       this.state.event.event_id,
       Number(this.state.invite),
     ).then(response => {
-      console.log(response);
       let text = '';
       if (response.data.message === 'Added new user') {
         text =
@@ -216,7 +231,6 @@ class EventNew7 extends Component<Props, State> {
         .then(resp => {
           OrganiserService.sendmail(this.state.new_person, resp.data.name, text)
             .then(response => {
-              console.log('Email sent');
               this.componentDidMount();
             })
             .catch(error => {
@@ -230,16 +244,21 @@ class EventNew7 extends Component<Props, State> {
       this.componentDidMount();
     });
   }
+  /**Removes personnel from event and reloads page*/
   removePerson(user_id: number) {
     OrganiserService.removeVolunteerFromEvent(this.state.event.event_id, user_id).then(response => {
-      console.log(response);
       this.componentDidMount();
     });
   }
+
+  /**Returns to previous page */
   back() {
     this.props.onSelectPage(6);
   }
+
+  /**Completes event*/
   next() {
+    // $FlowFixMe
     window.location = '/orgevent/' + this.state.event.event_id;
   }
 }
