@@ -35,32 +35,55 @@ class EditTickets extends Component<Props, State> {
     return (
       <div>
         <div>
-          <p>Opprett billettype:</p>
+          <label className="text-center">Opprett billettype:</label>
+          <label className="my-3">Bilettnavn</label>
           <input
             onChange={e => {
               this.setState({ new_ticket: e.target.value });
             }}
-            placeholder={'Bilettnavn'}
+            className="form-control w-100"
+            placeholder="Skriv billetnavn..."
             type="text"
           />
+          <label className="my-3">Billettbeskrivelse</label>
           <input
             onChange={e => {
               this.setState({ new_ticket_desc: e.target.value });
             }}
-            placeholder={'Billettbeskrivelse'}
+            className="form-control w-100"
+            placeholder="Skriv billettbeskrivelse..."
             type="text"
           />
-          <button onClick={() => this.createTicket()}>Opprett billettype</button>
+          <div className="row justify-content-center">
+            <button
+              onClick={() => this.createTicket()}
+              type="button"
+              className="btn btn-success col-sm-3 m-2"
+            >
+              Opprett
+            </button>
+          </div>
+          <div>
+            <label className="text-center">Slett billettype:</label>
+            <select
+              onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
+              className="form-control w-100 my-2"
+            >
+              {this.state.org_tickets.map(ticket => (
+                <option value={ticket.ticket_type_id}>{ticket.name}</option>
+              ))}
+            </select>
+            <div className="row justify-content-center">
+              <button
+                onClick={() => this.deleteTicket()}
+                className="btn btn-secondary col-sm-3 m-2"
+              >
+                <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i> Slett
+              </button>
+            </div>
+          </div>
         </div>
-        <div>
-          <p>Slett billettype:</p>
-          <select onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}>
-            {this.state.org_tickets.map(ticket => (
-              <option value={ticket.ticket_type_id}>{ticket.name}</option>
-            ))}
-          </select>
-          <button onClick={() => this.deleteTicket()}>Slett billettype</button>
-        </div>
+        <div className="border-bottom border-dark border-5 m-5"></div>
       </div>
     );
   }
