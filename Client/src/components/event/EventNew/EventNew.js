@@ -20,6 +20,7 @@ type State = {
   end_h: string,
 };
 
+/**Component for first page on creating a new event */
 class EventNew extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -32,13 +33,12 @@ class EventNew extends Component<Props, State> {
       end_h: this.currentTime(),
     };
   }
+  /**Sets event in localStorage */
   componentDidMount(): * {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
-        console.log(response.data);
         this.setState({ event: data });
         document.getElementById('eventnameinput').value = this.state.event.name;
         document.getElementById('eventdesc').value = this.state.event.description;
@@ -60,6 +60,12 @@ class EventNew extends Component<Props, State> {
       <form onSubmit={event => this.next(event)}>
         <div className="form-row">
           <div className="col-12">
+            <p id="alertcouldnt" style={{ color: 'red' }} hidden="true">
+              Kunne ikke opprette arrangement
+            </p>
+            <p id="alertcouldntupdate" style={{ color: 'red' }} hidden="true">
+              Kunne ikke oppdatere arrangement
+            </p>
             <label id="eventnamelabel" for="eventname">
               Tittel
               <MoreInfo
@@ -102,6 +108,9 @@ class EventNew extends Component<Props, State> {
                 (this.state.event.description = event.target.value)
               }
             />
+            <p id="alert" style={{ color: 'red' }} hidden="true">
+              Slutttdato er satt før startdato
+            </p>
             <label id="eventdatestart" htmlFor="start">
               Starttidspunkt
             </label>
@@ -219,6 +228,7 @@ class EventNew extends Component<Props, State> {
     );
   }
 
+  /**Findes todays date */
   today() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -227,6 +237,7 @@ class EventNew extends Component<Props, State> {
     return yyyy + '-' + mm + '-' + dd;
   }
 
+  /**Finds current time */
   currentTime() {
     var now = new Date();
     var hour = now.getHours();
@@ -240,14 +251,17 @@ class EventNew extends Component<Props, State> {
     return hour + ':' + min;
   }
 
+  /** Updates states and server. Sends user to next page*/
   next(event) {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertcouldnt').hidden = true;
+    document.getElementById('alertcouldntupdate').hidden = true;
     event.preventDefault();
     this.state.event.start = this.state.start_d + ' ' + this.state.start_h;
     this.state.event.end = this.state.end_d + ' ' + this.state.end_h;
-    // TODO validate time input
     if (typeof this.state.event.name != 'string' || this.state.event.name.length < 1) {
-      // TODO bytt denne alerten
-      alert('Ugyldig tittel');
+      console.log('Ugyldig tittel');
       return;
     }
     if (typeof this.state.event.description != 'string') {
@@ -263,30 +277,30 @@ class EventNew extends Component<Props, State> {
     let startDate = new Date(this.state.event.start);
     let endDate = new Date(this.state.event.end);
     if (endDate < startDate) {
-      alert('Arrangementet sin startdato er før sluttdatoen');
+      // $FlowFixMe
+      document.getElementById('alert').hidden = false;
+      window.scrollTo(0, 0);
       return;
     }
     if (localStorage.getItem('curr_event') == null) {
       OrganiserService.createEvent(this.state.event).then(resp => {
-        console.log(resp);
         if (resp.status == 200) {
-          console.log('Arrangement oprettet');
           localStorage.setItem('curr_event', resp.data.insertId);
           this.props.onSelectPage(2);
         } else {
-          alert('Kunne ikke oprette arrangement.');
-          // TODO bytt ut denne alerten med et komponent.
+          // $FlowFixMe
+          document.getElementById('alertcouldnt').hidden = false;
+          window.scrollTo(0, 0);
         }
       });
     } else {
       OrganiserService.updateEvent(this.state.event).then(resp => {
-        console.log(resp);
         if (resp.status == 200) {
-          console.log('Arrangement oppdatert');
           this.props.onSelectPage(2);
         } else {
-          alert('Kunne ikke oppdatere arrangement.');
-          // TODO bytt ut denne alerten med et komponent.
+          // $FlowFixMe
+          document.getElementById('alertcouldntupdate').hidden = false;
+          window.scrollTo(0, 0);
         }
       });
     }

@@ -137,7 +137,6 @@ class EventNew2 extends Component<Props, State> {
     let fullPath = element.value;
     let ext = path.extname(fullPath);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      //TODO change alert
       alert('Ikke gyldig filtype');
       return;
     }

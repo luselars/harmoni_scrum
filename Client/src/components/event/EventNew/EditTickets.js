@@ -39,6 +39,9 @@ class EditTickets extends Component<Props, State> {
       <div>
         <div>
           <h4 className="text-center">Opprett billettype:</h4>
+          <p id="alert" style={{ color: 'green' }} hidden="true">
+            Billettype lagt til
+          </p>
           <label className="my-3">Billettnavn</label>
           <input
             onChange={e => {
@@ -68,6 +71,9 @@ class EditTickets extends Component<Props, State> {
           </div>
           <div>
             <h4 className="text-center">Slett billettype:</h4>
+            <p id="alertdeleted" style={{ color: 'green' }} hidden="true">
+              Billettype slettet
+            </p>
             <select
               onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
               className="form-control w-100 my-2"
@@ -93,21 +99,25 @@ class EditTickets extends Component<Props, State> {
 
   /**Deletes tickets*/
   deleteTicket() {
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertdeleted').hidden = true;
     OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
       // TODO bytt denne så det bare blir en melding på toppen
-      alert('Billettype slettet');
+      document.getElementById('alertdeleted').hidden = false;
       this.props.updateParent();
       this.componentDidMount();
     });
   }
   /**Creates tickets */
   createTicket() {
+    document.getElementById('alert').hidden = true;
+    document.getElementById('alertdeleted').hidden = true;
     let ticket = new TicketType();
     ticket.name = this.state.new_ticket;
     ticket.description = this.state.new_ticket_desc;
     OrganiserService.postTicket(ticket).then(response => {
       // TODO bytt denne så det bare blir en melding på toppen
-      alert('Billettype lagt til');
+      document.getElementById('alert').hidden = false;
       this.props.updateParent();
       this.componentDidMount();
     });
