@@ -8,7 +8,9 @@ type Props = {
   padding: string,
 };
 
-//'More information'-butten on input fields
+/**
+ * Component to display a question mark that can be hovered to show more information.
+ */
 class MoreInfo extends Component<Props> {
   constructor(props: any) {
     super(props);
@@ -21,7 +23,7 @@ class MoreInfo extends Component<Props> {
         title={this.props.text}
         aria-label="add"
       >
-        <i className="fa fa-question-circle-o" aria-hidden="true"></i>
+        <i className="fa fa-question-circle-o" aria-hidden="true" />
       </Tooltip>
     );
   }

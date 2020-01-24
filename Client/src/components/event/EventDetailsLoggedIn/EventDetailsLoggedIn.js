@@ -584,6 +584,13 @@ export default class EventDetailsLoggedIn extends Component<Props, State> {
               >
                 <i className="fa fa-trash" aria-hidden="true"></i> Slett
               </button>
+              <button
+                className="btn btn-secondary mx-auto d-block m-2"
+                id="editeventbtn"
+                onClick={() => (window.location.href = '/events')}
+              >
+                Tilbake
+              </button>
             </div>
           </div>
         </div>
