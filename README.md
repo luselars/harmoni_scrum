@@ -1,29 +1,41 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# HARMONI - Scrum team 2
 
-## Available Scripts
+Harmoni er en nettbasert applikasjon for å samle informasjon om arrangementer, slik at arrangører, artister og publikum kan holde oversikt over tidspunkter, artister, personale, billetter og mer.
 
-In the project directory, you can run:
+## Oppsett:
 
-### `npm start`
+Når man første gang skal kjøre applikasjonen, kjør:
+npm install
+i client mappen og i server mappen.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Så kjør Server/DataBase.sql på databasen du vil bruke.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Kjøre klienten:
 
-### `npm test`
+Fra hovedmappen:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+cd Client
+npm install
+npm start
+```
 
-### `npm run build`
+## Kjøre serveren:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Serverkoden kreven en mysql-database for å kjøre.
+Endre dataene i Server/src/config/dbCredentials.js til en mysql-database du har tilgang til.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Fra hovedmappen:
+
+```sh
+cd Server
+npm install
+npm start
+```
+
+## Åpne applikasjon:
+
+http://localhost:3000
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
