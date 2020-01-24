@@ -1,8 +1,8 @@
 //@flow
-import React, { createRef } from 'react';
+import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
-import { number, string } from 'prop-types';
+import { string } from 'prop-types';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -43,6 +43,7 @@ class EventNew7 extends Component<Props, State> {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
+        console.log(response.data);
         this.setState({ event: data });
         this.formatTime();
         OrganiserService.getMyVolunteers(this.state.event.event_id).then(response => {
