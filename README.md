@@ -68,11 +68,13 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 ### `Setup Details`
+
 When first setting up the application run:
 npm install
 in the client folder and the server folder.
 
 Then run the following sql:
+
 ```sql
 
 DROP TABLE IF EXISTS `schedule`;
@@ -344,4 +346,3 @@ DEFAULT CHARACTER SET = latin1;
 INSERT INTO admin(email, hash, salt) VALUES ('admin@harmoni.com', '$2a$10$DMmirWNz2wh9WjnGHTCkquLagqBHzjZEVphp0be3KwM1X6suN6cQy', '$2a$10$DMmirWNz2wh9WjnGHTCkqu');
 
 ```
-
