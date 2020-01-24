@@ -65,7 +65,7 @@ describe('Get userprofile', () => {
   //         });
   // });
   it('placeholder', done => {
-    expect(1).to.be(1);
+    expect(1).equal(1);
     done();
   });
 });
