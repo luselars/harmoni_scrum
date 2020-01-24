@@ -46,7 +46,7 @@ class EditTickets extends Component<Props, State> {
             }}
             value={this.state.new_ticket}
             className="form-control w-100"
-            placeholder="Skriv billetnavn..."
+            placeholder="Skriv billettnavn..."
             type="text"
             required
           />

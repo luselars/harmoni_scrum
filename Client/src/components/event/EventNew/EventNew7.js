@@ -100,8 +100,12 @@ class EventNew7 extends Component<Props, State> {
           <p id="alert" style={{ color: 'red' }} hidden="true">
             Legg til både personell og personellgruppe
           </p>
+          <div className="row justify-content-center">
+            <small id="personnelOptional" className="text-muted text-center mb-2">
+              Valgfritt
+            </small>
+          </div>
 
-          <label className="text-center">Inviter personell til arrangementet:</label>
           <div className="row">
             <div className="col-sm-4">
               <label>Type:</label>

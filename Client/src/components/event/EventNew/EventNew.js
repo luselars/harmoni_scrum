@@ -117,7 +117,7 @@ class EventNew extends Component<Props, State> {
               Kan endres senere
             </small>
             <input
-              className="form-control w-50"
+              className="form-control w-75"
               type="date"
               id="start"
               ref="start"
@@ -148,7 +148,7 @@ class EventNew extends Component<Props, State> {
               Kan endres senere
             </small>
             <input
-              className="form-control w-50"
+              className="form-control w-75"
               type="date"
               id="end"
               name="end"

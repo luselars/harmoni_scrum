@@ -110,6 +110,11 @@ class EventNew6 extends Component<Props, State> {
               }
             />
           </h4>
+          <div className="row justify-content-center">
+            <small id="ticketOptional" className="text-muted text-center mb-2">
+              Valgfritt
+            </small>
+          </div>
           <div className="row">
             <div className="col-sm-4">
               <label>Billett:</label>

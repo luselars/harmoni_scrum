@@ -59,6 +59,11 @@ class EventNew5 extends Component<Props, State> {
               text={'Ridere og notater vil vises for artisene de gjelder.'}
             />
           </h4>
+          <div className="row justify-content-center">
+            <small id="riderOptional" className="text-muted mb-2 text-center">
+              Valgfritt
+            </small>
+          </div>
 
           {this.state.artists.length > 0 ? (
             <div>
