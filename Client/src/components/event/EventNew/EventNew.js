@@ -212,6 +212,7 @@ class EventNew extends Component<Props, State> {
   }
 
   insertTime() {
+    alert(this.state.event.start);
     let start_date = document.getElementById('start');
     let end_date = document.getElementById('end');
     if (this.state.event.start != null) {

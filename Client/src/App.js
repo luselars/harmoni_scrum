@@ -24,6 +24,7 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
+import EditEventTickets from './components/event/EventNew/EditEventTickets';
 
 //https://testing-library.com/docs/example-react-router
 //se på den linken for å forstå hvordan routing her fungerer
