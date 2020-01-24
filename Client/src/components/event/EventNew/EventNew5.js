@@ -55,13 +55,13 @@ class EventNew5 extends Component<Props, State> {
     return (
       <div className="row justify-content-center">
         <div className="col-sm-8">
-          <label className="text-center">
+          <h4 className="text-center">
             Legg til ridere og notater for artist
             <MoreInfo
               padding={'5px'}
               text={'Ridere og notater vil vises for artisene de gjelder.'}
             />
-          </label>
+          </h4>
 
           {this.state.artists.length > 0 ? (
             <div>
@@ -99,7 +99,7 @@ class EventNew5 extends Component<Props, State> {
                 </table>
               ))}
               {this.state.riders.length > 0 ? (
-                <label className="text-center mb-3">Riders til arrangemenetet:</label>
+                <h4 className="text-center mb-3">Riders til arrangemenetet:</h4>
               ) : (
                 <label className="text-center mb-3">Ingen riders lastet opp.</label>
               )}
@@ -113,9 +113,15 @@ class EventNew5 extends Component<Props, State> {
                     onClick={() => {
                       this.deleteRider(rider.rider_id);
                     }}
+                    className="row text-center justify-content-center"
                   >
-                    <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
-                    <label className="text-center mb-3">Slett</label>
+                    <i
+                      className="fa fa-trash m-0"
+                      placeholder="slett"
+                      classname="col-1 mt-5 float-right"
+                      aria-hidden="true"
+                    ></i>
+                    <label className="text-center col-2 mb-4 float-left">Slett</label>
                   </div>
                 </div>
               ))}

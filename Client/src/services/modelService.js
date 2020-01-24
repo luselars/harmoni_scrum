@@ -1,4 +1,4 @@
-// Data object for events
+/** Data object for events */
 export class Event {
   constructor() {
     this.name = null;
@@ -29,7 +29,7 @@ export class Event {
   contract: string;
   notes: string;
 }
-// Data object for users
+/** Data object for users */
 export class User {
   constructor() {
     this.user_id = null;
@@ -50,7 +50,7 @@ export class User {
   image: string;
   description: string;
 }
-// Data object for locations
+/** Data object for locations */
 export class Location {
   constructor() {
     this.name = null;
@@ -64,7 +64,7 @@ export class Location {
   venue: string;
 }
 
-// Data object for organisers
+/** Data object for organisers */
 export class Organiser {
   constructor(organiser_email: string, name: string) {
     this.organiser_email = organiser_email;
@@ -85,7 +85,7 @@ export class Organiser {
   eventsComing: number;
 }
 
-// Data object for tickettype
+/** Data object for ticket types */
 export class TicketType {
   constructor(name: string) {
     this.name = name;

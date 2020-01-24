@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { OrganiserService } from '../../services/organiserService';
 import { UserService } from '../../services/userService';
-import { Artist } from '../../services/modelService';
 
 let path = require('path');
 
@@ -17,15 +16,18 @@ type Props = {
 type State = {
   value: any,
 };
+
 /**A Component for uploading rider pdf files */
 class UploadRider extends Component<Props, State> {
   file = '';
+
   constructor(props: any) {
     super(props);
     this.state = {
       value: '',
     };
   }
+
   render() {
     return (
       <div>

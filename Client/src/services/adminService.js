@@ -7,17 +7,17 @@ const config = {
   },
 };
 
+/** Class for all services that is used by admin accounts. */
 export class AdminService {
-  // Get all unverified organisers
+  /** Get all unverified organisers. */
   static getUnverifed() {
     return axios.get(url_base + '/unverified', config);
   }
-  // Get all organisers
+  /** Get all organisers. */
   static getAll() {
     return axios.get(url_base + '/organisers', config);
   }
-
-  // Verify an organiser account
+  /** Verify an organiser account. */
   static verify(id) {
     return axios.put(url_base + '/unverified/' + id, [], config);
   }
