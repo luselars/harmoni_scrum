@@ -12,6 +12,8 @@ import MoreInfo from '../../MoreInfo/MoreInfo';
 type Props = {
   onSelectPage: any,
 };
+
+/**Component for fifth page on creating a new event */
 class EventNew5 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -21,33 +23,30 @@ class EventNew5 extends Component<Props, State> {
       riders: [],
     };
   }
+
+  /**Updates localStorage and gets event, artists and riders  */
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
-      console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
         OrganiserService.getArtists(data.event_id).then(resp => {
           this.setState({ artists: resp.data });
-          console.log(this.state.artists);
         });
         OrganiserService.getRiders(data.event_id).then(resp => {
           this.setState({ riders: resp.data });
-          console.log(this.state.riders);
         });
       });
     }
   }
+  /** Publish rider notes and updates server*/
   publishNotes(artist_id: number, notes: string) {
     for (let i = 0; i < this.state.artists.length; i++) {
       if (this.state.artists[i].user_id === artist_id) {
         let temp_art = this.state.artists[i];
         temp_art.notes = notes;
-        console.log(notes);
-        OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {
-          console.log(r);
-        });
+        OrganiserService.updateArtistEvent(temp_art, this.state.event.event_id).then(r => {});
       }
     }
   }
@@ -155,20 +154,25 @@ class EventNew5 extends Component<Props, State> {
       </div>
     );
   }
+
+  /**Reloads components */
   handleReload = () => {
-    console.log('RELOAD');
     this.componentDidMount();
   };
+
+  /**Deletes riders and reloads component */
   deleteRider(rider_id: number) {
-    console.log(rider_id);
     OrganiserService.deleteRider(this.state.event.event_id, rider_id).then(r => {
-      console.log(r);
       this.componentDidMount();
     });
   }
+
+  /**Returns to previous page */
   back() {
     this.props.onSelectPage(4);
   }
+
+  /**Sends user to next page */
   next() {
     this.props.onSelectPage(6);
   }
