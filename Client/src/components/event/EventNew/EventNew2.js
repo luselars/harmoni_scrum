@@ -68,14 +68,14 @@ class EventNew2 extends Component<Props, State> {
         <button
           onClick={() => this.next()}
           type="button"
-          className="btn btn-success w-25 m-2 d-block mx-auto"
+          className="btn btn-success col-sm-3 m-2 d-block mx-auto"
           id="nextbtn"
         >
           Neste
         </button>
         <button
           onClick={() => this.back()}
-          className="btn btn-secondary w-25 m-2 d-block mx-auto"
+          className="btn btn-secondary col-sm-3 m-2 d-block mx-auto "
           id="backbtn"
         >
           Tilbake

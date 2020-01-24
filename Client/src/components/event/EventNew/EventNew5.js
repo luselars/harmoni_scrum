@@ -112,18 +112,20 @@ class EventNew5 extends Component<Props, State> {
                     onClick={() => {
                       this.deleteRider(rider.rider_id);
                     }}
-                    className="row "
+                    className="row"
+                    style={{ cursor: 'pointer' }}
                   >
                     <div className="col-6 float-right">
                       <label></label>
                       <i
-                        className="fa fa-trash m-0 float-right"
+                        className="fa fa-trash float-right"
                         placeholder="slett"
                         aria-hidden="true"
                       ></i>
                     </div>
                     <div className="col-6 float-left">
-                      <label className="text-center mb-4 float-left">Slett</label>
+                      <label className="text-center float-left">Slett</label>
+                      <label></label>
                     </div>
                   </div>
                 </div>
@@ -137,7 +139,7 @@ class EventNew5 extends Component<Props, State> {
           <button
             onClick={() => this.next()}
             type="button"
-            className="btn btn-success col-md-4 m-2 d-block mx-auto"
+            className="btn btn-success col-sm-4 m-2 d-block mx-auto"
             id="nextbtn"
           >
             Neste
@@ -145,7 +147,7 @@ class EventNew5 extends Component<Props, State> {
           <button
             onClick={() => this.back()}
             type="button"
-            className="btn btn-secondary col-md-4 m-2 d-block mx-auto"
+            className="btn btn-secondary col-sm-4 m-2 d-block mx-auto"
             id="backbtn"
           >
             Tilbake

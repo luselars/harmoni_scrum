@@ -58,6 +58,7 @@ class EditTickets extends Component<Props, State> {
             onChange={e => {
               this.setState({ new_ticket_desc: e.target.value });
             }}
+            value={this.state.new_ticket_desc}
             className="form-control w-100"
             placeholder="Skriv billettbeskrivelse..."
             type="text"
@@ -113,7 +114,7 @@ class EditTickets extends Component<Props, State> {
       // TODO bytt denne så det bare blir en melding på toppen
       document.getElementById('alert').hidden = false;
       this.props.updateParent();
-      this.setState({ new_ticket: '' });
+      this.setState({ new_ticket: '', new_ticket_desc: '' });
 
       this.componentDidMount();
     });
