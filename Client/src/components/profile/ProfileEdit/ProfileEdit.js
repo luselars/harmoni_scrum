@@ -26,7 +26,7 @@ type State = {
   postal: string,
 };
 
-//Component for editing ograniser profile
+/**Component for editing organiser profile*/
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -249,6 +249,7 @@ class ProfileEdit extends Component<{}, State> {
       </div>
     );
   }
+  /**Gets profile information and populates the state with the organisers info */
   componentDidMount() {
     OrganiserService.getOrganiser().then(res => {
       console.log(res.data);
@@ -283,7 +284,7 @@ class ProfileEdit extends Component<{}, State> {
     });
   }
 
-  //Sets style to modal
+  /**Reveals a option dialog for confirming deletion of account*/
   deletebtn() {
     var btn = document.getElementById('deleteprofilebtn');
     var modal = document.getElementById('myModal');
@@ -303,7 +304,7 @@ class ProfileEdit extends Component<{}, State> {
     };
   }
 
-  //Deletes event
+  /**Deletes event */
   delete() {
     OrganiserService.deleteOrganiser(this.state.organiser_id)
       .then(response => {
@@ -319,6 +320,7 @@ class ProfileEdit extends Component<{}, State> {
     this.setState({ [name]: value });
   }
 
+  /**Checks if passwords matches and gets image before sending to server, helper function for post */
   edit(changePassword: boolean) {
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
@@ -361,6 +363,7 @@ class ProfileEdit extends Component<{}, State> {
     }
   }
 
+  /**Sends edit request to server, helper function for edit */
   editPost(state: Object, changePassword: boolean) {
     if (changePassword) state.password = state.newPassword;
     OrganiserService.editOrganiser(state).then(response => {
@@ -368,6 +371,7 @@ class ProfileEdit extends Component<{}, State> {
     });
   }
 
+  /**formats address for google maps and checks if current password is equal to the one in the database */
   post(event: any) {
     event.preventDefault();
     this.state.address =

@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { string } from 'prop-types';
 import { PublicService } from '../../services/publicService.js';
 
-//Component for the feedback-function
+/**Component for feedback - Sends feedback om mail to user and Harmoni*/
 export default class Feedback extends Component<{}, { email: string, feedbacktext: string }> {
   constructor(props: any) {
     super(props);
@@ -58,26 +58,25 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
       </div>
     );
   }
-  //Sets the email state
+  /**Changes the email state*/
   changeEmail(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
-  //Sets the feedback state
+  /**Changes the feedback state*/
   changeFeedback(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ feedbacktext: value });
   }
 
-  //Sends feedback by email
+  /**Sends feedback to Harmoni by email and sendt confrimation to user*/
   sendFeedback(e: any) {
     e.preventDefault();
     PublicService.feedback(this.state.email, this.state.feedbacktext)
       .then(response => {
-        console.log('Email sent');
         window.location = '/feedbackregistered';
       })
       .catch(error => {

@@ -10,8 +10,10 @@ type State = {
   show: Boolean,
 };
 
-//Component for the navbar
-export default class Menu extends Component<{}, { status: boolean }> {
+/**
+ * Component for the navbar on top of the site.
+ */
+export default class Menu extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -126,13 +128,18 @@ export default class Menu extends Component<{}, { status: boolean }> {
     }
   }
 
+  /**
+   * Clears locally stored tokens and redirects the user to the frontpage
+   */
   logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('userType');
     window.location.href = '/';
   }
 
-  //Hamburger menu
+  /**
+   * Collapse hamburger menu, to display more or less items. Used on devices with a narrow screen.
+   */
   collapse() {
     let x = document.getElementById('navbarSupportedContent');
     let y = document.getElementById('navbarContent');
