@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
+//Component for feedback confirmation message
 export default class FeedbackRegistered extends Component<{}, {}> {
   render() {
     return (
