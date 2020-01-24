@@ -46,7 +46,7 @@ class EventNew4 extends Component<Props, State> {
       <div>
         <div className="form-row justify-content-center">
           <div id="col-12">
-            <label>
+            <label className="text-center">
               Legg til artister på arrangementet
               <MoreInfo
                 padding={'5px'}
