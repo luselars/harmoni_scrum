@@ -23,7 +23,6 @@ type Props = {};*/
 type Props = {
   onSelectPage: any,
 };
-//TODO add postcode
 class EventNew3 extends Component<Props> {
   constructor(props: any) {
     super(props);
@@ -41,7 +40,6 @@ class EventNew3 extends Component<Props> {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') !== null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
-      // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         this.setState({ event: data });
@@ -203,12 +201,16 @@ class EventNew3 extends Component<Props> {
     if (this.state.event.start != null) {
       let d = this.state.event.start.substring(0, 10);
       let h = this.state.event.start.substring(11, 16);
-      this.state.event.start = d + ' ' + h + ':00';
+      let event = this.state.event;
+      event.start = d + ' ' + h + ':00';
+      this.setState({ event: event });
     }
     if (this.state.event.end != null) {
       let d = this.state.event.end.substring(0, 10);
       let h = this.state.event.end.substring(11, 16);
-      this.state.event.end = d + ' ' + h + ':00';
+      let event = this.state.event;
+      event.end = d + ' ' + h + ':00';
+      this.setState({ event: event });
     }
   }
   // todo ADD postcode

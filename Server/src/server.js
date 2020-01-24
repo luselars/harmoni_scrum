@@ -20,7 +20,6 @@ let adminRoutes = require('./routes/adminRoutes');
 
 let app = express();
 
-// TODO snakk om maks-filstørrelse, legg inn begrensning i front-end også
 app.use(bodyParser.json({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
