@@ -3,7 +3,6 @@ const crypto = require('crypto');
 const fs = require('fs');
 var path = require('path');
 
-
 /** module containing methods required when uploading files */
 let uploadFunctions = {
   /**
