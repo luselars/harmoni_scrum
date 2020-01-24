@@ -1,5 +1,4 @@
 import React from 'react';
-//import logo from './logo.svg';
 import { withRouter } from 'react-router';
 import { Link, Switch, Route, BrowserRouter as Router, useHistory } from 'react-router-dom';
 import Main from '../src/views/main';
@@ -24,12 +23,6 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
-//https://testing-library.com/docs/example-react-router
-//se på den linken for å forstå hvordan routing her fungerer
-
-{
-  /*const Main = () => <h1>Home here</h1>*/
-}
 
 const NoMatch = () => (
   <div className="card">
