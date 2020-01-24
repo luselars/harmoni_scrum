@@ -2,6 +2,7 @@ import './modelDao';
 //@flow
 const Dao = require('./dao.js');
 
+/** Class representing the User DAO. */
 module.exports = class UserDao extends Dao {
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
@@ -101,7 +102,9 @@ module.exports = class UserDao extends Dao {
       'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?';
     super.query(queryString, [user_id, event_id], callback);
   }
-  // Get all riders connected to logged in user on specific event by event id and user id.
+  /**
+   * Get all riders connected to logged in user on specific event by event id and user id.
+   */
   getMyRiders(
     event_id: number,
     user_id: number,
@@ -177,4 +180,25 @@ module.exports = class UserDao extends Dao {
     var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
     super.query(queryString, [notes, user_id, event_id], callback);
   }
+
+  // Get all events connected to logged in artist by user id.
+  getMyEventsArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+        'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
+        [user_id],
+        callback,
+    );
+  }
+
+  /**
+   * Get all events connected to logged in voluenteer by user id.
+   */
+  getMyEventsVolunteer(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+        'SELECT *, e.name AS event_name FROM event e LEFT JOIN event_volunteer ev USING(event_id) LEFT JOIN volunteer_type vt USING(volunteer_type_id) WHERE ev.user_id = ?',
+        [user_id],
+        callback,
+    );
+  }
 };
+
