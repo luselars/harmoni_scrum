@@ -100,41 +100,39 @@ class EventNew7 extends Component<Props, State> {
           <p id="alert" style={{ color: 'red' }} hidden="true">
             Legg til både personell og personellgruppe
           </p>
-
-          <label className="text-center">Inviter personell til arrangementet:</label>
-          <div className="row">
-            <div className="col-sm-4">
-              <label>Type:</label>
-              <select
-                onChange={e => {
-                  this.state.invite = e.target.value;
-                }}
-                className="form-control"
-              >
-                {this.state.my_types.map(type => (
-                  <option value={type.volunteer_type_id}>{type.name}</option>
-                ))}
-              </select>
+          <form onSubmit={event => this.invitePerson(event)}>
+            <label className="text-center">Inviter personell til arrangementet:</label>
+            <div className="row">
+              <div className="col-sm-4">
+                <label>Type:</label>
+                <select
+                  onChange={e => {
+                    this.state.invite = e.target.value;
+                  }}
+                  className="form-control"
+                >
+                  {this.state.my_types.map(type => (
+                    <option value={type.volunteer_type_id}>{type.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-sm-8">
+                <label>E-mail:</label>
+                <input
+                  onChange={e => {
+                    this.setState({ new_person: e.target.value });
+                  }}
+                  className="form-control"
+                  placeholder="Skriv e-mail..."
+                  type="email"
+                  required
+                />
+              </div>
             </div>
-            <div className="col-sm-8">
-              <label>E-mail:</label>
-              <input
-                onChange={e => {
-                  this.setState({ new_person: e.target.value });
-                }}
-                className="form-control"
-                placeholder={'Skriv e-mail...'}
-                type="text"
-              />
-            </div>
-          </div>
-          <button
-            onClick={() => this.invitePerson()}
-            className="btn btn-success col-sm-3 m-2 d-block mx-auto"
-            type="button"
-          >
-            Inviter
-          </button>
+            <button className="btn btn-success col-sm-3 m-2 d-block mx-auto" type="submit">
+              Inviter
+            </button>
+          </form>
           <div className="border-bottom m-5"></div>
           <div>
             <h4 className="text-center">Mitt personell:</h4>
@@ -199,11 +197,10 @@ class EventNew7 extends Component<Props, State> {
   }
 
   /**Invite personnel to event and sends email to personnel */
-  invitePerson() {
-    // $FlowFixMe
+  invitePerson(event) {
+    event.preventDefault();
     document.getElementById('alert').hidden = true;
     if (this.state.new_person === undefined || this.state.invite === undefined) {
-      // $FlowFixMe
       document.getElementById('alert').hidden = false;
       window.scrollTo(0, 0);
       return;
