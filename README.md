@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-// Creates admin user with default login and password (admin@harmoni.com, ertertert)
+-- Creates admin user with default login and password (admin@harmoni.com, ertertert)
 INSERT INTO admin(email, hash, salt) VALUES ('admin@harmoni.com', '$2a$10$DMmirWNz2wh9WjnGHTCkquLagqBHzjZEVphp0be3KwM1X6suN6cQy', '$2a$10$DMmirWNz2wh9WjnGHTCkqu');
 
 ```
