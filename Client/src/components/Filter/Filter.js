@@ -232,11 +232,13 @@ export default class Filter extends Component<{}, State> {
   handleChangeMinPrice(e: any) {
     let price = e.target.value;
     this.setState({ minprice: price });
+    localStorage.setItem('minprice', price);
     this.props.handleFilterPriceChange(price, 'min');
   }
   handleChangeMaxPrice(e: any) {
     let price = e.target.value;
     this.setState({ maxprice: price });
+    localStorage.setItem('maxprice', price);
     this.props.handleFilterPriceChange(price, 'max');
   }
 

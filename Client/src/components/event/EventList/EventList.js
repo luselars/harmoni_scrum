@@ -37,8 +37,14 @@ export default class EventList extends Component<Props, State> {
     super(props);
     let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
     let sortAlt = ['', ''];
+    let minprice = null;
+    let maxprice = null;
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+    if (localStorage.getItem('minprice') != null)
+      minprice = parseInt(localStorage.getItem('minprice'));
+    if (localStorage.getItem('maxprice') != null)
+      maxprice = parseInt(localStorage.getItem('maxprice'));
 
     this.state = {
       events: [],
@@ -51,6 +57,8 @@ export default class EventList extends Component<Props, State> {
       eventsPerPage: 7,
       sortType: sortType,
       sortAlt: sortAlt,
+      minprice: minprice,
+      maxprice: maxprice,
     };
     const fuse = new Fuse(this.state.events, options);
   }
@@ -404,6 +412,8 @@ export default class EventList extends Component<Props, State> {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
+    this.handleFilterPriceChange(this.state.minprice, 'min');
+    this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {
