@@ -1,5 +1,5 @@
 //@flow
-import { Event } from './modelDao';
+import { Organiser } from './modelDao';
 
 const Dao = require('./dao.js');
 
@@ -12,7 +12,7 @@ module.exports = class AdminDao extends Dao {
   }
 
   // Verify an organiser by id.
-  verifyOrganiser(organiser_id: number, callback: (status: string, data: Event) => mixed) {
+  verifyOrganiser(organiser_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'UPDATE organiser SET verified = NOT verified WHERE organiser_id = ?',
       [organiser_id],
@@ -21,12 +21,12 @@ module.exports = class AdminDao extends Dao {
   }
 
   // Get all organisers.
-  getOrganisers(callback: (status: string, data: Event) => mixed) {
+  getOrganisers(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser', [], callback);
   }
 
   // Get all unverified organisers.
-  getUnverified(callback: (status: string, data: Event) => mixed) {
+  getUnverified(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser WHERE NOT verified', [], callback);
   }
 };
