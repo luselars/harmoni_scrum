@@ -132,8 +132,8 @@ export default class Filter extends Component<{}, State> {
                     <input
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
-                      type="text"
                       value={this.state.minprice}
+                      type="text"
                       placeholder="Søk..."
                       aria-label="Search"
                     />
@@ -231,10 +231,12 @@ export default class Filter extends Component<{}, State> {
 
   handleChangeMinPrice(e: any) {
     let price = e.target.value;
+    this.setState({ minprice: price });
     this.props.handleFilterPriceChange(price, 'min');
   }
   handleChangeMaxPrice(e: any) {
     let price = e.target.value;
+    this.setState({ maxprice: price });
     this.props.handleFilterPriceChange(price, 'max');
   }
 
