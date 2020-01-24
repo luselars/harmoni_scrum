@@ -186,7 +186,8 @@ export default class EventList extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <div className="input-group my-3 " id="searchBox">
+        {!this.props.profile_list ? <div></div> : <p className="display-4">Dine arrangementer</p>}
+        <div className="input-group my-3" id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
