@@ -10,12 +10,12 @@ export default class EventDeleted extends Component<{}, {}> {
       <div id="profileOrganiserCard" class="card ">
         <div class="card-body bg-light">
           <div class="container bg-light">
-            <div class="row justify-content-md-center my-5 align-items-center">
-              <h4>DITT ARRANGEMENT ER NÅ SLETTET.</h4>
+            <div class="row justify-content-md-center m-4 align-items-center">
+              <p className="display-4">DITT ARRANGEMENT ER NÅ SLETTET</p>
             </div>
             <div class="row justify-content-md-center mt-y align-items-center">
               <button
-                class="btn btn-success bg-green mb-4"
+                class="btn btn-success mx-auto d-block mb-4"
                 onClick={() => (window.location.href = '/profile')}
               >
                 {' '}
