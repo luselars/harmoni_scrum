@@ -59,6 +59,8 @@ export default class EventList extends Component<Props, State> {
       sortAlt: sortAlt,
       minprice: minprice,
       maxprice: maxprice,
+      currentPage:
+        localStorage.getItem('page') != null ? parseInt(localStorage.getItem('page')) : 0,
     };
     const fuse = new Fuse(this.state.events, options);
   }
@@ -67,7 +69,7 @@ export default class EventList extends Component<Props, State> {
   handlePageClick = data => {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.eventsPerPage);
-    this.setState({ offset: offset });
+    this.setState({ offset: offset, currentPage: selected });
     localStorage.setItem('page', selected);
   };
 
@@ -154,6 +156,8 @@ export default class EventList extends Component<Props, State> {
       pageCount: Math.ceil(tempEvents.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(tempEvents, options);
+    // Go to first page
+    this.handlePageClick({ selected: 0 });
   };
 
   /**Filter events by price*/
@@ -177,6 +181,8 @@ export default class EventList extends Component<Props, State> {
       pageCount: Math.ceil(newEventList.length / this.state.eventsPerPage),
     });
     this.fuse = new Fuse(newEventList, options);
+    // Go to first page
+    this.handlePageClick({ selected: 0 });
   };
 
   render() {
@@ -332,11 +338,7 @@ export default class EventList extends Component<Props, State> {
                       containerClassName={'pagination'}
                       subContainerClassName={'pages pagination'}
                       activeClassName={'active'}
-                      initialPage={
-                        localStorage.getItem('page') != null
-                          ? parseInt(localStorage.getItem('page'))
-                          : 0
-                      }
+                      forcePage={this.state.currentPage}
                     />
                   </div>
                 </div>
@@ -476,6 +478,8 @@ export default class EventList extends Component<Props, State> {
   /**Searches through all events in the event list
    */
   search(event) {
+    // Go to first page
+    this.handlePageClick({ selected: 0 });
     let value: string = event.target.value;
     if (value) {
       if (typeof this.fuse == 'undefined') return;
