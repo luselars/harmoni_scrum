@@ -108,8 +108,8 @@ export default class DeleteOrganiser extends Component<{}, State> {
     AdminService.getUsers()
       .then(res => {
         this.setState({ authorised: true });
-        let organiser: any = res.data;
-        this.setState({ organiser: organiser });
+        let users: any = res.data;
+        this.setState({ users: users });
       })
       .catch((reason: AxiosError) => {
         if (reason.response.status === 401) {
@@ -123,9 +123,17 @@ export default class DeleteOrganiser extends Component<{}, State> {
 
   /**Verifies new organisers*/
   deleteUser(id: number) {
-    AdminService.deleteUser(id);
+    AdminService.deleteUser(id)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(error => console.log(error));
   }
   deleteOrganiser(id: number) {
-    AdminService.deleteOrganiser(id);
+    AdminService.deleteOrganiser(id)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(error => console.log(error));
   }
 }

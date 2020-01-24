@@ -90,7 +90,7 @@ router.put('/unverified/:id', (req: express$Request, res: express$Response) => {
 });
 
 /**Deletes a user from the database with the give id */
-router.delete('/user/user_id', (req: express$Request, res: express$Response) => {
+router.delete('/user/:user_id', (req: express$Request, res: express$Response) => {
   dao.deleteUser(req.params.user_id, (status, data) => {
     res.status(status);
     res.send(data);
@@ -98,7 +98,7 @@ router.delete('/user/user_id', (req: express$Request, res: express$Response) => 
 });
 
 /**Deletes a organiser from the database with the give id */
-router.delete('/organiser/organiser_id', (req: express$Request, res: express$Response) => {
+router.delete('/organiser/:organiser_id', (req: express$Request, res: express$Response) => {
   dao.deleteOrganiser(req.params.organiser_id, (status, data) => {
     res.status(status);
     res.send(data);
