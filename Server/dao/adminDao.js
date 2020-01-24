@@ -42,4 +42,12 @@ module.exports = class AdminDao extends Dao {
   getUnverified(callback: (status: string, data: Organiser) => mixed) {
     super.query('SELECT * FROM organiser WHERE NOT verified', [], callback);
   }
+
+  deleteUser(user_id: number, callback: (status: string, data: Organiser) => mixed) {
+    super.query('DELETE FROM user WHERE user_id = ?', [user_id], callback);
+  }
+
+  deleteOrganiser(organiser_id: number, callback: (status: string, data: Organiser) => mixed) {
+    super.query('DELETE FROM organiser WHERE user_id = ?', [organiser_id], callback);
+  }
 };
