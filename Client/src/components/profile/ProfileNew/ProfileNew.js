@@ -273,6 +273,10 @@ export default class ProfileNew extends Component<
     );
   }
 
+  /**
+   * Sets the state when a input changes.
+   * @param event the element of which the stage has changed.
+   */
   handleChange(event: any) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -283,7 +287,10 @@ export default class ProfileNew extends Component<
     });
   }
 
-  //Creates profile and gives feedback
+  /**
+   * Creates profile and redirects user, or gives alerts if there is any information that is not valid.
+   * @param event the button the user clicks to submit.
+   */
   post(event: any) {
     document.getElementById('alertpassword').hidden = true;
     document.getElementById('alert').hidden = true;

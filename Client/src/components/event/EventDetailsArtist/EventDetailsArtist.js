@@ -412,6 +412,13 @@ export default class EventDetailsArtist extends Component<Props, State> {
               >
                 Endre riders
               </button>
+              <button
+                className="btn btn-secondary mx-auto d-block m-2"
+                id="editeventbtn"
+                onClick={() => (window.location.href = '/events')}
+              >
+                Tilbake
+              </button>
             </div>
           </div>
         </div>

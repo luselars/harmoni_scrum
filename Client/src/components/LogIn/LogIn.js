@@ -5,7 +5,9 @@ import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
 import './stylesheet.css';
 
-//Component for login
+/**
+ * Component for login-site
+ */
 export default class LogIn extends Component<{}, { email: string, password: string }> {
   constructor(props: any) {
     super(props);
@@ -71,20 +73,31 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     );
   }
 
-  //Sets email state
+  /**
+   * Sets email state
+   * @param e the input element
+   */
   changeEmail(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
-  //Sets password state
+  /**
+   * Sets the password state
+   * @param e the input element
+   */
   changePassword(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ password: value });
   }
 
+  /**
+   * Try to login the user.
+   * If the information is valid the user is redirected to the profile page, if not an alert is displayed.
+   * @param e the login-button
+   */
   post(e: any) {
     e.preventDefault();
     //Logging in and returning nessesary information

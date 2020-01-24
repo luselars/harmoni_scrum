@@ -17,6 +17,10 @@ type State = {
 
 //Component to view the user profile
 //Adapts the profile to usertype
+/**
+ * Compontent to view a user's profile.
+ * Adapts the profile to usertype
+ */
 export default class Profile extends Component<Props, State> {
   constructor(props: any) {
     super(props);
