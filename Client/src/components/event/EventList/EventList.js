@@ -413,8 +413,10 @@ export default class EventList extends Component<Props, State> {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
-    if (!isNaN(this.state.minprice)) this.handleFilterPriceChange(this.state.minprice, 'min');
-    if (!isNaN(this.state.maxprice)) this.handleFilterPriceChange(this.state.maxprice, 'max');
+    if (!isNaN(this.state.minprice) && this.state.minprice != '')
+      this.handleFilterPriceChange(this.state.minprice, 'min');
+    if (!isNaN(this.state.maxprice) && this.state.maxprice != '')
+      this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {
