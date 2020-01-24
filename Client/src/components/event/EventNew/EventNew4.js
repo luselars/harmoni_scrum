@@ -74,15 +74,14 @@ class EventNew4 extends Component<Props, State> {
                 placeholder="Skriv e-mail..."
                 required
               />
-              <div className="row justify-content-center">
-                <button type="submit" className="btn btn-success w-50 mt-2 mb-3">
-                  Inviter artist
-                </button>
-              </div>
+
+              <button type="submit" className="btn btn-success col-sm-4 mb-2 d-block mx-auto ">
+                Inviter
+              </button>
             </form>
             {this.state.artists.length > 0 ? (
-              <table className="table table-striped">
-                <thead>
+              <table className="table table table-bordered">
+                <thead className="thead-light">
                   <tr>
                     <th scope="col">Artist</th>
                     <th scope="col">Kontrakt</th>
@@ -127,24 +126,22 @@ class EventNew4 extends Component<Props, State> {
             )}
           </div>
         </div>
-        <div className="row justify-content-center">
-          <button
-            onClick={() => this.next()}
-            type="button"
-            className="btn btn-success w-50 m-2"
-            id="nextbtn"
-          >
-            Neste
-          </button>
-          <button
-            onClick={() => this.back()}
-            type="button"
-            className="btn btn-secondary w-50 m-2"
-            id="backbtn"
-          >
-            Tilbake
-          </button>
-        </div>
+        <button
+          onClick={() => this.next()}
+          type="button"
+          className="btn btn-success col-sm-3 m-2 d-block mx-auto "
+          id="nextbtn"
+        >
+          Neste
+        </button>
+        <button
+          onClick={() => this.back()}
+          type="button"
+          className="btn btn-secondary col-sm-3 m-2 d-block mx-auto "
+          id="backbtn"
+        >
+          Tilbake
+        </button>
       </div>
     );
   }
