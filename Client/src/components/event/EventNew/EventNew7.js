@@ -65,24 +65,24 @@ class EventNew7 extends Component<Props, State> {
   }
   render() {
     return (
-      <div className="createEvent" id="cardnewevent">
-        <div className="form-group text-center ml-5 mr-5">
-          <p>Knytt personell til arrangementet: </p>
-        </div>
-        <div className="form-group text-center ml-5 mr-5">
-          <p
+      <div className="row justify-content-center">
+        <div className="col-md-10">
+          <label
             style={{ cursor: 'pointer' }}
             onClick={() => {
               this.toggleExpandCreate();
             }}
+            className="text-center"
           >
             Endre dine personelltyper
+            <br />
+            <br />
             {this.state.expandCreate ? (
-              <i className="arrow down"></i>
+              <i className="arrow down text-center"></i>
             ) : (
-              <i className="arrow up"></i>
+              <i className="arrow up text-center"></i>
             )}
-          </p>
+          </label>
           {this.state.expandCreate ? (
             <EditPersonnel
               updateParent={() => {
@@ -90,58 +90,79 @@ class EventNew7 extends Component<Props, State> {
               }}
             />
           ) : null}
+
+          <h4 className="text-center">Knytt personell til arrangementet </h4>
+          <label className="text-center">Inviter personell til arrangementet:</label>
+          <div className="row">
+            <input
+              onChange={e => {
+                this.setState({ new_person: e.target.value });
+              }}
+              className="form-control col-7"
+              placeholder={'E-post'}
+              type="text"
+            />
+            <select
+              onChange={e => {
+                this.state.invite = e.target.value;
+                console.log(e.target.value);
+              }}
+              className="form-control"
+            >
+              {this.state.my_types.map(type => (
+                <option value={type.name}>{type.name}</option>
+              ))}
+            </select>
+            <Autocomplete
+              options={this.state.my_types}
+              className="col-5"
+              onChange={(e, value) => {
+                this.state.invite = value;
+              }}
+              getOptionLabel={pers => pers.name}
+              style={{ width: 300 }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  className="form-control"
+                  label="Velg personelltype"
+                  variant="outlined"
+                  fullWidth
+                />
+              )}
+            />
+            */}
+            <button onClick={() => this.invitePerson()}>Inviter</button>
+          </div>
+          <div>
+            <p>Mitt personell</p>
+            {this.state.my_types.map(type => (
+              <span>
+                {this.state.personnel.filter(c => c.volunteer_type === type.name).length > 0 ? (
+                  <span>
+                    <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{type.name}:</p>
+                    {this.state.personnel
+                      .filter(c => c.volunteer_type === type.name)
+                      .map(p => (
+                        <p>
+                          {p.email}
+                          <button onClick={() => this.removePerson(p.user_id)}>Fjern</button>
+                        </p>
+                      ))}
+                  </span>
+                ) : null}
+              </span>
+            ))}
+          </div>
+          <div>
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+              Fullfør
+            </button>
+          </div>
         </div>
-        <div>
-          <p>Inviter personell til arrangementet:</p>
-          <input
-            onChange={e => {
-              this.setState({ new_person: e.target.value });
-            }}
-            placeholder={'E-post'}
-            type="text"
-          />
-          <Autocomplete
-            options={this.state.my_types}
-            onChange={(e, value) => {
-              this.state.invite = value;
-            }}
-            getOptionLabel={pers => pers.name}
-            style={{ width: 300 }}
-            renderInput={params => (
-              <TextField {...params} label="Velg personelltype" variant="outlined" fullWidth />
-            )}
-          />
-          <button onClick={() => this.invitePerson()}>Inviter</button>
-        </div>
-        <div>
-          <p>Mitt personell</p>
-          {this.state.my_types.map(type => (
-            <span>
-              {this.state.personnel.filter(c => c.volunteer_type === type.name).length > 0 ? (
-                <span>
-                  <p style={{ fontWeight: 'bold', textDecoration: 'underline' }}>{type.name}:</p>
-                  {this.state.personnel
-                    .filter(c => c.volunteer_type === type.name)
-                    .map(p => (
-                      <p>
-                        {p.email}
-                        <button onClick={() => this.removePerson(p.user_id)}>Fjern</button>
-                      </p>
-                    ))}
-                </span>
-              ) : null}
-            </span>
-          ))}
-        </div>
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Fullfør
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }
