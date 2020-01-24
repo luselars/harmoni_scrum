@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
 import EventList from '../components/event/EventList/EventList';
-import SearchBar from '../components/SearchBar/SearchBar';
 
 /** Class for myevents view. */
 export default class LoggedIn extends Component {

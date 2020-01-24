@@ -1,6 +1,6 @@
 //@flow
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
+
 let path = require('path');
 
 type Props = {

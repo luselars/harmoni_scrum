@@ -54,20 +54,16 @@ export default class EventDetailsArtist extends Component<Props, State> {
       });
 
     //Gets event by id
-    UserService.getEvent(this.props.match.params.id)
-      .then(res => {
-        let event: any = res.data[0];
-        console.log(event);
-        this.setState({
-          event: event,
-          cancel: event.cancel,
-        });
-      })
-      .catch(error => console.log(error));
+    UserService.getEvent(this.props.match.params.id).then(res => {
+      let event: any = res.data[0];
+      this.setState({
+        event: event,
+        cancel: event.cancel,
+      });
+    });
 
     //Gets all riders by event_id
     UserService.getRiders(this.props.match.params.id).then(res => {
-      console.log(res.data);
       this.setState({ riders: res.data });
     });
 

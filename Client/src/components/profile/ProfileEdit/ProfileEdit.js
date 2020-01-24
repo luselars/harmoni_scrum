@@ -1,11 +1,11 @@
 //@flow
 
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
 import { PublicService } from '../../../services/publicService';
 import { Organiser } from '../../../services/modelService';
 import './stylesheet.css';
+
 let path = require('path');
 let mail: string;
 let imagePrev: string = '   ';
@@ -252,7 +252,6 @@ class ProfileEdit extends Component<{}, State> {
   /**Gets profile information and populates the state with the organisers info */
   componentDidMount() {
     OrganiserService.getOrganiser().then(res => {
-      console.log(res.data);
       let organiser: Organiser = res.data;
       this.setState({
         organiser_id: organiser.organiser_id,
@@ -278,9 +277,6 @@ class ProfileEdit extends Component<{}, State> {
         streetAddress: res[0],
         postalcode: nr,
       });
-      console.log(
-        this.state.streetAddress + ', ' + this.state.postalcode + ', ' + this.state.postal,
-      );
     });
   }
 
@@ -331,7 +327,6 @@ class ProfileEdit extends Component<{}, State> {
       // Image
       let imageUpload = document.getElementById('upload');
       if (imageUpload.value !== '') {
-        console.log('imgae: ' + imageUpload.value);
         let fullPath: any = imageUpload.value;
         let ext = path.extname(fullPath).toLowerCase();
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
@@ -381,11 +376,9 @@ class ProfileEdit extends Component<{}, State> {
         ? this.edit(false)
         : PublicService.logIn(mail, this.state.password)
             .then(response => {
-              console.log('Response: ' + response.data.jwt);
               this.edit(true);
             })
             .catch(error => {
-              console.log('error: ' + error);
               document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
               document.getElementById('labelNewPasswordError').innerHTML = '';
               window.scrollTo(0, 0);

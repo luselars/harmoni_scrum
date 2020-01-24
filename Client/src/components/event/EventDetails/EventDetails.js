@@ -1,7 +1,7 @@
 //@flow
 import * as React from 'react';
 import { Component } from 'react';
-import { Event, Artist, TicketType } from '../../../services/modelService';
+import { Artist, Event, TicketType } from '../../../services/modelService';
 import { PublicService } from '../../../services/publicService';
 import './stylesheet.css';
 
@@ -192,7 +192,6 @@ export default class EventDetails extends Component<Props, State> {
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
-        console.log(res.data[0]);
         this.setState({ cancel: event.cancel });
         if (this.state.event.location_name == null) {
           this.setState({ location_name: '' });

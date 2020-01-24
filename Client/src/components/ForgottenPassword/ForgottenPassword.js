@@ -1,7 +1,6 @@
 //@flow
 
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import './stylesheet.css';
 
@@ -74,13 +73,9 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
             .then(response => {
               window.location = '/passwordregister';
             })
-            .catch(error => {
-              console.log('error sendFeedback: ' + error);
-            });
+            .catch(error => {});
         }
       })
-      .catch(error => {
-        console.log('error sendFeedback: ' + error);
-      });
+      .catch(error => {});
   }
 }
