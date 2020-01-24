@@ -57,20 +57,20 @@ class ProfileEditUser extends Component<{}, State> {
             </div>
           </div>
         </div>
-        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
-          <div className="card-body m-5">
-            <h2 id="editTitle"> REDIGER PROFIL </h2>
+        <form onSubmit={e => this.post(e)} className="card mb-4" id="editProfile">
+          <div className="card-body m-2 m-md-5 text-center">
+            <p className="display-4"> REDIGER PROFIL </p>
             {this.state.image === undefined || this.state.image === null ? (
               <img
                 src="http://localhost:4000/public/file/profile.png"
-                class="img rounded-circle w-50 mx-auto d-block"
+                className="img rounded-circle p-md-0 p-4"
                 id="picture"
                 alt="Profilbilde"
               />
             ) : (
               <img
                 src={'http://localhost:4000/public/file/' + this.state.image}
-                class="img rounded-circle w-50 mx-auto d-block"
+                className="img rounded-circle p-md-0 p-4"
                 id="picture"
                 alt="Profilbilde"
               />
@@ -99,7 +99,7 @@ class ProfileEditUser extends Component<{}, State> {
                 required
               ></input>
             </div>
-            {this.state.artist_name != null ? (
+            {this.state.is_artist == 1 ? (
               <div className="form-group" id="name">
                 <label for="artistnameInput">Artistnavn: </label>
                 <input
@@ -206,6 +206,7 @@ class ProfileEditUser extends Component<{}, State> {
         description: user.description,
         tlf: user.tlf,
         artist_name: user.artist_name,
+        is_artist: user.is_artist,
       });
       mail = this.state.email;
       if (this.state.image != null) imagePrev = this.state.image;

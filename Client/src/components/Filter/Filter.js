@@ -42,7 +42,7 @@ export default class Filter extends Component<{}, State> {
 
   render() {
     return (
-      <div id="filterCard" class="card mt-2">
+      <div id="filterCard" class="card mt-2 mb-4">
         <div class="card-body bg-light">
           <h5 class="filtertitle">
             FILTER
@@ -259,6 +259,6 @@ export default class Filter extends Component<{}, State> {
     localStorage.removeItem('page');
     localStorage.removeItem('minprice');
     localStorage.removeItem('maxprice');
-    this.props.profile_list == null ? (window.location = '/') : (window.location = '/events');
+    window.location.reload();
   }
 }

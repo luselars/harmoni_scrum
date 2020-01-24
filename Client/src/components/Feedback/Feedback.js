@@ -15,8 +15,8 @@ export default class Feedback extends Component<{}, { email: string, feedbacktex
   }
   render() {
     return (
-      <div className="card profilecard container bg-light p-2">
-        <p className="display-4 text-uppercase text-center mt-4 border-bottom">Feedback</p>
+      <div className="card profilecard container bg-light p-2 mb-4">
+        <p className="display-4 text-uppercase text-center mt-4">Feedback</p>
         <p className="text-center">
           Send inn ris og ros, klager eller tilbakemeldinger!<br></br> Vi svarer deg på mail så fort
           som mulig.

@@ -65,15 +65,15 @@ class ProfileEdit extends Component<{}, State> {
             </div>
           </div>
         </div>
-        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+        <form onSubmit={e => this.post(e)} className="card mb-4" id="editProfile">
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           ></link>
-          <div className="card-body m-5">
-            <h2 id="editTitle"> REDIGER PROFIL </h2>
+          <div className="card-body m-2 m-md-5 text-center">
+            <p className="display-4"> REDIGER PROFIL </p>
             <img
-              className="img rounded-circle w-50 mx-auto d-block"
+              className="img rounded-circle p-md-0 p-4"
               id="picture"
               alt="Profilbilde"
               src={
