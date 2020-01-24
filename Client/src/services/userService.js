@@ -21,9 +21,15 @@ export class UserService {
     return axios.delete<Object>(url, config);
   }
 
-  // Get all events the user is connected to.
-  static getMyEvents(): AxiosPromise<Event[]> {
-    let url = url_base + '/myevents';
+  // Get all events the artist is connected to.
+  static getMyEventsArtist(): AxiosPromise<Event[]> {
+    let url = url_base + '/myeventsArtist';
+    return axios.get(url, config);
+  }
+
+  // Get all events the volunteer is connected to.
+  static getMyEventsVolunteer(): AxiosPromise<Event[]> {
+    let url = url_base + '/myeventsVolunteer';
     return axios.get(url, config);
   }
 

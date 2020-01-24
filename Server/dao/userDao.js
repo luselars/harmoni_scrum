@@ -65,14 +65,24 @@ module.exports = class UserDao extends Dao {
     let queryString = 'UPDATE artist SET artist_name = ? WHERE user_id = ?';
     super.query(queryString, [artist_name, user_id], callback);
   }
-  // Get all events connected to logged in user by user id.
-  getMyEvents(user_id: number, callback: (status: string, data: Object) => mixed) {
+  // Get all events connected to logged in artist by user id.
+  getMyEventsArtist(user_id: number, callback: (status: string, data: Object) => mixed) {
     super.query(
       'SELECT e.*, ea.*, a.* FROM event e LEFT JOIN event_artist ea ON e.event_id = ea.event_id LEFT JOIN artist a ON a.user_id = ea.user_id WHERE a.user_id = ?',
       [user_id],
       callback,
     );
   }
+
+  // Get all events connected to logged in voluenteer by user id.
+  getMyEventsVolunteer(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+      'SELECT *, e.name AS event_name FROM event e LEFT JOIN event_volunteer ev USING(event_id) LEFT JOIN volunteer_type vt USING(volunteer_type_id) WHERE ev.user_id = ?',
+      [user_id],
+      callback,
+    );
+  }
+
   // Get a specific owned event by logged in user by user id and event id.
   getMyEvent(user_id: number, event_id: number, callback: (status: string, data: Object) => mixed) {
     var queryString =
