@@ -34,6 +34,10 @@ const LocationDisplay = withRouter(({ location }) => (
   <div data-testid="location-display">{location.pathname}</div>
 ));
 
+/**
+ * Runs the client application.
+ */
+
 function App() {
   return (
     <Router basename="/">
