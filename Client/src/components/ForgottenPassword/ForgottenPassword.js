@@ -5,6 +5,7 @@ import { Component } from 'react';
 import { PublicService } from '../../services/publicService.js';
 import './stylesheet.css';
 
+//Component for changing a forgotten password
 export default class ForgottenPassword extends Component<{}, { email: string }> {
   constructor(props: any) {
     super(props);
@@ -46,11 +47,13 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
 
   newPassword(e: any) {
     e.preventDefault();
+    //Checks email to see if it exists
     PublicService.checkEmail(this.state.email)
       .then(response => {
         if (response.data.length === 0) {
           alert('Ingen bruker er knyttet til eposten.');
         } else {
+          //Generates random passord and sends an email
           PublicService.newPassword(this.state.email, response.data[0].type)
             .then(response => {
               window.location = '/passwordregister';

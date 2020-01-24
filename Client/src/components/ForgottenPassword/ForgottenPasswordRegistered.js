@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
+//Confirmation component for forgotten password
 export default class ForgottenPasswordRegistered extends Component<{}, {}> {
   render() {
     return (
