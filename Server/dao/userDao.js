@@ -180,4 +180,16 @@ module.exports = class UserDao extends Dao {
     var queryString = 'UPDATE event_artist SET notes = ? WHERE user_id = ? AND event_id = ?';
     super.query(queryString, [notes, user_id, event_id], callback);
   }
+
+  /**
+   * Get all events connected to logged in voluenteer by user id.
+   */
+  getMyEventsVolunteer(user_id: number, callback: (status: string, data: Object) => mixed) {
+    super.query(
+        'SELECT *, e.name AS event_name FROM event e LEFT JOIN event_volunteer ev USING(event_id) LEFT JOIN volunteer_type vt USING(volunteer_type_id) WHERE ev.user_id = ?',
+        [user_id],
+        callback,
+    );
+  }
 };
+
