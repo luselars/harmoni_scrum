@@ -41,9 +41,6 @@ class EventNew2 extends Component<Props, State> {
       <div>
         <div className="form-row">
           <div className="col-12 text-center">
-            <p id="alert" style={{ color: 'red' }} hidden="true">
-              Feil filtype lagt til
-            </p>
             <label>
               Last opp bilde
               <MoreInfo
@@ -134,7 +131,6 @@ class EventNew2 extends Component<Props, State> {
 
   /**Brings the user to the next page */
   next() {
-    document.getElementById('alert').hidden = false;
     let element = document.getElementById('upload');
     if (element.value === '') {
       // No new image set.
