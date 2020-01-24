@@ -15,6 +15,7 @@ type State = {
   event: Event,
   artist: Artist[],
   venue: string,
+  description: string,
   location_name: string,
   cancel: number,
   tickets: TicketType[],
@@ -26,6 +27,7 @@ export default class EventDetails extends Component<Props, State> {
     this.state = {
       event: new Event(),
       artist: [],
+      description: '',
       venue: '',
       location_name: '',
       cancel: 0,
@@ -110,6 +112,14 @@ export default class EventDetails extends Component<Props, State> {
                     : 'Kommer senere'}
                 </td>
               </tr>
+              {this.state.description !== null &&
+              this.state.description !== '' &&
+              this.state.description !== undefined ? (
+                <tr>
+                  <th className="hoyre text-right">Beskrivelse:</th>
+                  <td className="venstre text-left">{this.state.description}</td>
+                </tr>
+              ) : null}
               {this.state.venue !== null &&
               this.state.venue !== '' &&
               this.state.venue !== undefined &&
@@ -194,6 +204,11 @@ export default class EventDetails extends Component<Props, State> {
           this.setState({ venue: '' });
         } else {
           this.setState({ venue: event.venue });
+        }
+        if (this.state.event.eventdescription === null) {
+          this.setState({ description: '' });
+        } else {
+          this.setState({ description: event.description });
         }
         this.setState({ event: event });
 

@@ -45,32 +45,35 @@ class EventNew4 extends Component<Props, State> {
       <div>
         <div className="form-row justify-content-center">
           <div id="col-12">
-            <label className="text-center">
-              Legg til artister på arrangementet
-              <MoreInfo
-                padding={'5px'}
-                text={
-                  'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
-                }
+            <form onSubmit={() => this.invite()}>
+              <label className="text-center">
+                Legg til artister på arrangementet
+                <MoreInfo
+                  padding={'5px'}
+                  text={
+                    'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
+                  }
+                />
+              </label>
+              <div className="text-center">
+                <small id="artistOptional" className="text-muted text-center mb-2">
+                  Valgfritt
+                </small>
+              </div>
+              <input
+                type="email"
+                name="email"
+                className="form-control w-100"
+                id="email"
+                placeholder="Skriv e-mail..."
+                required
               />
-            </label>
-            <div className="text-center">
-              <small id="artistOptional" className="text-muted text-center mb-2">
-                Valgfritt
-              </small>
-            </div>
-            <input
-              type="email"
-              name="email"
-              className="form-control w-100"
-              id="email"
-              placeholder="Skriv e-mail..."
-            />
-            <div className="row justify-content-center">
-              <button className="btn btn-success w-50 mt-2 mb-3" onClick={() => this.invite()}>
-                Inviter artist
-              </button>
-            </div>
+              <div className="row justify-content-center">
+                <button type="submit" className="btn btn-success w-50 mt-2 mb-3">
+                  Inviter artist
+                </button>
+              </div>
+            </form>
             {this.state.artists.length > 0 ? (
               <table className="table table-striped">
                 <thead>

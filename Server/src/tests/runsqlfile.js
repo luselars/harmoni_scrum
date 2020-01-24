@@ -1,5 +1,8 @@
 var fs = require('fs');
 
+/**
+ * Runs an sql file sent to it.
+ */
 module.exports = function run(filename, pool, done) {
   console.log('runsqlfile: reading file ' + filename);
   let sql = fs.readFileSync(filename, 'utf8');

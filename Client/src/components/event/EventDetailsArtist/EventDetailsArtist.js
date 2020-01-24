@@ -216,23 +216,23 @@ export default class EventDetailsArtist extends Component<Props, State> {
                       ))
                     )}
                   </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Kontrakt:
-                    </th>
-                    {this.state.event.contract !== null ? (
+                  {this.state.event.contract !== null ? (
+                    <tr>
+                      <th className="text-right" scope="row">
+                        Kontrakt:
+                      </th>
                       <td className="text-left">
                         <DownloadFile fileName={this.state.event.contract} />
                       </td>
-                    ) : (
-                      <td className="text-left">Ingen kontrakt lastet opp</td>
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Riders:
-                    </th>
-                    {this.state.riders.length > 0 ? (
+                    </tr>
+                  ) : (
+                    ''
+                  )}
+                  {this.state.riders.length > 0 ? (
+                    <tr>
+                      <th className="text-right" scope="row">
+                        Riders:
+                      </th>
                       <span>
                         {this.state.riders.map(rider => (
                           <div>
@@ -242,18 +242,16 @@ export default class EventDetailsArtist extends Component<Props, State> {
                           </div>
                         ))}
                       </span>
-                    ) : (
-                      <div>
-                        <td>-</td>
-                      </div>
-                    )}
-                  </tr>
-                  <tr>
-                    <th className="text-right" scope="row">
-                      Notat:
-                    </th>
-                    {/*Checks if the event has notes in riders*/}
-                    {this.state.event.notes !== undefined && this.state.event.notes != null ? (
+                    </tr>
+                  ) : (
+                    ''
+                  )}
+                  {/*Checks if the event has notes in riders*/}
+                  {this.state.event.notes !== undefined && this.state.event.notes != null ? (
+                    <tr>
+                      <th className="text-right" scope="row">
+                        Notat:
+                      </th>
                       <div>
                         {this.state.event.notes.length > 45 ? (
                           <div>
@@ -287,10 +285,10 @@ export default class EventDetailsArtist extends Component<Props, State> {
                           <td className="text-left">{this.state.event.notes}</td>
                         )}
                       </div>
-                    ) : (
-                      <td className="text-left">-</td>
-                    )}
-                  </tr>
+                    </tr>
+                  ) : (
+                    <td className="text-left">-</td>
+                  )}
                   <tr>
                     <th className="text-right" scope="row">
                       Status:

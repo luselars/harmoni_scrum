@@ -9,6 +9,8 @@ let path = require('path');
 type Props = {
   accept: string,
 };
+
+/**A Component for previewing uploaded images*/
 class Upload extends Component<Props> {
   file = '';
   constructor(props: any) {
@@ -32,6 +34,7 @@ class Upload extends Component<Props> {
       </div>
     );
   }
+  /**Gets image from input with type file and displays it in html img element with id 'prev'*/
   preview() {
     const preview = document.getElementById('prev');
     const file = document.querySelector('input[type=file]').files[0];
