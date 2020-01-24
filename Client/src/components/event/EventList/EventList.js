@@ -37,8 +37,8 @@ export default class EventList extends Component<Props, State> {
     super(props);
     let sortType = localStorage.getItem('sortType') != null ? localStorage.getItem('sortType') : '';
     let sortAlt = ['', ''];
-    let minprice = null;
-    let maxprice = 99999999999;
+    let minprice = '';
+    let maxprice = '';
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
     if (localStorage.getItem('minprice') != null)
@@ -207,6 +207,7 @@ export default class EventList extends Component<Props, State> {
           handleFilterChange={this.handleFilterChange.bind(this)}
           handleFilterAlternativChange={this.handleFilterAlternativChange.bind(this)}
           handleFilterPriceChange={this.handleFilterPriceChange.bind(this)}
+          profile_list={this.props.profile_list}
         />
         <div>
           {this.state.events.map((event, index) =>
@@ -412,8 +413,8 @@ export default class EventList extends Component<Props, State> {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
-    this.handleFilterPriceChange(this.state.minprice, 'min');
-    this.handleFilterPriceChange(this.state.maxprice, 'max');
+    if (!isNaN(this.state.minprice)) this.handleFilterPriceChange(this.state.minprice, 'min');
+    if (!isNaN(this.state.maxprice)) this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {

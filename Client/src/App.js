@@ -23,6 +23,7 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
+import EditEventTickets from './components/event/EventNew/EditEventTickets';
 
 const NoMatch = () => (
   <div className="card">
@@ -53,7 +54,7 @@ function App() {
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/events" component={LoggedIn} />
           <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />

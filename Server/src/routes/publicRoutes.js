@@ -18,7 +18,6 @@ let dao = new publicDao(
 );
 app.use(bodyParser.json()); // for å tolke JSON i body
 let router = express.Router();
-// TODO: bruk ekte sertifikat, lest fra config...
 let privateKey = 'shhhhhverysecret';
 let publicKey = privateKey;
 var nodemailer = require('nodemailer');
@@ -55,7 +54,6 @@ router.get('/refreshToken', (req: express$Request, res: express$Response) => {
 });
 
 // Get file. The id should match a file in the folder files
-// TODO make sure the user is authorised to get the requested file. e.g. the user-id is present in the same row as the filename in db
 router.get('/file/:id', function(req, res) {
   res.sendFile(path.join(__dirname, '../../files/' + req.params.id));
 });

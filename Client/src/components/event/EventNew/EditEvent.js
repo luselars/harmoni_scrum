@@ -20,7 +20,7 @@ class EditEvent extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      page: 1,
+      page: 6,
     };
   }
   handlePage = (page: number) => {
