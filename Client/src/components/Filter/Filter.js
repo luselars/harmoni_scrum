@@ -20,8 +20,14 @@ export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     let sortAlt = ['', ''];
+    let minprice = 0;
+    let maxprice = 0;
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
+    if (localStorage.getItem('minprice') != null)
+      minprice = parseInt(localStorage.getItem('minprice'));
+    if (localStorage.getItem('maxprice') != null)
+      maxprice = parseInt(localStorage.getItem('maxprice'));
 
     this.state = {
       sortRadio1: 'Tid ↓',
@@ -29,6 +35,8 @@ export default class Filter extends Component<{}, State> {
       sortRadio3: 'Pris ↓',
       status: true,
       sortAlt: sortAlt,
+      minprice: minprice,
+      maxprice: maxprice,
     };
   }
 
@@ -125,6 +133,7 @@ export default class Filter extends Component<{}, State> {
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
                       type="text"
+                      value={this.state.minprice}
                       placeholder="Søk..."
                       aria-label="Search"
                     />
@@ -144,6 +153,7 @@ export default class Filter extends Component<{}, State> {
                     <input
                       className="form-control my-0 py-1"
                       onChange={e => this.handleChangeMinPrice(e)}
+                      value={this.state.maxprice}
                       type="text"
                       placeholder="Søk..."
                       aria-label="Search"
@@ -237,6 +247,8 @@ export default class Filter extends Component<{}, State> {
     localStorage.removeItem('viewCanceled');
     localStorage.removeItem('viewOld');
     localStorage.removeItem('page');
+    localStorage.removeItem('minprice');
+    localStorage.removeItem('maxprice');
     window.location = '/';
   }
 }
