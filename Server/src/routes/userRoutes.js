@@ -99,9 +99,17 @@ router.get('/myprofile', (req: express$Request, res: express$Response) => {
   });
 });
 
-// Get all the events your user account is connected to.
-router.get('/myevents', (req: express$Request, res: express$Response) => {
-  dao.getMyEvents(req.uid, (status, data) => {
+// Get all the events your artist account is connected to.
+router.get('/myeventsArtist', (req: express$Request, res: express$Response) => {
+  dao.getMyEventsArtist(req.uid, (status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+// Get all the events your voluenteer account is connected to.
+router.get('/myeventsVolunteer', (req: express$Request, res: express$Response) => {
+  dao.getMyEventsVolunteer(req.uid, (status, data) => {
     res.status(status);
     res.send(data);
   });

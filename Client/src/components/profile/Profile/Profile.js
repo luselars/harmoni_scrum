@@ -163,7 +163,14 @@ export default class Profile extends Component<Props, State> {
             </div>
           </div>
         ) : (
-          <div></div>
+          <div className="row justify-content-md-center">
+            <button
+              className="btn btn-success w-75  m-3"
+              onClick={() => (window.location.href = '/events')}
+            >
+              SE MINE ARRANGEMENTER
+            </button>
+          </div>
         )}
       </div>
     );
