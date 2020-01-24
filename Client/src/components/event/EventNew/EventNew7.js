@@ -5,6 +5,7 @@ import { number, string } from 'prop-types';
 import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import EditPersonnel from './EditPersonnel';
+import MoreInfo from '../../MoreInfo/MoreInfo';
 
 type State = {
   event: Event,
@@ -96,7 +97,15 @@ class EventNew7 extends Component<Props, State> {
             />
           ) : null}
 
-          <h4 className="text-center">Knytt personell til arrangementet </h4>
+          <h4 className="text-center">
+            Knytt personell til arrangementet
+            <MoreInfo
+              padding={'5px'}
+              text={
+                'Knytt personell til arrangementet. Personell vises bare til arrangør, artister og annet personell. For å legge til en person må det velges en av personell-gruppene knyttet til kontoen din. Nye personell-grupper kan oprettes og slettes i feltet over, og vil være lagret til videre arrangementer. Personell som legges til vil bli varslet på mail.'
+              }
+            />
+          </h4>
           <p id="alert" style={{ color: 'red' }} hidden="true">
             Legg til både personell og personellgruppe
           </p>
