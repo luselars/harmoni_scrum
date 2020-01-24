@@ -2,7 +2,6 @@
 import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
-import mysql from 'mysql';
 import uploadFunctions from '../uploadHelper';
 import { productionDatabase } from '../config/dbCredentials';
 
