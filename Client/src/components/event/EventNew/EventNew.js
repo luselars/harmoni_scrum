@@ -47,7 +47,7 @@ class EventNew extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <form onSubmit={event => this.next(event)}>
         <div className="form-row">
           <div className="col-12">
             <label id="eventnamelabel" for="eventname">
@@ -79,6 +79,9 @@ class EventNew extends Component<Props, State> {
                 }
               />
             </label>
+            <small id="sceneOptional" className="form-text text-muted mb-2">
+              Valgfritt
+            </small>
             <textarea
               className={'form-control mb-4'}
               id={'eventdesc'}
@@ -104,6 +107,7 @@ class EventNew extends Component<Props, State> {
               defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
+              required
             />
             <input
               className="form-control w-50 mb-4"
@@ -112,6 +116,7 @@ class EventNew extends Component<Props, State> {
               name="start"
               defaultValue={this.currentTime()}
               onChange={() => this.updateTime()}
+              required
             />
             {/*<TimeField
               id="start_time"
@@ -129,15 +134,19 @@ class EventNew extends Component<Props, State> {
               type="date"
               id="end"
               name="end"
+              defaultValue={this.today()}
               max="2023-12-31"
               onChange={() => this.updateTime()}
+              required
             />
             <input
               className="form-control w-50 mb-4"
               type="time"
               id="end_time"
+              defaultValue={this.currentTime()}
               name="end"
               onChange={() => this.updateTime()}
+              required
             />
             {/*
             <TimeField
@@ -195,12 +204,7 @@ class EventNew extends Component<Props, State> {
         </div>
 
         <div className="row justify-content-center">
-          <button
-            onClick={() => this.next()}
-            type="button"
-            className="btn btn-success w-50 m-2 "
-            id="nextbtn"
-          >
+          <button type="submit" className="btn btn-success w-50 m-2 " id="nextbtn">
             Neste
           </button>
           <button
@@ -212,7 +216,7 @@ class EventNew extends Component<Props, State> {
             Avbryt??
           </button>
         </div>
-      </div>
+      </form>
     );
   }
 
@@ -273,7 +277,8 @@ class EventNew extends Component<Props, State> {
     localStorage.removeItem('curr_event');
     window.location = '/editevent';
   }
-  next() {
+  next(event) {
+    event.preventDefault();
     // TODO validate time input
     if (typeof this.state.event.name !== 'string' || this.state.event.name.length < 1) {
       // TODO bytt denne alerten

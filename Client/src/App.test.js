@@ -27,9 +27,8 @@ test('full app rendering/navigating', () => {
   }
 });
 
-
-test('empty test', ()=> {
-  expect(1===1);
+test('empty test', () => {
+  expect(1 === 1);
 });
 /*
 test('landing on a bad page shows 404 page', () => {

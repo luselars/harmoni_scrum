@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-// TODO denne komponenten kan alternativt (hvis den skal brukes litt oftere) legges inn som redirect direkte på Route på App.js og bare legges som en funksjon på App.js
-
+//Component for altert page when an unauthorized user tries to access
 export class NotAuthorized extends Component<{}, {}> {
   render() {
     return (

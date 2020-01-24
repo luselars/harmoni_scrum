@@ -5,6 +5,7 @@ import { PublicService } from '../../services/publicService.js';
 import { string } from 'prop-types';
 import './stylesheet.css';
 
+//Component for login
 export default class LogIn extends Component<{}, { email: string, password: string }> {
   constructor(props: any) {
     super(props);
@@ -20,6 +21,9 @@ export default class LogIn extends Component<{}, { email: string, password: stri
         <div class="card-body bg-light d-flex justify-content-center">
           <form onSubmit={e => this.post(e)}>
             <p className="display-4 text-uppercase text-center m-4 border-bottom">logg inn</p>
+            <p id="alert" style={{ color: 'red' }} hidden="true">
+              Bruker ikke funnet, sjekk passord og email og prøv på nytt
+            </p>
             <div class="form-group text-center ml-5 mr-5">
               <label for="inputEmail1">Brukernavn (e-post)</label>
               <input
@@ -67,12 +71,14 @@ export default class LogIn extends Component<{}, { email: string, password: stri
     );
   }
 
+  //Sets email state
   changeEmail(e: any) {
     const target = e.target;
     let value: string = target.value;
     this.setState({ email: value });
   }
 
+  //Sets password state
   changePassword(e: any) {
     const target = e.target;
     let value: string = target.value;
@@ -81,6 +87,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
 
   post(e: any) {
     e.preventDefault();
+    //Logging in and returning nessesary information
     PublicService.logIn(this.state.email, this.state.password)
       .then(response => {
         console.log('Response: ' + response.data.jwt);
@@ -88,9 +95,10 @@ export default class LogIn extends Component<{}, { email: string, password: stri
         localStorage.setItem('userType', response.data.type);
         window.location = '/profile';
       })
+      //Catches errors and sets alert
       .catch(error => {
         console.log('error: ' + error);
-        alert('Bruker ikke funnet, sjekk passord og email og prøv på nytt');
+        document.getElementById('alert').hidden = false;
       });
   }
 }
