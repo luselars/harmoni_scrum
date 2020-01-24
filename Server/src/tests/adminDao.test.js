@@ -1,18 +1,4 @@
-/* DELETE SOON BICH BOCH
-event.name = "Mcpearsons nye organfest";
-event.image = "piano.img";
-event.start = "2008-1-29 14:57:00";
-event.end = "2008-1-29 16:00:00";
-event.status = "ready to party";
-event.is_public = 1;
-event.venue = "Koselig plass";
-event.location_id = 1;
-event.event_id = 2;
-*/
-import mysql from 'mysql';
-import { Event, User, Location, Organiser } from '../../dao/modelDao.js';
 import { testDatabase } from '../config/dbCredentials';
-//import {Artist} from "../../../Client/src/services/modelService";
 const adminDao = require('../../dao/adminDao.js');
 let dao = new adminDao(
   testDatabase.url,
@@ -52,11 +38,6 @@ beforeAll(done => {
 });
 
 describe('Testing methods in public dao', () => {
-  it('1 equals 1', done => {
-    expect(1).toEqual(1);
-    done();
-  });
-
   it('Get all organisers', done => {
     function callback(status, data) {
       expect(data.length).toBeGreaterThanOrEqual(1);

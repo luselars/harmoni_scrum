@@ -26,6 +26,7 @@ type State = {
   postal: string,
 };
 
+//Component for editing ograniser profile
 class ProfileEdit extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -49,6 +50,7 @@ class ProfileEdit extends Component<{}, State> {
   render() {
     return (
       <div>
+        {/*Modals for deleting profile and cancelling event*/}
         <div id="myModal" className="modal">
           <div className="modal-content">
             <span className="close">&times;</span>
@@ -281,6 +283,7 @@ class ProfileEdit extends Component<{}, State> {
     });
   }
 
+  //Sets style to modal
   deletebtn() {
     var btn = document.getElementById('deleteprofilebtn');
     var modal = document.getElementById('myModal');
@@ -300,6 +303,7 @@ class ProfileEdit extends Component<{}, State> {
     };
   }
 
+  //Deletes event
   delete() {
     OrganiserService.deleteOrganiser(this.state.organiser_id)
       .then(response => {
@@ -315,7 +319,6 @@ class ProfileEdit extends Component<{}, State> {
     this.setState({ [name]: value });
   }
 
-  //TODO delete old profile pic <3
   edit(changePassword: boolean) {
     if (this.state.newPassword.length < 8 && changePassword) {
       document.getElementById('labelPasswordError').innerHTML = '';
@@ -330,7 +333,6 @@ class ProfileEdit extends Component<{}, State> {
         let fullPath: any = imageUpload.value;
         let ext = path.extname(fullPath).toLowerCase();
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-          //TODO change alert
           alert('Ikke gyldig filtype');
           return;
         }
