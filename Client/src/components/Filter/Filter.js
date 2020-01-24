@@ -20,8 +20,8 @@ export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     let sortAlt = ['', ''];
-    let minprice = 0;
-    let maxprice = 0;
+    let minprice = null;
+    let maxprice = null;
     if (localStorage.getItem('viewOld') === 'true') sortAlt[0] = 'viewOld';
     if (localStorage.getItem('viewCanceled') === 'true') sortAlt[1] = 'viewCanceled';
     if (localStorage.getItem('minprice') != null)
