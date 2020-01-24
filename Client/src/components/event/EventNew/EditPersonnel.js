@@ -46,6 +46,7 @@ class EditPersonnel extends Component<Props, State> {
           className="form-control w-100 my-2"
           placeholder="Skriv personelltype..."
           type="text"
+          value={this.state.new_type}
           required
         />
         <button type="submit" className="btn btn-success col-sm-3 my-2 d-block mx-auto">
