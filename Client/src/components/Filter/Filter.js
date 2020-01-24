@@ -12,10 +12,7 @@ type State = {
   sortAlt: [string, string],
 };
 
-// TODO
-// Når filteret er sortert på pris, og så endrer de andre faktorene seg beholder filteret prissortering.
-// Når en trykker tilbake fra et arrangement burde sortering være lik som før en trykker på det.
-// Når en trykker tilbake fra et arrangement burde en routes til riktig sidetall på sorteringen som brukeren var på.
+/** This class is for sorting the eventlist on both the profile page, and the frontpage. */
 export default class Filter extends Component<{}, State> {
   constructor(props: any) {
     super(props);
@@ -170,7 +167,7 @@ export default class Filter extends Component<{}, State> {
                   <button
                     type="button"
                     onClick={() => {
-                      this.nullstill();
+                      this.reset();
                     }}
                     className="btn btn-success"
                   >
@@ -193,7 +190,7 @@ export default class Filter extends Component<{}, State> {
       this.setState({ status: false });
     }
   }
-
+  /** Checks to see if the filter is being used on the profile specific events or frontpage events. */
   handleStatus() {
     if (this.state.status) {
       this.setState({ status: false });
@@ -201,7 +198,7 @@ export default class Filter extends Component<{}, State> {
       this.setState({ status: true });
     }
   }
-
+  /** Recieves parameters which it uses to sort the events on the event list. */
   handleChangeSort(e: any) {
     let value: string = e.target.value;
     if (value.charAt(value.length - 1) === '↓') {
@@ -221,7 +218,7 @@ export default class Filter extends Component<{}, State> {
     }
     this.props.handleFilterChange(e.target.value);
   }
-
+  /** Recieves parameters which it uses to sort which events are allowed on the eventlist. */
   handleChangeAlt(e: any) {
     let value: string = e.target.value;
     if (value === 'viewOld') {
@@ -234,25 +231,26 @@ export default class Filter extends Component<{}, State> {
     }
     this.props.handleFilterAlternativChange(this.state.sortAlt);
   }
-
+  /** Changes the search parameters dealing with the minimum price on the filter. */
   handleChangeMinPrice(e: any) {
     let price = e.target.value;
     this.setState({ minprice: price });
     localStorage.setItem('minprice', price);
     this.props.handleFilterPriceChange(price, 'min');
   }
+  /** Changes the search parameters dealing with the maximum price on the filter. */
   handleChangeMaxPrice(e: any) {
     let price = e.target.value;
     this.setState({ maxprice: price });
     localStorage.setItem('maxprice', price);
     this.props.handleFilterPriceChange(price, 'max');
   }
-
   handleSubmit(event) {
     event.preventDefault();
     alert(`du trykket på velg, denne knappen gjør for øyeblikket ingenting`);
   }
-  nullstill() {
+  /** Resets all of the stored variables on the filter to default. */
+  reset() {
     localStorage.removeItem('sortType');
     localStorage.removeItem('viewCanceled');
     localStorage.removeItem('viewOld');
