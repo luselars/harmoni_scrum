@@ -186,7 +186,8 @@ export default class EventList extends Component<Props, State> {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <div className="input-group my-3 " id="searchBox">
+        {!this.props.profile_list ? <div></div> : <p className="display-4">Dine arrangementer</p>}
+        <div className="input-group my-3" id="searchBox">
           <div className="input-group md-form form-sm form-1 pl-0">
             <div className="input-group-prepend">
               <span className="input-group-text purple lighten-3" id="basic-text1">
@@ -197,8 +198,8 @@ export default class EventList extends Component<Props, State> {
               className="form-control my-0 py-1"
               type="text"
               onChange={e => this.search(e)}
-              placeholder="Search"
-              aria-label="Search"
+              placeholder="Søk"
+              aria-label="Søk"
             />
           </div>
         </div>
@@ -413,8 +414,10 @@ export default class EventList extends Component<Props, State> {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
-    if (!isNaN(this.state.minprice)) this.handleFilterPriceChange(this.state.minprice, 'min');
-    if (!isNaN(this.state.maxprice)) this.handleFilterPriceChange(this.state.maxprice, 'max');
+    if (!isNaN(this.state.minprice) && this.state.minprice != '')
+      this.handleFilterPriceChange(this.state.minprice, 'min');
+    if (!isNaN(this.state.maxprice) && this.state.maxprice != '')
+      this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
   search(event) {

@@ -253,6 +253,6 @@ export default class Filter extends Component<{}, State> {
     localStorage.removeItem('page');
     localStorage.removeItem('minprice');
     localStorage.removeItem('maxprice');
-    this.props.profile_list == null ? (window.location = '/') : (window.location = '/events');
+    window.location.reload();
   }
 }

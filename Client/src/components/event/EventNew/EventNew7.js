@@ -7,6 +7,7 @@ import { Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import EditPersonnel from './EditPersonnel';
 
 type State = {
   event: Event,
@@ -15,6 +16,7 @@ type State = {
   new_type: string,
   delete: {},
   invite: {},
+  expandCreate: boolean,
 };
 type Props = {
   onSelectPage: any,
@@ -29,8 +31,12 @@ class EventNew7 extends Component<Props, State> {
       new_type: string,
       delete: {},
       invite: {},
+      expandCreate: false,
     };
   }
+  update = () => {
+    this.componentDidMount();
+  };
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -50,43 +56,40 @@ class EventNew7 extends Component<Props, State> {
       });
     }
   }
+  toggleExpandCreate() {
+    if (this.state.expandCreate) {
+      this.setState({ expandCreate: false });
+    } else {
+      this.setState({ expandCreate: true });
+    }
+  }
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-group text-center ml-5 mr-5">
           <p>Knytt personell til arrangementet: </p>
         </div>
-        <div>
-          <p>Legg til personelltype:</p>
-          <input
-            onChange={e => {
-              this.setState({ new_type: e.target.value });
-            }}
-            placeholder={'Personelltype'}
-            type="text"
-          />
-          <button onClick={() => this.createType()}>Opprett personelltype</button>
-        </div>
-        <div>
-          <p>Slett personelltyper:</p>
-          <Autocomplete
-            onChange={(e, value) => {
-              this.state.delete = value;
-            }}
-            options={this.state.my_types}
-            getOptionLabel={pers => pers.name}
-            style={{ width: 300 }}
-            renderInput={params => (
-              <TextField {...params} label="Velg personelltype" variant="outlined" fullWidth />
-            )}
-          />
-          <button
+        <div className="form-group text-center ml-5 mr-5">
+          <p
+            style={{ cursor: 'pointer' }}
             onClick={() => {
-              this.deleteType();
+              this.toggleExpandCreate();
             }}
           >
-            Slett
-          </button>
+            Endre dine personelltyper
+            {this.state.expandCreate ? (
+              <i className="arrow down"></i>
+            ) : (
+              <i className="arrow up"></i>
+            )}
+          </p>
+          {this.state.expandCreate ? (
+            <EditPersonnel
+              updateParent={() => {
+                this.update();
+              }}
+            />
+          ) : null}
         </div>
         <div>
           <p>Inviter personell til arrangementet:</p>
@@ -186,31 +189,6 @@ class EventNew7 extends Component<Props, State> {
   }
   removePerson(user_id: number) {
     OrganiserService.removeVolunteerFromEvent(this.state.event.event_id, user_id).then(response => {
-      console.log(response);
-      this.componentDidMount();
-    });
-  }
-  deleteType() {
-    if (this.state.delete.name === undefined) {
-      return;
-    }
-    OrganiserService.deleteVolunteerType(this.state.delete.volunteer_type_id).then(response => {
-      console.log(response);
-      this.componentDidMount();
-    });
-  }
-  createType() {
-    // Oprett personellgruppe her
-    if (
-      this.state.new_type === null ||
-      typeof this.state.new_type !== 'string' ||
-      this.state.new_type === ''
-    ) {
-      alert('Ingen personelltype skrevet inn');
-      return;
-      // TODO bytt alert?
-    }
-    OrganiserService.addVolunteerType(this.state.new_type).then(response => {
       console.log(response);
       this.componentDidMount();
     });
