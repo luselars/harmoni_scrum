@@ -15,6 +15,8 @@ type State = {
 type Props = {
   updateParent: any,
 };
+
+/**Component for editing Personnel */
 class EditPersonnel extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -23,8 +25,8 @@ class EditPersonnel extends Component<Props, State> {
       new_type: string,
     };
   }
+  /**Check if the user is currently writing an event, if so load inputs with data */
   componentDidMount() {
-    // Check if the user is currently writing an event, if so load inputs with data
     OrganiserService.getVolunteerType().then(response => {
       console.log(response.data);
       this.setState({ my_types: response.data });
@@ -38,6 +40,9 @@ class EditPersonnel extends Component<Props, State> {
         </div>
         <div>
           <p>Legg til personelltype:</p>
+          <p id="alert" style={{ color: 'red' }} hidden="true">
+            Ingen personelltype skrevet inn
+          </p>
           <input
             onChange={e => {
               this.setState({ new_type: e.target.value });
@@ -71,26 +76,28 @@ class EditPersonnel extends Component<Props, State> {
       </div>
     );
   }
+
+  /**Deletes Personnel */
   deleteType() {
     if (this.state.delete.name === undefined) {
       return;
     }
     OrganiserService.deleteVolunteerType(this.state.delete.volunteer_type_id).then(response => {
-      console.log(response);
       this.props.updateParent();
       this.componentDidMount();
     });
   }
+
+  /**Creates personnel type*/
   createType() {
-    // Oprett personellgruppe her
+    // Opprett personellgruppe her
     if (
       this.state.new_type === null ||
       typeof this.state.new_type !== 'string' ||
       this.state.new_type === ''
     ) {
-      alert('Ingen personelltype skrevet inn');
+      document.getElementById('alert').hidden = false;
       return;
-      // TODO bytt alert?
     }
     OrganiserService.addVolunteerType(this.state.new_type).then(response => {
       this.props.updateParent();

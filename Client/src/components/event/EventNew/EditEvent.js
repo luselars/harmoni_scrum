@@ -17,7 +17,7 @@ type State = {
   page: number,
 };
 
-/**Component  */
+/**Component for editing events */
 class EditEvent extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -25,6 +25,8 @@ class EditEvent extends Component<Props, State> {
       page: 1,
     };
   }
+
+  /**Handles the page navigation */
   handlePage = (page: number) => {
     this.setState({ page: page });
   };
