@@ -54,17 +54,17 @@ class EditPersonnel extends Component<Props, State> {
         </div>
         <div>
           <p>Slett personelltyper:</p>
-          <Autocomplete
-            onChange={(e, value) => {
-              this.state.delete = value;
+          <select
+            id="delete"
+            onChange={e => {
+              this.state.delete = e.target.value;
             }}
-            options={this.state.my_types}
-            getOptionLabel={pers => pers.name}
-            style={{ width: 300 }}
-            renderInput={params => (
-              <TextField {...params} label="Velg personelltype" variant="outlined" fullWidth />
-            )}
-          />
+            className="form-control"
+          >
+            {this.state.my_types.map(type => (
+              <option value={type.volunteer_type_id}>{type.name}</option>
+            ))}
+          </select>
           <button
             onClick={() => {
               this.deleteType();
@@ -79,11 +79,13 @@ class EditPersonnel extends Component<Props, State> {
 
   /**Deletes Personnel */
   deleteType() {
-    if (this.state.delete.name === undefined) {
+    this.state.delete = document.getElementById('delete').value;
+    console.log(this.state.delete);
+    if (this.state.delete === undefined) {
       return;
     }
-    OrganiserService.deleteVolunteerType(this.state.delete.volunteer_type_id).then(response => {
-      // TODO gi alert om at type er lagt til
+    OrganiserService.deleteVolunteerType(this.state.delete).then(response => {
+      // TODO gi alert om at type er slettet
       alert('231');
       this.props.updateParent();
       this.componentDidMount();
