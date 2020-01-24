@@ -8,6 +8,7 @@ import { OrganiserService } from '../../../services/organiserService';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import MoreInfo from '../../MoreInfo/MoreInfo';
+import EditEventTickets from './EditEventTickets';
 
 type State = {
   event: Event,
@@ -18,6 +19,7 @@ type State = {
   new_event_ticket: TicketType,
   ev_price: number,
   ev_amount: number,
+  expandCreate: boolean,
 };
 type Props = {
   onSelectPage: any,
@@ -34,6 +36,7 @@ class EventNew6 extends Component<Props, State> {
       new_ticket_desc: string,
       ev_price: number,
       ev_amount: number,
+      expandCreate: false,
     };
   }
   componentDidMount() {
@@ -62,12 +65,35 @@ class EventNew6 extends Component<Props, State> {
       });
     }
   }
+  toggleExpandCreate() {
+    if (this.state.expandCreate) {
+      this.setState({ expandCreate: false });
+    } else {
+      this.setState({ expandCreate: true });
+    }
+  }
   render() {
     return (
       <div className="createEvent" id="cardnewevent">
         <div className="form-group text-center ml-5 mr-5">
+          <p
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              this.toggleExpandCreate();
+            }}
+          >
+            Endre dine bilettyper
+            {this.state.expandCreate ? (
+              <i className="arrow down"></i>
+            ) : (
+              <i className="arrow up"></i>
+            )}
+          </p>
+          {this.state.expandCreate ? <EditEventTickets /> : null}
+        </div>
+        <div className="form-group text-center ml-5 mr-5">
           <p>
-            Legg til billetter:
+            Legg til billetter på arrangement:
             <MoreInfo
               padding={'5px'}
               text={
@@ -75,24 +101,6 @@ class EventNew6 extends Component<Props, State> {
               }
             />
           </p>
-        </div>
-        <div>
-          <p>Opprett billett:</p>
-          <input
-            onChange={e => {
-              this.setState({ new_ticket: e.target.value });
-            }}
-            placeholder={'Bilettnavn'}
-            type="text"
-          />
-          <input
-            onChange={e => {
-              this.setState({ new_ticket_desc: e.target.value });
-            }}
-            placeholder={'Billettbeskrivelse'}
-            type="text"
-          />
-          <button onClick={() => this.createTicket()}>Opprett billettype</button>
         </div>
         <div>
           <select onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}>
@@ -113,7 +121,6 @@ class EventNew6 extends Component<Props, State> {
             placeholder={'antall'}
           />
           <button onClick={() => this.addTicketToEvent()}>Legg til i arrangement</button>
-          <button onClick={() => this.deleteTicket()}>Slett billettype</button>
           <div>
             <p>Billetter lagt til:</p>
             {this.state.event_tickets.length > 0 ? (
@@ -129,25 +136,17 @@ class EventNew6 extends Component<Props, State> {
               <p>Du har ikke lagt til noen billetter på dette arrangementet.</p>
             )}
           </div>
+          <div>
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
         </div>
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
-  }
-  deleteTicket() {
-    console.log(this.state.new_event_ticket);
-    OrganiserService.deleteTicket(this.state.new_event_ticket).then(response => {
-      console.log(response);
-      this.componentDidMount();
-    });
   }
   removeTicket(ticket_id: number) {
     OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
@@ -181,16 +180,6 @@ class EventNew6 extends Component<Props, State> {
         this.componentDidMount();
       });
     }
-  }
-  createTicket() {
-    console.log('test');
-    let ticket = new TicketType();
-    ticket.name = this.state.new_ticket;
-    ticket.description = this.state.new_ticket_desc;
-    OrganiserService.postTicket(ticket, this.state.event.event_id).then(response => {
-      console.log(response);
-      this.componentDidMount();
-    });
   }
   formatTime() {
     if (this.state.event.start != null) {

@@ -4,7 +4,6 @@
 .*/Menu/.*
 .*/profile/.*
 .*/Upload/.*
-.*/LogIn/.*
 # the components have not been thoroughly type-checked due to time constraints
 # the components do work, but minor flow errors do exists, its mostly a problem of node_modules
 

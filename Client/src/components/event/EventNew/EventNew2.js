@@ -26,7 +26,6 @@ class EventNew2 extends Component<Props, State> {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
-      // TODO add token
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
         let data = response.data;
         console.log(data);

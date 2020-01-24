@@ -1,7 +1,6 @@
 import React from 'react';
-//import logo from './logo.svg';
 import { withRouter } from 'react-router';
-import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Link, Switch, Route, BrowserRouter as Router, useHistory } from 'react-router-dom';
 import Main from '../src/views/main';
 import Menu from './components/Menu/Menu';
 import LogIn from './components/LogIn/LogIn';
@@ -23,16 +22,11 @@ import ProfileDeleted from './components/profile/ProfileDeleted/ProfileDeleted';
 import EditEvent from './components/event/EventNew/EditEvent';
 import FeedbackRegistered from './components/Feedback/FeedbackRegistered';
 import EventEditArtist from './components/event/EventEditArtist/EventEditArtist';
+import EditEventTickets from './components/event/EventNew/EditEventTickets';
 
-//https://testing-library.com/docs/example-react-router
-//se på den linken for å forstå hvordan routing her fungerer
-
-{
-  /*const Main = () => <h1>Home here</h1>*/
-}
 const NoMatch = () => (
-  <div className="card" id="NotFound">
-    <h1>404 Not Found</h1>
+  <div className="card">
+    <h1 data-testid="not-found">404 Not Found</h1>
     <p>Oisann.. Siden finnes ikke, eller du mangler rettighetene som kreves for å gå inn på den.</p>
   </div>
 );
@@ -43,7 +37,7 @@ const LocationDisplay = withRouter(({ location }) => (
 function App() {
   return (
     <Router basename="/">
-      {/*<Link to="/"></Link>*/}
+      <Link to=""></Link>
       <Menu />
       <div className="maindiv">
         <Switch>
@@ -58,7 +52,7 @@ function App() {
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/events" component={LoggedIn} />
           <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />
@@ -71,7 +65,7 @@ function App() {
           <Route component={NoMatch} />
         </Switch>
       </div>
-      {/* <LocationDisplay />*/}
+      {/*<LocationDisplay />*/}
       <Footer />
     </Router>
   );
