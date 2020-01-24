@@ -126,16 +126,14 @@ export default class Profile extends Component<Props, State> {
               {this.state.artist ? (
                 <button
                   className="btn btn-success w-75  m-3"
-                  onClick={() => (window.location.href = '/events/' + this.state.userType.user_id)}
+                  onClick={() => (window.location.href = '/events')}
                 >
                   SE MINE ARRANGEMENTER
                 </button>
               ) : (
                 <button
                   className="btn btn-success w-75  m-3"
-                  onClick={() =>
-                    (window.location.href = '/events/' + this.state.userType.organiser_id)
-                  }
+                  onClick={() => (window.location.href = '/events')}
                 >
                   SE MINE ARRANGEMENTER
                 </button>

@@ -54,7 +54,7 @@ function App() {
           <Route exact path="/profile/summary" component={LoggedIn} />
           <Route exact path="/eventdeleted" component={EventDeleted} />
           <Route exact path="/event/:id" component={EventDetails} />
-          <Route exact path="/events/:id" component={LoggedIn} />
+          <Route exact path="/events" component={LoggedIn} />
           <Route exact path="/userevent/:id" component={EventDetailsLoggedInUser} />
           <Route exact path="/orgevent/:id" component={EventDetailsLoggedInOrganiser} />
           <Route exaxt path="/admin" component={Admin} />
