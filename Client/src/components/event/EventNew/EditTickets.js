@@ -35,7 +35,7 @@ class EditTickets extends Component<Props, State> {
     return (
       <div>
         <div>
-          <label className="text-center">Opprett billettype:</label>
+          <h4 className="text-center">Opprett billettype:</h4>
           <label className="my-3">Bilettnavn</label>
           <input
             onChange={e => {
@@ -64,7 +64,7 @@ class EditTickets extends Component<Props, State> {
             </button>
           </div>
           <div>
-            <label className="text-center">Slett billettype:</label>
+            <h4 className="text-center">Slett billettype:</h4>
             <select
               onChange={e => this.setState({ new_event_ticket: Number(e.target.value) })}
               className="form-control w-100 my-2"
