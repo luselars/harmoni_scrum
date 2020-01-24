@@ -1,12 +1,10 @@
 //@flow
-import React, { createRef } from 'react';
+import React from 'react';
 import { Component } from 'react';
 import './stylesheet.css';
 import { number, string } from 'prop-types';
-import { TicketType, Artist, Event } from '../../../services/modelService';
+import { TicketType, Event } from '../../../services/modelService';
 import { OrganiserService } from '../../../services/organiserService';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 import MoreInfo from '../../MoreInfo/MoreInfo';
 import EditTickets from './EditTickets';
 
@@ -24,6 +22,7 @@ type State = {
 type Props = {
   onSelectPage: any,
 };
+
 class EventNew6 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -39,6 +38,7 @@ class EventNew6 extends Component<Props, State> {
       expandCreate: false,
     };
   }
+
   componentDidMount() {
     // Check if the user is currently writing an event, if so load inputs with data
     if (localStorage.getItem('curr_event') != null) {
@@ -62,6 +62,7 @@ class EventNew6 extends Component<Props, State> {
       });
     }
   }
+
   toggleExpandCreate() {
     if (this.state.expandCreate) {
       this.setState({ expandCreate: false });
@@ -69,9 +70,11 @@ class EventNew6 extends Component<Props, State> {
       this.setState({ expandCreate: true });
     }
   }
+
   update = () => {
     this.componentDidMount();
   };
+
   render() {
     return (
       <div className="row justify-content-center">
@@ -197,12 +200,14 @@ class EventNew6 extends Component<Props, State> {
       </div>
     );
   }
+
   removeTicket(ticket_id: number) {
     OrganiserService.deleteEventTicket(ticket_id, this.state.event.event_id).then(response => {
       console.log(response);
       this.componentDidMount();
     });
   }
+
   addTicketToEvent() {
     let ticket = new TicketType();
     for (let i = 0; i < this.state.org_tickets.length; i++) {
@@ -230,11 +235,14 @@ class EventNew6 extends Component<Props, State> {
       });
     }
   }
+
   back() {
     this.props.onSelectPage(5);
   }
+
   next() {
     this.props.onSelectPage(7);
   }
 }
+
 export default EventNew6;
