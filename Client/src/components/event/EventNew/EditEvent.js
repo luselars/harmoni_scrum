@@ -16,6 +16,8 @@ type Props = {
 type State = {
   page: number,
 };
+
+/**Component  */
 class EditEvent extends Component<Props, State> {
   constructor(props: any) {
     super(props);

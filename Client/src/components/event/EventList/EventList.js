@@ -31,7 +31,7 @@ type State = {
   eventsPerPage: number,
 };
 
-//Component to list all events on the main page, orginasior page and artist page
+/**Component for displaying all events in a list */
 export default class EventList extends Component<Props, State> {
   constructor(props: any, profile_list: boolean, organiser: boolean) {
     super(props);
@@ -63,7 +63,7 @@ export default class EventList extends Component<Props, State> {
     const fuse = new Fuse(this.state.events, options);
   }
 
-  //Handles page navigations
+  /**Handles page navigations*/
   handlePageClick = data => {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.eventsPerPage);
@@ -71,7 +71,7 @@ export default class EventList extends Component<Props, State> {
     localStorage.setItem('page', selected);
   };
 
-  //Sorts events alphavetically
+  /*Sorts events alphavetically*/
   compareAlphabetically(a, b) {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {
       return -1;
@@ -82,7 +82,7 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  //Sorts events by date
+  /*Sorts events by date*/
   compareChronologically(a, b) {
     let aDate = new Date(a.start);
     let bDate = new Date(b.start);
@@ -95,7 +95,7 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  //Sorts events by prices
+  /**Sorts events by prices*/
   comparePrice(a, b) {
     if (a.min_price < b.min_price) {
       return -1;
@@ -106,7 +106,7 @@ export default class EventList extends Component<Props, State> {
     return 0;
   }
 
-  //Handles the different sort methodes
+  /**Handles the different sort methodes*/
   handleFilterChange = filterChange => {
     localStorage.setItem('sortType', filterChange);
     let sortType = filterChange.substring(0, filterChange.length - 2);
@@ -123,7 +123,7 @@ export default class EventList extends Component<Props, State> {
     }
   };
 
-  //Handles filter alternatives - View orld and View cancelled
+  /**Handles filter alternatives - View old and View cancelled*/
   handleFilterAlternativChange = filterChange => {
     this.setState({ sortAlt: filterChange });
     console.log(filterChange);
@@ -156,7 +156,7 @@ export default class EventList extends Component<Props, State> {
     this.fuse = new Fuse(tempEvents, options);
   };
 
-  //Filters events by price
+  /**Filter events by price*/
   handleFilterPriceChange = (filterChange, type) => {
     if (filterChange === '' && type === 'max') filterChange = 999999999999999;
     let previousEventList = this.state.showAllEvents
@@ -347,11 +347,11 @@ export default class EventList extends Component<Props, State> {
       </div>
     );
   }
-
+  /**Gets new token from auth server and gets my events
+   */
   componentDidMount() {
     // Gets new token from auth server
     PublicService.refreshToken();
-
     if (this.props.profile_list) {
       if (localStorage.getItem('userType') === 'organiser') {
         //Gets my events if the user is an organiser
@@ -361,7 +361,7 @@ export default class EventList extends Component<Props, State> {
           })
           .catch((error: Error) => alert(error.message));
       } else {
-        //Gets mye event if the user is not an ograniser
+        //Gets my event if the user is not an ograniser
         UserService.getMyEvents()
           .then(events => {
             this.insertEvents(events);
@@ -378,7 +378,7 @@ export default class EventList extends Component<Props, State> {
     }
   }
 
-  //Inserts event to the eventlist
+  /**Inserts the events to the eventlist*/
   insertEvents(events: Object) {
     var today = new Date();
     var time = today.getTime();
@@ -409,6 +409,7 @@ export default class EventList extends Component<Props, State> {
     this.getFilterStateFromLocalStorage();
   }
 
+  /**Inserts current filter status to localStorage*/
   getFilterStateFromLocalStorage() {
     console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
@@ -417,8 +418,9 @@ export default class EventList extends Component<Props, State> {
     if (!isNaN(this.state.maxprice)) this.handleFilterPriceChange(this.state.maxprice, 'max');
   }
 
+  /**Searches through all events in the event list
+   */
   search(event) {
-    // Updates the state events to search results
     let value: string = event.target.value;
     if (value) {
       var searchResults = this.fuse.search(value);

@@ -1,6 +1,4 @@
 //@flow
-
-//Event details for the public
 import * as React from 'react';
 import { Component } from 'react';
 import { Event, Artist, TicketType } from '../../../services/modelService';
@@ -20,6 +18,7 @@ type State = {
   tickets: TicketType[],
 };
 
+/**Shows details about events - Available for all*/
 export default class EventDetails extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -164,8 +163,8 @@ export default class EventDetails extends Component<Props, State> {
     );
   }
 
+  /**Gets public event, artist on the event and tickets by event_id */
   componentDidMount() {
-    //Gets public event by event_id
     PublicService.getPublicEvent(this.props.match.params.id)
       .then(res => {
         let event: any = res.data[0];
@@ -181,14 +180,10 @@ export default class EventDetails extends Component<Props, State> {
           this.setState({ venue: event.venue });
         }
         this.setState({ event: event });
-
-        //Gets artist on event by event_id
         PublicService.getPublicArtist(this.state.event.event_id).then(res => {
           let artist: any = res.data;
           this.setState({ artist: artist });
         });
-
-        //Gets tickets on event by event_id
         PublicService.getPublicEventTickets(this.state.event.event_id).then(res => {
           let tickets: any = res.data;
           this.setState({ tickets: tickets });
