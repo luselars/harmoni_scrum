@@ -81,22 +81,23 @@ class EventNew6 extends Component<Props, State> {
     return (
       <div className="row justify-content-center">
         <div className="col-12">
-          <label
+          <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
               this.toggleExpandCreate();
             }}
             className="text-center"
           >
-            Endre dine bilettyper
-            <br />
-            <br />
+            <button className="btn btn-success col-sm-6 m-2 d-block mx-auto">
+              Endre dine billettyper
+            </button>
+
             {this.state.expandCreate ? (
               <i className="arrow down text-center"></i>
             ) : (
               <i className="arrow up text-center"></i>
             )}
-          </label>
+          </div>
           {this.state.expandCreate ? (
             <EditTickets
               updateParent={() => {
@@ -150,7 +151,7 @@ class EventNew6 extends Component<Props, State> {
             <button
               onClick={() => this.addTicketToEvent()}
               type="button"
-              className="btn btn-success col-sm-3 m-2"
+              className="btn btn-success col-sm-3 m-2 d-block mx-auto"
             >
               Legg til
             </button>
@@ -165,13 +166,24 @@ class EventNew6 extends Component<Props, State> {
                     <label>
                       {ticket.name}: {ticket.amount} stk. kr {ticket.price}{' '}
                     </label>
-                    <button
+                    <div
+                      className="row"
+                      style={{ cursor: 'pointer' }}
                       onClick={() => this.removeTicket(ticket.ticket_type_id)}
-                      className="btn btn-secondary col-sm-3"
                     >
-                      <i className="fa fa-trash m-0" placeholder="slett" aria-hidden="true"></i>
-                      Fjern
-                    </button>
+                      <div className="col-6 float-right">
+                        <label></label>
+                        <i
+                          className="fa fa-trash float-right"
+                          placeholder="slett"
+                          aria-hidden="true"
+                        ></i>
+                      </div>
+                      <div className="col-6 float-left">
+                        <label className="text-center float-left">Slett</label>
+                        <label></label>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </span>
@@ -182,22 +194,22 @@ class EventNew6 extends Component<Props, State> {
             )}
           </div>
           <br />
-          <div className="row justify-content-center mt-3">
-            <div className="col-12 text-center">
-              <button onClick={() => this.next()} className="btn btn-success w-25" id="nextbtn">
-                Neste
-              </button>
-            </div>
-            <div className="col-12 text-center">
-              <button
-                onClick={() => this.back()}
-                className="btn btn-secondary mt-2 w-25"
-                id="backbtn"
-              >
-                Tilbake
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={() => this.next()}
+            className="btn btn-success col-sm-3 m-2 d-block mx-auto"
+            id="nextbtn"
+            type="button"
+          >
+            Neste
+          </button>
+          <button
+            onClick={() => this.back()}
+            className="btn btn-secondary col-sm-3 m-2 d-block mx-auto"
+            id="backbtn"
+            type="button"
+          >
+            Tilbake
+          </button>
         </div>
       </div>
     );

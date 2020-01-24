@@ -77,7 +77,7 @@ class EventNew7 extends Component<Props, State> {
   render() {
     return (
       <div className="row justify-content-center">
-        <div className="col-md-10">
+        <div className="col-md-12">
           <div
             style={{ cursor: 'pointer' }}
             onClick={() => {
@@ -85,8 +85,9 @@ class EventNew7 extends Component<Props, State> {
             }}
             className="text-center"
           >
-            <button className="btn btn-success w-50 mb-2">Endre dine personelltyper</button>
-            <br />
+            <button className="btn btn-success col-sm-6 m-2 d-block mx-auto">
+              Endre dine personelltyper
+            </button>
 
             {this.state.expandCreate ? (
               <i className="arrow down text-center"></i>
@@ -136,7 +137,8 @@ class EventNew7 extends Component<Props, State> {
           </div>
           <button
             onClick={() => this.invitePerson()}
-            className="btn btn-success w-25 m-2 d-block mx-auto"
+            className="btn btn-success col-sm-3 m-2 d-block mx-auto"
+            type="button"
           >
             Inviter
           </button>
@@ -184,15 +186,17 @@ class EventNew7 extends Component<Props, State> {
 
           <button
             onClick={() => this.next()}
-            className="btn btn-success w-25 m-2 d-block mx-auto"
+            className="btn btn-success col-sm-3 m-2 d-block mx-auto"
+            type="button"
             id="nextbtn"
           >
             Fullfør
           </button>
           <button
             onClick={() => this.back()}
-            className="btn btn-secondary w-25 m-2 d-block mx-auto"
+            className="btn btn-secondary col-sm-3 m-2 d-block mx-auto"
             id="backbtn"
+            type="button"
           >
             Tilbake
           </button>
