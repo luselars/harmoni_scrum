@@ -15,6 +15,7 @@ type Props = {
   onSelectPage: any,
 };
 
+/**Component for secound page on creating a new event */
 class EventNew2 extends Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -22,8 +23,9 @@ class EventNew2 extends Component<Props, State> {
       event: new Event(),
     };
   }
-  componentDidMount(): * {
-    // Check if the user is currently writing an event, if so load inputs with data
+  /**Check if the user is currently writing an event, if so load inputs with data
+   */
+  componentDidMount() {
     if (localStorage.getItem('curr_event') != null) {
       console.log('Bruker i arr. henter data. id: ' + localStorage.getItem('curr_event'));
       OrganiserService.getEvent(localStorage.getItem('curr_event')).then(response => {
@@ -42,6 +44,9 @@ class EventNew2 extends Component<Props, State> {
       <div>
         <div className="form-row">
           <div className="col-12 text-center">
+            <p id="alert" style={{ color: 'red' }} hidden="true">
+              Feil filtype lagt til
+            </p>
             <label>
               Last opp bilde
               <MoreInfo
@@ -75,17 +80,21 @@ class EventNew2 extends Component<Props, State> {
       </div>
     );
   }
+
+  /**Loading image if already exist */
   loadImage() {
     if (this.state.event.image != null) {
-      console.log(this.state.event.image);
       document.getElementById('prev').src =
         'http://localhost:4000/public/file/' + this.state.event.image;
     }
   }
+  /**Formates start and end time */
   formatTime() {
     this.state.event.start = this.state.event.start_format;
     this.state.event.end = this.state.event.end_format;
   }
+
+  /**Returns to previos page. If the user has uploaded anything new, publish it.*/
   back() {
     // If the user has uploaded anything new, publish it.
     let element = document.getElementById('upload');
@@ -125,7 +134,10 @@ class EventNew2 extends Component<Props, State> {
     }
     this.props.onSelectPage(1);
   }
+
+  /**Brings the user to the next page */
   next() {
+    document.getElementById('alert').hidden = false;
     let element = document.getElementById('upload');
     if (element.value === '') {
       // No new image set.
@@ -137,7 +149,8 @@ class EventNew2 extends Component<Props, State> {
     let fullPath = element.value;
     let ext = path.extname(fullPath);
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-      alert('Ikke gyldig filtype');
+      // $FlowFixMe
+      document.getElementById('alert').hidden = true;
       return;
     }
     const file = element.files[0];
@@ -152,11 +165,9 @@ class EventNew2 extends Component<Props, State> {
         OrganiserService.updateEvent(temp_event).then(resp => {
           console.log(resp);
           if (resp.status === 200) {
-            console.log('Arrangement oppdatert');
             that.props.onSelectPage(3);
           } else {
             alert('Kunne ikke oppdatere arrangement.');
-            // TODO bytt ut denne alerten med et komponent.
           }
         });
       },
