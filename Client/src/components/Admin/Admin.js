@@ -1,6 +1,5 @@
 // @flow
 
-//Admin Component for Organizer Approval
 import * as React from 'react';
 import { Component } from 'react';
 import { Organiser } from '../../services/modelService';
@@ -8,6 +7,7 @@ import { AdminService } from '../../services/adminService';
 import './stylesheet.css';
 import { NotAuthorized } from '../NotAuthorized/NotAuthorized';
 
+/**Interpret axios errors */
 const { AxiosError } = require('axios');
 
 type State = {
@@ -15,17 +15,16 @@ type State = {
   authorised: boolean,
 };
 
+/** The Component for accepting new organiseres*/
 export default class Admin extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      //List of all organiser-user reguests
       requests: [],
       authorised: true,
     };
   }
   render() {
-    //Admin access
     if (this.state.authorised) {
       return (
         <div>
@@ -64,8 +63,8 @@ export default class Admin extends Component<{}, State> {
     }
   }
 
+  /**Gets all unverifed organisers*/
   componentDidMount() {
-    //Gets all unverifed organisers
     AdminService.getUnverifed()
       .then(res => {
         this.setState({ authorised: true });
@@ -87,8 +86,8 @@ export default class Admin extends Component<{}, State> {
       });
   }
 
+  /**Verifies new organisers*/
   accept(id: number) {
-    //Verifies organiser
     AdminService.verify(id);
   }
 }

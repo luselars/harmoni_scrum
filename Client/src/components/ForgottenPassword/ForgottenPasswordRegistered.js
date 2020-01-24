@@ -6,7 +6,7 @@ import { Component } from 'react';
 export default class ForgottenPasswordRegistered extends Component<{}, {}> {
   render() {
     return (
-      <div className="card profilecard container bg-light p-4 text-center">
+      <div className="card profilecard container bg-light p-4 text-center mb-4">
         <p className="display-4 text-uppercase text-center border-bottom py-4">Passord sendt</p>
         <p className="text-center m-4">
           Du vil snart motta et midlertidig passord på mail. Vennligst logg inn med dette og endre

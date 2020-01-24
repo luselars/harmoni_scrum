@@ -1,11 +1,16 @@
+//@flow
 import React from 'react';
 
-//Component for downloading files from database
 type Props = {
   fileName: string,
 };
+
+/**Component for downloading files for organisers, users and personnel
+ */
 class DownloadFile extends React.Component<Props> {
-  downloadEmployeeData() {
+  /**Gets file from database and contains a link for users to download the file
+   */
+  downloadData() {
     let link = document.createElement('a');
     link.href = 'http://localhost:4000/public/file/' + this.props.fileName;
     link.download = 'file.pdf';
@@ -18,7 +23,7 @@ class DownloadFile extends React.Component<Props> {
         <span
           style={{ cursor: 'pointer', color: 'blue' }}
           onClick={() => {
-            this.downloadEmployeeData();
+            this.downloadData();
           }}
         >
           {this.props.fileName}

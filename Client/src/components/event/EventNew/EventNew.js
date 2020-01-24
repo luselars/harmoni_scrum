@@ -211,7 +211,7 @@ class EventNew extends Component<Props, State> {
         </div>
 
         <div className="row justify-content-center">
-          <button type="submit" className="btn btn-success w-50 m-2 " id="nextbtn">
+          <button type="submit" className="btn btn-success w-25 m-2 " id="nextbtn">
             Neste
           </button>
         </div>

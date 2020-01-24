@@ -254,7 +254,9 @@ router.post('/feedback', (req: express$Request, res: express$Response) => {
     to: req.body.email,
     subject: 'Tilbakemelding mottatt',
     html:
-      '<h1></h1><p>Vi har mottatt din tilbakemelding og svarer på henvendelsen så fort som mulig. </p><p><b>Din tibakemelding: </b> {{req.body.feedback}}</p><p>Mvh.<br>Alle oss i harmoni</p>',
+      '<h1></h1><p>Vi har mottatt din tilbakemelding og svarer på henvendelsen så fort som mulig. </p><p><b>Din tibakemelding: </b>' +
+      req.body.feedback +
+      '</p><p>Mvh.<br>Alle oss i harmoni</p>',
     text: req.body.feedback,
   };
 

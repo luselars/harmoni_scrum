@@ -42,7 +42,7 @@ export default class Filter extends Component<{}, State> {
 
   render() {
     return (
-      <div id="filterCard" class="card mt-2">
+      <div id="filterCard" class="card mt-2 mb-4">
         <div class="card-body bg-light">
           <h5 class="filtertitle">
             FILTER
@@ -63,27 +63,33 @@ export default class Filter extends Component<{}, State> {
                   <h6 className="mb-3 text-success">SORTER</h6>
                 </div>
                 <div className="sortlabel form-check text-left mb-3">
-                  <input
-                    className="filtersortbtn"
-                    type="button"
-                    id="sortRadio1"
-                    value={this.state.sortRadio1}
-                    onClick={e => this.handleChangeSort(e)}
-                  ></input>
-                  <input
-                    className="filtersortbtn"
-                    type="button"
-                    id="sortRadio2"
-                    value={this.state.sortRadio2}
-                    onClick={e => this.handleChangeSort(e)}
-                  ></input>
-                  <input
-                    className="filtersortbtn"
-                    type="button"
-                    id="sortRadio3"
-                    value={this.state.sortRadio3}
-                    onClick={e => this.handleChangeSort(e)}
-                  ></input>
+                  <div>
+                    <input
+                      className="filtersortbtn"
+                      type="button"
+                      id="sortRadio1"
+                      value={this.state.sortRadio1}
+                      onClick={e => this.handleChangeSort(e)}
+                    ></input>
+                  </div>
+                  <div>
+                    <input
+                      className="filtersortbtn"
+                      type="button"
+                      id="sortRadio2"
+                      value={this.state.sortRadio2}
+                      onClick={e => this.handleChangeSort(e)}
+                    ></input>
+                  </div>
+                  <div>
+                    <input
+                      className="filtersortbtn"
+                      type="button"
+                      id="sortRadio3"
+                      value={this.state.sortRadio3}
+                      onClick={e => this.handleChangeSort(e)}
+                    ></input>
+                  </div>
                 </div>
                 <div className="filtercategories col border-bottom">
                   <h6 className="mb-3 text-success">ALTERNATIVER</h6>

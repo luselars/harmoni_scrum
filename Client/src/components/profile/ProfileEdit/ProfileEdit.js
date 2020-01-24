@@ -65,7 +65,7 @@ class ProfileEdit extends Component<{}, State> {
             </div>
           </div>
         </div>
-        <form onSubmit={e => this.post(e)} className="card" id="editProfile">
+        <form onSubmit={e => this.post(e)} className="card mb-4" id="editProfile">
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"

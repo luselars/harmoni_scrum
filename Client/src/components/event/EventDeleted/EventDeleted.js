@@ -1,9 +1,9 @@
 //@flow
-
 import * as React from 'react';
 import { Component } from 'react';
 
-//Organiser component when event is deleted
+/**Component contains the card with confirmation about deleted event
+ */
 export default class EventDeleted extends Component<{}, {}> {
   render() {
     return (
