@@ -60,6 +60,16 @@ router.get('/organisers', (req: express$Request, res: express$Response) => {
 });
 
 /**
+ * Get all users
+ */
+router.get('/users', (req: express$Request, res: express$Response) => {
+  dao.getUsers((status, data) => {
+    res.status(status);
+    res.send(data);
+  });
+});
+
+/**
  * Get all unverified organisers
  */
 router.get('/unverified', (req: express$Request, res: express$Response) => {

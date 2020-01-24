@@ -37,6 +37,13 @@ module.exports = class AdminDao extends Dao {
   }
 
   /**
+   * Get all the users.
+   */
+  getUsers(callback: (status: string, data: Organiser) => mixed) {
+    super.query('SELECT * FROM user', [], callback);
+  }
+
+  /**
    * Get all the unverified organisers.
    */
   getUnverified(callback: (status: string, data: Organiser) => mixed) {
