@@ -20,6 +20,9 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
         <form onSubmit={e => this.newPassword(e)}>
           <div class="form-group text-center ml-5 mr-5">
             <label for="inputEmail1">Din epost-adresse:</label>
+            <p id="alert" style={{ color: 'red' }} hidden="true">
+              Bruker eksisterer ikke
+            </p>
             <input
               type="email"
               onChange={e => this.changeEmail(e)}
@@ -56,12 +59,15 @@ export default class ForgottenPassword extends Component<{}, { email: string }> 
    * @param e the input element.
    */
   newPassword(e: any) {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
     e.preventDefault();
     //Checks email to see if it exists
     PublicService.checkEmail(this.state.email)
       .then(response => {
         if (response.data.length === 0) {
-          alert('Ingen bruker er knyttet til eposten.');
+          // $FlowFixMe
+          document.getElementById('alert').hidden = false;
         } else {
           //Generates random passord and sends an email
           PublicService.newPassword(this.state.email, response.data[0].type)

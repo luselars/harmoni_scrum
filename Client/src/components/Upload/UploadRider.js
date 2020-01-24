@@ -31,6 +31,10 @@ class UploadRider extends Component<Props, State> {
   render() {
     return (
       <div>
+        <p id="alert" style={{ color: 'red' }} hidden="true">
+          Kunne ikke laste opp riders
+        </p>
+
         <label className="custom-file-upload" style={{ cursor: 'pointer' }}>
           <input
             style={{ display: 'none' }}
@@ -51,8 +55,9 @@ class UploadRider extends Component<Props, State> {
 
   /**Takes inn an html element and checks its value for a pdf file, if one is found it is uploaded to the server and connected to the user/organiser */
   upload(element: HTMLInputElement) {
+    // $FlowFixMe
+    document.getElementById('alert').hidden = true;
     let value = element.value;
-    console.log(element.value);
     //Checking the file extension, if it is anything other than .pdf, .png, .jpg or .jpeg return an alert
     let ext = path.extname(value);
     if (ext.toLowerCase() !== '.pdf') {
@@ -67,18 +72,17 @@ class UploadRider extends Component<Props, State> {
     reader.addEventListener(
       'load',
       function() {
-        console.log(that.props.organiser);
         // send here
         if (that.props.organiser) {
           OrganiserService.postRider(reader.result, ev_id, artist_id)
             .then(resp => {
-              console.log(resp);
               if (resp.status === 200) {
-                console.log('Rider lastet opp.');
                 element.files = null;
                 that.props.reload();
               } else {
-                alert('Kunne ikke laste opp rider.');
+                // $FlowFixMe
+                document.getElementById('alert').hidden = false;
+                window.scrollTo(0, 0);
               }
             })
             .catch(error => console.log(error));
@@ -91,7 +95,9 @@ class UploadRider extends Component<Props, State> {
                 element.files = null;
                 that.props.reload();
               } else {
-                alert('Kunne ikke laste opp rider.');
+                // $FlowFixMe
+                document.getElementById('alert').hidden = false;
+                window.scrollTo(0, 0);
               }
             })
             .catch(error => console.log(error));
