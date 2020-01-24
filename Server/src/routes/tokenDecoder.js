@@ -5,7 +5,6 @@ let publicKey = privateKey;
 
 /** module to decode tokens */
 module.exports = class tokenDecoder {
-
   /**
    * method to decode token
    */

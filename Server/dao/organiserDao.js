@@ -70,7 +70,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Check if organiser owns event
    */
@@ -128,7 +127,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Add a volunteer by user id to event by event id within volunteer type volunteer type id.
    */
@@ -159,7 +157,6 @@ module.exports = class OrganiserDao extends Dao {
       callback,
     );
   }
-
 
   /**
    * Edits an event artist to add or change contracts and other files.
@@ -205,7 +202,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Gets all locations
    */
@@ -214,7 +210,6 @@ module.exports = class OrganiserDao extends Dao {
     super.query(queryString, [], callback);
   }
 
-
   /**
    * Get a single location
    */
@@ -222,7 +217,6 @@ module.exports = class OrganiserDao extends Dao {
     let queryString = 'SELECT location_id FROM location WHERE address = ?';
     super.query(queryString, [location_address], callback);
   }
-
 
   /**
    * Create new location in database from location form
@@ -235,7 +229,6 @@ module.exports = class OrganiserDao extends Dao {
     );
   }
 
-
   /**
    * Get all groups based on an organiser id.
    */
@@ -243,7 +236,6 @@ module.exports = class OrganiserDao extends Dao {
     let queryString = 'SELECT volunteer_type_id, name FROM volunteer_type WHERE organiser_id = ?';
     super.query(queryString, [organiser_id], callback);
   }
-
 
   /**
    * Get all ticket types based on an event id.
@@ -279,7 +271,6 @@ module.exports = class OrganiserDao extends Dao {
     var queryString = 'SELECT user_id FROM user WHERE email = ?';
     super.query(queryString, [email], callback);
   }
-
 
   /**
    * Gets (artist) user id to an email to see if user exists
