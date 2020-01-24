@@ -2,6 +2,7 @@ import './modelDao';
 //@flow
 const Dao = require('./dao.js');
 
+/** Class representing the User DAO. */
 module.exports = class UserDao extends Dao {
   constructor(host: string, user: string, password: string, database: string) {
     super(host, user, password, database);
@@ -101,7 +102,9 @@ module.exports = class UserDao extends Dao {
       'SELECT e.*, l.location_id, l.name as location_name, l.address, l.postcode, ea.contract, ea.notes FROM event e LEFT JOIN event_organiser eo ON e.event_id = eo.event_id LEFT JOIN location l ON l.location_id = e.location_id LEFT JOIN event_artist ea ON ea.event_id = e.event_id AND ea.user_id = ? WHERE e.event_id = ?';
     super.query(queryString, [user_id, event_id], callback);
   }
-  // Get all riders connected to logged in user on specific event by event id and user id.
+  /**
+   * Get all riders connected to logged in user on specific event by event id and user id.
+   */
   getMyRiders(
     event_id: number,
     user_id: number,
