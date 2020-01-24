@@ -46,7 +46,7 @@ class EventNew4 extends Component<Props, State> {
         <div className="form-row justify-content-center">
           <div id="col-12">
             <form onSubmit={e => this.invite(e)}>
-              <label className="text-center">
+              <h4 className="text-center">
                 Legg til artister på arrangementet
                 <MoreInfo
                   padding={'5px'}
@@ -54,7 +54,7 @@ class EventNew4 extends Component<Props, State> {
                     'Knytt artister til arrangementet med e-post. Hvis arrangementet er offentlig vil artistene vises til alle. Artister som legges til vil få en e-post om at de er lagt til i et arrangement.'
                   }
                 />
-              </label>
+              </h4>
               <div className="text-center">
                 <small id="artistOptional" className="text-muted text-center mb-2">
                   Valgfritt
