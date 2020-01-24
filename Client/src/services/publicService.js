@@ -1,6 +1,6 @@
 // Get the frontpage events (sorted by sortstring)
 import axios, { AxiosPromise } from 'axios';
-import { Event, Artist, TicketType } from './modelService';
+import { Artist, Event, TicketType } from './modelService';
 
 const url_base = 'http://localhost:4000/public';
 // axios.defaults.headers.common['x-access-token'] = localStorage.getItem('token');
@@ -28,9 +28,7 @@ export class PublicService {
         .then(response => {
           localStorage.setItem('token', response.data);
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => {});
     }
   }
 
@@ -104,5 +102,4 @@ export class PublicService {
     let url = url_base + '/register';
     return axios.post(url, state);
   }
-
 }

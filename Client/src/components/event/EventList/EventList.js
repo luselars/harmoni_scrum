@@ -2,13 +2,13 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { OrganiserService } from '../../../services/organiserService';
-import { Event } from '../../../services/modelService.js';
 import './stylesheet.css';
 import { PublicService } from '../../../services/publicService';
 import { UserService } from '../../../services/userService';
 import Filter from '../../Filter/Filter';
 import ReactPaginate from 'react-paginate';
 import Fuse from 'fuse.js';
+
 let options = {
   keys: ['name', 'location_name'],
 };
@@ -128,7 +128,6 @@ export default class EventList extends Component<Props, State> {
   /**Handles filter alternatives - View old and View cancelled*/
   handleFilterAlternativChange = filterChange => {
     this.setState({ sortAlt: filterChange });
-    console.log(filterChange);
     if (filterChange[0] === 'viewOld') {
       this.state.viewOld = true;
       localStorage.setItem('viewOld', 'true');
@@ -217,7 +216,6 @@ export default class EventList extends Component<Props, State> {
           profile_list={this.props.profile_list}
         />
         <div>
-          {this.state.events.map((event, index) => console.log(event))}
           {this.state.events.map((event, index) =>
             index >= this.state.offset && index - this.state.offset < this.state.eventsPerPage ? (
               <div className="card float-right my-2 bg-light p-2" id="cardEvents">
@@ -368,7 +366,6 @@ export default class EventList extends Component<Props, State> {
         //Gets mye event if the user is not an ograniser
         UserService.getMyEventsArtist()
           .then(aEvents => {
-            console.log(aEvents);
             UserService.getMyEventsVolunteer()
               .then(vEvents => {
                 this.insertUserEvents(aEvents, vEvents);
@@ -440,7 +437,6 @@ export default class EventList extends Component<Props, State> {
       }
     }
     for (var i = 0; i < vEvents.data.length; i++) {
-      console.log(vEvents.data[i]);
       let jsDate = new Date(vEvents.data[i].end);
       vEvents.data[i].name = vEvents.data[i].name + ': ' + vEvents.data[i].event_name;
       if (time > jsDate.getTime()) {
@@ -466,7 +462,6 @@ export default class EventList extends Component<Props, State> {
   }
 
   getFilterStateFromLocalStorage() {
-    console.log(this.state.events);
     this.handleFilterChange(this.state.sortType);
     this.handleFilterAlternativChange(this.state.sortAlt);
     if (!isNaN(this.state.minprice) && this.state.minprice != '')

@@ -1,5 +1,5 @@
-import axios, { AxiosPromise } from 'axios';
-import { Event, Artist } from './modelService';
+import axios from 'axios';
+
 const url_base = 'http://localhost:4000/admin';
 const config = {
   headers: {

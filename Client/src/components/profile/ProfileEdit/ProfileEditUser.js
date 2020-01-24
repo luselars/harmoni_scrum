@@ -1,11 +1,11 @@
 //@flow
 
-import React from 'react';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { UserService } from '../../../services/userService';
 import { PublicService } from '../../../services/publicService';
 import { User } from '../../../services/modelService';
 import './stylesheet.css';
+
 let path = require('path');
 let mail: string;
 let imagePrev: string = '   ';
@@ -196,7 +196,6 @@ class ProfileEditUser extends Component<{}, State> {
   }
   componentDidMount() {
     UserService.getMyProfile().then(res => {
-      console.log(res.data[0]);
       let user: User = res.data[0];
       this.setState({
         user_id: user.user_id,
@@ -210,7 +209,6 @@ class ProfileEditUser extends Component<{}, State> {
       });
       mail = this.state.email;
       if (this.state.image != null) imagePrev = this.state.image;
-      console.log('image: ' + this.state.email);
     });
   }
 
@@ -220,7 +218,6 @@ class ProfileEditUser extends Component<{}, State> {
     var modal = document.getElementById('myModal');
     var span = document.getElementsByClassName('close')[0];
     var cancel = document.getElementById('cancel');
-    console.log(this.state.user_id);
     modal.style.display = 'block';
     span.onclick = function() {
       modal.style.display = 'none';
@@ -302,9 +299,7 @@ class ProfileEditUser extends Component<{}, State> {
       .then(response => {
         window.location = '/profile';
       })
-      .catch(error => {
-        console.log('error: ' + error);
-      });
+      .catch(error => {});
   }
 
   /** Function confirming changes. */
@@ -315,11 +310,9 @@ class ProfileEditUser extends Component<{}, State> {
         ? this.edit(false)
         : PublicService.logIn(mail, this.state.password)
             .then(response => {
-              console.log('Response: ' + response.data.jwt);
               this.edit(true, true);
             })
             .catch(error => {
-              console.log('error: ' + error);
               document.getElementById('labelPasswordError').innerHTML = 'Feil passord';
               document.getElementById('labelNewPasswordError').innerHTML = '';
             });
