@@ -4,6 +4,7 @@ import express$Request from 'express';
 import express$Response from 'express';
 import uploadFunctions from '../uploadHelper';
 import { productionDatabase } from '../config/dbCredentials';
+
 var path = require('path');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');

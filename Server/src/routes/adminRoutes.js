@@ -3,6 +3,7 @@ import express from 'express';
 import express$Request from 'express';
 import express$Response from 'express';
 import { productionDatabase } from '../config/dbCredentials';
+
 let bcrypt = require('bcryptjs');
 const path = require('path');
 const tokenDecoder = require('./tokenDecoder');
