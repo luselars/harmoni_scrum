@@ -33,9 +33,9 @@ class EditEvent extends Component<Props, State> {
       <div className="card" id="cardnewevent">
         <div className="createEvent">
           {this.props.edit ? (
-            <h2 className="neweventtitle">Rediger arrangement</h2>
+            <p className="display-4">Rediger arrangement</p>
           ) : (
-            <h2 className="neweventtitle">Opprett arrangement</h2>
+            <p className="display-4">Opprett arrangement</p>
           )}
           {
             {

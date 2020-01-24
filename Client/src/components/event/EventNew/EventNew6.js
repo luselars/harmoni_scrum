@@ -136,16 +136,15 @@ class EventNew6 extends Component<Props, State> {
               <p>Du har ikke lagt til noen billetter på dette arrangementet.</p>
             )}
           </div>
+          <div>
+            <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
+              Tilbake
+            </button>
+            <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
+              Neste
+            </button>
+          </div>
         </div>
-        <div>
-          <button onClick={() => this.back()} className="btn btn-success" id="backbtn">
-            Tilbake
-          </button>
-          <button onClick={() => this.next()} className="btn btn-success" id="nextbtn">
-            Neste
-          </button>
-        </div>
-        {/*</form>*/}
       </div>
     );
   }

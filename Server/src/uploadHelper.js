@@ -7,12 +7,6 @@ let uploadFunctions = {
   handleFile: function(f: string, callback: Object): ?string {
     // First check if file exists already or it is empty. If it does, do not try to save it to server
     let p = path.join(__dirname + '/../files/');
-    /*
-    let check_path = p + f.name;
-    console.log(f);
-    console.log('Check path: ' + check_path);
-    fs.existsSync(check_path) ||
-    */
 
     if (f === null) {
       console.log('File undefined.');

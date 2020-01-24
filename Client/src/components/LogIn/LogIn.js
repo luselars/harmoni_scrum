@@ -98,6 +98,7 @@ export default class LogIn extends Component<{}, { email: string, password: stri
       //Catches errors and sets alert
       .catch(error => {
         console.log('error: ' + error);
+        // $FlowFixMe
         document.getElementById('alert').hidden = false;
       });
   }
