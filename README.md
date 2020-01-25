@@ -17,9 +17,9 @@ npm start
 
 Serverkoden kreven en mysql-database for å kjøre.
 
-Endre dataene i Server/src/config/dbCredentials.js til en mysql-database du har tilgang til.
+Endre dataene i **Server/src/config/dbCredentials.js** til en mysql-database du har tilgang til.
 
-Kjør så sql-koden i Server/DataBase.sql på databasen din for å oprette de nødvendige tabellene.
+Kjør så sql-koden i **Server/DataBase.sql** på databasen din for å oprette de nødvendige tabellene.
 
 Fra hovedmappen:
 
@@ -32,3 +32,5 @@ npm start
 ## Åpne applikasjon:
 
 http://localhost:3000
+
+Advarsel: Prosjektet er bare testet i nettleserene Firefox og Chrome. JavaScript må være slått på for at alle nettsidens funksjoner skal fungere.
